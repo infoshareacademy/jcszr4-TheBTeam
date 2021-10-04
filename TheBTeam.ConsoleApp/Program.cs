@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TheBTeam.ConsoleApp
 {
     class Program
-   {
+    {
         enum Category
         {
             Dom,
@@ -24,17 +25,30 @@ namespace TheBTeam.ConsoleApp
         static void Main(string[] args)
         {
             Person person = new Person();
+
+            var persons = new Dictionary<int, Person>()//wypelnianie slownika
+            {
+                 { 1, new Person { FirstName="Santiago", LastName="Castillo", ID="615b4be6281be025752c8800"
+                 ,balance = 2354.13m,currency="PLN",age=32,gender="male",company="RETRACK"
+                 ,email="santiagocastillo@retrack.com",phone="+48 (949) 435-2718"
+                 ,address="490 Poplar Avenue, Skyland, Washington, 3188",registered="2017-03-11T07:27:26 -01:00"} }
+            };
+            foreach (var index in Enumerable.Range(1, 1))
+            {
+                Console.WriteLine($"Person {index} is {persons[index].FirstName} {persons[index].LastName}");
+            }
+
             //tutaj wczytujemy z pliku i czytamy imie,nazwisko,kategoria,planowane wydatki,rzeczywiste wydatki, data tranzakcji
             //moze jakas lista np: albo cos lepszego aby czytac wszystkie dane trzeba wczytac je do jednej bazy
             //ponizej ustawilem jakies dane defult
             List<string> planerList = new List<string>(new string[] { });
-            person.Name = "Gal";
-            person.SurName = "Anonim";
-            person.listPerson.Add($"{ person.Name}  {person.SurName}");
+            person.FirstName = "Gal";
+            person.LastName = "Anonim";
+            person.listPerson.Add($"{ person.FirstName}  {person.LastName}");
             decimal actualExpansees = 1000;
             decimal plannedExpansees = 1500;
-            planerList.Add(person.Name);
-            planerList.Add(person.SurName);
+            planerList.Add(person.FirstName);
+            planerList.Add(person.LastName);
             planerList.Add(Category.Dom.ToString());
             planerList.Add(plannedExpansees.ToString());//planowane wydatki
             planerList.Add(actualExpansees.ToString());//rzeczywiste wydatki
@@ -46,8 +60,8 @@ namespace TheBTeam.ConsoleApp
             {
                 int num;
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"Witaj {person.Name} {person.SurName} w aplikacji planowania finansow");
-                Console.WriteLine("1. Podaj nazwe uzytkownika");
+                Console.WriteLine($"Witaj {person.FirstName} {person.LastName} w aplikacji planowania finansow");
+                Console.WriteLine("1. Podaj ID uzytkownika");
                 Console.WriteLine("2. Wprowadz nowego uzytkownika");
                 Console.WriteLine("3. Wprowadz tranzakcje");
                 Console.WriteLine("4. Pokaz historie tranzakcji z danego miesiaca");
@@ -67,23 +81,19 @@ namespace TheBTeam.ConsoleApp
                 num = Convert.ToInt32(keyboardKey.KeyChar);
                 if (num == '1')
                 {
-                    Console.WriteLine($"Podaj nazwe uzytkownika");
-                    Console.WriteLine($"Wpisz imie");
-                    person.Name = Console.ReadLine();
-                    Console.WriteLine($"Wpisz Nazwisko");
-                    person.SurName = Console.ReadLine();
-                    Console.WriteLine($"Witaj {person.Name} {person.SurName}");
-                    person.listPerson.Add($"{ person.Name}  {person.SurName}");
+                    Console.WriteLine($"Podaj nazwe uzytkownika Id:");
+                    person.ID = Console.ReadLine();
+                    Console.WriteLine($"Witaj {person.ID}");
                 }
                 else if (num == '2')
                 {
                     Console.WriteLine($"Podaj nazwe uzytkownika");
                     Console.WriteLine($"Wpisz imie");
-                    person.Name = Console.ReadLine();
+                    person.FirstName = Console.ReadLine();
                     Console.WriteLine($"Wpisz Nazwisko");
-                    person.SurName = Console.ReadLine();
-                    Console.WriteLine($"Witaj {person.Name} {person.SurName}");
-                    person.listPerson.Add($"{ person.Name}  {person.SurName}");
+                    person.LastName = Console.ReadLine();
+                    Console.WriteLine($"Witaj {person.FirstName} {person.LastName}");
+                    person.listPerson.Add($"{ person.FirstName}  {person.LastName}");
                 }
                 else if (num == '3')
                 {
@@ -123,6 +133,10 @@ namespace TheBTeam.ConsoleApp
                 {
                     Console.WriteLine("Wybierz jeszcze raz");
                 }
+                Console.WriteLine($"Pokaz liste wejsciowa");
+                Console.WriteLine("-----------------------------------------------");
+
+
                 Console.WriteLine($"Pokaz liste osob");
                 Console.WriteLine("-----------------------------------------------");
                 foreach (string item in person.listPerson)
