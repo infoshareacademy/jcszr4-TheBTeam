@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TheBTeam.BLL
+﻿namespace TheBTeam.BLL
 {
-    public class Person
+    public class User
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -18,8 +12,8 @@ namespace TheBTeam.BLL
         public string gender { get; set; }
         public string company { get; set; }
         public string email { get; set; }
-        public string phone { get; set; }
-        public string address { get; set; }
-        public string registered { get; set; }
+        private string phone { get; set; }
+        private string address { get; set; }
+        private string registered { get; set; }
     }
 }
