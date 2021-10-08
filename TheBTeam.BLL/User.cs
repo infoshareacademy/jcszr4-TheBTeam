@@ -2,9 +2,9 @@
 {
     public class User
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string ID { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public string iD { get; set; }
         public bool isActive { get; set; }
         public decimal balance { get; set; }
         public string currency { get; set; }
@@ -15,5 +15,13 @@
         private string phone { get; set; }
         private string address { get; set; }
         private string registered { get; set; }
+        public User(string firstname, string lastname,string id)
+        {
+            firstName = firstname;
+            lastName = lastname;
+            iD = id;
+        }
     }
+
+
 }

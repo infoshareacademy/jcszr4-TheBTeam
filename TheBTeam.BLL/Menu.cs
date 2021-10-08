@@ -6,14 +6,17 @@ namespace TheBTeam.BLL
     public class Menu
     {
         private Dictionary<int, string> MenuOption = new Dictionary<int, string>();
-        private int numerOfOption;
+        private int numberOfOption;
+        User user = new User("Ja", "admin", "2121554544");
+        Category category = new Category();
         private void AddMenuOption(string textmenu)
         {
-            MenuOption.Add(numerOfOption++, textmenu);
+            MenuOption.Add(numberOfOption++, textmenu);
         }
-        private void ShowMenuOption()
+        public void ShowMenuOption()
         {
-            MenuOption.Clear(); numerOfOption = 1;
+            MenuOption.Clear(); numberOfOption = 1;
+            Console.WriteLine($"Welcome {user.firstName} {user.lastName}");
             //Here You can add, delete menu options
             AddMenuOption("Enter ID user");
             AddMenuOption("Add new user");
@@ -25,16 +28,46 @@ namespace TheBTeam.BLL
             {
                 Console.WriteLine($"{key}. {value}");
             }
+            SelectMenuOption();
         }
-        public int SelectMenuOption()
+        private void SelectMenuOption()
         {
             int numberFromConsole = 0;
-            ShowMenuOption();
             while (!int.TryParse(Console.ReadLine(), out numberFromConsole))
             {
                 Console.WriteLine("This is not a number!");
             }
-            return numberFromConsole;
+            switch (numberFromConsole)
+            {
+                case 1:
+                    Console.WriteLine($"Enter ID user");
+                    break;
+                case 2:
+                    Console.WriteLine($"Add new user");
+                    Console.WriteLine($"Enter FirstName");
+                    user.firstName = Console.ReadLine();
+                    Console.WriteLine($"Enter LastName");
+                    user.lastName = Console.ReadLine();
+                    Console.WriteLine($"Welcome {user.firstName} {user.lastName}");
+                    break;
+                case 3:
+                    Console.WriteLine($"Enter transation");
+                    category.SelectCategory();
+                    break;
+                case 4:
+                    Console.WriteLine($"Transactiosn history for the month");
+                    break;
+                case 5:
+                    Console.WriteLine($"Transactiosn history for the period");
+                    break;
+                case 6:
+                    Console.WriteLine($"Exit");
+                    Environment.Exit(0);
+                    break;
+                default:
+                    Console.WriteLine("Select again");
+                    break;
+            }
         }
     }
 }
