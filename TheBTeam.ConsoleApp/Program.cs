@@ -1,5 +1,4 @@
 ﻿using System;
-using TheBTeam.BLL;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,9 +8,8 @@ namespace TheBTeam.ConsoleApp
     {
         static void Main(string[] args)
         {
-            MainMenu();
-        }
-        static void MainMenu()
+            Console.WriteLine("Hello World!");
+            
         {
             short curItem = 0;
             ConsoleKeyInfo key;
@@ -24,27 +22,8 @@ namespace TheBTeam.ConsoleApp
                 "Exit" };
             do
             {
-                do
-                {
-                    Console.WriteLine("------------------------------------------");
-                    Console.WriteLine($"Welcome in the financial planner");
                     Console.WriteLine("------------------------------------------");
                     for (int i = 0; i < MainMenuItem.Length; i++)
-                    {
-                        if (curItem == i)
-                        {
-                            Console.BackgroundColor = ConsoleColor.Yellow;
-                            Console.ForegroundColor = ConsoleColor.Black;
-                            Console.Write(">>");
-                            Console.WriteLine(MainMenuItem[i] + "<<");
-                        }
-                        else
-                        {
-                            Console.WriteLine(MainMenuItem[i]);
-                        }
-                        Console.ResetColor();
-                    }
-                    Console.WriteLine("-----------------------------------------------");
                     Console.Write("Select your choice with the arrow keys and click (ENTER) key");
                     key = Console.ReadKey(true);
                     Console.Clear();
@@ -87,8 +66,6 @@ namespace TheBTeam.ConsoleApp
                     Console.WriteLine("Exit ...");
                     Environment.Exit(0);
                 }
-            }
-            while (true);
         }
         static void LoadDefaultSetting(string selectedMenu)//here add json reader
         {
