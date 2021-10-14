@@ -1,71 +1,91 @@
 ﻿using System;
+using TheBTeam.BLL;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace TheBTeam.ConsoleApp
 {
     class Program
-    {       
+    {
         static void Main(string[] args)
         {
             MainMenu();
         }
         static void MainMenu()
         {
+            short curItem = 0;
+            ConsoleKeyInfo key;
             //here you can add new main menu item
-            var menu = new Menu(new string[] {
+            string[] MainMenuItem = {
                 "Load default setting",
                 "Add new user",
                 "Enter transation",
                 "Show transaction history for the month",
-                "Exit" });
-            bool done = false;
-            var menuPainter = new ConsoleMenuPaint(menu);
+                "Exit" };
             do
             {
-                done = false;
                 do
-                { 
-                    menuPainter.Paint(0, menu.Items.Count);//here you can shift position on menu
+                {
+                    Console.WriteLine("------------------------------------------");
+                    Console.WriteLine($"Welcome in the financial planner");
+                    Console.WriteLine("------------------------------------------");
+                    for (int i = 0; i < MainMenuItem.Length; i++)
+                    {
+                        if (curItem == i)
+                        {
+                            Console.BackgroundColor = ConsoleColor.Yellow;
+                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.Write(">>");
+                            Console.WriteLine(MainMenuItem[i] + "<<");
+                        }
+                        else
+                        {
+                            Console.WriteLine(MainMenuItem[i]);
+                        }
+                        Console.ResetColor();
+                    }
                     Console.WriteLine("-----------------------------------------------");
                     Console.Write("Select your choice with the arrow keys and click (ENTER) key");
-                    Console.SetCursorPosition(0, 0);
-                    var keyInfo = Console.ReadKey();
-                    switch (keyInfo.Key)
+                    key = Console.ReadKey(true);
+                    Console.Clear();
+                    if (key.Key.ToString() == "DownArrow")
                     {
-                        case ConsoleKey.UpArrow: menu.MoveUp(); break;
-                        case ConsoleKey.DownArrow: menu.MoveDown(); break;
-                        case ConsoleKey.Enter: done = true; break;
-                        default: break;
+                        curItem++;
+                        if (curItem > MainMenuItem.Length - 1) curItem = 0;
+                    }
+                    else if (key.Key.ToString() == "UpArrow")
+                    {
+                        curItem--;
+                        if (curItem < 0) curItem = Convert.ToInt16(MainMenuItem.Length - 1);
                     }
                 }
-                while (!done);
-                //Console.WriteLine((menu.SelectedOption ?? "You nothing selected use arrow key!" +
-                //    ""));
-                if (menu.SelectedOption != null && done == true)
-                {                  
-                    Console.ForegroundColor = ConsoleColor.Cyan;
-                    Console.Clear();
-                    if (menu.SelectedOption.Contains("Load"))
-                    {
-                        LoadDefaultSetting(menu.SelectedOption);
-                    }
-                    if (menu.SelectedOption.Contains("Add"))
-                    {
-                        AddNewUser(menu.SelectedOption);
-                    }
-                    if (menu.SelectedOption.Contains("Enter transation"))
-                    {
-                        EnterTransation(menu.SelectedOption);
-                    }
-                    if (menu.SelectedOption.Contains("month"))
-                    {
-                        EnterTransationPerMonth(menu.SelectedOption);
-                    }
-                    if (menu.SelectedOption.Contains("Exit"))
-                    {
-                        Environment.Exit(0);
-                    }
+                while (key.KeyChar != 13);//if press enter selected menu
+                //Selected mainmenu from loop
+                if (MainMenuItem[curItem].Contains("Load"))
+                {
+                    //Load here Json file!
+                    LoadDefaultSetting(MainMenuItem[curItem]);
+                }
+                else if (MainMenuItem[curItem].Contains("Add new user"))
+                {
+                    //Add here methody add new use
+                    AddNewUser(MainMenuItem[curItem]);
+                }
+                else if (MainMenuItem[curItem].Contains("Enter transation"))
+                {
+                    //Add here eneter transaction (date , category, pay)
+                    EnterTransation(MainMenuItem[curItem]);
+
+                }
+                else if (MainMenuItem[curItem].Contains("month"))
+                {
+                    //Add here show transactions
+                    EnterTransationPerMonth(MainMenuItem[curItem]);
+                }
+                else
+                {
+                    Console.WriteLine("Exit ...");
+                    Environment.Exit(0);
                 }
             }
             while (true);
@@ -90,39 +110,6 @@ namespace TheBTeam.ConsoleApp
         {
             Console.WriteLine($"{selectedMenu}");
             Console.ReadKey();
-        }
-        public class Menu
-        {
-            public Menu(IEnumerable<string> items)
-            {
-                Items = items.ToArray();
-            }
-            public IReadOnlyList<string> Items { get; }
-            public int SelectedIndex { get; private set; } = -1; // nothing selected
-            public string SelectedOption => SelectedIndex != -1 ? Items[SelectedIndex] : null;
-            public void MoveUp() => SelectedIndex = Math.Max(SelectedIndex - 1, 0);
-            public void MoveDown() => SelectedIndex = Math.Min(SelectedIndex + 1, Items.Count - 1);
-            //public void MoveDown() => SelectedIndex = SelectedIndex > Items.Count - 1 ? 0 : SelectedIndex+1;
-            //public void MoveUp() => SelectedIndex = SelectedIndex < 0 ? Items.Count-1 : SelectedIndex-1;
-        }
-        public class ConsoleMenuPaint
-        {
-            readonly Menu menu;
-            public ConsoleMenuPaint(Menu menu)
-            {
-                this.menu = menu;
-            }
-            public void Paint(int x, int y)
-            {
-                for (int i = 0; i < menu.Items.Count; i++)
-                {
-                    Console.SetCursorPosition(x, y + i);
-                    var color = menu.SelectedIndex == i ? ConsoleColor.Yellow : ConsoleColor.Gray;
-                    Console.ForegroundColor = color;
-                    Console.WriteLine(menu.Items[i]);
-                }
-                Console.ResetColor();
-            }
         }
     }
 }
