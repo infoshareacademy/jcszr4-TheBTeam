@@ -13,7 +13,7 @@ namespace TheBTeam.ConsoleApp
         }
         static void MainMenu()
         {
-            short curItem = 0;
+            short CurrentItem = 0;
             ConsoleKeyInfo key;
             //here you can add new main menu item
             string[] MainMenuItem = {
@@ -31,7 +31,7 @@ namespace TheBTeam.ConsoleApp
                     Console.WriteLine("------------------------------------------");
                     for (int i = 0; i < MainMenuItem.Length; i++)
                     {
-                        if (curItem == i)
+                        if (CurrentItem == i)
                         {
                             Console.BackgroundColor = ConsoleColor.Yellow;
                             Console.ForegroundColor = ConsoleColor.Black;
@@ -50,37 +50,38 @@ namespace TheBTeam.ConsoleApp
                     Console.Clear();
                     if (key.Key.ToString() == "DownArrow")
                     {
-                        curItem++;
-                        if (curItem > MainMenuItem.Length - 1) curItem = 0;
+                        CurrentItem++;
+                        if (CurrentItem > MainMenuItem.Length - 1) CurrentItem = 0;
                     }
                     else if (key.Key.ToString() == "UpArrow")
                     {
-                        curItem--;
-                        if (curItem < 0) curItem = Convert.ToInt16(MainMenuItem.Length - 1);
+                        CurrentItem--;
+                        if (CurrentItem < 0) CurrentItem = Convert.ToInt16(MainMenuItem.Length - 1);
                     }
                 }
                 while (key.KeyChar != 13);//if press enter selected menu
                 //Selected mainmenu from loop
-                if (MainMenuItem[curItem].Contains("Load"))
+                if (MainMenuItem[CurrentItem].Contains("Load"))
                 {
-                    //Load here Json file!
-                    LoadDefaultSetting(MainMenuItem[curItem]);
+                    Console.WriteLine($"{MainMenuItem[CurrentItem]} ...");
+                    LoadUserFromFile.ReadUserFile();
+                    Console.ReadKey();
                 }
-                else if (MainMenuItem[curItem].Contains("Add new user"))
+                else if (MainMenuItem[CurrentItem].Contains("Add new user"))
                 {
                     //Add here methody add new use
-                    AddNewUser(MainMenuItem[curItem]);
+                    AddNewUser(MainMenuItem[CurrentItem]);
                 }
-                else if (MainMenuItem[curItem].Contains("Enter transation"))
+                else if (MainMenuItem[CurrentItem].Contains("Enter transation"))
                 {
                     //Add here eneter transaction (date , category, pay)
-                    EnterTransation(MainMenuItem[curItem]);
+                    EnterTransation(MainMenuItem[CurrentItem]);
 
                 }
-                else if (MainMenuItem[curItem].Contains("month"))
+                else if (MainMenuItem[CurrentItem].Contains("month"))
                 {
                     //Add here show transactions
-                    EnterTransationPerMonth(MainMenuItem[curItem]);
+                    EnterTransationPerMonth(MainMenuItem[CurrentItem]);
                 }
                 else
                 {
@@ -89,11 +90,6 @@ namespace TheBTeam.ConsoleApp
                 }
             }
             while (true);
-        }
-        static void LoadDefaultSetting(string selectedMenu)//here add json reader
-        {
-            Console.WriteLine($"{selectedMenu}");
-            Console.ReadKey();
         }
         static void AddNewUser(string selectedMenu) // here add new user
         {
