@@ -13,10 +13,10 @@ namespace TheBTeam.ConsoleApp
         }
         static void MainMenu()
         {
-            short CurrentItem = 0;
-            ConsoleKeyInfo KeyPressed;
+            short currentItem = 0;
+            ConsoleKeyInfo keyPressed;
             //here you can add new main menu item
-            string[] MainMenuItem = {
+            string[] mainMenuItem = {
                 "Load default setting",
                 "Add new user",
                 "Enter transation",
@@ -29,59 +29,59 @@ namespace TheBTeam.ConsoleApp
                     Console.WriteLine("------------------------------------------");
                     Console.WriteLine($"Welcome in the financial planner");
                     Console.WriteLine("------------------------------------------");
-                    for (int i = 0; i < MainMenuItem.Length; i++)
+                    for (int i = 0; i < mainMenuItem.Length; i++)
                     {
-                        if (CurrentItem == i)
+                        if (currentItem == i)
                         {
                             Console.BackgroundColor = ConsoleColor.Yellow;
                             Console.ForegroundColor = ConsoleColor.Black;
                             Console.Write(">>");
-                            Console.WriteLine(MainMenuItem[i] + "<<");
+                            Console.WriteLine(mainMenuItem[i] + "<<");
                         }
                         else
                         {
-                            Console.WriteLine(MainMenuItem[i]);
+                            Console.WriteLine(mainMenuItem[i]);
                         }
                         Console.ResetColor();
                     }
                     Console.WriteLine("-----------------------------------------------");
                     Console.Write("Select your choice with the arrow keys and click (ENTER) key");
-                    KeyPressed = Console.ReadKey(true);
+                    keyPressed = Console.ReadKey(true);
                     Console.Clear();
-                    if (KeyPressed.Key.ToString() == "DownArrow")
+                    if (keyPressed.Key.ToString() == "DownArrow")
                     {
-                        CurrentItem++;
-                        if (CurrentItem > MainMenuItem.Length - 1) CurrentItem = 0;
+                        currentItem++;
+                        if (currentItem > mainMenuItem.Length - 1) currentItem = 0;
                     }
-                    else if (KeyPressed.Key.ToString() == "UpArrow")
+                    else if (keyPressed.Key.ToString() == "UpArrow")
                     {
-                        CurrentItem--;
-                        if (CurrentItem < 0) CurrentItem = Convert.ToInt16(MainMenuItem.Length - 1);
+                        currentItem--;
+                        if (currentItem < 0) currentItem = Convert.ToInt16(mainMenuItem.Length - 1);
                     }
                 }
-                while (KeyPressed.KeyChar != 13);//if press enter selected menu
+                while (keyPressed.KeyChar != 13);//if press enter selected menu
                 //Selected mainmenu from loop
-                if (MainMenuItem[CurrentItem].Contains("Load"))
+                if (mainMenuItem[currentItem].Contains("Load"))
                 {
-                    Console.WriteLine($"{MainMenuItem[CurrentItem]} ...");
+                    Console.WriteLine($"{mainMenuItem[currentItem]} ...");
                     LoadUserFromFile.ReadUserFile();
                     Console.ReadKey();
                 }
-                else if (MainMenuItem[CurrentItem].Contains("Add new user"))
+                else if (mainMenuItem[currentItem].Contains("Add new user"))
                 {
                     //Add here methody add new use
-                    AddNewUser(MainMenuItem[CurrentItem]);
+                    AddNewUser(mainMenuItem[currentItem]);
                 }
-                else if (MainMenuItem[CurrentItem].Contains("Enter transation"))
+                else if (mainMenuItem[currentItem].Contains("Enter transation"))
                 {
                     //Add here eneter transaction (date , category, pay)
-                    EnterTransation(MainMenuItem[CurrentItem]);
+                    EnterTransation(mainMenuItem[currentItem]);
 
                 }
-                else if (MainMenuItem[CurrentItem].Contains("month"))
+                else if (mainMenuItem[currentItem].Contains("month"))
                 {
                     //Add here show transactions
-                    EnterTransationPerMonth(MainMenuItem[CurrentItem]);
+                    EnterTransationPerMonth(mainMenuItem[currentItem]);
                 }
                 else
                 {
