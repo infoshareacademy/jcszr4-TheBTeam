@@ -14,7 +14,7 @@ namespace TheBTeam.ConsoleApp
         static void MainMenu()
         {
             short CurrentItem = 0;
-            ConsoleKeyInfo key;
+            ConsoleKeyInfo KeyPressed;
             //here you can add new main menu item
             string[] MainMenuItem = {
                 "Load default setting",
@@ -46,20 +46,20 @@ namespace TheBTeam.ConsoleApp
                     }
                     Console.WriteLine("-----------------------------------------------");
                     Console.Write("Select your choice with the arrow keys and click (ENTER) key");
-                    key = Console.ReadKey(true);
+                    KeyPressed = Console.ReadKey(true);
                     Console.Clear();
-                    if (key.Key.ToString() == "DownArrow")
+                    if (KeyPressed.Key.ToString() == "DownArrow")
                     {
                         CurrentItem++;
                         if (CurrentItem > MainMenuItem.Length - 1) CurrentItem = 0;
                     }
-                    else if (key.Key.ToString() == "UpArrow")
+                    else if (KeyPressed.Key.ToString() == "UpArrow")
                     {
                         CurrentItem--;
                         if (CurrentItem < 0) CurrentItem = Convert.ToInt16(MainMenuItem.Length - 1);
                     }
                 }
-                while (key.KeyChar != 13);//if press enter selected menu
+                while (KeyPressed.KeyChar != 13);//if press enter selected menu
                 //Selected mainmenu from loop
                 if (MainMenuItem[CurrentItem].Contains("Load"))
                 {
