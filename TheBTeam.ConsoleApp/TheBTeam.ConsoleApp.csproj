@@ -6,7 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+<<<<<<< HEAD
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+=======
+    <PackageReference Include="Nancy" Version="2.0.0" />
+>>>>>>> 43419d397c607dfef892582f841604d2e78cb31d
   </ItemGroup>
 
   <ItemGroup>

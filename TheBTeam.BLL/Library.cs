@@ -13,7 +13,7 @@ namespace TheBTeam.BLL
 
         public Library()
         {
-            UsersList = ReadUserFile();
+            UsersList = LoReadUserFile();
         }
         public void AddNewUser(User user)
         {
