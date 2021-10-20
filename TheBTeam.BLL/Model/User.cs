@@ -21,6 +21,21 @@ namespace TheBTeam.BLL.Model
 
         public User(string id, decimal balance, string currency, int age, string firstName, string lastName, string gender, string company, string email, string phone, string address)
         {
+            Id = id;
+            Balance = balance;
+            Currency = currency;
+            Age = age;
+            FirstName = firstName;
+            LastName = lastName;
+            Gender = gender;
+            Company = company;
+            Email = email;
+            Phone = phone;
+            Address = address;
+            Registered = DateAndTime.Now;
+        }
+        public User( decimal balance, string currency, int age, string firstName, string lastName, string gender, string company, string email, string phone, string address)
+        {
             Id = GenerateId();
             Balance = balance;
             Currency = currency;
@@ -33,7 +48,6 @@ namespace TheBTeam.BLL.Model
             Phone = phone;
             Address = address;
             Registered = DateAndTime.Now;
-
         }
         public void DeactivateUser()
         {
