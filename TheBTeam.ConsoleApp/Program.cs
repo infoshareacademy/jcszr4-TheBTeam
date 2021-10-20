@@ -1,11 +1,9 @@
 ﻿using System;
 using TheBTeam.BLL;
-<<<<<<< HEAD
 using TheBTeam.BLL.Model;
-=======
 using System.Collections.Generic;
 using System.Linq;
->>>>>>> 43419d397c607dfef892582f841604d2e78cb31d
+using Microsoft.Extensions.DependencyModel;
 
 namespace TheBTeam.ConsoleApp
 {
@@ -13,11 +11,6 @@ namespace TheBTeam.ConsoleApp
     {
         static void Main(string[] args)
         {
-<<<<<<< HEAD
-            Console.WriteLine("Hello World!");
-            Console.WriteLine("615b4be6281be025752c8800");
-            Console.WriteLine(GenerateId());
-=======
             MainMenu();
         }
         static void MainMenu()
@@ -73,7 +66,7 @@ namespace TheBTeam.ConsoleApp
                 if (mainMenuItem[currentItem].Contains("Load"))
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]} ...");
-                    LoadUserFromFile.ReadUserFile();
+                    var mainLibrary = new BLL.Library();
                     Console.ReadKey();
                 }
                 else if (mainMenuItem[currentItem].Contains("Add new user"))
@@ -115,7 +108,6 @@ namespace TheBTeam.ConsoleApp
         {
             Console.WriteLine($"{selectedMenu}");
             Console.ReadKey();
->>>>>>> 43419d397c607dfef892582f841604d2e78cb31d
         }
         
     }

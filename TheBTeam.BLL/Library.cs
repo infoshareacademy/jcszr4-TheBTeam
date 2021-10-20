@@ -7,13 +7,13 @@ using TheBTeam.BLL.Model;
 
 namespace TheBTeam.BLL
 {
-    class  Library
+    public class  Library
     {
         public List<User> UsersList { get; }
 
         public Library()
         {
-            UsersList = LoReadUserFile();
+            UsersList = LoadDataFromFile.ReadUserFile();
         }
         public void AddNewUser(User user)
         {
