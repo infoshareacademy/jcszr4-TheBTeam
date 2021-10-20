@@ -13,7 +13,7 @@ namespace TheBTeam.ConsoleApp
                 "Add new user",
                 "Enter transaction",
                 "Show transaction history for the month",
-                "Exit" };
+                "Exit" };//Guess should be made somehow else- have to change whole text in code every time sth is changed
        
         public static void ShowMainMenu()
         {
@@ -59,10 +59,10 @@ namespace TheBTeam.ConsoleApp
                 } while (keyPressed.KeyChar != 13);//if press enter selected menu
 
                 //Selected mainmenu from loop
-                if (MainMenuItem[currentItem]== "Load data from external file")
+                if (MainMenuItem[currentItem]== "Load data from external file")//thing it is better way
                 {
                     Console.WriteLine($"{MainMenuItem[currentItem]} ...");
-                    var mainLibrary = new BLL.Library();
+                    var mainLibrary = new BLL.Library();//aded loading like this
                     Console.ReadKey();
                 }
                 else if (MainMenuItem[currentItem]== "Add new user")
