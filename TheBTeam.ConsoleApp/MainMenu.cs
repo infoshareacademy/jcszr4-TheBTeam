@@ -63,13 +63,14 @@ namespace TheBTeam.ConsoleApp
                 {
                     Console.WriteLine($"{MainMenuItem[currentItem]} ...");
                     var mainLibrary = new BLL.Library();//aded loading like this
-                    Console.WriteLine(mainLibrary.UsersList[0].Currency.ToString());
+                    var check=ConsoleFactory.GetGender();
                     Console.ReadKey();
                 }
                 else if (MainMenuItem[currentItem]== "Add new user")
                 {
                     //Add here methody add new use
                     AddNewUser(MainMenuItem[currentItem]);
+                    
                 }
                 else if (MainMenuItem[currentItem].Contains("Enter transaction"))
                 {

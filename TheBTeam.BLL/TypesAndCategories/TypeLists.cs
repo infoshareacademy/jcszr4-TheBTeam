@@ -28,5 +28,12 @@ namespace TheBTeam.BLL
             new Currency("USD"),
             new Currency("EUR")
         };
+
+        public readonly List<Gender> Genders = new List<Gender>()
+        {
+            new Gender("Male"),
+            new Gender("Female"),
+            new Gender("Want to be private")
+        };
     }
 }

@@ -1,16 +1,12 @@
-﻿namespace TheBTeam.BLL
-{
-    public class Currency
-    {
-        public string Name;
-        public Currency(string currency)
-        {
-            Name = currency;
-        }
+﻿using System;
+using System.Linq;
 
-        public string ToString()
+namespace TheBTeam.BLL
+{
+    public class Currency : Category
+    {
+        public Currency(string typeName) : base(typeName)
         {
-            return Name;
         }
     }
 }
