@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualBasic;
+using Newtonsoft.Json;
 
 namespace TheBTeam.BLL.Model
 {
@@ -8,7 +9,7 @@ namespace TheBTeam.BLL.Model
         public string Id { get; }
         public bool IsActive { get; set; }  
         public decimal Balance { get; set; }
-        public string Currency { get; set; }
+        public Currency Currency { get; set; }
         public int Age { get; }
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
@@ -18,12 +19,13 @@ namespace TheBTeam.BLL.Model
         public string Phone { get; private set; }
         public string Address { get; private set; }
         public DateTime Registered { get;  }
-
+        //public User(){}
+        [JsonConstructor]
         public User(string id, decimal balance, string currency, int age, string firstName, string lastName, string gender, string company, string email, string phone, string address)
         {
             Id = id;
             Balance = balance;
-            Currency = currency;
+            Currency = new Currency(currency);
             Age = age;
             FirstName = firstName;
             LastName = lastName;
@@ -34,11 +36,11 @@ namespace TheBTeam.BLL.Model
             Address = address;
             Registered = DateAndTime.Now;
         }
-        public User( decimal balance, string currency, int age, string firstName, string lastName, string gender, string company, string email, string phone, string address)
+        public User(decimal balance, string currency, int age, string firstName, string lastName, string gender, string company, string email, string phone, string address)
         {
             Id = GenerateId();
             Balance = balance;
-            Currency = currency;
+            Currency = new Currency(currency);
             Age = age;
             FirstName = firstName;
             LastName = lastName;

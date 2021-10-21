@@ -2,7 +2,7 @@
 {
     public class CategoryOfTransaction
     {
-        public string Name { get; set; }
+        public string Name { get;  }
 
         public CategoryOfTransaction(string category)
         {

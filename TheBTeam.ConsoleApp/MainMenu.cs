@@ -63,6 +63,7 @@ namespace TheBTeam.ConsoleApp
                 {
                     Console.WriteLine($"{MainMenuItem[currentItem]} ...");
                     var mainLibrary = new BLL.Library();//aded loading like this
+                    Console.WriteLine(mainLibrary.UsersList[0].Currency.ToString());
                     Console.ReadKey();
                 }
                 else if (MainMenuItem[currentItem]== "Add new user")
@@ -73,7 +74,7 @@ namespace TheBTeam.ConsoleApp
                 else if (MainMenuItem[currentItem].Contains("Enter transaction"))
                 {
                     //Add here eneter transaction (date , category, pay)
-                    EnterTransation(MainMenuItem[currentItem]);
+                    EnterTransaction(MainMenuItem[currentItem]);
 
                 }
                 else if (MainMenuItem[currentItem].Contains("Show transaction history for the month"))
@@ -95,7 +96,7 @@ namespace TheBTeam.ConsoleApp
             string firstName = Console.ReadLine();
             Console.WriteLine($"Welcome {firstName}");
         }
-        static void EnterTransation(string selectedMenu)//here add enter new transaction
+        static void EnterTransaction(string selectedMenu)//here add enter new transaction
         {
             Console.WriteLine($"{selectedMenu}");
             Console.ReadKey();
