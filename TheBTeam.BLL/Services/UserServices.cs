@@ -31,14 +31,6 @@ namespace TheBTeam.BLL.Servises
             }
             return report.ToString();
         }
-
-        public void AddNewUser()
-        {
-            string FirstName = Console.ReadLine();
-            Console.WriteLine($"Welcome {FirstName}");
-            DataBase.AllUsers.Add(new User("sdsd",true,122,"zl",27, FirstName, "bros","male","GE","mm@wp.pl","5555","morska 2/2",DateTime.Now));
-        }
-
         public void CreateNewUser()
         {
             const int minNameLength = 2;
