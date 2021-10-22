@@ -16,5 +16,9 @@ namespace TheBTeam.BLL.Servises
                 "View users",
                 "Show transaction history for the month",
                 "Exit" };
+        public void AddNewUser(User user)
+        {
+            AllUsers.Add(user);
+        }
     }
 }
