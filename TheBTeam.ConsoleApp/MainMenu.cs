@@ -63,7 +63,7 @@ namespace TheBTeam.ConsoleApp
                 {
                     Console.WriteLine($"{MainMenuItem[currentItem]} ...");
                     var mainLibrary = new BLL.Library();//aded loading like this
-                    var check=ConsoleFactory.GetGender();
+                    
                     Console.ReadKey();
                 }
                 else if (MainMenuItem[currentItem]== "Add new user")

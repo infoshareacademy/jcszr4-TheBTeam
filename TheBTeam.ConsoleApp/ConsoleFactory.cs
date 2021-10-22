@@ -31,9 +31,10 @@ namespace TheBTeam.ConsoleApp
             var address = GetAddress(minAddressLength);
             var company = GetStringInput("Company", minCompanyLength);
             var currency = GetCurrency();
+            var balance = GetDecimalInput("current balance");
 
             Console.WriteLine("=================================================================");
-            return new User(firstName, lastName, gender, age, email, phone, address, company,currency,age);
+            return new User(firstName, lastName, gender, age, email, phone, address, company, currency, balance);
         }
 
         private static string GetStringInput(string name, int minLength)
@@ -50,7 +51,44 @@ namespace TheBTeam.ConsoleApp
                 }
             }
         }
+        private static Gender GetGender()
+        {
+            var genders = new TypeLists().Genders;
+            Console.WriteLine("Choose your gender:");
+            for (int i = 0; i < genders.Count; i++)
+                Console.WriteLine($"{i + 1}. {genders[i]}");
 
+            while (true)
+            {
+                var input = Console.ReadKey();
+                Console.WriteLine();
+                if (!char.IsDigit(input.KeyChar))
+                {
+                    Console.WriteLine("Wrong value, try again!\n");
+                    continue;
+                }
+
+                var isParsed = int.TryParse(input.KeyChar.ToString(), out var selection);
+
+                if (isParsed && selection <= genders.Count)
+                    return genders[selection - 1];
+
+                Console.WriteLine("Wrong selection, try Again!");
+            }
+        }
+        private static int GetIntInput(string name, int min, int max)
+        {
+            while (true)
+            {
+                Console.Write($"{name}: ");
+                var input = Console.ReadLine();
+                var isDig = int.TryParse(input, out var result);
+                if (isDig && result >= min && result <= max)
+                    return result;
+
+                Console.WriteLine($"{name} should be between {min} and {max}");
+            }
+        }
         private static string GetEmail()
         {
             while (true)
@@ -80,44 +118,6 @@ namespace TheBTeam.ConsoleApp
                     return input;
             }
         }
-        private static int GetIntInput(string name, int min, int max)
-        {
-            while (true)
-            {
-                Console.Write($"{name}: ");
-                var input = Console.ReadLine();
-                var isDig = int.TryParse(input, out var result);
-                if (isDig && result >= min && result <= max)
-                    return result;
-
-                Console.WriteLine($"{name} should be between {min} and {max}");
-            }
-        }
-        public static Gender GetGender()
-        {
-            var genders = new TypeLists().Genders;
-            Console.WriteLine("Choose your gender:");
-            for (int i = 0; i < genders.Count; i++)
-                Console.WriteLine($"{i + 1}. {genders[i]}");
-
-            while (true)
-            {
-                var input = Console.ReadKey();
-                Console.WriteLine();
-                if (!char.IsDigit(input.KeyChar))
-                {
-                    Console.WriteLine("Wrong value, try again!\n");
-                    continue;
-                }
-
-                var isParsed = int.TryParse(input.KeyChar.ToString(), out var selection);
-
-                if (isParsed && selection <= genders.Count)
-                    return genders[selection - 1];
-
-                Console.WriteLine("Wrong selection, try Again!");
-            }
-        }
         private static string GetAddress(int min)
         {
             var addressList = new List<string>()
@@ -140,14 +140,34 @@ namespace TheBTeam.ConsoleApp
 
             while (true)
             {
-                var input = Console.ReadLine();
+                var input = Console.ReadKey();
+                Console.WriteLine();
+                if (!char.IsDigit(input.KeyChar))
+                {
+                    Console.WriteLine("Wrong value, try again!\n");
+                    continue;
+                }
 
-                var isParsed = int.TryParse(input, out int selection);
+                var isParsed = int.TryParse(input.KeyChar.ToString(), out var selection);
 
                 if (isParsed && selection <= currencies.Count)
                     return currencies[selection - 1];
 
                 Console.WriteLine("Wrong selection, try Again!");
+            }
+        }
+
+        private static decimal GetDecimalInput(string name)
+        {
+            while (true)
+            {
+                Console.Write($"{name}: ");
+                var input = Console.ReadLine();
+                var isDig = decimal.TryParse(input, out var result);
+                if (isDig && result >= 0)
+                    return result;
+
+                Console.WriteLine($"{name} should be more than 0");
             }
         }
         public static int SelectFromList(string name, List<Category> list)//TO DO: Check if possible
