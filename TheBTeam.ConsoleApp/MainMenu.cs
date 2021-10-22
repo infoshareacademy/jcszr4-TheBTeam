@@ -81,7 +81,7 @@ namespace TheBTeam.ConsoleApp
                 }
                 else if (mainMenuItem[currentItem].Contains("View"))
                 {
-                    UserServices view = new UserServices();
+                    UserViewer view = new UserViewer();
                     Console.WriteLine(view.ViewUsers());
                 }
                 else if (mainMenuItem[currentItem].Contains("month"))

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TheBTeam.BLL.Servises
 {
-    public class UserServices
+    public class UserViewer
     {
         public string ViewUsers()
         {
@@ -20,6 +20,7 @@ namespace TheBTeam.BLL.Servises
             report.AppendLine($"|{"FirstName",lenghtFirstName}|{"LastName",lenghtLastName}|" +
                                $"{"Age",lenghtAge}|{"Gender",lenghtGender}|" +
                                $"{"Company",lenghtCompany}|{"Email",lenghtEmail}|");
+            report.AppendLine(new String('-', 97));
             foreach (var item in DataBase.AllUsers)
             {
                 report.AppendLine($"|{item.FirstName,lenghtFirstName}|" +
