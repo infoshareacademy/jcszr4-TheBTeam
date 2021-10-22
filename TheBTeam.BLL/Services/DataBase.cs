@@ -7,11 +7,11 @@ using TheBTeam.BLL.Model;
 
 namespace TheBTeam.BLL
 {
-    public class  Library
+    public class  DataBase
     {
         public List<User> UsersList { get; }
 
-        public Library()
+        public DataBase()
         {
             UsersList = LoadDataFromFile.ReadUserFile();
         }

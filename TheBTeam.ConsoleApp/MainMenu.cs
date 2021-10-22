@@ -62,7 +62,7 @@ namespace TheBTeam.ConsoleApp
                 if (MainMenuItem[currentItem]== "Load data from external file")//thing it is better way
                 {
                     Console.WriteLine($"{MainMenuItem[currentItem]} ...");
-                    var mainLibrary = new BLL.Library();//aded loading like this
+                    var mainLibrary = new BLL.DataBase();//aded loading like this
                     Console.ReadKey();
                 }
                 else if (MainMenuItem[currentItem]== "Add new user")
