@@ -11,10 +11,8 @@ namespace TheBTeam.BLL
         {
             string fileName = @"SourceFiles\users.json";
             string jsonstring = File.ReadAllText(fileName);
-            List<User> userData = JsonConvert.DeserializeObject<List<User>>(jsonstring);
-            
+            List<User> userData = JsonConvert.DeserializeObject<List<User>>(jsonstring);          
             return userData;
         }
-
     }
 }
