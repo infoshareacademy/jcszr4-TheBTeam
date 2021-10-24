@@ -1,6 +1,6 @@
 ﻿namespace TheBTeam.BLL
 {
-    public enum CategoryOfTransaction
+    public enum TypeOfTransaction
     {
         
     }

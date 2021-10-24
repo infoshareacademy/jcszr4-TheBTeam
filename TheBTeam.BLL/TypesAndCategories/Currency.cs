@@ -1,12 +1,9 @@
-﻿using System;
-using System.Linq;
-
-namespace TheBTeam.BLL
+﻿namespace TheBTeam.BLL
 {
-    public class Currency : Category
+    public enum Currency
     {
-        public Currency(string typeName) : base(typeName)
-        {
-        }
+        PLN,
+        USD,
+        EUR
     }
 }
