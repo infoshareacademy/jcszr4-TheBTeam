@@ -11,6 +11,7 @@ namespace TheBTeam.BLL
     public class  TmpDatabase //TODO: TmpDatabase
     {
         public List<User> UsersList { get; }
+        public List<Transaction> TransactionsList { get; }
 
         public TmpDatabase()
         {

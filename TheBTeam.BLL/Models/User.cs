@@ -22,16 +22,16 @@ namespace TheBTeam.BLL.Model
         public List<Transaction> Transactions { get; set; }
         public DateTime Registered { get;  }
         //public User(){}
-        //[JsonConstructor]//TO DO: check if all inputs of created classes exists
-        public User(string id, decimal balance, string currency, int age, string firstName, string lastName, string gender, string company, string email, string phone, string address)
+        [JsonConstructor]//TO DO: check if all inputs of created classes exists
+        public User(string id, decimal balance, Currency currency, int age, string firstName, string lastName, Gender gender, string company, string email, string phone, string address)
         {
             Id = id;
             Balance = balance;
-            Currency = new Currency(currency);
+            Currency = currency;
             Age = age;
             FirstName = firstName;
             LastName = lastName;
-            Gender = new Gender(gender);
+            Gender = gender;
             Company = company;
             Email = email;
             Phone = phone;

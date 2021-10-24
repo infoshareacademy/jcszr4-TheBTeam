@@ -70,6 +70,7 @@ namespace TheBTeam.ConsoleApp
                 else if (MainMenuItem[currentItem]== "Add new user")
                 {
                     //Add here methody add new use
+                    var user= ConsoleFactory.CreateNewUser();
                     AddNewUser(MainMenuItem[currentItem]);
                     
                 }

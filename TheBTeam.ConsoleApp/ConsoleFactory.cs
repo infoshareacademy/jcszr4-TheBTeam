@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Channels;
 using TheBTeam.BLL;
 using TheBTeam.BLL.Model;
 using Type = System.Type;
@@ -16,7 +17,7 @@ namespace TheBTeam.ConsoleApp
         const int MaxAge = 99;
         const int MinCompanyLength = 3;
 
-        public static User CreateNewUser(List<User> userList)
+        public static User CreateNewUser()
         {
 
             Console.Clear();
@@ -30,7 +31,7 @@ namespace TheBTeam.ConsoleApp
             var email = GetEmail();
             var phone = GetPhoneNumber();
             var address = GetAddress();
-            var company = GetStringInput("Company", MinCompanyLength);
+            var company = GetCompany();
             var currency = GetCurrency();
             var balance = GetDecimalInput("current balance");
 
@@ -52,13 +53,29 @@ namespace TheBTeam.ConsoleApp
                 }
             }
         }
+        private static string GetCompany()
+        {
+            while (true)
+            {
+                Console.Write($"Company: ");
+                var input = Console.ReadLine()?.Trim();
+                if (input == null)
+                    return null;
+                else
+                {
+                    return input;
+                }
+            }
+        }
         private static Gender GetGender()
         {
-            var genders = new TypeLists().Genders;
-            Console.WriteLine("Choose your gender:");
-            for (int i = 0; i < genders.Count; i++)
-                Console.WriteLine($"{i + 1}. {genders[i]}");
+            var genderArray = Enum.GetNames(typeof(Gender));
 
+            Console.WriteLine("Choose your gender:");
+            for (int i = 0; i < genderArray.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {genderArray[i]}");
+            }
             while (true)
             {
                 var input = Console.ReadKey();
@@ -71,8 +88,8 @@ namespace TheBTeam.ConsoleApp
 
                 var isParsed = int.TryParse(input.KeyChar.ToString(), out var selection);
 
-                if (isParsed && selection <= genders.Count)
-                    return genders[selection - 1];
+                if (isParsed && selection < genderArray.Length)
+                    return (Gender)selection - 1;
 
                 Console.WriteLine("Wrong selection, try Again!");
             }
@@ -134,11 +151,13 @@ namespace TheBTeam.ConsoleApp
         }
         private static Currency GetCurrency()
         {
-            var currencies = new TypeLists().Currencies;
-            Console.WriteLine("Choose your currency:");
-            for (int i = 0; i < currencies.Count; i++)
-                Console.WriteLine($"{i + 1}. {currencies[i]}");
+            var currenciesArray = Enum.GetNames(typeof(Currency));
 
+            Console.WriteLine("Choose your currency:");
+            for (int i = 0; i < currenciesArray.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {currenciesArray[i]}");
+            }
             while (true)
             {
                 var input = Console.ReadKey();
@@ -151,8 +170,8 @@ namespace TheBTeam.ConsoleApp
 
                 var isParsed = int.TryParse(input.KeyChar.ToString(), out var selection);
 
-                if (isParsed && selection <= currencies.Count)
-                    return currencies[selection - 1];
+                if (isParsed && selection < currenciesArray.Length)
+                    return (Currency)selection - 1;
 
                 Console.WriteLine("Wrong selection, try Again!");
             }
@@ -168,24 +187,6 @@ namespace TheBTeam.ConsoleApp
                     return result;
 
                 Console.WriteLine($"{name} should be more than 0");
-            }
-        }
-        public static int SelectFromList(string name, List<Category> list)//TODO: Check if possible
-        {
-            Console.WriteLine($"Choose your {name}:");
-            for (int i = 0; i < list.Count; i++)
-                Console.WriteLine($"{i + 1}. {list[i].ToString()}");
-
-            while (true)
-            {
-                var input = Console.ReadLine();
-
-                var isParsed = int.TryParse(input, out int selection);
-
-                if (isParsed && selection <= list.Count)
-                    return selection - 1;
-
-                Console.WriteLine("Wrong selection, try Again!");
             }
         }
     }
