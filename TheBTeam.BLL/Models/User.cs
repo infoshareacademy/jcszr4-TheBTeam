@@ -7,7 +7,7 @@ namespace TheBTeam.BLL.Model
     public class User
     {
         public string Id { get; }
-        public bool IsActive { get; set; }  
+        public bool IsActive { get; set; }
         public decimal Balance { get; set; }
         public Currency Currency { get; set; }
         public int Age { get; }
@@ -20,7 +20,7 @@ namespace TheBTeam.BLL.Model
         public string Address { get; private set; }
         public DateTime Registered { get;  }
         //public User(){}
-        [JsonConstructor]//TO DO: check if all inputs of created classes exists
+        //[JsonConstructor]//TO DO: check if all inputs of created classes exists
         public User(string id, decimal balance, string currency, int age, string firstName, string lastName, string gender, string company, string email, string phone, string address)
         {
             Id = id;
@@ -36,9 +36,9 @@ namespace TheBTeam.BLL.Model
             Address = address;
             Registered = DateAndTime.Now;
         }
-        public User(string firstName, string lastName, Gender gender, int age, string email, string phone, string address, string company, Currency currency, decimal balance)
+        public User(string firstName, string lastName, Gender gender, int age, string email, string phone, string address, string company, Currency currency, decimal balance = 0)
         {
-            Id = GenerateId();
+            Id = GenerateId();//TODO check if 
             Balance = balance;
             //Currency = new Currency(currency);
             Currency = currency;
@@ -52,10 +52,7 @@ namespace TheBTeam.BLL.Model
             Address = address;
             Registered = DateAndTime.Now;
         }
-        public void DeactivateUser()
-        {
-            IsActive = false;
-        }
+        
         private string GenerateId()
         {
             var random = new Random();
@@ -63,8 +60,5 @@ namespace TheBTeam.BLL.Model
             random.NextBytes(bytes);
             return BitConverter.ToString(bytes).Replace("-", "").ToLower();
         }
-
-        
     }
-
 }

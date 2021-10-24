@@ -9,14 +9,15 @@ namespace TheBTeam.ConsoleApp
 
     public class ConsoleFactory
     {
+        const int MinAddressLength = 3;
+        const int minNameLength = 2;
+        const int minPhoneNumberLength = 9;
+        const int minAge = 18;
+        const int maxAge = 99;
+        const int minCompanyLength = 3;
+
         public static User CreateNewUser(List<User> userList)
         {
-            const int minNameLength = 2;
-            const int minPhoneNumberLength = 9;
-            const int minAge = 18;
-            const int maxAge = 99;
-            const int minAddressLength = 3;
-            const int minCompanyLength = 3;
 
             Console.Clear();
             Console.WriteLine("                       CREATING NEW USER                        ");
@@ -28,12 +29,17 @@ namespace TheBTeam.ConsoleApp
             var age = GetIntInput("Age", minAge, maxAge);
             var email = GetEmail();
             var phone = GetPhoneNumber(minPhoneNumberLength);
-            var address = GetAddress(minAddressLength);
+            var address = GetAddress();
             var company = GetStringInput("Company", minCompanyLength);
             var currency = GetCurrency();
             var balance = GetDecimalInput("current balance");
 
             Console.WriteLine("=================================================================");
+            var initializedUser = new User()
+            {
+                Balance = 22,
+                Currency = new Currency("s")
+            };
             return new User(firstName, lastName, gender, age, email, phone, address, company, currency, balance);
         }
 
@@ -76,6 +82,7 @@ namespace TheBTeam.ConsoleApp
                 Console.WriteLine("Wrong selection, try Again!");
             }
         }
+
         private static int GetIntInput(string name, int min, int max)
         {
             while (true)
@@ -118,14 +125,14 @@ namespace TheBTeam.ConsoleApp
                     return input;
             }
         }
-        private static string GetAddress(int min)
+        private static string GetAddress()
         {
             var addressList = new List<string>()
             {
-            GetStringInput("Street", min),
-            GetStringInput("City", min),
-            GetStringInput("Province", min),
-            GetStringInput("Postal code", min)
+            GetStringInput("Street", MinAddressLength),
+            GetStringInput("City", MinAddressLength),
+            GetStringInput("Province", MinAddressLength),
+            GetStringInput("Postal code", MinAddressLength)
             };
 
             var address = String.Join(", ", addressList);

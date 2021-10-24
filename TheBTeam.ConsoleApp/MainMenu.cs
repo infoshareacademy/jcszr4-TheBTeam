@@ -1,5 +1,6 @@
 ﻿using System;
 using TheBTeam.BLL;
+using TheBTeam.BLL.Model;
 
 namespace TheBTeam.ConsoleApp
 {
