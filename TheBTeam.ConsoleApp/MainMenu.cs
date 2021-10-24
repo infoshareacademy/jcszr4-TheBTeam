@@ -1,6 +1,7 @@
 ﻿using System;
 using TheBTeam.BLL;
 using TheBTeam.BLL.Model;
+using TheBTeam.BLL.Services;
 
 namespace TheBTeam.ConsoleApp
 {
@@ -58,19 +59,20 @@ namespace TheBTeam.ConsoleApp
                         if (currentItem < 0) currentItem = Convert.ToInt16(MainMenuItem.Length - 1);
                     }
                 } while (keyPressed.KeyChar != 13);//if press enter selected menu
-                var mainLibrary = new BLL.TmpDatabase();
+               
                 //Selected mainmenu from loop
                 if (MainMenuItem[currentItem]== "Load data from external file")//thing it is better way
                 {
                     Console.WriteLine($"{MainMenuItem[currentItem]} ...");
-                    //var mainLibrary = new BLL.TmpDatabase();//aded loading like this
+                    
+                    //aded loading like this
                     
                     Console.ReadKey();
                 }
                 else if (MainMenuItem[currentItem]== "Add new user")
                 {
                     //Add here methody add new use
-                    var user= ConsoleFactory.CreateNewUser();
+                    ConsoleFactory.CreateNewUser();
                     AddNewUser(MainMenuItem[currentItem]);
                     
                 }

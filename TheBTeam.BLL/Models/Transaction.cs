@@ -4,17 +4,15 @@ namespace TheBTeam.BLL.Model
 {
     public class Transaction
     {
-        public DateTime OccurenceTime { get; set; }
+        public DateTime OccurenceTime { get; }
         public Currency Currency { get; }
         public TypeOfTransaction Type { get; }
-        //TODO should be in user or separated list?
-
+        public User User { get; }
         /// <summary>
         /// 
         /// </summary>
         public CategoryOfTransaction Category { get; }
-
         public decimal Amount { get; }
-        //TODO to whom
+        
     }
 }

@@ -59,12 +59,8 @@ namespace TheBTeam.ConsoleApp
             {
                 Console.Write($"Company: ");
                 var input = Console.ReadLine()?.Trim();
-                if (input == null)
-                    return null;
-                else
-                {
-                    return input;
-                }
+                
+                return input;
             }
         }
         private static Gender GetGender()
@@ -114,9 +110,11 @@ namespace TheBTeam.ConsoleApp
                 Console.Write("email: ");
                 var input = Console.ReadLine()?.Trim();
                 if (input == null)
-                    Console.WriteLine("input is empty, retry!");
-                else if (!input.Contains('@') | !input.Contains('.'))
+                    Console.WriteLine("Input is empty, retry!");
+                else if (!input.Contains('@') | !input.Contains('.')||input.Length<7)
                     Console.WriteLine("Email have to contain @ and .***, retry!");
+                else if(input.LastIndexOf(".")>input.Length-3)
+                    Console.WriteLine("Email should have at least 2 chars after .");
                 else
                     return input;
             }
