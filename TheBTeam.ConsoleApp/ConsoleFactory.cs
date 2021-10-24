@@ -10,11 +10,11 @@ namespace TheBTeam.ConsoleApp
     public class ConsoleFactory
     {
         const int MinAddressLength = 3;
-        const int minNameLength = 2;
-        const int minPhoneNumberLength = 9;
-        const int minAge = 18;
-        const int maxAge = 99;
-        const int minCompanyLength = 3;
+        const int MinNameLength = 2;
+        const int MinPhoneNumberLength = 9;
+        const int MinAge = 18;
+        const int MaxAge = 99;
+        const int MinCompanyLength = 3;
 
         public static User CreateNewUser(List<User> userList)
         {
@@ -23,26 +23,21 @@ namespace TheBTeam.ConsoleApp
             Console.WriteLine("                       CREATING NEW USER                        ");
             Console.WriteLine("=================================================================");
 
-            var firstName = GetStringInput("First Name", minNameLength);
-            var lastName = GetStringInput("Last Name", minNameLength);
+            var firstName = GetStringInput("First Name", MinNameLength);
+            var lastName = GetStringInput("Last Name", MinNameLength);
             var gender = GetGender();
-            var age = GetIntInput("Age", minAge, maxAge);
+            var age = GetIntInput("Age", MinAge, MaxAge);
             var email = GetEmail();
-            var phone = GetPhoneNumber(minPhoneNumberLength);
+            var phone = GetPhoneNumber();
             var address = GetAddress();
-            var company = GetStringInput("Company", minCompanyLength);
+            var company = GetStringInput("Company", MinCompanyLength);
             var currency = GetCurrency();
             var balance = GetDecimalInput("current balance");
 
             Console.WriteLine("=================================================================");
-            var initializedUser = new User()
-            {
-                Balance = 22,
-                Currency = new Currency("s")
-            };
+
             return new User(firstName, lastName, gender, age, email, phone, address, company, currency, balance);
         }
-
         private static string GetStringInput(string name, int minLength)
         {
             while (true)
@@ -82,7 +77,6 @@ namespace TheBTeam.ConsoleApp
                 Console.WriteLine("Wrong selection, try Again!");
             }
         }
-
         private static int GetIntInput(string name, int min, int max)
         {
             while (true)
@@ -110,15 +104,15 @@ namespace TheBTeam.ConsoleApp
                     return input;
             }
         }
-        private static string GetPhoneNumber(int minLength)
+        private static string GetPhoneNumber()
         {
             while (true)
             {
                 Console.Write("Phone Number: ");
                 var input = Console.ReadLine()?.Trim();
-                if (input == null || input.Length < minLength)
+                if (input == null || input.Length < MinPhoneNumberLength)
                     Console.WriteLine(
-                        $"Invalid phone number! Phone number have to have at least {minLength} digits . Retry!");
+                        $"Invalid phone number! Phone number have to have at least {MinPhoneNumberLength} digits . Retry!");
                 else if (!input.StartsWith('+'))
                     Console.WriteLine("Invalid phone number! Phone number have to start with country code eg. +48. Retry!");
                 else
@@ -163,7 +157,6 @@ namespace TheBTeam.ConsoleApp
                 Console.WriteLine("Wrong selection, try Again!");
             }
         }
-
         private static decimal GetDecimalInput(string name)
         {
             while (true)
@@ -177,7 +170,7 @@ namespace TheBTeam.ConsoleApp
                 Console.WriteLine($"{name} should be more than 0");
             }
         }
-        public static int SelectFromList(string name, List<Category> list)//TO DO: Check if possible
+        public static int SelectFromList(string name, List<Category> list)//TODO: Check if possible
         {
             Console.WriteLine($"Choose your {name}:");
             for (int i = 0; i < list.Count; i++)

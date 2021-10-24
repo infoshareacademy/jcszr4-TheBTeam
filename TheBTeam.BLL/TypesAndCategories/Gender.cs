@@ -1,9 +1,9 @@
 ﻿namespace TheBTeam.BLL
 {
-    public class Gender : Category
+    public enum Gender
     {
-        public Gender(string typeName) : base(typeName)
-        {
-        }
+        Male,
+        Female,
+        Genderless
     }
 }

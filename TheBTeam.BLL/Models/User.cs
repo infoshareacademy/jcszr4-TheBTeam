@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 
@@ -18,6 +19,7 @@ namespace TheBTeam.BLL.Model
         public string Email { get; private set; }
         public string Phone { get; private set; }
         public string Address { get; private set; }
+        public List<Transaction> Transactions { get; set; }
         public DateTime Registered { get;  }
         //public User(){}
         //[JsonConstructor]//TO DO: check if all inputs of created classes exists
@@ -35,6 +37,7 @@ namespace TheBTeam.BLL.Model
             Phone = phone;
             Address = address;
             Registered = DateAndTime.Now;
+            Transactions = new List<Transaction>();
         }
         public User(string firstName, string lastName, Gender gender, int age, string email, string phone, string address, string company, Currency currency, decimal balance = 0)
         {
@@ -51,6 +54,7 @@ namespace TheBTeam.BLL.Model
             Phone = phone;
             Address = address;
             Registered = DateAndTime.Now;
+            Transactions = new List<Transaction>();
         }
         
         private string GenerateId()

@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheBTeam.BLL.Model;
+using TheBTeam.BLL.Services;
 
 namespace TheBTeam.BLL
 {
-    public class  Library //TODO: TmpDatabase
+    public class  TmpDatabase //TODO: TmpDatabase
     {
         public List<User> UsersList { get; }
 
-        public Library()
+        public TmpDatabase()
         {
             UsersList = LoadDataFromFile.ReadUserFile();
         }
