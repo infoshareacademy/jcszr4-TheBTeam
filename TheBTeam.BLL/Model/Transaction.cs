@@ -1,18 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TheBTeam.BLL.Model
 {
     public class Transaction
     {
-        public DateTime OccurencTime { get; set; }
-        public string Currency { get; }
-        public string TypeOfTransaction { get; }
-        public CategoryOfTransaction CategoryOfTransaction { get; }
+        public DateTime OccurenceTime { get; }
+        public Currency Currency { get; }
+        public TypeOfTransaction Type { get; }
+        public User User { get; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public CategoryOfTransaction Category { get; }
         public decimal Amount { get; }
+        public Transaction(User user, DateTime occurenceTime, Currency currency, TypeOfTransaction type, CategoryOfTransaction Category, decimal amount)
+        {
+            User = user;
+            OccurenceTime = DateTime.Now;
+            Currency = currency;
+            Amount = amount;
+        }
 
     }
 }

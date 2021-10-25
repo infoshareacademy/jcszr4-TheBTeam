@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TheBTeam.BLL;
+using TheBTeam.BLL.Services;
 using TheBTeam.BLL.Servises;
 
 namespace TheBTeam.ConsoleApp
@@ -11,10 +8,20 @@ namespace TheBTeam.ConsoleApp
     public static class MainMenu
     {
         //here you can add new main menu item
-        private static readonly string[] mainMenuItem = DataBase.MainMenuItems;
+        //here you can add new main menu item
+        private static readonly string[] mainMenuItem = {
+                "Load data from external file",
+                "Add new user",
+                "View users",
+                "Enter transaction",
+                "Show transaction all transaction",
+                "Show transaction history for the month",
+                "Exit" };//Guess should be made somehow else- have to change whole text in code every time sth is changed
         public static void ShowMainMenu()
         {
             short currentItem = 0;
+            TmpDatabase tmpListUsers = new TmpDatabase();
+            TmpDatabase tmpListTransactions = new TmpDatabase();
             do
             {
                 ConsoleKeyInfo keyPressed;
@@ -55,34 +62,31 @@ namespace TheBTeam.ConsoleApp
                 }
                 while (keyPressed.KeyChar != 13);//if press enter selected menu
                 //Selected mainmenu from loop
-                if (mainMenuItem[currentItem].Contains("Load"))
+                if (mainMenuItem[currentItem].Contains("Load data from external file"))
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]} ... ");
-                    DataBase.AllUsers = LoadUserFromFile.ReadUserFile();
+                    tmpListUsers.UsersList = LoadDataFromFile.ReadUserFile();
                 }
                 else if (mainMenuItem[currentItem].Contains("Add new user"))
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]}");
-                    //ConsoleFactory.CreateNewUser(DataBase.AllUsers);
-                    DataBase.AllUsers.Add(ConsoleFactory.CreateNewUser(DataBase.AllUsers));
-                    //DataBase user = new DataBase();
-                    
+                    tmpListUsers.UsersList.Add(ConsoleFactory.CreateNewUser());
                 }
-                else if (mainMenuItem[currentItem].Contains("Enter transation"))
-                {
-                    //Add here eneter transaction (date , category, pay)
-                    Console.WriteLine($"{mainMenuItem[currentItem]}");
-                    TypeLists typeLists = new TypeLists();
-                    foreach (var item in typeLists.TransactionsCategories)
-                    {
-                        Console.WriteLine(item.Name);
-                    }
-                    Console.ReadKey();
-                }
-                else if (mainMenuItem[currentItem].Contains("View"))
+                else if (mainMenuItem[currentItem].Contains("View users"))
                 {
                     UserViewer view = new UserViewer();
-                    Console.WriteLine(view.ViewUsers());
+                    Console.WriteLine(view.ViewUsers(tmpListUsers.UsersList));
+                }
+                else if (mainMenuItem[currentItem].Contains("Enter transaction"))
+                {
+                    Console.WriteLine($"{mainMenuItem[currentItem]}");
+                    tmpListTransactions.TransactionsList.Add(ConsoleFactory.CreateNewTransaction(tmpListUsers.UsersList));
+                }
+                else if (mainMenuItem[currentItem].Contains("Show transaction all transaction"))
+                {
+                    Console.WriteLine($"{mainMenuItem[currentItem]}");
+                    TransactionViewer view = new TransactionViewer();
+                    Console.WriteLine(view.ViewTransaction(tmpListTransactions.TransactionsList));
                 }
                 else if (mainMenuItem[currentItem].Contains("month"))
                 {

@@ -2,40 +2,76 @@
 using System.Collections.Generic;
 using TheBTeam.BLL;
 using TheBTeam.BLL.Model;
-using Type = System.Type;
 
 namespace TheBTeam.ConsoleApp
 {
-
     public class ConsoleFactory
     {
-        public static User CreateNewUser(List<User> userList)
+        const int MinAddressLength = 3;
+        const int MinNameLength = 2;
+        const int MinPhoneNumberLength = 9;
+        const int MinAge = 18;
+        const int MaxAge = 99;
+        const int MinCompanyLength = 3;
+
+        public static Transaction CreateNewTransaction(List<User> users)
         {
-            const int minNameLength = 2;
-            const int minPhoneNumberLength = 9;
-            const int minAge = 18;
-            const int maxAge = 99;
-            const int minAddressLength = 3;
-            const int minCompanyLength = 3;
+            Console.Clear();
+            Console.WriteLine("                       CREATING NEW TRANSACTION                  ");
+            Console.WriteLine("=================================================================");
+
+            User outuser = GetOuterUser(users);
+
+            decimal Amount = 0;
+            Console.Write($"Enter amount: ");
+            while (!decimal.TryParse(Console.ReadLine(), out Amount))
+            {
+                Console.WriteLine("This is not a decimal value!");
+            }
+            Console.WriteLine("=================================================================");
+            return new Transaction(outuser, DateTime.Now, Currency.PLN, TypeOfTransaction.Income, CategoryOfTransaction.Car, Amount);
+        }
+        private static User GetOuterUser(List<User> users)
+        {
+            User outuser = null;
+            Console.Write($"Enter LastName: ");
+            string lastName = Console.ReadLine();
+            foreach (var item in users)
+            {
+                if (item.LastName == lastName)
+                {
+                    outuser = item;
+                }
+            }
+            if (outuser == null)
+            {
+                Console.Write($"{lastName} doesn't exsist!\n");
+            }
+            //if (outuser == null) throw new NullReferenceException();
+            return outuser;
+        }
+        public static User CreateNewUser()
+        {
 
             Console.Clear();
             Console.WriteLine("                       CREATING NEW USER                        ");
             Console.WriteLine("=================================================================");
 
-            var firstName = GetStringInput("First Name", minNameLength);
-            var lastName = GetStringInput("Last Name", minNameLength);
+            var firstName = GetStringInput("First Name", MinNameLength);
+            var lastName = GetStringInput("Last Name", MinNameLength);
             var gender = GetGender();
-            var age = GetIntInput("Age", minAge, maxAge);
+            var age = GetIntInput("Age", MinAge, MaxAge);
             var email = GetEmail();
-            var phone = GetPhoneNumber(minPhoneNumberLength);
-            var address = GetAddress(minAddressLength);
-            var company = GetStringInput("Company", minCompanyLength);
+            var phone = GetPhoneNumber();
+            var address = GetAddress();
+            var company = GetCompany();
             var currency = GetCurrency();
+            var balance = GetDecimalInput("current balance");
 
             Console.WriteLine("=================================================================");
-            return new User(firstName, lastName, gender, age, email, phone, address, company,currency,age);
-        }
 
+            return new User(firstName, lastName, gender, age, email, phone, address, company, currency, balance);
+        }
         private static string GetStringInput(string name, int minLength)
         {
             while (true)
@@ -50,34 +86,41 @@ namespace TheBTeam.ConsoleApp
                 }
             }
         }
-
-        private static string GetEmail()
+        private static string GetCompany()
         {
             while (true)
             {
-                Console.Write("email: ");
+                Console.Write($"Company: ");
                 var input = Console.ReadLine()?.Trim();
-                if (input == null)
-                    Console.WriteLine("input is empty, retry!");
-                else if (!input.Contains('@') | !input.Contains('.'))
-                    Console.WriteLine("Email have to contain @ and .***, retry!");
-                else
-                    return input;
+
+                return input;
             }
         }
-        private static string GetPhoneNumber(int minLength)
+        private static Gender GetGender()
         {
+            var genderArray = Enum.GetNames(typeof(Gender));
+
+            Console.WriteLine("Choose your gender:");
+            for (int i = 0; i < genderArray.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {genderArray[i]}");
+            }
             while (true)
             {
-                Console.Write("Phone Number: ");
-                var input = Console.ReadLine()?.Trim();
-                if (input == null || input.Length < minLength)
-                    Console.WriteLine(
-                        $"Invalid phone number! Phone number have to have at least {minLength} digits . Retry!");
-                else if (!input.StartsWith('+'))
-                    Console.WriteLine("Invalid phone number! Phone number have to start with country code eg. +48. Retry!");
-                else
-                    return input;
+                var input = Console.ReadKey();
+                Console.WriteLine();
+                if (!char.IsDigit(input.KeyChar))
+                {
+                    Console.WriteLine("Wrong value, try again!\n");
+                    continue;
+                }
+
+                var isParsed = int.TryParse(input.KeyChar.ToString(), out var selection);
+
+                if (isParsed && selection < genderArray.Length)
+                    return (Gender)selection - 1;
+
+                Console.WriteLine("Wrong selection, try Again!");
             }
         }
         private static int GetIntInput(string name, int min, int max)
@@ -93,13 +136,59 @@ namespace TheBTeam.ConsoleApp
                 Console.WriteLine($"{name} should be between {min} and {max}");
             }
         }
-        public static Gender GetGender()
+        private static string GetEmail()
         {
-            var genders = new TypeLists().Genders;
-            Console.WriteLine("Choose your gender:");
-            for (int i = 0; i < genders.Count; i++)
-                Console.WriteLine($"{i + 1}. {genders[i]}");
+            while (true)
+            {
+                Console.Write("email: ");
+                var input = Console.ReadLine()?.Trim();
+                if (input == null)
+                    Console.WriteLine("Input is empty, retry!");
+                else if (!input.Contains('@') | !input.Contains('.') || input.Length < 7)
+                    Console.WriteLine("Email have to contain @ and .***, retry!");
+                else if (input.LastIndexOf(".") > input.Length - 3)
+                    Console.WriteLine("Email should have at least 2 chars after .");
+                else
+                    return input;
+            }
+        }
+        private static string GetPhoneNumber()
+        {
+            while (true)
+            {
+                Console.Write("Phone Number: ");
+                var input = Console.ReadLine()?.Trim();
+                if (input == null || input.Length < MinPhoneNumberLength)
+                    Console.WriteLine(
+                        $"Invalid phone number! Phone number have to have at least {MinPhoneNumberLength} digits . Retry!");
+                else if (!input.StartsWith('+'))
+                    Console.WriteLine("Invalid phone number! Phone number have to start with country code eg. +48. Retry!");
+                else
+                    return input;
+            }
+        }
+        private static string GetAddress()
+        {
+            var addressList = new List<string>()
+            {
+            GetStringInput("Street", MinAddressLength),
+            GetStringInput("City", MinAddressLength),
+            GetStringInput("Province", MinAddressLength),
+            GetStringInput("Postal code", MinAddressLength)
+            };
 
+            var address = String.Join(", ", addressList);
+            return address;
+        }
+        private static Currency GetCurrency()
+        {
+            var currenciesArray = Enum.GetNames(typeof(Currency));
+
+            Console.WriteLine("Choose your currency:");
+            for (int i = 0; i < currenciesArray.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {currenciesArray[i]}");
+            }
             while (true)
             {
                 var input = Console.ReadKey();
@@ -112,60 +201,23 @@ namespace TheBTeam.ConsoleApp
 
                 var isParsed = int.TryParse(input.KeyChar.ToString(), out var selection);
 
-                if (isParsed && selection <= genders.Count)
-                    return genders[selection - 1];
+                if (isParsed && selection < currenciesArray.Length)
+                    return (Currency)selection - 1;
 
                 Console.WriteLine("Wrong selection, try Again!");
             }
         }
-        private static string GetAddress(int min)
+        private static decimal GetDecimalInput(string name)
         {
-            var addressList = new List<string>()
-            {
-            GetStringInput("Street", min),
-            GetStringInput("City", min),
-            GetStringInput("Province", min),
-            GetStringInput("Postal code", min)
-            };
-
-            var address = String.Join(", ", addressList);
-            return address;
-        }
-        private static Currency GetCurrency()
-        {
-            var currencies = new TypeLists().Currencies;
-            Console.WriteLine("Choose your currency:");
-            for (int i = 0; i < currencies.Count; i++)
-                Console.WriteLine($"{i + 1}. {currencies[i]}");
-
             while (true)
             {
+                Console.Write($"{name}: ");
                 var input = Console.ReadLine();
+                var isDig = decimal.TryParse(input, out var result);
+                if (isDig && result >= 0)
+                    return result;
 
-                var isParsed = int.TryParse(input, out int selection);
-
-                if (isParsed && selection <= currencies.Count)
-                    return currencies[selection - 1];
-
-                Console.WriteLine("Wrong selection, try Again!");
-            }
-        }
-        public static int SelectFromList(string name, List<Category> list)//TO DO: Check if possible
-        {
-            Console.WriteLine($"Choose your {name}:");
-            for (int i = 0; i < list.Count; i++)
-                Console.WriteLine($"{i + 1}. {list[i].ToString()}");
-
-            while (true)
-            {
-                var input = Console.ReadLine();
-
-                var isParsed = int.TryParse(input, out int selection);
-
-                if (isParsed && selection <= list.Count)
-                    return selection - 1;
-
-                Console.WriteLine("Wrong selection, try Again!");
+                Console.WriteLine($"{name} should be more than 0");
             }
         }
     }

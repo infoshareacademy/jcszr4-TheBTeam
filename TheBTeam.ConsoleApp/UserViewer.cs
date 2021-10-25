@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace TheBTeam.BLL.Servises
 {
     public class UserViewer
     {
-        public string ViewUsers()
+        public string ViewUsers(List<User> users)
         {
             const int lenghtFirstName = -15;
             const int lenghtLastName = -15;
@@ -21,16 +19,20 @@ namespace TheBTeam.BLL.Servises
                                $"{"Age",lenghtAge}|{"Gender",lenghtGender}|" +
                                $"{"Company",lenghtCompany}|{"Email",lenghtEmail}|");
             report.AppendLine(new String('-', 97));
-            foreach (var item in DataBase.AllUsers)
+            //TmpDatabase tmpUserList = new TmpDatabase();
+            if (users != null)
             {
-                report.AppendLine($"|{item.FirstName,lenghtFirstName}|" +
-                                  $"{item.LastName,lenghtLastName}|" +
-                                  $"{item.Age,lenghtAge}|" +
-                                  $"{item.Gender,lenghtGender}|" +
-                                  $"{item.Company,lenghtCompany}|" +
-                                  $"{item.Email,lenghtEmail}|");
+                foreach (var item in users)
+                {
+                    report.AppendLine($"|{item.FirstName,lenghtFirstName}|" +
+                                      $"{item.LastName,lenghtLastName}|" +
+                                      $"{item.Age,lenghtAge}|" +
+                                      $"{item.Gender,lenghtGender}|" +
+                                      $"{item.Company,lenghtCompany}|" +
+                                      $"{item.Email,lenghtEmail}|");
+                }
             }
             return report.ToString();
         }
-     }
+    }
 }

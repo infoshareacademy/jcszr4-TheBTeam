@@ -1,17 +1,16 @@
-﻿using System;
-using System.IO;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.IO;
 
-namespace TheBTeam.BLL
+namespace TheBTeam.BLL.Services
 {
-    public class LoadUserFromFile
+    public class LoadDataFromFile
     {
         public static List<User> ReadUserFile()
         {
             string fileName = @"SourceFiles\users.json";
-            string jsonstring = File.ReadAllText(fileName);
-            List<User> userData = JsonConvert.DeserializeObject<List<User>>(jsonstring);
+            string jsonString = File.ReadAllText(fileName);
+            List<User> userData = JsonConvert.DeserializeObject<List<User>>(jsonString);
             return userData;
         }
     }
