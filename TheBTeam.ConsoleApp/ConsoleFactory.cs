@@ -17,6 +17,40 @@ namespace TheBTeam.ConsoleApp
         const int MaxAge = 99;
         const int MinCompanyLength = 3;
 
+        public static Transaction CreateNewTransaction(List<User> users)
+        {
+            Console.Clear();
+            Console.WriteLine("                       CREATING NEW TRANSACTION                  ");
+            Console.WriteLine("=================================================================");
+
+            User outuser = GetOuterUser(users);
+            decimal Amount = GetDecimalInput("Amount"); ;
+            var currency = GetCurrency();
+            var categoryOfTransaction = GetCategoryOfTransaction();
+
+            Console.WriteLine("=================================================================");
+            return new Transaction(outuser, DateTime.Now, currency, TypeOfTransaction.Income, categoryOfTransaction, Amount);
+        }
+        private static User GetOuterUser(List<User> users)
+        {
+            User outuser = null;
+            Console.Write($"Enter LastName: ");
+            string lastName = Console.ReadLine();
+            foreach (var item in users)
+            {
+                if (item.LastName == lastName)
+                {
+                    outuser = item;
+                }
+            }
+            if (outuser == null)
+            {
+                Console.Write($"{lastName} doesn't exsist!\n");
+            }
+            //if (outuser == null) throw new NullReferenceException();
+            return outuser;
+        }
+
         public static User CreateNewUser()
         {
 
@@ -187,6 +221,35 @@ namespace TheBTeam.ConsoleApp
                 Console.WriteLine($"{name} should be more than 0");
             }
         }
+
+        private static CategoryOfTransaction GetCategoryOfTransaction()
+        {
+            var currenciesArray = Enum.GetNames(typeof(CategoryOfTransaction));
+
+            Console.WriteLine("Choose your category of transaction:");
+            for (int i = 0; i < currenciesArray.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {currenciesArray[i]}");
+            }
+            while (true)
+            {
+                var input = Console.ReadKey();
+                Console.WriteLine();
+                if (!char.IsDigit(input.KeyChar))
+                {
+                    Console.WriteLine("Wrong value, try again!\n");
+                    continue;
+                }
+
+                var isParsed = int.TryParse(input.KeyChar.ToString(), out var selection);
+
+                if (isParsed && selection < currenciesArray.Length)
+                    return (CategoryOfTransaction)selection - 1;
+
+                Console.WriteLine("Wrong selection, try Again!");
+            }
+        }
+
     }
 }
 
