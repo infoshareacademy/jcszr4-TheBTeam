@@ -26,6 +26,7 @@ namespace TheBTeam.ConsoleApp
                 ConsoleKeyInfo keyPressed;
                 do
                 {
+                    Console.Clear();
                     Console.WriteLine("------------------------------------------");
                     Console.WriteLine($"Welcome in the financial planner");
                     Console.WriteLine("------------------------------------------");
@@ -63,6 +64,7 @@ namespace TheBTeam.ConsoleApp
                 //Selected mainmenu from loop
                 if (MainMenuItem[currentItem]== "Load data from external file")//thing it is better way
                 {
+
                     Console.WriteLine($"{MainMenuItem[currentItem]} ...");
                     
                     //aded loading like this
@@ -72,7 +74,9 @@ namespace TheBTeam.ConsoleApp
                 else if (MainMenuItem[currentItem]== "Add new user")
                 {
                     //Add here methody add new use
-                    ConsoleFactory.CreateNewUser();
+                    var user= ConsoleFactory.CreateNewUser();
+                    if (user == null)
+                        continue;
                     AddNewUser(MainMenuItem[currentItem]);
                     
                 }

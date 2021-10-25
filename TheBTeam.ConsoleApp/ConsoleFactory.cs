@@ -15,29 +15,47 @@ namespace TheBTeam.ConsoleApp
         const int MinPhoneNumberLength = 9;
         const int MinAge = 18;
         const int MaxAge = 99;
-        const int MinCompanyLength = 3;
+        //private bool WantToExit = false;
 
         public static User CreateNewUser()
         {
+           
+            while(true)
+            {
+                Console.Clear();
+                Console.WriteLine("                       CREATING NEW USER                        ");
+                Console.WriteLine("=================================================================");
+                Console.WriteLine("Type follwoing informations, or type 'Exit' to abort creating new user");
 
-            Console.Clear();
-            Console.WriteLine("                       CREATING NEW USER                        ");
-            Console.WriteLine("=================================================================");
+                var firstName = GetStringInput("First Name", MinNameLength);
+                if(firstName.ToLower()=="exit")
+                    return  null;
+                var lastName = GetStringInput("Last Name", MinNameLength);
+                if (lastName.ToLower() == "exit")
+                    return null;
+                var gender = GetGender();
+                var age = GetIntInput("Age", MinAge, MaxAge);
+                if (age == 0)
+                    return null;
+                var email = GetEmail();
+                if (email == null)
+                    return null;
+                var phone = GetPhoneNumber();
+                if (phone == null)
+                    return null;
+                var address = GetAddress();
+                var company = GetCompany();
+                if (company.ToLower() == "exit")
+                    return null;
+                var currency = GetCurrency();
+                var balance = GetDecimalInput("current balance");
+                if (balance == -69)
+                    return null;
 
-            var firstName = GetStringInput("First Name", MinNameLength);
-            var lastName = GetStringInput("Last Name", MinNameLength);
-            var gender = GetGender();
-            var age = GetIntInput("Age", MinAge, MaxAge);
-            var email = GetEmail();
-            var phone = GetPhoneNumber();
-            var address = GetAddress();
-            var company = GetCompany();
-            var currency = GetCurrency();
-            var balance = GetDecimalInput("current balance");
+                Console.WriteLine("=================================================================");
 
-            Console.WriteLine("=================================================================");
-
-            return new User(firstName, lastName, gender, age, email, phone, address, company, currency, balance);
+                return new User(firstName, lastName, gender, age, email, phone, address, company, currency, balance);
+            }
         }
         private static string GetStringInput(string name, int minLength)
         {
@@ -48,9 +66,8 @@ namespace TheBTeam.ConsoleApp
                 if (input == null || input.Length < minLength)
                     Console.WriteLine($"Invalid data. {name} should have at least {minLength} char long. Retry!");
                 else
-                {
                     return input;
-                }
+
             }
         }
         private static string GetCompany()
@@ -59,7 +76,7 @@ namespace TheBTeam.ConsoleApp
             {
                 Console.Write($"Company: ");
                 var input = Console.ReadLine()?.Trim();
-                
+
                 return input;
             }
         }
@@ -96,6 +113,8 @@ namespace TheBTeam.ConsoleApp
             {
                 Console.Write($"{name}: ");
                 var input = Console.ReadLine();
+                if (input.ToLower() == "exit")
+                    return 0;
                 var isDig = int.TryParse(input, out var result);
                 if (isDig && result >= min && result <= max)
                     return result;
@@ -111,9 +130,11 @@ namespace TheBTeam.ConsoleApp
                 var input = Console.ReadLine()?.Trim();
                 if (input == null)
                     Console.WriteLine("Input is empty, retry!");
-                else if (!input.Contains('@') | !input.Contains('.')||input.Length<7)
+                else if (input.ToLower() == "exit")
+                    return null;
+                else if (!input.Contains('@') | !input.Contains('.') || input.Length < 7)
                     Console.WriteLine("Email have to contain @ and .***, retry!");
-                else if(input.LastIndexOf(".")>input.Length-3)
+                else if (input.LastIndexOf(".", StringComparison.Ordinal) > input.Length - 3)
                     Console.WriteLine("Email should have at least 2 chars after .");
                 else
                     return input;
@@ -123,11 +144,13 @@ namespace TheBTeam.ConsoleApp
         {
             while (true)
             {
-                Console.Write("Phone Number: ");
+                Console.Write("Phone Number(+XX XXX XXX XXX): ");
                 var input = Console.ReadLine()?.Trim();
                 if (input == null || input.Length < MinPhoneNumberLength)
                     Console.WriteLine(
-                        $"Invalid phone number! Phone number have to have at least {MinPhoneNumberLength} digits . Retry!");
+                        $"Invalid phone number! Phone number have to have at least {MinPhoneNumberLength} digits, or type 'Exit' to abort. Retry!");
+                else if (input.ToLower() == "exit")
+                    return null;
                 else if (!input.StartsWith('+'))
                     Console.WriteLine("Invalid phone number! Phone number have to start with country code eg. +48. Retry!");
                 else
@@ -180,6 +203,8 @@ namespace TheBTeam.ConsoleApp
             {
                 Console.Write($"{name}: ");
                 var input = Console.ReadLine();
+                if (input.ToLower() == "exit")
+                    return -69;
                 var isDig = decimal.TryParse(input, out var result);
                 if (isDig && result >= 0)
                     return result;
@@ -187,6 +212,7 @@ namespace TheBTeam.ConsoleApp
                 Console.WriteLine($"{name} should be more than 0");
             }
         }
+
     }
 }
 
