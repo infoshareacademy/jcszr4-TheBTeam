@@ -1,5 +1,7 @@
 ﻿using System;
 using TheBTeam.BLL;
+using TheBTeam.BLL.Model;
+using TheBTeam.BLL.Services;
 
 namespace TheBTeam.ConsoleApp
 {
@@ -57,23 +59,27 @@ namespace TheBTeam.ConsoleApp
                         if (currentItem < 0) currentItem = Convert.ToInt16(MainMenuItem.Length - 1);
                     }
                 } while (keyPressed.KeyChar != 13);//if press enter selected menu
-
+               
                 //Selected mainmenu from loop
                 if (MainMenuItem[currentItem]== "Load data from external file")//thing it is better way
                 {
                     Console.WriteLine($"{MainMenuItem[currentItem]} ...");
-                    var mainLibrary = new BLL.DataBase();//aded loading like this
+                    
+                    //aded loading like this
+                    
                     Console.ReadKey();
                 }
                 else if (MainMenuItem[currentItem]== "Add new user")
                 {
                     //Add here methody add new use
+                    ConsoleFactory.CreateNewUser();
                     AddNewUser(MainMenuItem[currentItem]);
+                    
                 }
                 else if (MainMenuItem[currentItem].Contains("Enter transaction"))
                 {
                     //Add here eneter transaction (date , category, pay)
-                    EnterTransation(MainMenuItem[currentItem]);
+                    EnterTransaction(MainMenuItem[currentItem]);
 
                 }
                 else if (MainMenuItem[currentItem].Contains("Show transaction history for the month"))
@@ -95,7 +101,7 @@ namespace TheBTeam.ConsoleApp
             string firstName = Console.ReadLine();
             Console.WriteLine($"Welcome {firstName}");
         }
-        static void EnterTransation(string selectedMenu)//here add enter new transaction
+        static void EnterTransaction(string selectedMenu)//here add enter new transaction
         {
             Console.WriteLine($"{selectedMenu}");
             Console.ReadKey();

@@ -1,25 +1,28 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualBasic;
+using Newtonsoft.Json;
 
 namespace TheBTeam.BLL.Model
 {
     public class User
     {
         public string Id { get; }
-        public bool IsActive { get; set; }  
+        public bool IsActive { get; set; }
         public decimal Balance { get; set; }
-        public string Currency { get; set; }
+        public Currency Currency { get; set; }
         public int Age { get; }
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
-        public string Gender { get; private set; }
+        public Gender Gender { get; private set; }
         public string Company { get; private set; }
         public string Email { get; private set; }
         public string Phone { get; private set; }
         public string Address { get; private set; }
-        public DateTime Registered { get;  }
+        public DateTime Registered { get; }
 
-        public User(string id, decimal balance, string currency, int age, string firstName, string lastName, string gender, string company, string email, string phone, string address)
+        [JsonConstructor]//TO DO: check if all inputs of created classes exists
+        public User(string id, decimal balance, Currency currency, int age, string firstName, string lastName, Gender gender, string company, string email, string phone, string address)
         {
             Id = id;
             Balance = balance;
@@ -34,10 +37,11 @@ namespace TheBTeam.BLL.Model
             Address = address;
             Registered = DateAndTime.Now;
         }
-        public User( decimal balance, string currency, int age, string firstName, string lastName, string gender, string company, string email, string phone, string address)
+        public User(string firstName, string lastName, Gender gender, int age, string email, string phone, string address, string company, Currency currency, decimal balance = 0)
         {
-            Id = GenerateId();
+            Id = GenerateId();//TODO check if 
             Balance = balance;
+            //Currency = new Currency(currency);
             Currency = currency;
             Age = age;
             FirstName = firstName;
@@ -49,10 +53,7 @@ namespace TheBTeam.BLL.Model
             Address = address;
             Registered = DateAndTime.Now;
         }
-        public void DeactivateUser()
-        {
-            IsActive = false;
-        }
+
         private string GenerateId()
         {
             var random = new Random();
@@ -60,8 +61,5 @@ namespace TheBTeam.BLL.Model
             random.NextBytes(bytes);
             return BitConverter.ToString(bytes).Replace("-", "").ToLower();
         }
-
-        
     }
-
 }
