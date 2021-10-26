@@ -70,7 +70,11 @@ namespace TheBTeam.ConsoleApp
                 else if (mainMenuItems[currentItem]== "Add new user")
                 {
                     Console.WriteLine($"{mainMenuItems[currentItem]}");
-                    tmpListUsers.UsersList.Add(ConsoleFactory.CreateNewUser());
+                    var user = ConsoleFactory.CreateNewUser();
+                    if (user != null)
+                    {
+                        tmpListUsers.UsersList.Add(user);
+                    }
                 }
                 else if (mainMenuItems[currentItem] == ("View users"))
                 {
