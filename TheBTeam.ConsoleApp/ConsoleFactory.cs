@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Channels;
 using TheBTeam.BLL;
@@ -37,6 +38,8 @@ namespace TheBTeam.ConsoleApp
                 if (age == 0)
                     return null;
                 var email = GetEmail();
+                if (email == null)
+                    return null;
                 var phone = GetPhoneNumber();
                 if (phone == null)
                     return null;
@@ -59,31 +62,23 @@ namespace TheBTeam.ConsoleApp
         {
             Header("ADDING NEW TRANSACTION");
             var user = SelectUser(usersList);
-            Console.WriteLine($"Current balance: {user.Balance}");
+            if (user == null)
+                return null;
+            Header("ADDING NEW TRANSACTION");
             var type = GetTypeOfTransaction();
+            Header("ADDING NEW TRANSACTION");
             var category = GetCategoryOfTransaction();
+            Header("ADDING NEW TRANSACTION");
             var currency = GetCurrency();
+            Header("ADDING NEW TRANSACTION");
+            Console.WriteLine($"Current balance: {user.Balance.ToString("C", CultureInfo.CurrentCulture)}");
             var amount = GetDecimalInput("Amount");
-            
-            var transaction = new Transaction(user, type, category, currency, amount);
+            if (amount == -69)
+                return null;
 
-            if (transaction.Type == TypeOfTransaction.Income)
-            {
-                user.Balance += transaction.Amount;
-                Console.WriteLine("Income added");
-            }else if (user.Balance >= transaction.Amount)
-            {
-                user.Balance -= transaction.Amount;
-                Console.WriteLine("Outcome added");
-            }
-            else
-            {
-                transaction.Type = TypeOfTransaction.Canceled;
-                Console.WriteLine("Transaction rejected, your balance is to low!");
-            }
-                
-            return transaction;
-            
+            var transaction = new Transaction(user, type, category, currency, amount);
+            return ApplyTransaction(transaction, user);
+
         }
         public static void Header(string name)
         {
@@ -252,9 +247,16 @@ namespace TheBTeam.ConsoleApp
             do
             {
                 var email = GetEmail();
+                if (email==null)
+                {
+                    return null;
+                }
                 var user = usersList.FirstOrDefault(user => user.Email == email);
                 if (user == null)
+                {
+                    Console.WriteLine($"There is no user with {email} email, retry or type Exit to cancel");
                     continue;
+                }
 
                 return user;
             } while (true);
@@ -262,7 +264,7 @@ namespace TheBTeam.ConsoleApp
         }
         public static TypeOfTransaction GetTypeOfTransaction()
         {
-
+            
             var typeArray = Enum.GetNames(typeof(TypeOfTransaction));
 
             Console.WriteLine("Choose type of transaction:");
@@ -290,8 +292,7 @@ namespace TheBTeam.ConsoleApp
         }
         public static CategoryOfTransaction GetCategoryOfTransaction()
         {
-            Console.Clear();
-            Header("ADDING NEW TRANSACTION");
+            
             var categoryArray = Enum.GetNames(typeof(CategoryOfTransaction));
 
             Console.WriteLine("Choose category of transaction:");
@@ -317,7 +318,27 @@ namespace TheBTeam.ConsoleApp
                 Console.WriteLine("Wrong selection, try Again!");
             }
         }
-
+        public static Transaction ApplyTransaction(Transaction transaction, User user)
+        {
+            
+            if (transaction.Type == TypeOfTransaction.Income)
+            {
+                user.Balance += transaction.Amount;
+                Console.WriteLine("Income added");
+            }
+            else if (user.Balance >= transaction.Amount)
+            {
+                user.Balance -= transaction.Amount;
+                Console.WriteLine("Outcome added");
+            }
+            else
+            {
+                transaction.Type = TypeOfTransaction.Canceled;
+                Console.WriteLine("Transaction rejected, your balance is to low!");
+            }
+            Console.WriteLine($"Current balance: {user.Balance.ToString("C", CultureInfo.CurrentCulture)}");
+            return transaction;
+        }
     }
 }
 
