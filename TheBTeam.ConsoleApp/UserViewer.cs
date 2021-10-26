@@ -7,33 +7,29 @@ namespace TheBTeam.BLL.Servises
 {
     public class UserViewer
     {
-        public string ViewUsers(List<User> users)
+        public void ViewUsers(List<User> users)
         {
-            const int lenghtFirstName = -15;
-            const int lenghtLastName = -15;
-            const int lenghtAge = -5;
-            const int lenghtGender = -10;
-            const int lenghtCompany = -15;
-            const int lenghtEmail = -30;
-            var report = new StringBuilder();
-            report.AppendLine($"|{"FirstName",lenghtFirstName}|{"LastName",lenghtLastName}|" +
-                               $"{"Age",lenghtAge}|{"Gender",lenghtGender}|" +
-                               $"{"Company",lenghtCompany}|{"Email",lenghtEmail}|");
-            report.AppendLine(new String('-', 97));
-            //TmpDatabase tmpUserList = new TmpDatabase();
+            var textPaddingWidth = 25;
+            var paddingChar = ' ';
+            Console.WriteLine($"|{"FirstName".PadRight(textPaddingWidth, paddingChar)} " +
+                                  $"|{"LastName".PadRight(textPaddingWidth, paddingChar)} " +
+                                  $"|{"Age".PadRight(textPaddingWidth, paddingChar)} " +
+                                  $"|{"Gender".PadRight(textPaddingWidth, paddingChar)}" +
+                                  $"|{"Company".PadRight(textPaddingWidth, paddingChar)}" +
+                                  $"|{"Email".PadRight(textPaddingWidth, paddingChar)}");
+            Console.WriteLine();
             if (users != null)
             {
                 foreach (var item in users)
                 {
-                    report.AppendLine($"|{item.FirstName,lenghtFirstName}|" +
-                                      $"{item.LastName,lenghtLastName}|" +
-                                      $"{item.Age,lenghtAge}|" +
-                                      $"{item.Gender,lenghtGender}|" +
-                                      $"{item.Company,lenghtCompany}|" +
-                                      $"{item.Email,lenghtEmail}|");
-                }
+                        Console.WriteLine($"|{item.FirstName.ToString().PadRight(textPaddingWidth, paddingChar)} " +
+                                          $"|{item.LastName.ToString().PadRight(textPaddingWidth, paddingChar)} " +
+                                          $"|{item.Age.ToString().PadRight(textPaddingWidth, paddingChar)} " +
+                                          $"|{item.Gender.ToString().PadRight(textPaddingWidth, paddingChar)}" +
+                                          $"|{item.Company.ToString().PadRight(textPaddingWidth, paddingChar)}" +
+                                          $"|{item.Email.ToString().PadRight(textPaddingWidth, paddingChar)}");
+                    }
             }
-            return report.ToString();
         }
     }
 }

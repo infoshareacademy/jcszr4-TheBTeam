@@ -78,7 +78,7 @@ namespace TheBTeam.ConsoleApp
                 else if (mainMenuItems[currentItem] == ("View users"))
                 {
                     UserViewer view = new UserViewer();
-                    Console.WriteLine(view.ViewUsers(tmpListUsers.UsersList));
+                    view.ViewUsers(tmpListUsers.UsersList);
                 }
                 else if (mainMenuItems[currentItem] == ("Enter transaction"))
                 {
@@ -89,7 +89,13 @@ namespace TheBTeam.ConsoleApp
                 {
                     Console.WriteLine($"{mainMenuItems[currentItem]}");
                     TransactionViewer view = new TransactionViewer();
-                    Console.WriteLine(view.ViewTransaction(tmpListTransactions.TransactionsList));
+                    view.ViewTransaction(tmpListTransactions.TransactionsList);
+                }
+                else if (mainMenuItems[currentItem] == ("Show transaction according Category"))
+                {
+                    Console.WriteLine($"{mainMenuItems[currentItem]}");
+                    TransactionViewer view = new TransactionViewer();
+                    view.ViewTransactionAccordingCategory(tmpListTransactions.TransactionsList);
                 }
                 else if (mainMenuItems[currentItem] == ("Exit"))
                 {

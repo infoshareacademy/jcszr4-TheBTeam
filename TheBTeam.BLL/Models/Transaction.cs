@@ -20,6 +20,7 @@ namespace TheBTeam.BLL.Model
             Currency = currency;
             Amount = amount;
             Category = category;
+            Type = type;
         }
     }
 }
