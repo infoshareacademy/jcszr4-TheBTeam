@@ -1,9 +1,4 @@
 ﻿using System;
-using TheBTeam.BLL;
-using TheBTeam.BLL.Model;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Extensions.DependencyModel;
 using System.Runtime.InteropServices;
 
 namespace TheBTeam.ConsoleApp
@@ -25,7 +20,7 @@ namespace TheBTeam.ConsoleApp
             ShowWindow(ThisConsole, MAXIMIZE);
             MainMenu.ShowMainMenu();
         }
-        
+
 
     }
 

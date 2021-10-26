@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Channels;
 using TheBTeam.BLL;
 using TheBTeam.BLL.Model;
-using Type = System.Type;
 
 namespace TheBTeam.ConsoleApp
 {

@@ -18,7 +18,7 @@ namespace TheBTeam.ConsoleApp
             const int lenghtCurrency = -10;
             var report = new StringBuilder();
             report.AppendLine($"|{"FirstName",lenghtFirstName}|{"LastName",lenghtLastName}|" +
-                   $"{"OccuranceTime",lenghtOccuranceTime}|{"Amount",lenghtAmount}|{ "Currency",lenghtCurrency}| " + 
+                   $"{"OccuranceTime",lenghtOccuranceTime}|{"Amount",lenghtAmount}|{ "Currency",lenghtCurrency}| " +
                    $"{"TypeCategory",lenghtTypeCategory}|{"CategoryOfTransaction",lenghtCategoryOfTransaction}|");
             report.AppendLine(new String('-', 120));
             foreach (var item in transactions)
