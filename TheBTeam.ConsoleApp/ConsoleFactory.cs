@@ -101,7 +101,7 @@ namespace TheBTeam.ConsoleApp
 
                 var isParsed = int.TryParse(input.KeyChar.ToString(), out var selection);
 
-                if (isParsed && selection < genderArray.Length)
+                if (isParsed && selection <= genderArray.Length)
                     return (Gender)selection - 1;
 
                 Console.WriteLine("Wrong selection, try Again!");
@@ -191,7 +191,7 @@ namespace TheBTeam.ConsoleApp
 
                 var isParsed = int.TryParse(input.KeyChar.ToString(), out var selection);
 
-                if (isParsed && selection < currenciesArray.Length)
+                if (isParsed && selection <= currenciesArray.Length)
                     return (Currency)selection - 1;
 
                 Console.WriteLine("Wrong selection, try Again!");
