@@ -3,7 +3,6 @@
     public enum Currency
     {
         PLN,
-        USD,
-        EUR
+        //TODO add more currencies, but with exchange feature
     }
 }

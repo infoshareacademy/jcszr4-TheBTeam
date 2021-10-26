@@ -60,7 +60,8 @@ namespace TheBTeam.ConsoleApp
                         if (currentItem < 0) currentItem = Convert.ToInt16(MainMenuItem.Length - 1);
                     }
                 } while (keyPressed.KeyChar != 13);//if press enter selected menu
-               
+
+                
                 //Selected mainmenu from loop
                 if (MainMenuItem[currentItem]== "Load data from external file")//thing it is better way
                 {
@@ -83,6 +84,7 @@ namespace TheBTeam.ConsoleApp
                 else if (MainMenuItem[currentItem].Contains("Enter transaction"))
                 {
                     //Add here eneter transaction (date , category, pay)
+                   
                     EnterTransaction(MainMenuItem[currentItem]);
 
                 }
