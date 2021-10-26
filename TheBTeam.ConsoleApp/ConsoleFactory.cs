@@ -14,7 +14,6 @@ namespace TheBTeam.ConsoleApp
         const int MinPhoneNumberLength = 9;
         const int MinAge = 18;
         const int MaxAge = 99;
-        const int MinCompanyLength = 3;
         public static Transaction CreateNewTransaction(List<User> users)
         {
             Console.Clear();
@@ -132,7 +131,7 @@ namespace TheBTeam.ConsoleApp
 
                 var isParsed = int.TryParse(input.KeyChar.ToString(), out var selection);
 
-                if (isParsed && selection < genderArray.Length)
+                if (isParsed && selection <= genderArray.Length)
                     return (Gender)selection - 1;
 
                 Console.WriteLine("Wrong selection, try Again!");
@@ -222,7 +221,7 @@ namespace TheBTeam.ConsoleApp
 
                 var isParsed = int.TryParse(input.KeyChar.ToString(), out var selection);
 
-                if (isParsed && selection < currenciesArray.Length)
+                if (isParsed && selection <= currenciesArray.Length)
                     return (Currency)selection - 1;
 
                 Console.WriteLine("Wrong selection, try Again!");
@@ -243,6 +242,7 @@ namespace TheBTeam.ConsoleApp
                 Console.WriteLine($"{name} should be more than 0");
             }
         }
+
         private static TypeOfTransaction GetTypeOfTransaction()
         {
             var currentArray = Enum.GetNames(typeof(TypeOfTransaction));
