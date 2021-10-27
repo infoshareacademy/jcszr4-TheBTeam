@@ -15,20 +15,22 @@ namespace TheBTeam.ConsoleApp
                 "Enter transaction",
                 "Show all transaction",
                 "Show transaction according Category",
+                "Show transaction according User",
                 "Exit" };//Guess should be made somehow else- have to change whole text in code every time sth is changed
         public static void ShowMainMenu()
         {
             short currentItem = 0;
-            TmpDatabase tmpListUsers = new TmpDatabase();
-            TmpDatabase tmpListTransactions = new TmpDatabase();
+            //TmpDatabase tmpListUsers = new TmpDatabase();
+            //TmpDatabase tmpListTransactions = new TmpDatabase();
             do
             {
                 ConsoleKeyInfo keyPressed;
                 do
                 {
-                    Console.WriteLine("------------------------------------------");
-                    Console.WriteLine($"Welcome in the financial planner");
-                    Console.WriteLine("------------------------------------------");
+                    Console.WriteLine("||================================================||");
+                    Console.WriteLine($"||     Welcome in the financial planner           ||");
+                    Console.WriteLine("||================================================||");
+                    Console.WriteLine("");
                     for (int i = 0; i < mainMenuItems.Length; i++)
                     {
                         if (currentItem == i)
@@ -64,7 +66,7 @@ namespace TheBTeam.ConsoleApp
                 if (mainMenuItems[currentItem] == "Load data from external file")//thing it is better way
                 {
                     Console.WriteLine($"{mainMenuItems[currentItem]} ...");
-                    tmpListUsers.UsersList = LoadDataFromFile.ReadUserFile();
+                    TmpDatabase.UsersList = LoadDataFromFile.ReadUserFile();
                 }
                 else if (mainMenuItems[currentItem] == "Add new user")
                 {
@@ -72,30 +74,31 @@ namespace TheBTeam.ConsoleApp
                     var user = ConsoleFactory.CreateNewUser();
                     if (user != null)
                     {
-                        tmpListUsers.UsersList.Add(user);
+                        TmpDatabase.UsersList.Add(user);
                     }
                 }
                 else if (mainMenuItems[currentItem] == ("View users"))
                 {
-                    UserViewer view = new UserViewer();
-                    view.ViewUsers(tmpListUsers.UsersList);
+                    UserViewer.ViewUsers(TmpDatabase.UsersList);
                 }
                 else if (mainMenuItems[currentItem] == ("Enter transaction"))
                 {
                     Console.WriteLine($"{mainMenuItems[currentItem]}");
-                    tmpListTransactions.TransactionsList.Add(ConsoleFactory.CreateNewTransaction(tmpListUsers.UsersList));
+                    var transaction = ConsoleFactory.CreateNewTransaction(TmpDatabase.UsersList);
+                    if (transaction != null)
+                    {
+                        TmpDatabase.TransactionsList.Add(transaction);
+                    }
                 }
                 else if (mainMenuItems[currentItem] == ("Show all transaction"))
                 {
                     Console.WriteLine($"{mainMenuItems[currentItem]}");
-                    TransactionViewer view = new TransactionViewer();
-                    view.ViewTransaction(tmpListTransactions.TransactionsList);
+                    TransactionViewer.ViewTransaction(TmpDatabase.TransactionsList);
                 }
                 else if (mainMenuItems[currentItem] == ("Show transaction according Category"))
                 {
                     Console.WriteLine($"{mainMenuItems[currentItem]}");
-                    TransactionViewer view = new TransactionViewer();
-                    view.ViewTransactionAccordingCategory(tmpListTransactions.TransactionsList);
+                    TransactionViewer.ViewTransactionAccordingCategory(TmpDatabase.TransactionsList);
                 }
                 else if (mainMenuItems[currentItem] == ("Exit"))
                 {

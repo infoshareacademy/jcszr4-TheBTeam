@@ -5,8 +5,8 @@ namespace TheBTeam.BLL
 {
     public class TmpDatabase //TODO: TmpDatabase
     {
-        public List<User> UsersList { get; set; }
-        public List<Transaction> TransactionsList { get; }
+        public static List<User> UsersList { get; set; } = new();
+        public static List<Transaction> TransactionsList { get; set; } = new();
         public TmpDatabase()
         {
             UsersList = new List<User>();

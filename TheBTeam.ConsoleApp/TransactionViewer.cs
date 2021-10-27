@@ -7,9 +7,9 @@ using TheBTeam.BLL.Model;
 
 namespace TheBTeam.ConsoleApp
 {
-    public class TransactionViewer
+    public static class TransactionViewer
     {
-        public void ViewTransaction(List<Transaction> transactions)
+        public static void ViewTransaction(List<Transaction> transactions)
         {
             var textPaddingWidth = 23;
             var paddingChar = ' ';
@@ -33,11 +33,13 @@ namespace TheBTeam.ConsoleApp
                 }
             }
         }
-        public void ViewTransactionAccordingCategory(List<Transaction> transactions)
+        public static void ViewTransactionAccordingCategory(List<Transaction> transactions)
         {
-            var categoryOfTransaction = GetCategoryOfTransaction();
+            //TODO : added here readline with user!
+            var email = ConsoleFactory.GetEmail();
+            var categoryOfTransaction = ConsoleFactory.GetCategoryOfTransaction();
             Console.WriteLine($"{categoryOfTransaction}");
-            var tmpTransactions = transactions.Where(t => t.Category == categoryOfTransaction);
+            var tmpTransactions = transactions.Where(t => t.User.Email == email).Where(t => t.Category == categoryOfTransaction);
             var textPaddingWidth = 23;
             var paddingChar = ' ';
             Console.WriteLine($"|{"Category".PadRight(textPaddingWidth, paddingChar)} " +
@@ -47,39 +49,14 @@ namespace TheBTeam.ConsoleApp
             Console.WriteLine();
             foreach (var item in tmpTransactions)
             {
-                Console.WriteLine($"|{item.Category.ToString().PadRight(textPaddingWidth, paddingChar)} " +
+                if (item.User != null)
+                {
+                    Console.WriteLine($"|{item.Category.ToString().PadRight(textPaddingWidth, paddingChar)} " +
                                   $"|{item.Type.ToString().PadRight(textPaddingWidth, paddingChar)} " +
                                   $"|{item.OccurenceTime.ToString().PadRight(textPaddingWidth, paddingChar)} " +
                                   $"|{item.Amount.ToString().PadRight(textPaddingWidth, paddingChar)}");
-            }
-        }
-        private static CategoryOfTransaction GetCategoryOfTransaction()
-        {
-            var currenciesArray = Enum.GetNames(typeof(CategoryOfTransaction));
-
-            Console.WriteLine("Choose your category of transaction:");
-            for (int i = 0; i < currenciesArray.Length; i++)
-            {
-                Console.WriteLine($"{i + 1}. {currenciesArray[i]}");
-            }
-            while (true)
-            {
-                var input = Console.ReadKey();
-                Console.WriteLine();
-                if (!char.IsDigit(input.KeyChar))
-                {
-                    Console.WriteLine("Wrong value, try again!\n");
-                    continue;
                 }
-
-                var isParsed = int.TryParse(input.KeyChar.ToString(), out var selection);
-
-                if (isParsed && selection < currenciesArray.Length)
-                    return (CategoryOfTransaction)selection - 1;
-
-                Console.WriteLine("Wrong selection, try Again!");
             }
         }
-
     }
 }

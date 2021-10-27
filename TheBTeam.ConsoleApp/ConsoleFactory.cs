@@ -81,7 +81,6 @@ namespace TheBTeam.ConsoleApp
                     return null;
 
                 Console.WriteLine("=================================================================");
-
                 return new User(firstName, lastName, gender, age, email, phone, address, company, currency, balance);
             }
         }
@@ -150,7 +149,7 @@ namespace TheBTeam.ConsoleApp
                 Console.WriteLine($"{name} should be between {min} and {max}");
             }
         }
-        private static string GetEmail()
+        public static string GetEmail()
         {
             while (true)
             {
@@ -267,7 +266,7 @@ namespace TheBTeam.ConsoleApp
                 Console.WriteLine("Wrong selection, try Again!");
             }
         }
-        private static CategoryOfTransaction GetCategoryOfTransaction()
+        public static CategoryOfTransaction GetCategoryOfTransaction()
         {
             var currenciesArray = Enum.GetNames(typeof(CategoryOfTransaction));
 

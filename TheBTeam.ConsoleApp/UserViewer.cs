@@ -5,9 +5,9 @@ using TheBTeam.BLL.Model;
 
 namespace TheBTeam.BLL.Servises
 {
-    public class UserViewer
+    public static class UserViewer
     {
-        public void ViewUsers(List<User> users)
+        public static void ViewUsers(List<User> users)
         {
             var textPaddingWidth = 25;
             var paddingChar = ' ';
