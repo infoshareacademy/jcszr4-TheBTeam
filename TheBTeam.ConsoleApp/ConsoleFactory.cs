@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Threading.Channels;
 using TheBTeam.BLL;
 using TheBTeam.BLL.Model;
 using Type = System.Type;
 
+
 namespace TheBTeam.ConsoleApp
 {
-
     public class ConsoleFactory
     {
         const int MinAddressLength = 3;
@@ -15,21 +17,19 @@ namespace TheBTeam.ConsoleApp
         const int MinPhoneNumberLength = 9;
         const int MinAge = 18;
         const int MaxAge = 99;
-        //private bool WantToExit = false;
+
 
         public static User CreateNewUser()
         {
-           
-            while(true)
+
+            while (true)
             {
-                Console.Clear();
-                Console.WriteLine("                       CREATING NEW USER                        ");
-                Console.WriteLine("=================================================================");
-                Console.WriteLine("Type follwoing informations, or type 'Exit' to abort creating new user");
+
+                Header("CREATING NEW USER");
 
                 var firstName = GetStringInput("First Name", MinNameLength);
-                if(firstName.ToLower()=="exit")
-                    return  null;
+                if (firstName.ToLower() == "exit")
+                    return null;
                 var lastName = GetStringInput("Last Name", MinNameLength);
                 if (lastName.ToLower() == "exit")
                     return null;
@@ -56,6 +56,36 @@ namespace TheBTeam.ConsoleApp
 
                 return new User(firstName, lastName, gender, age, email, phone, address, company, currency, balance);
             }
+        }
+
+        public static Transaction AddNewTransaction(List<User> usersList)
+        {
+            Header("ADDING NEW TRANSACTION");
+            var user = SelectUser(usersList);
+            if (user == null)
+                return null;
+            Header("ADDING NEW TRANSACTION");
+            var type = GetTypeOfTransaction();
+            Header("ADDING NEW TRANSACTION");
+            var category = GetCategoryOfTransaction();
+            Header("ADDING NEW TRANSACTION");
+            var currency = GetCurrency();
+            Header("ADDING NEW TRANSACTION");
+            Console.WriteLine($"Current balance: {user.Balance.ToString("C", CultureInfo.CurrentCulture)}");
+            var amount = GetDecimalInput("Amount");
+            if (amount == -69)
+                return null;
+
+            var transaction = new Transaction(user, type, category, currency, amount);
+            return ApplyTransaction(transaction, user);
+
+        }
+        public static void Header(string name)
+        {
+            Console.Clear();
+            Console.WriteLine($"                       {name}                        ");
+            Console.WriteLine("=================================================================");
+            Console.WriteLine("Type following information, or type 'Exit' to abort creating new user");
         }
         private static string GetStringInput(string name, int minLength)
         {
@@ -209,10 +239,106 @@ namespace TheBTeam.ConsoleApp
                 if (isDig && result >= 0)
                     return result;
 
-                Console.WriteLine($"{name} should be more than 0");
+                Console.WriteLine($"{name} should be no less than 0");
             }
         }
+        public static User SelectUser(List<User> usersList)
+        {
+            do
+            {
+                var email = GetEmail();
+                if (email==null)
+                {
+                    return null;
+                }
+                var user = usersList.FirstOrDefault(user => user.Email == email);
+                if (user == null)
+                {
+                    Console.WriteLine($"There is no user with {email} email, retry or type Exit to cancel");
+                    continue;
+                }
 
+                return user;
+            } while (true);
+
+        }
+        public static TypeOfTransaction GetTypeOfTransaction()
+        {
+            
+            var typeArray = Enum.GetNames(typeof(TypeOfTransaction));
+
+            Console.WriteLine("Choose type of transaction:");
+            for (int i = 0; i < typeArray.Length - 1; i++)
+            {
+                Console.WriteLine($"{i + 1}. {typeArray[i]}");
+            }
+            while (true)
+            {
+                var input = Console.ReadKey();
+                Console.WriteLine();
+                if (!char.IsDigit(input.KeyChar))
+                {
+                    Console.WriteLine("Wrong value, try again!\n");
+                    continue;
+                }
+
+                var isParsed = int.TryParse(input.KeyChar.ToString(), out var selection);
+
+                if (isParsed && selection < typeArray.Length)
+                    return (TypeOfTransaction)selection - 1;
+
+                Console.WriteLine("Wrong selection, try Again!");
+            }
+        }
+        public static CategoryOfTransaction GetCategoryOfTransaction()
+        {
+            
+            var categoryArray = Enum.GetNames(typeof(CategoryOfTransaction));
+
+            Console.WriteLine("Choose category of transaction:");
+            for (int i = 0; i < categoryArray.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {categoryArray[i]}");
+            }
+            while (true)
+            {
+                var input = Console.ReadKey();
+                Console.WriteLine();
+                if (!char.IsDigit(input.KeyChar))
+                {
+                    Console.WriteLine("Wrong value, try again!\n");
+                    continue;
+                }
+
+                var isParsed = int.TryParse(input.KeyChar.ToString(), out var selection);
+
+                if (isParsed && selection <= categoryArray.Length)
+                    return (CategoryOfTransaction)selection - 1;
+
+                Console.WriteLine("Wrong selection, try Again!");
+            }
+        }
+        public static Transaction ApplyTransaction(Transaction transaction, User user)
+        {
+            
+            if (transaction.Type == TypeOfTransaction.Income)
+            {
+                user.Balance += transaction.Amount;
+                Console.WriteLine("Income added");
+            }
+            else if (user.Balance >= transaction.Amount)
+            {
+                user.Balance -= transaction.Amount;
+                Console.WriteLine("Outcome added");
+            }
+            else
+            {
+                transaction.Type = TypeOfTransaction.Canceled;
+                Console.WriteLine("Transaction rejected, your balance is to low!");
+            }
+            Console.WriteLine($"Current balance: {user.Balance.ToString("C", CultureInfo.CurrentCulture)}");
+            return transaction;
+        }
     }
 }
 

@@ -2,6 +2,9 @@
 {
     public enum CategoryOfTransaction
     {
+        Salary,
+        Prize,
+        ExtraMoney,
         Home,
         Car,
         School,
@@ -16,5 +19,6 @@
         Other,
         Credit,
         LivingCharges
+        //TODO make to Categories for Income i Outcome separately
     }
 }

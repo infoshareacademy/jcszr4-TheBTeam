@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TheBTeam.BLL;
 using TheBTeam.BLL.Model;
 using TheBTeam.BLL.Services;
@@ -20,7 +21,7 @@ namespace TheBTeam.ConsoleApp
         public static void ShowMainMenu()
         {
             short currentItem = 0;
-
+            var mainDatabase = new List<User>();
             do
             {
                 ConsoleKeyInfo keyPressed;
@@ -60,14 +61,15 @@ namespace TheBTeam.ConsoleApp
                         if (currentItem < 0) currentItem = Convert.ToInt16(MainMenuItem.Length - 1);
                     }
                 } while (keyPressed.KeyChar != 13);//if press enter selected menu
-               
+
+                
                 //Selected mainmenu from loop
                 if (MainMenuItem[currentItem]== "Load data from external file")//thing it is better way
                 {
 
                     Console.WriteLine($"{MainMenuItem[currentItem]} ...");
                     
-                    //aded loading like this
+                    mainDatabase=LoadDataFromFile.ReadUserFile();
                     
                     Console.ReadKey();
                 }
@@ -83,7 +85,10 @@ namespace TheBTeam.ConsoleApp
                 else if (MainMenuItem[currentItem].Contains("Enter transaction"))
                 {
                     //Add here eneter transaction (date , category, pay)
-                    EnterTransaction(MainMenuItem[currentItem]);
+                   var transaction = ConsoleFactory.AddNewTransaction(mainDatabase);
+                   if(transaction==null)
+                       continue;
+                   EnterTransaction(MainMenuItem[currentItem]);
 
                 }
                 else if (MainMenuItem[currentItem].Contains("Show transaction history for the month"))
