@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime;
 using System.Collections.Generic;
 using System.Threading.Channels;
 using TheBTeam.BLL;
@@ -24,8 +25,9 @@ namespace TheBTeam.ConsoleApp
             var currency = GetCurrency();
             var categoryOfTransaction = GetCategoryOfTransaction();
             var typeOfTransaction = GetTypeOfTransaction();
+            var titleOfTransaction = GetStringInput("title", 5);
             Console.WriteLine("=================================================================");
-            return new Transaction(outuser, DateTime.Now, currency, typeOfTransaction, categoryOfTransaction, Amount);
+            return new Transaction(outuser, DateTime.Now, currency, typeOfTransaction, categoryOfTransaction, Amount, titleOfTransaction);
         }
         private static User GetOuterUser(List<User> users)
         {
@@ -87,7 +89,7 @@ namespace TheBTeam.ConsoleApp
                 return new User(firstName, lastName, gender, age, email, phone, address, company, currency, balance);
             }
         }
-        private static string GetStringInput(string name, int minLength)
+        public static string GetStringInput(string name, int minLength)
         {
             while (true)
             {
@@ -152,7 +154,7 @@ namespace TheBTeam.ConsoleApp
                 Console.WriteLine($"{name} should be between {min} and {max}");
             }
         }
-        private static string GetEmail()
+        public static string GetEmail()
         {
             while (true)
             {
@@ -243,7 +245,7 @@ namespace TheBTeam.ConsoleApp
             }
         }
 
-        private static TypeOfTransaction GetTypeOfTransaction()
+        public static TypeOfTransaction GetTypeOfTransaction()
         {
             var currentArray = Enum.GetNames(typeof(TypeOfTransaction));
             Console.WriteLine("Choose your type of transaction:");
@@ -297,6 +299,133 @@ namespace TheBTeam.ConsoleApp
             }
         }
 
+        public static User EditUser(User user)
+        {
+            User tempuser = user;
+            string options = "1)to edit name\n2)to edit surname\n3)to edit email\n4to edit age\n5)to edit phone\n6) to edit balance\n7)to edit currency\n8)to save or commit changes";
+            //Console.WriteLine(options);
+            bool exit = false;
+            while (exit == false)
+            {
+                Console.WriteLine(options,"\n");
+                string choice = Console.ReadLine();
+                if (choice == "1")//name
+                {
+                    tempuser.FirstName = GetStringInput("First Name", MinNameLength);
+                }
+                else if (choice == "2")//surname
+                {
+                    tempuser.LastName = GetStringInput("Last Name", MinNameLength);
+                }
+                else if (choice == "3")//email
+                {
+                    tempuser.Email = GetEmail();
+                }
+                else if (choice == "4")//age
+                {
+                    tempuser.Age = GetIntInput("Age", MinAge, MaxAge);
+                }
+                else if (choice == "5")//phone
+                {
+                    tempuser.Phone = GetPhoneNumber();
+                }
+                else if (choice == "6")//balance
+                {
+                    tempuser.Balance = GetDecimalInput("current balance");
+                }
+                else if (choice == "7")//curency
+                {
+                    tempuser.Currency = GetCurrency();
+                }
+                else if (choice == "8")//save or agort
+                {
+                    Console.WriteLine("Press S to save changes or X to abort");
+                    bool choiceSubmitted = false;
+                    while (choiceSubmitted == false)
+                    {
+                        string key = Console.ReadKey().Key.ToString();
+                        if (key.ToUpper() == "S")
+                        {
+                            user = tempuser;
+                            choiceSubmitted = true;
+                            exit = true;
+                        }
+                         
+                        else if (key.ToUpper() == "X")
+                        {
+                            choiceSubmitted = true;
+                            exit = true;
+                            
+                        }
+                        else
+                        {
+                            Console.WriteLine("only X to abort or S to save please");
+                        }
+                    }
+                }
+            }
+            return user;
+        }
+        public static Transaction EditTransaction(Transaction transaction)
+        {
+            Transaction tempTransaction = transaction;
+            string options = "1)to edit occurence date\n2)to edit currency\n3)to edit type of transaction\n4to edit amount\n5)to edit category\n)6)to commit or abort changes";
+            //Console.WriteLine(options);
+            bool exit = false;
+            while (exit == false)
+            {
+                Console.WriteLine(options, "\n");
+                string choice = Console.ReadLine();
+                if (choice == "1")//occurence date
+                {
+                    Console.WriteLine("not yet implemented");
+                   // tempTransaction.OccurenceTime = GetStringInput("First Name", MinNameLength);
+                }
+                else if (choice == "2")//currency
+                {
+                    tempTransaction.Currency = GetCurrency();
+                }
+                else if (choice == "3")//type
+                {
+                    tempTransaction.Type = GetTypeOfTransaction();
+                }
+                else if (choice == "4")//amount
+                {
+                    tempTransaction.Amount = GetDecimalInput("new amount");
+                }
+                else if (choice == "5")//category
+                {
+                    tempTransaction.Category = GetCategoryOfTransaction();
+                }
+                else if (choice == "6")//save or agort
+                {
+                    Console.WriteLine("Press S to save changes or X to abort");
+                    bool choiceSubmitted = false;
+                    while (choiceSubmitted == false)
+                    {
+                        string key = Console.ReadKey().Key.ToString();
+                        if (key.ToUpper() == "S")
+                        {
+                            transaction = tempTransaction;
+                            choiceSubmitted = true;
+                            exit = true;
+                        }
+
+                        else if (key.ToUpper() == "X")
+                        {
+                            choiceSubmitted = true;
+                            exit = true;
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("only X to abort or S to save please");
+                        }
+                    }
+                }
+            }
+            return transaction;
+        }
     }
 }
 

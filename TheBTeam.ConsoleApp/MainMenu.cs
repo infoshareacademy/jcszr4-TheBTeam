@@ -3,6 +3,8 @@ using TheBTeam.BLL;
 using TheBTeam.BLL.Model;
 using TheBTeam.BLL.Services;
 using TheBTeam.BLL.Servises;
+using System.Linq;
+
 
 namespace TheBTeam.ConsoleApp
 {
@@ -16,6 +18,8 @@ namespace TheBTeam.ConsoleApp
                 "Enter transaction",
                 "Show all transaction",
                 "Show transaction according Category",
+                "Edit existing user",
+                "Edit transaction",
                 "Exit" };//Guess should be made somehow else- have to change whole text in code every time sth is changed
         public static void ShowMainMenu()
         {
@@ -92,11 +96,50 @@ namespace TheBTeam.ConsoleApp
                     TransactionViewer view = new TransactionViewer();
                     Console.WriteLine(view.ViewTransaction(tmpListTransactions.TransactionsList));
                 }
+                else if (mainMenuItems[currentItem] == ("Edit existing user"))
+                {
+                    Console.WriteLine("input email of the user you'd like to edit");
+                    while (true)
+                    {
+                        string email = ConsoleFactory.GetEmail();
+                        var user=tmpListUsers.UsersList.Where(User => User.Email == email).FirstOrDefault();
+                        if (user != null) 
+                        {
+                            ConsoleFactory.EditUser(user);
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Email not found, try again");
+                        }
+                    }
+
+                }
+                else if (mainMenuItems[currentItem] == ("Edit transaction"))
+                {
+                    Console.WriteLine("input title of the transaction you'd like to edit");
+                    while (true)
+                    {
+                        string transactionTitle = ConsoleFactory.GetStringInput("title", 5);
+                        var transaction = tmpListUsers.TransactionsList.Where(Transaction => Transaction.TransactionTitle == transactionTitle).FirstOrDefault();
+                        if (transaction != null)
+                        {
+                            ConsoleFactory.EditTransaction(transaction);
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Title not found, try again");
+                        }
+                    }
+
+                }
                 else if (mainMenuItems[currentItem] == ("Exit"))
                 {
                     Console.WriteLine("Exit ...");
                     Environment.Exit(0);
                 }
+
                 else
                 {
                     Console.WriteLine("Will be soon!");

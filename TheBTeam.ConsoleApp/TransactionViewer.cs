@@ -9,6 +9,7 @@ namespace TheBTeam.ConsoleApp
     {
         public string ViewTransaction(List<Transaction> transactions)
         {
+            const int lengthTitle = -50;
             const int lenghtFirstName = -13;
             const int lenghtLastName = -13;
             const int lenghtOccuranceTime = -22;
@@ -19,7 +20,7 @@ namespace TheBTeam.ConsoleApp
             var report = new StringBuilder();
             report.AppendLine($"|{"FirstName",lenghtFirstName}|{"LastName",lenghtLastName}|" +
                    $"{"OccuranceTime",lenghtOccuranceTime}|{"Amount",lenghtAmount}|{ "Currency",lenghtCurrency}| " + 
-                   $"{"TypeCategory",lenghtTypeCategory}|{"CategoryOfTransaction",lenghtCategoryOfTransaction}|");
+                   $"{"TypeCategory",lenghtTypeCategory}|{"CategoryOfTransaction",lenghtCategoryOfTransaction}|{"Title",lengthTitle}");
             report.AppendLine(new String('-', 120));
             foreach (var item in transactions)
             {
@@ -31,7 +32,8 @@ namespace TheBTeam.ConsoleApp
                                       $"{item.Amount,lenghtAmount}|" +
                                       $"{item.Currency,lenghtCurrency}|" +
                                       $"{item.Type,lenghtTypeCategory}|" +
-                                      $"{item.Category,lenghtCategoryOfTransaction}|");
+                                      $"{item.Category,lenghtCategoryOfTransaction}|"+
+                                      $"{item.TransactionTitle,lengthTitle}|");
                 }
             }
             return report.ToString();
