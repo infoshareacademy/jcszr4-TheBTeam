@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.VisualBasic;
+﻿using Microsoft.VisualBasic;
 using Newtonsoft.Json;
+using System;
 
 namespace TheBTeam.BLL.Model
 {

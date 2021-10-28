@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Threading.Channels;
 using TheBTeam.BLL;
 using TheBTeam.BLL.Model;
-using Type = System.Type;
 
 
 namespace TheBTeam.ConsoleApp
@@ -152,7 +150,7 @@ namespace TheBTeam.ConsoleApp
                 Console.WriteLine($"{name} should be between {min} and {max}");
             }
         }
-        private static string GetEmail()
+        public static string GetEmail()
         {
             while (true)
             {
@@ -247,7 +245,7 @@ namespace TheBTeam.ConsoleApp
             do
             {
                 var email = GetEmail();
-                if (email==null)
+                if (email == null)
                 {
                     return null;
                 }
@@ -264,7 +262,7 @@ namespace TheBTeam.ConsoleApp
         }
         public static TypeOfTransaction GetTypeOfTransaction()
         {
-            
+
             var typeArray = Enum.GetNames(typeof(TypeOfTransaction));
 
             Console.WriteLine("Choose type of transaction:");
@@ -292,7 +290,7 @@ namespace TheBTeam.ConsoleApp
         }
         public static CategoryOfTransaction GetCategoryOfTransaction()
         {
-            
+
             var categoryArray = Enum.GetNames(typeof(CategoryOfTransaction));
 
             Console.WriteLine("Choose category of transaction:");
@@ -320,7 +318,7 @@ namespace TheBTeam.ConsoleApp
         }
         public static Transaction ApplyTransaction(Transaction transaction, User user)
         {
-            
+
             if (transaction.Type == TypeOfTransaction.Income)
             {
                 user.Balance += transaction.Amount;

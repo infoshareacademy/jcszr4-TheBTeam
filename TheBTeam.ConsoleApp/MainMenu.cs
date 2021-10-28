@@ -1,27 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using TheBTeam.BLL;
-using TheBTeam.BLL.Model;
 using TheBTeam.BLL.Services;
+using TheBTeam.BLL.Servises;
 
 namespace TheBTeam.ConsoleApp
 {
-
-
     public static class MainMenu
     {
         //here you can add new main menu item
-        private static readonly string[] MainMenuItem = {
+        private static readonly string[] mainMenuItem = {
                 "Load data from external file",
                 "Add new user",
+                "View users",
                 "Enter transaction",
-                "Show transaction history for the month",
-                "Exit" };//Guess should be made somehow else- have to change whole text in code every time sth is changed
-       
+                "Show all transaction",
+                "Show transaction according Category",
+                "Show transaction according User",
+                "Exit" };//Guess should be made somehow else- have to change whole text in code every time sth is changed 
         public static void ShowMainMenu()
         {
             short currentItem = 0;
-            var mainDatabase = new List<User>();
+            TmpDatabase tmpListUsers = new TmpDatabase();
+            TmpDatabase tmpListTransactions = new TmpDatabase();
             do
             {
                 ConsoleKeyInfo keyPressed;
@@ -31,18 +31,18 @@ namespace TheBTeam.ConsoleApp
                     Console.WriteLine("------------------------------------------");
                     Console.WriteLine($"Welcome in the financial planner");
                     Console.WriteLine("------------------------------------------");
-                    for (int i = 0; i < MainMenuItem.Length; i++)
+                    for (int i = 0; i < mainMenuItem.Length; i++)
                     {
                         if (currentItem == i)
                         {
                             Console.BackgroundColor = ConsoleColor.Yellow;
                             Console.ForegroundColor = ConsoleColor.Black;
                             Console.Write(">>");
-                            Console.WriteLine(MainMenuItem[i] + "<<");
+                            Console.WriteLine(mainMenuItem[i] + "<<");
                         }
                         else
                         {
-                            Console.WriteLine(MainMenuItem[i]);
+                            Console.WriteLine(mainMenuItem[i]);
                         }
                         Console.ResetColor();
                     }
@@ -53,72 +53,68 @@ namespace TheBTeam.ConsoleApp
                     if (keyPressed.Key.ToString() == "DownArrow")
                     {
                         currentItem++;
-                        if (currentItem > MainMenuItem.Length - 1) currentItem = 0;
+                        if (currentItem > mainMenuItem.Length - 1) currentItem = 0;
                     }
                     else if (keyPressed.Key.ToString() == "UpArrow")
                     {
                         currentItem--;
-                        if (currentItem < 0) currentItem = Convert.ToInt16(MainMenuItem.Length - 1);
+                        if (currentItem < 0) currentItem = Convert.ToInt16(mainMenuItem.Length - 1);
                     }
                 } while (keyPressed.KeyChar != 13);//if press enter selected menu
-
-                
                 //Selected mainmenu from loop
-                if (MainMenuItem[currentItem]== "Load data from external file")//thing it is better way
+                if (mainMenuItem[currentItem] == "Load data from external file")//thing it is better way
                 {
-
-                    Console.WriteLine($"{MainMenuItem[currentItem]} ...");
-                    
-                    mainDatabase=LoadDataFromFile.ReadUserFile();
-                    
+                    Console.WriteLine($"{mainMenuItem[currentItem]} ...");
+                    tmpListUsers.UsersList = LoadDataFromFile.ReadUserFile();
+                }
+                else if (mainMenuItem[currentItem] == "Add new user")
+                {
+                    Console.WriteLine($"{mainMenuItem[currentItem]}");
+                    var user = ConsoleFactory.CreateNewUser();
+                    if (user != null)
+                    {
+                        tmpListUsers.UsersList.Add(user);
+                    }
+                }
+                else if (mainMenuItem[currentItem] == ("View users"))
+                {
+                    UserViewer.ViewUsers(tmpListUsers.UsersList);
                     Console.ReadKey();
                 }
-                else if (MainMenuItem[currentItem]== "Add new user")
+                else if (mainMenuItem[currentItem].Contains("Enter transaction"))
                 {
-                    //Add here methody add new use
-                    var user= ConsoleFactory.CreateNewUser();
-                    if (user == null)
+                    var transaction = ConsoleFactory.AddNewTransaction(tmpListUsers.UsersList);
+                    if (transaction != null)
+                    {
+                        tmpListTransactions.TransactionsList.Add(transaction);
+                    }
+                    if (transaction == null)
                         continue;
-                    AddNewUser(MainMenuItem[currentItem]);
-                    
                 }
-                else if (MainMenuItem[currentItem].Contains("Enter transaction"))
+                else if (mainMenuItem[currentItem] == ("Show all transaction"))
                 {
-                    //Add here eneter transaction (date , category, pay)
-                   var transaction = ConsoleFactory.AddNewTransaction(mainDatabase);
-                   if(transaction==null)
-                       continue;
-                   EnterTransaction(MainMenuItem[currentItem]);
-
+                    Console.WriteLine($"{mainMenuItem[currentItem]}");
+                    TransactionViewer.ViewTransaction(tmpListTransactions.TransactionsList);
+                    Console.ReadKey();
                 }
-                else if (MainMenuItem[currentItem].Contains("Show transaction history for the month"))
+                else if (mainMenuItem[currentItem] == ("Show transaction according Category"))
                 {
-                    //Add here show transactions
-                    EnterTransationPerMonth(MainMenuItem[currentItem]);
+                    Console.WriteLine($"{mainMenuItem[currentItem]}");
+                    TransactionViewer.ViewTransactionAccordingCategory(tmpListTransactions.TransactionsList);
+                    Console.ReadKey();
                 }
-                else
+                else if (mainMenuItem[currentItem] == ("Exit"))
                 {
                     Console.WriteLine("Exit ...");
                     Environment.Exit(0);
                 }
+                else
+                {
+                    Console.WriteLine("Will be soon!");
+                    Console.ReadKey();
+                }
             }
             while (true);
-        }
-        static void AddNewUser(string selectedMenu) // here add new user
-        {
-            Console.WriteLine($"{selectedMenu}");
-            string firstName = Console.ReadLine();
-            Console.WriteLine($"Welcome {firstName}");
-        }
-        static void EnterTransaction(string selectedMenu)//here add enter new transaction
-        {
-            Console.WriteLine($"{selectedMenu}");
-            Console.ReadKey();
-        }
-        static void EnterTransationPerMonth(string selectedMenu)//here add view transaction
-        {
-            Console.WriteLine($"{selectedMenu}");
-            Console.ReadKey();
         }
     }
 }
