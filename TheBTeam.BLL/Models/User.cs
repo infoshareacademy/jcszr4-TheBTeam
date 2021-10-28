@@ -11,14 +11,14 @@ namespace TheBTeam.BLL.Model
         public bool IsActive { get; set; }
         public decimal Balance { get; set; }
         public Currency Currency { get; set; }
-        public int Age { get; }
+        public int Age { get; set; }
         public string FirstName { get; private set; }
-        public string LastName { get; private set; }
-        public Gender Gender { get; private set; }
-        public string Company { get; private set; }
+        public string LastName { get; set; }
+        public Gender Gender { get;  set; }
+        public string Company { get; set; }
         public string Email { get; private set; }
-        public string Phone { get; private set; }
-        public string Address { get; private set; }
+        public string Phone { get; set; }
+        public string Address { get;  set; }
         public DateTime Registered { get; }
 
         [JsonConstructor]//TO DO: check if all inputs of created classes exists

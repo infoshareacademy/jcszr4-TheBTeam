@@ -16,6 +16,8 @@ namespace TheBTeam.ConsoleApp
                 "Add new user",
                 "Enter transaction",
                 "Show transaction history for the month",
+                "Edit User",
+                "Edit Transaction",
                 "Exit" };//Guess should be made somehow else- have to change whole text in code every time sth is changed
        
         public static void ShowMainMenu()
@@ -95,6 +97,16 @@ namespace TheBTeam.ConsoleApp
                 {
                     //Add here show transactions
                     EnterTransationPerMonth(MainMenuItem[currentItem]);
+                }
+                else if (MainMenuItem[currentItem].Contains("Edit User"))
+                {
+                    Console.WriteLine("input email of the user you'd like to edit");
+                    ConsoleFactory.EditUser(mainDatabase);
+                }
+                else if (MainMenuItem[currentItem].Contains("Edit Transaction"))
+                {
+                    //Add here show transactions
+                    //ConsoleFactory.EditTransaction(mainDatabase);
                 }
                 else
                 {
