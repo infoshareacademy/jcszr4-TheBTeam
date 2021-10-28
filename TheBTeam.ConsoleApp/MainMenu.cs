@@ -16,6 +16,8 @@ namespace TheBTeam.ConsoleApp
                 "Show all transaction",
                 "Show transaction according Category",
                 "Show transaction according User",
+                "Edit existing user",
+                "Edit transaction",
                 "Exit" };//Guess should be made somehow else- have to change whole text in code every time sth is changed 
         public static void ShowMainMenu()
         {
@@ -101,6 +103,18 @@ namespace TheBTeam.ConsoleApp
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]}");
                     TransactionViewer.ViewTransactionAccordingCategory(tmpListTransactions.TransactionsList);
+                    Console.ReadKey();
+                }
+                else if (mainMenuItem[currentItem] == ("Edit existing user"))
+                {
+                    Console.WriteLine($"{mainMenuItem[currentItem]}");
+                    //TODO add here method
+                    Console.ReadKey();
+                }
+                else if (mainMenuItem[currentItem] == ("Edit transaction"))
+                {
+                    Console.WriteLine($"{mainMenuItem[currentItem]}");
+                    //TODO add here method
                     Console.ReadKey();
                 }
                 else if (mainMenuItem[currentItem] == ("Exit"))
