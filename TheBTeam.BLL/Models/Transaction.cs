@@ -11,7 +11,7 @@ namespace TheBTeam.BLL.Model
         /// <summary>
         /// 
         /// </summary>
-        public CategoryOfTransaction Category { get; }
+        public CategoryOfTransaction Category { get; set; }
         public decimal Amount { get; }
         public Transaction(User user, TypeOfTransaction type, CategoryOfTransaction category, Currency currency, decimal amount)
         {
