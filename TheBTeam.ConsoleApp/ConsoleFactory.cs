@@ -403,20 +403,21 @@ namespace TheBTeam.ConsoleApp
                         string key = Console.ReadKey().Key.ToString();
                         if (key.ToUpper() == "S")
                         {
+                            user.LastName = tempuser.LastName;
                             user.Age = tempuser.Age;
                             user.Company = tempuser.Company;
                             user.Gender = tempuser.Gender;
                             user.Phone = tempuser.Phone;
                             user.Currency = tempuser.Currency;
                             user.Balance = tempuser.Balance;
-                            Console.WriteLine("Saved\n");
+                            Console.WriteLine("\nSaved");
                             choiceSubmitted = true;
                             exit = true;
                         }
 
                         else if (key.ToUpper() == "X")
                         {
-                            Console.WriteLine("Cancelled\n");
+                            Console.WriteLine("\nCancelled");
                             choiceSubmitted = true;
                             exit = true;
 
@@ -454,13 +455,13 @@ namespace TheBTeam.ConsoleApp
                         {
                             transaction.Category = tempTransaction.Category;
                             choiceSubmitted = true;
-                            Console.WriteLine("Saved\n");
+                            Console.WriteLine("\nSaved");
                             exit = true;
                         }
                         else if (key.ToUpper() == "X")
                         {
                             choiceSubmitted = true;
-                            Console.WriteLine("Canceled\n");
+                            Console.WriteLine("\nCanceled");
                             exit = true;
                         }
                         else

@@ -110,16 +110,17 @@ namespace TheBTeam.ConsoleApp
                     //to it directly its messy due to the way references are handled
                     //or maybe more the way i think they are handled - lists being copied, and objects referred
                     //bottom line is it works but there definitely is to be a nicer way to do this, ill ask patryk during refinements
+                    //Actually nvm im dumb, since below works i jsut understood sb wrong, ill get below to look decent when im done with homework
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]}");
                     string selectedUserEmail =  ConsoleFactory.SelectUserEmail(tmpListUsers.UsersList); //modified SelecUser returns a valid email string
                     ConsoleFactory.EditUser(tmpListUsers.UsersList.FirstOrDefault(user => user.Email == selectedUserEmail));//we pass the first user object with the specified email since theyre supposed to be unique anyways
                     Console.ReadKey();
                 }
-                else if (mainMenuItem[currentItem] == ("Edit transaction"))//First element of transaction list hardcoded for the purpose of testing, choosing one you want is the TODO
-                    //need to figure out how to do it without any unique values
+                else if (mainMenuItem[currentItem] == ("Edit transaction"))
                 {
-                    ConsoleFactory.EditTransaction(tmpListTransactions.TransactionsList[0]);
+                    int indexOfTransaction = TransactionViewer.ViewTransactionEdit(tmpListTransactions.TransactionsList);
+                    ConsoleFactory.EditTransaction(tmpListTransactions.TransactionsList[indexOfTransaction]);
                     Console.ReadKey();
                 }
                 else if (mainMenuItem[currentItem] == ("Exit"))
