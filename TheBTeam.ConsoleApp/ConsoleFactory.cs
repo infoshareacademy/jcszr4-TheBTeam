@@ -74,12 +74,14 @@ namespace TheBTeam.ConsoleApp
             var amount = GetDecimalInput("Amount");
             if (amount == -69)
                 return null;
-            Console.WriteLine("=================================================================");
-            Console.WriteLine("Transaction created successfully! Press any key to continue.");
-            Console.ReadKey();
-            var transaction = new Transaction(user, type, category, currency, amount);
 
-            return ApplyTransaction(transaction, user);
+            var transaction = new Transaction(user, type, category, currency, amount);
+            ApplyTransaction(transaction, user);
+            Console.WriteLine("=================================================================");
+            Console.WriteLine($"Transaction applied successfully! Press any key to continue.");
+            Console.ReadKey();
+
+            return transaction;
 
         }
         public static void Header(string name)
@@ -234,7 +236,7 @@ namespace TheBTeam.ConsoleApp
             while (true)
             {
                 Console.Write($"{name}: ");
-                var input = Console.ReadLine();
+                var input = Console.ReadLine().Replace(',','.');
                 if (input.ToLower() == "exit")
                     return -69;
                 var isDig = decimal.TryParse(input, out var result);
@@ -304,17 +306,16 @@ namespace TheBTeam.ConsoleApp
             }
             while (true)
             {
-                var input = Console.ReadKey();
+                var input = Console.ReadLine();
                 Console.WriteLine();
-                if (!char.IsDigit(input.KeyChar))
+                //var isParesd = int.TryParse(input, out var selection);
+                if (!int.TryParse(input, out var selection))
                 {
                     Console.WriteLine("Wrong value, try again!\n");
                     continue;
                 }
-
-                var isParsed = int.TryParse(input.KeyChar.ToString(), out var selection);
-
-                if (isParsed && selection <= categoryArray.Length)
+                
+                if ( selection <= categoryArray.Length)
                     return (CategoryOfTransaction)selection - 1;
 
                 Console.WriteLine("Wrong selection, try Again!");
