@@ -357,7 +357,7 @@ namespace TheBTeam.ConsoleApp
             Console.WriteLine($"Current balance: {user.Balance.ToString("C", CultureInfo.CurrentCulture)}");
             return transaction;
         }
-        public static User EditUser(User user)
+        public static void EditUser(User user)
         {
             var tempuser = new User(user.FirstName, user.LastName, user.Gender, user.Age, user.Email, user.Phone, user.Address, user.Company, user.Currency, user.Balance);
             string options = "1)Edit surname\n2)Edit age\n3)Edit Company\n4)Edit gender\n5)Edit phone\n6)Edit balance\n7)Edit currency\n8)Finish";
@@ -388,7 +388,7 @@ namespace TheBTeam.ConsoleApp
                 }
                 else if (choice == "6")
                 {
-                    tempuser.Balance = GetDecimalInput("current balance");
+                    tempuser.Balance = GetDecimalInput("Current balance");
                 }
                 else if (choice == "7")
                 {
@@ -396,7 +396,7 @@ namespace TheBTeam.ConsoleApp
                 }
                 else if (choice == "8")
                 {
-                    Console.WriteLine("S to save, X to cancel\n");
+                    Console.WriteLine(" S to save, X to cancel\n");
                     bool choiceSubmitted = false;
                     while (choiceSubmitted == false)
                     {
@@ -417,19 +417,18 @@ namespace TheBTeam.ConsoleApp
 
                         else if (key.ToUpper() == "X")
                         {
-                            Console.WriteLine("\nCancelled");
+                            Console.WriteLine("\n Cancelled");
                             choiceSubmitted = true;
                             exit = true;
 
                         }
                         else
                         {
-                            Console.WriteLine("Select X to abort or S to save please\n");
+                            Console.WriteLine(" Select X to abort or S to save please\n");
                         }
                     }
                 }
             }
-            return tempuser;
         }
         public static Transaction EditTransaction(Transaction transaction)
         {
@@ -455,13 +454,13 @@ namespace TheBTeam.ConsoleApp
                         {
                             transaction.Category = tempTransaction.Category;
                             choiceSubmitted = true;
-                            Console.WriteLine("\nSaved");
+                            Console.WriteLine("\n Saved");
                             exit = true;
                         }
                         else if (key.ToUpper() == "X")
                         {
                             choiceSubmitted = true;
-                            Console.WriteLine("\nCanceled");
+                            Console.WriteLine("\n Canceled");
                             exit = true;
                         }
                         else
