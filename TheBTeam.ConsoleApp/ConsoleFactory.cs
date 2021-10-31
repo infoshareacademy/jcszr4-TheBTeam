@@ -51,6 +51,8 @@ namespace TheBTeam.ConsoleApp
                     return null;
 
                 Console.WriteLine("=================================================================");
+                Console.WriteLine("User created successfully! Press any key to continue.");
+                Console.ReadKey();
 
                 return new User(firstName, lastName, gender, age, email, phone, address, company, currency, balance);
             }
@@ -73,8 +75,10 @@ namespace TheBTeam.ConsoleApp
             var amount = GetDecimalInput("Amount");
             if (amount == -69)
                 return null;
-
+            Console.WriteLine("Transaction created successfully! Press any key to continue.");
+            Console.ReadKey();
             var transaction = new Transaction(user, type, category, currency, amount);
+
             return ApplyTransaction(transaction, user);
 
         }
