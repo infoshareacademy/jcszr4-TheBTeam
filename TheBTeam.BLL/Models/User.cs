@@ -38,9 +38,8 @@ namespace TheBTeam.BLL.Model
         }
         public User(string firstName, string lastName, Gender gender, int age, string email, string phone, string address, string company, Currency currency, decimal balance = 0)
         {
-            Id = GenerateId();//TODO check if 
+            Id = GenerateId();
             Balance = balance;
-            //Currency = new Currency(currency);
             Currency = currency;
             Age = age;
             FirstName = firstName;
