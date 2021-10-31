@@ -57,7 +57,6 @@ namespace TheBTeam.ConsoleApp
                 return new User(firstName, lastName, gender, age, email, phone, address, company, currency, balance);
             }
         }
-
         public static Transaction AddNewTransaction(List<User> usersList)
         {
             Header("ADDING NEW TRANSACTION");
@@ -75,6 +74,7 @@ namespace TheBTeam.ConsoleApp
             var amount = GetDecimalInput("Amount");
             if (amount == -69)
                 return null;
+            Console.WriteLine("=================================================================");
             Console.WriteLine("Transaction created successfully! Press any key to continue.");
             Console.ReadKey();
             var transaction = new Transaction(user, type, category, currency, amount);
