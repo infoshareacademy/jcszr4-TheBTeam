@@ -6,6 +6,7 @@ namespace TheBTeam.ConsoleApp
     class Program
     {
         //Show full screen console
+        //TODO nie dziala view
         [DllImport("kernel32.dll", ExactSpelling = true)]
         private static extern IntPtr GetConsoleWindow();
         private static IntPtr ThisConsole = GetConsoleWindow();

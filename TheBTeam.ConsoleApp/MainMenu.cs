@@ -31,7 +31,9 @@ namespace TheBTeam.ConsoleApp
                 {
                     Console.Clear();
                     Console.WriteLine("------------------------------------------");
-                    Console.WriteLine($"Welcome in the financial planner");
+                    Console.WriteLine($"Welcome in the financial planner         ");
+                    Console.WriteLine("------------------------------------------");
+                    Console.WriteLine("---------------TheBTeam-------------------");
                     Console.WriteLine("------------------------------------------");
                     for (int i = 0; i < mainMenuItem.Length; i++)
                     {
@@ -68,6 +70,8 @@ namespace TheBTeam.ConsoleApp
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]} ...");
                     tmpListUsers.UsersList = LoadDataFromFile.ReadUserFile();
+                    Console.WriteLine($"Press any key to continue");
+                    Console.ReadKey();
                 }
                 else if (mainMenuItem[currentItem] == "Add new user")
                 {
@@ -80,8 +84,17 @@ namespace TheBTeam.ConsoleApp
                 }
                 else if (mainMenuItem[currentItem] == ("View users"))
                 {
-                    UserViewer.ViewUsers(tmpListUsers.UsersList);
-                    Console.ReadKey();
+                    if (tmpListUsers.UsersList.Count > 0)
+                    {
+                        UserViewer.ViewUsers(tmpListUsers.UsersList);
+                        Console.ReadKey();
+                    }
+                    else
+                    {
+                        Console.WriteLine($"No data user, Please add new user");
+                        Console.WriteLine($"Press any key to continue");
+                        Console.ReadKey();
+                    }
                 }
                 else if (mainMenuItem[currentItem].Contains("Enter transaction"))
                 {
@@ -96,14 +109,33 @@ namespace TheBTeam.ConsoleApp
                 else if (mainMenuItem[currentItem] == ("Show all transaction"))
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]}");
-                    TransactionViewer.ViewTransaction(tmpListTransactions.TransactionsList);
-                    Console.ReadKey();
+                    if (tmpListTransactions.TransactionsList.Count != 0)
+                    {
+                        TransactionViewer.ViewTransaction(tmpListTransactions.TransactionsList);
+                        Console.ReadKey();
+                    }
+                    else
+                    {
+                        Console.WriteLine($"No data transaction, Please enter transaction");
+                        Console.WriteLine($"Press any key to continue");
+                        Console.ReadKey();
+                    }
                 }
                 else if (mainMenuItem[currentItem] == ("Show transaction according Category"))
                 {
+                    //TODO  wywal sprawdzanie mailem tylko kategoria
                     Console.WriteLine($"{mainMenuItem[currentItem]}");
-                    TransactionViewer.ViewTransactionAccordingCategory(tmpListTransactions.TransactionsList);
-                    Console.ReadKey();
+                    if (tmpListTransactions.TransactionsList.Count != 0)
+                    {
+                        TransactionViewer.ViewTransactionAccordingCategory(tmpListTransactions.TransactionsList);
+                        Console.ReadKey();
+                    }
+                    else
+                    {
+                        Console.WriteLine($"No data transaction, Please enter transaction");
+                        Console.WriteLine($"Press any key to continue");
+                        Console.ReadKey();
+                    }
                 }
                 else if (mainMenuItem[currentItem] == ("Edit existing user"))
                 {
