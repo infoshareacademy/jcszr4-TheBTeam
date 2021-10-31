@@ -304,7 +304,7 @@ namespace TheBTeam.ConsoleApp
             var typeArray = Enum.GetNames(typeof(TypeOfTransaction));
 
             Console.WriteLine("Choose type of transaction:");
-            for (int i = 0; i < typeArray.Length - 1; i++)
+            for (int i = 0; i < typeArray.Length; i++)
             {
                 Console.WriteLine($"{i + 1}. {typeArray[i]}");
             }
@@ -320,7 +320,7 @@ namespace TheBTeam.ConsoleApp
 
                 var isParsed = int.TryParse(input.KeyChar.ToString(), out var selection);
 
-                if (isParsed && selection < typeArray.Length)
+                if (isParsed && selection <= typeArray.Length)
                     return (TypeOfTransaction)selection - 1;
 
                 Console.WriteLine("Wrong selection, try Again!");
@@ -366,11 +366,7 @@ namespace TheBTeam.ConsoleApp
                 user.Balance -= transaction.Amount;
                 Console.WriteLine("Outcome added");
             }
-            else
-            {
-                transaction.Type = TypeOfTransaction.Canceled;
-                Console.WriteLine("Transaction rejected, your balance is to low!");
-            }
+            
             Console.WriteLine($"Current balance: {user.Balance.ToString("C", CultureInfo.CurrentCulture)}");
             return transaction;
         }
