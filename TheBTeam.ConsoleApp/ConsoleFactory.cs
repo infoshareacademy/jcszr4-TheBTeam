@@ -12,8 +12,8 @@ namespace TheBTeam.ConsoleApp
     {
         const int MinAddressLength = 3;
         const int MinNameLength = 2;
-        const int MinPhoneNumberLength = 9;
-        const int MinAge = 18;
+        private const int MinPhoneNumberLength = 12;
+        const int MinAge = 13;
         const int MaxAge = 99;
 
 
@@ -28,24 +28,33 @@ namespace TheBTeam.ConsoleApp
                 var firstName = GetStringInput("First Name", MinNameLength);
                 if (firstName.ToLower() == "exit")
                     return null;
+                Header("CREATING NEW USER");
                 var lastName = GetStringInput("Last Name", MinNameLength);
                 if (lastName.ToLower() == "exit")
                     return null;
+                Header("CREATING NEW USER");
                 var gender = GetGender();
+                Header("CREATING NEW USER");
                 var age = GetIntInput("Age", MinAge, MaxAge);
                 if (age == 0)
                     return null;
+                Header("CREATING NEW USER");
                 var email = GetEmail();
                 if (email == null)
                     return null;
+                Header("CREATING NEW USER");
                 var phone = GetPhoneNumber();
                 if (phone == null)
                     return null;
+                Header("CREATING NEW USER");
                 var address = GetAddress();
+                Header("CREATING NEW USER");
                 var company = GetCompany();
                 if (company.ToLower() == "exit")
                     return null;
+                Header("CREATING NEW USER");
                 var currency = GetCurrency();
+                Header("CREATING NEW USER");
                 var balance = GetDecimalInput("current balance");
                 if (balance == -69)
                     return null;
@@ -95,8 +104,15 @@ namespace TheBTeam.ConsoleApp
         {
             while (true)
             {
+                var input = string.Empty;
+                if (minLength == 0)
+                {
+                    Console.Write($"{name}(press enter if null): ");
+                    return Console.ReadLine()?.Trim();
+                }
+
                 Console.Write($"{name}: ");
-                var input = Console.ReadLine()?.Trim();
+                input = Console.ReadLine()?.Trim();
                 if (input == null || input.Length < minLength)
                     Console.WriteLine($"Invalid data. {name} should have at least {minLength} char long. Retry!");
                 else
@@ -108,7 +124,7 @@ namespace TheBTeam.ConsoleApp
         {
             while (true)
             {
-                Console.Write($"Company: ");
+                Console.Write($"Company(press enter if null): ");
                 var input = Console.ReadLine()?.Trim();
 
                 return input;
@@ -178,27 +194,43 @@ namespace TheBTeam.ConsoleApp
         {
             while (true)
             {
-                Console.Write("Phone Number(+XX XXX XXX XXX): ");
+                Console.Write("Phone Number(+XXXXXXXXXXX), or press enter if null: ");
                 var input = Console.ReadLine()?.Trim();
-                if (input == null || input.Length < MinPhoneNumberLength)
+
+                if (string.IsNullOrEmpty(input))
+                    return null;
+
+                if (input.Length < MinPhoneNumberLength)
+                {
                     Console.WriteLine(
                         $"Invalid phone number! Phone number have to have at least {MinPhoneNumberLength} digits, or type 'Exit' to abort. Retry!");
-                else if (input.ToLower() == "exit")
+                    continue;
+                }
+                if (input.ToLower() == "exit")
                     return null;
-                else if (!input.StartsWith('+'))
+                if (!input.StartsWith('+'))
                     Console.WriteLine("Invalid phone number! Phone number have to start with country code eg. +48. Retry!");
-                else
-                    return input;
+
+                if (!int.TryParse(input, out var intInput))
+                {
+                    Console.WriteLine("Invalid input, it's not a number");
+                    continue;
+                }
+
+                return input;
             }
         }
         private static string GetAddress()
         {
+            var city = GetStringInput("City", 0);
+            if (string.IsNullOrEmpty(city))
+                return null;
             var addressList = new List<string>()
             {
-            GetStringInput("Street", MinAddressLength),
-            GetStringInput("City", MinAddressLength),
-            GetStringInput("Province", MinAddressLength),
-            GetStringInput("Postal code", MinAddressLength)
+            city,
+            GetStringInput("Street", 3),
+            GetStringInput("Province", 3),
+            GetStringInput("Postal code", 5)
             };
 
             var address = String.Join(", ", addressList);
@@ -236,7 +268,7 @@ namespace TheBTeam.ConsoleApp
             while (true)
             {
                 Console.Write($"{name}: ");
-                var input = Console.ReadLine().Replace(',','.');
+                var input = Console.ReadLine().Replace(',', '.');
                 if (input.ToLower() == "exit")
                     return -69;
                 var isDig = decimal.TryParse(input, out var result);
@@ -314,8 +346,8 @@ namespace TheBTeam.ConsoleApp
                     Console.WriteLine("Wrong value, try again!\n");
                     continue;
                 }
-                
-                if ( selection <= categoryArray.Length)
+
+                if (selection <= categoryArray.Length)
                     return (CategoryOfTransaction)selection - 1;
 
                 Console.WriteLine("Wrong selection, try Again!");
