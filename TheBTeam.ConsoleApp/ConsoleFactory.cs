@@ -417,20 +417,20 @@ namespace TheBTeam.ConsoleApp
 
                         else if (key.ToUpper() == "X")
                         {
-                            Console.WriteLine("\n Cancelled");
+                            Console.WriteLine("\nCancelled");
                             choiceSubmitted = true;
                             exit = true;
 
                         }
                         else
                         {
-                            Console.WriteLine(" Select X to abort or S to save please\n");
+                            Console.WriteLine("Select X to abort or S to save please\n");
                         }
                     }
                 }
             }
         }
-        public static Transaction EditTransaction(Transaction transaction)
+        public static void EditTransaction(Transaction transaction)
         {
             var tempTransaction = new Transaction(transaction.User, transaction.Type, transaction.Category, transaction.Currency, transaction.Amount);
             string options = "1)Edit category\n2)Save or cancel changes";
@@ -460,7 +460,7 @@ namespace TheBTeam.ConsoleApp
                         else if (key.ToUpper() == "X")
                         {
                             choiceSubmitted = true;
-                            Console.WriteLine("\n Canceled");
+                            Console.WriteLine("\nCanceled");
                             exit = true;
                         }
                         else
@@ -470,7 +470,6 @@ namespace TheBTeam.ConsoleApp
                     }
                 }
             }
-            return tempTransaction;
         }
     }
 }
