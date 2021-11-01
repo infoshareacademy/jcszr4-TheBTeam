@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using TheBTeam.BLL.Model;
-
 namespace TheBTeam.BLL.Servises
 {
     public static class UserViewer
@@ -19,14 +18,18 @@ namespace TheBTeam.BLL.Servises
             Console.WriteLine();
             if (users != null)
             {
+                int index = 0;
                 foreach (var item in users)
                 {
-                    Console.WriteLine($"|{item.FirstName.ToString().PadRight(textPaddingWidth, paddingChar)} " +
+                    
+                    Console.WriteLine(
+                                      $"|{item.FirstName.ToString().PadRight(textPaddingWidth, paddingChar)} " +
                                       $"|{item.LastName.ToString().PadRight(textPaddingWidth, paddingChar)} " +
                                       $"|{item.Age.ToString().PadRight(textPaddingWidth, paddingChar)} " +
                                       $"|{item.Gender.ToString().PadRight(textPaddingWidth, paddingChar)}" +
                                       $"|{item.Company.ToString().PadRight(textPaddingWidth, paddingChar)}" +
                                       $"|{item.Email.ToString().PadRight(textPaddingWidth, paddingChar)}");
+                    index++;
                 }
             }
         }

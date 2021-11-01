@@ -50,5 +50,48 @@ namespace TheBTeam.ConsoleApp
                               $"|{item.Amount.ToString().PadRight(textPaddingWidth, paddingChar)}");
             }
         }
+        public static int ViewTransactionEdit(List<Transaction> transactions)
+        {
+            int index = 0;
+            var textPaddingWidth = 23;
+            var paddingChar = ' ';
+            Console.WriteLine(    $"|{"Index".PadRight(textPaddingWidth, paddingChar)} " +
+                                  $"|{"FirstName".PadRight(textPaddingWidth, paddingChar)} " +
+                                  $"|{"LastName".PadRight(textPaddingWidth, paddingChar)} " +
+                                  $"|{"Type".PadRight(textPaddingWidth, paddingChar)}" +
+                                  $"|{"Category".PadRight(textPaddingWidth, paddingChar)}" +
+                                  $"|{"Currency".PadRight(textPaddingWidth, paddingChar)}" +
+                                  $"|{"Amount".PadRight(textPaddingWidth, paddingChar)}");
+            Console.WriteLine();
+            foreach (var item in transactions)
+            {
+                Console.WriteLine($"|{index.ToString().PadRight(textPaddingWidth, paddingChar)}" +
+                                  $"|{item.User.FirstName.ToString().PadRight(textPaddingWidth, paddingChar)} " +
+                                  $"|{item.User.LastName.ToString().PadRight(textPaddingWidth, paddingChar)} " +
+                                  $"|{item.Type.ToString().PadRight(textPaddingWidth, paddingChar)}" +
+                                  $"|{item.Category.ToString().PadRight(textPaddingWidth, paddingChar)}" +
+                                  $"|{item.Currency.ToString().PadRight(textPaddingWidth, paddingChar)}" +
+                                  $"|{item.Amount.ToString().PadRight(textPaddingWidth, paddingChar)}");
+                index++;
+            }
+            Console.WriteLine("\n\nChoose transaction to edit by index\n");
+            var name = "Index";
+            var min = 0;
+            var max = index;
+            while (true)
+            {
+                Console.Write($"{name}: ");
+                var input = Console.ReadLine();
+                var isDig = int.TryParse(input, out var result);
+                if (isDig && result >= min && result < max)
+                {
+                    return result;
+                }
+                else
+                {
+                    Console.WriteLine($"{name} should be between {min} and {max-1}");
+                }
+            }
+        }
     }
 }
