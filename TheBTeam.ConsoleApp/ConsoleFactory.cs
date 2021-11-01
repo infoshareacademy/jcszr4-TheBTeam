@@ -12,8 +12,8 @@ namespace TheBTeam.ConsoleApp
     {
         const int MinAddressLength = 3;
         const int MinNameLength = 2;
-        const int MinPhoneNumberLength = 9;
-        const int MinAge = 18;
+        private const int MinPhoneNumberLength = 12;
+        const int MinAge = 13;
         const int MaxAge = 99;
 
 
@@ -28,34 +28,44 @@ namespace TheBTeam.ConsoleApp
                 var firstName = GetStringInput("First Name", MinNameLength);
                 if (firstName.ToLower() == "exit")
                     return null;
+                Header("CREATING NEW USER");
                 var lastName = GetStringInput("Last Name", MinNameLength);
                 if (lastName.ToLower() == "exit")
                     return null;
+                Header("CREATING NEW USER");
                 var gender = GetGender();
+                Header("CREATING NEW USER");
                 var age = GetIntInput("Age", MinAge, MaxAge);
                 if (age == 0)
                     return null;
+                Header("CREATING NEW USER");
                 var email = GetEmail();
                 if (email == null)
                     return null;
+                Header("CREATING NEW USER");
                 var phone = GetPhoneNumber();
                 if (phone == null)
                     return null;
+                Header("CREATING NEW USER");
                 var address = GetAddress();
+                Header("CREATING NEW USER");
                 var company = GetCompany();
                 if (company.ToLower() == "exit")
                     return null;
+                Header("CREATING NEW USER");
                 var currency = GetCurrency();
+                Header("CREATING NEW USER");
                 var balance = GetDecimalInput("current balance");
                 if (balance == -69)
                     return null;
 
                 Console.WriteLine("=================================================================");
+                Console.WriteLine("User created successfully! Press any key to continue.");
+                Console.ReadKey();
 
                 return new User(firstName, lastName, gender, age, email, phone, address, company, currency, balance);
             }
         }
-
         public static Transaction AddNewTransaction(List<User> usersList)
         {
             Header("ADDING NEW TRANSACTION");
@@ -75,7 +85,12 @@ namespace TheBTeam.ConsoleApp
                 return null;
 
             var transaction = new Transaction(user, type, category, currency, amount);
-            return ApplyTransaction(transaction, user);
+            ApplyTransaction(transaction, user);
+            Console.WriteLine("=================================================================");
+            Console.WriteLine($"Transaction applied successfully! Press any key to continue.");
+            Console.ReadKey();
+
+            return transaction;
 
         }
         public static void Header(string name)
@@ -89,8 +104,15 @@ namespace TheBTeam.ConsoleApp
         {
             while (true)
             {
+                var input = string.Empty;
+                if (minLength == 0)
+                {
+                    Console.Write($"{name}(press enter if null): ");
+                    return Console.ReadLine()?.Trim();
+                }
+
                 Console.Write($"{name}: ");
-                var input = Console.ReadLine()?.Trim();
+                input = Console.ReadLine()?.Trim();
                 if (input == null || input.Length < minLength)
                     Console.WriteLine($"Invalid data. {name} should have at least {minLength} char long. Retry!");
                 else
@@ -102,7 +124,7 @@ namespace TheBTeam.ConsoleApp
         {
             while (true)
             {
-                Console.Write($"Company: ");
+                Console.Write($"Company(press enter if null): ");
                 var input = Console.ReadLine()?.Trim();
 
                 return input;
@@ -172,27 +194,43 @@ namespace TheBTeam.ConsoleApp
         {
             while (true)
             {
-                Console.Write("Phone Number(+XX XXX XXX XXX): ");
+                Console.Write("Phone Number(+XXXXXXXXXXX), or press enter if null: ");
                 var input = Console.ReadLine()?.Trim();
-                if (input == null || input.Length < MinPhoneNumberLength)
+
+                if (string.IsNullOrEmpty(input))
+                    return null;
+
+                if (input.Length < MinPhoneNumberLength)
+                {
                     Console.WriteLine(
                         $"Invalid phone number! Phone number have to have at least {MinPhoneNumberLength} digits, or type 'Exit' to abort. Retry!");
-                else if (input.ToLower() == "exit")
+                    continue;
+                }
+                if (input.ToLower() == "exit")
                     return null;
-                else if (!input.StartsWith('+'))
+                if (!input.StartsWith('+'))
                     Console.WriteLine("Invalid phone number! Phone number have to start with country code eg. +48. Retry!");
-                else
-                    return input;
+
+                if (!int.TryParse(input, out var intInput))
+                {
+                    Console.WriteLine("Invalid input, it's not a number");
+                    continue;
+                }
+
+                return input;
             }
         }
         private static string GetAddress()
         {
+            var city = GetStringInput("City", 0);
+            if (string.IsNullOrEmpty(city))
+                return null;
             var addressList = new List<string>()
             {
-            GetStringInput("Street", MinAddressLength),
-            GetStringInput("City", MinAddressLength),
-            GetStringInput("Province", MinAddressLength),
-            GetStringInput("Postal code", MinAddressLength)
+            city,
+            GetStringInput("Street", 3),
+            GetStringInput("Province", 3),
+            GetStringInput("Postal code", 5)
             };
 
             var address = String.Join(", ", addressList);
@@ -230,7 +268,7 @@ namespace TheBTeam.ConsoleApp
             while (true)
             {
                 Console.Write($"{name}: ");
-                var input = Console.ReadLine();
+                var input = Console.ReadLine().Replace(',', '.');
                 if (input.ToLower() == "exit")
                     return -69;
                 var isDig = decimal.TryParse(input, out var result);
@@ -286,7 +324,7 @@ namespace TheBTeam.ConsoleApp
             var typeArray = Enum.GetNames(typeof(TypeOfTransaction));
 
             Console.WriteLine("Choose type of transaction:");
-            for (int i = 0; i < typeArray.Length - 1; i++)
+            for (int i = 0; i < typeArray.Length; i++)
             {
                 Console.WriteLine($"{i + 1}. {typeArray[i]}");
             }
@@ -302,7 +340,7 @@ namespace TheBTeam.ConsoleApp
 
                 var isParsed = int.TryParse(input.KeyChar.ToString(), out var selection);
 
-                if (isParsed && selection < typeArray.Length)
+                if (isParsed && selection <= typeArray.Length)
                     return (TypeOfTransaction)selection - 1;
 
                 Console.WriteLine("Wrong selection, try Again!");
@@ -320,17 +358,16 @@ namespace TheBTeam.ConsoleApp
             }
             while (true)
             {
-                var input = Console.ReadKey();
+                var input = Console.ReadLine();
                 Console.WriteLine();
-                if (!char.IsDigit(input.KeyChar))
+                //var isParesd = int.TryParse(input, out var selection);
+                if (!int.TryParse(input, out var selection))
                 {
                     Console.WriteLine("Wrong value, try again!\n");
                     continue;
                 }
 
-                var isParsed = int.TryParse(input.KeyChar.ToString(), out var selection);
-
-                if (isParsed && selection <= categoryArray.Length)
+                if (selection <= categoryArray.Length)
                     return (CategoryOfTransaction)selection - 1;
 
                 Console.WriteLine("Wrong selection, try Again!");
@@ -349,11 +386,7 @@ namespace TheBTeam.ConsoleApp
                 user.Balance -= transaction.Amount;
                 Console.WriteLine("Outcome added");
             }
-            else
-            {
-                transaction.Type = TypeOfTransaction.Canceled;
-                Console.WriteLine("Transaction rejected, your balance is to low!");
-            }
+            
             Console.WriteLine($"Current balance: {user.Balance.ToString("C", CultureInfo.CurrentCulture)}");
             return transaction;
         }

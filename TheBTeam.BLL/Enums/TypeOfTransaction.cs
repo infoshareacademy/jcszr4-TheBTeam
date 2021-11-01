@@ -4,6 +4,6 @@
     {
         Income,
         Outcome,
-        Canceled
+        //Canceled
     }
 }
