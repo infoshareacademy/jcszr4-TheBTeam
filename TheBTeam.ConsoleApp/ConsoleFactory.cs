@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using TheBTeam.BLL;
 using TheBTeam.BLL.Model;
+using TheBTeam.BLL.Validators;
 
 
 namespace TheBTeam.ConsoleApp
@@ -178,16 +179,13 @@ namespace TheBTeam.ConsoleApp
             {
                 Console.Write("email: ");
                 var input = Console.ReadLine()?.Trim();
-                if (input == null)
-                    Console.WriteLine("Input is empty, retry!");
-                else if (input.ToLower() == "exit")
-                    return null;
-                else if (!input.Contains('@') | !input.Contains('.') || input.Length < 7)
-                    Console.WriteLine("Email have to contain @ and .***, retry!");
-                else if (input.LastIndexOf(".", StringComparison.Ordinal) > input.Length - 3)
-                    Console.WriteLine("Email should have at least 2 chars after .");
-                else
+                var message = UserValidator.ValidateEmail(input);
+                
+                if (string.IsNullOrEmpty(message))
+                {
                     return input;
+                }
+                Console.WriteLine(message);
             }
         }
         private static string GetPhoneNumber()
@@ -506,5 +504,4 @@ namespace TheBTeam.ConsoleApp
         }
     }
 }
-
 
