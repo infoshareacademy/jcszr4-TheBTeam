@@ -10,13 +10,14 @@ namespace TheBTeam.BLL.Servises
         {
             var textPaddingWidth = 20;
             var paddingChar = ' ';
+            Console.WriteLine(("").PadRight(textPaddingWidth*7, '='));
             Console.WriteLine($"|{"FirstName".PadRight(textPaddingWidth, paddingChar)} " +
                                   $"|{"LastName".PadRight(textPaddingWidth, paddingChar)} " +
                                   $"|{"Age".PadRight(textPaddingWidth, paddingChar)} " +
                                   $"|{"Gender".PadRight(textPaddingWidth, paddingChar)}" +
                                   $"|{"Company".PadRight(textPaddingWidth, paddingChar)}" +
                                   $"|{"Email".PadRight(textPaddingWidth, paddingChar)}");
-            Console.WriteLine();
+            Console.WriteLine(("").PadRight(textPaddingWidth * 7, '='));
             if (users != null)
             {
                 foreach (var item in users)
@@ -28,6 +29,8 @@ namespace TheBTeam.BLL.Servises
                                       $"|{item.Company.ToString().PadRight(textPaddingWidth, paddingChar)}" +
                                       $"|{item.Email.ToString().PadRight(textPaddingWidth, paddingChar)}");
                 }
+                Console.WriteLine(("").PadRight(textPaddingWidth * 7, '='));
+                Console.WriteLine($"Press any key to continue");
             }
         }
     }

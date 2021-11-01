@@ -11,13 +11,14 @@ namespace TheBTeam.ConsoleApp
         {
             var textPaddingWidth = 20;
             var paddingChar = ' ';
+            Console.WriteLine(("").PadRight(textPaddingWidth * 7, '='));
             Console.WriteLine($"|{"FirstName".PadRight(textPaddingWidth, paddingChar)} " +
                                   $"|{"LastName".PadRight(textPaddingWidth, paddingChar)} " +
                                   $"|{"Type".PadRight(textPaddingWidth, paddingChar)}" +
                                   $"|{"Category".PadRight(textPaddingWidth, paddingChar)}" +
                                   $"|{"Currency".PadRight(textPaddingWidth, paddingChar)}" +
                                   $"|{"Amount".PadRight(textPaddingWidth, paddingChar)}");
-            Console.WriteLine();
+            Console.WriteLine(("").PadRight(textPaddingWidth * 7, '='));
             foreach (var item in transactions)
             {
                 Console.WriteLine($"|{item.User.FirstName.ToString().PadRight(textPaddingWidth, paddingChar)} " +
@@ -27,6 +28,8 @@ namespace TheBTeam.ConsoleApp
                                   $"|{item.Currency.ToString().PadRight(textPaddingWidth, paddingChar)}" +
                                   $"|{item.Amount.ToString().PadRight(textPaddingWidth, paddingChar)}");
             }
+            Console.WriteLine(("").PadRight(textPaddingWidth * 7, '='));
+            Console.WriteLine($"Press any key to continue");
         }
         public static void ViewTransactionAccordingCategory(List<Transaction> transactions)
         {
@@ -37,18 +40,21 @@ namespace TheBTeam.ConsoleApp
             var tmpTransactions = transactions.Where(t => t.User.Email == email).Where(t => t.Category == categoryOfTransaction);
             var textPaddingWidth = 20;
             var paddingChar = ' ';
+            Console.WriteLine(("").PadRight(textPaddingWidth * 5, '='));
             Console.WriteLine($"|{"Category".PadRight(textPaddingWidth, paddingChar)} " +
                                   $"|{"Type".PadRight(textPaddingWidth, paddingChar)} " +
                                   $"|{"OccuranceTime".PadRight(textPaddingWidth, paddingChar)} " +
                                   $"|{"Amount".PadRight(textPaddingWidth, paddingChar)}");
-            Console.WriteLine();
+            Console.WriteLine(("").PadRight(textPaddingWidth * 5, '='));
             foreach (var item in tmpTransactions)
             {
                 Console.WriteLine($"|{item.Category.ToString().PadRight(textPaddingWidth, paddingChar)} " +
                               $"|{item.Type.ToString().PadRight(textPaddingWidth, paddingChar)} " +
-                              $"|{item.OccurenceTime.ToString().PadRight(textPaddingWidth, paddingChar)} " +
+                              $"|{item.OccurenceTime.ToString("dd/MM/yyyy").PadRight(textPaddingWidth, paddingChar)} " +
                               $"|{item.Amount.ToString().PadRight(textPaddingWidth, paddingChar)}");
             }
+            Console.WriteLine(("").PadRight(textPaddingWidth * 5, '='));
+            Console.WriteLine($"Press any key to continue");
         }
     }
 }
