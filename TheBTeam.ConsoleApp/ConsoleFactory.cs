@@ -47,7 +47,7 @@ namespace TheBTeam.ConsoleApp
                     return null;
                 Header("CREATING NEW USER");
                 var phone = GetPhoneNumber();
-                if (phone == null)
+                if (phone == "exit")
                     return null;
                 Header("CREATING NEW USER");
                 var address = GetAddress();
@@ -204,9 +204,15 @@ namespace TheBTeam.ConsoleApp
                 if (string.IsNullOrEmpty(input))
                     return null;
 
+                var message = UserValidator.ValidatePhoneNumber(input, MinPhoneNumberLength);
 
+                if (string.IsNullOrEmpty(message))
+                    return input;
 
-                return input;
+                if (message == "exit")
+                    return null;
+
+                Console.WriteLine(message);
             }
         }
         private static string GetAddress()
