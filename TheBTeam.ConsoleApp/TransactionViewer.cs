@@ -17,6 +17,7 @@ namespace TheBTeam.ConsoleApp
                                   $"|{"Type".PadRight(textPaddingWidth, paddingChar)}" +
                                   $"|{"Category".PadRight(textPaddingWidth, paddingChar)}" +
                                   $"|{"Currency".PadRight(textPaddingWidth, paddingChar)}" +
+                                  $"|{"Balance".PadRight(textPaddingWidth, paddingChar)}" +
                                   $"|{"Amount".PadRight(textPaddingWidth, paddingChar)}");
             Console.WriteLine(("").PadRight(textPaddingWidth * 7, '='));
             foreach (var item in transactions)
@@ -26,6 +27,7 @@ namespace TheBTeam.ConsoleApp
                                   $"|{item.Type.ToString().PadRight(textPaddingWidth, paddingChar)}" +
                                   $"|{item.Category.ToString().PadRight(textPaddingWidth, paddingChar)}" +
                                   $"|{item.Currency.ToString().PadRight(textPaddingWidth, paddingChar)}" +
+                                  $"|{item.User.Balance.ToString().PadRight(textPaddingWidth, paddingChar)}" +
                                   $"|{item.Amount.ToString().PadRight(textPaddingWidth, paddingChar)}");
             }
             Console.WriteLine(("").PadRight(textPaddingWidth * 7, '='));
@@ -44,6 +46,7 @@ namespace TheBTeam.ConsoleApp
             Console.WriteLine($"|{"Category".PadRight(textPaddingWidth, paddingChar)} " +
                                   $"|{"Type".PadRight(textPaddingWidth, paddingChar)} " +
                                   $"|{"OccuranceTime".PadRight(textPaddingWidth, paddingChar)} " +
+                                  $"|{"Balance".PadRight(textPaddingWidth, paddingChar)}" +
                                   $"|{"Amount".PadRight(textPaddingWidth, paddingChar)}");
             Console.WriteLine(("").PadRight(textPaddingWidth * 5, '='));
             foreach (var item in tmpTransactions)
@@ -51,6 +54,7 @@ namespace TheBTeam.ConsoleApp
                 Console.WriteLine($"|{item.Category.ToString().PadRight(textPaddingWidth, paddingChar)} " +
                               $"|{item.Type.ToString().PadRight(textPaddingWidth, paddingChar)} " +
                               $"|{item.OccurenceTime.ToString("dd/MM/yyyy").PadRight(textPaddingWidth, paddingChar)} " +
+                              $"|{item.User.Balance.ToString().PadRight(textPaddingWidth, paddingChar)}" +
                               $"|{item.Amount.ToString().PadRight(textPaddingWidth, paddingChar)}");
             }
             Console.WriteLine(("").PadRight(textPaddingWidth * 5, '='));
