@@ -372,7 +372,7 @@ namespace TheBTeam.ConsoleApp
                     continue;
                 }
 
-                if (type == TypeOfTransaction.Income && selection < 3)
+                if (type == TypeOfTransaction.Income && selection <= 3)
                     return (CategoryOfTransaction)selection - 1;
 
                 if (type == TypeOfTransaction.Outcome && selection < categoryArray.Length - 2)
