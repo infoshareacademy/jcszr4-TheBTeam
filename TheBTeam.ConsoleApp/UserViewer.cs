@@ -8,7 +8,7 @@ namespace TheBTeam.BLL.Servises
     {
         public static void ViewUsers(List<User> users)
         {
-            var textPaddingWidth = 25;
+            var textPaddingWidth = 20;
             var paddingChar = ' ';
             Console.WriteLine($"|{"FirstName".PadRight(textPaddingWidth, paddingChar)} " +
                                   $"|{"LastName".PadRight(textPaddingWidth, paddingChar)} " +

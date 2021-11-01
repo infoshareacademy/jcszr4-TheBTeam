@@ -9,7 +9,7 @@ namespace TheBTeam.ConsoleApp
     {
         public static void ViewTransaction(List<Transaction> transactions)
         {
-            var textPaddingWidth = 23;
+            var textPaddingWidth = 20;
             var paddingChar = ' ';
             Console.WriteLine($"|{"FirstName".PadRight(textPaddingWidth, paddingChar)} " +
                                   $"|{"LastName".PadRight(textPaddingWidth, paddingChar)} " +
@@ -35,7 +35,7 @@ namespace TheBTeam.ConsoleApp
             var categoryOfTransaction = ConsoleFactory.GetCategoryOfTransaction();
             Console.WriteLine($"{categoryOfTransaction}");
             var tmpTransactions = transactions.Where(t => t.User.Email == email).Where(t => t.Category == categoryOfTransaction);
-            var textPaddingWidth = 23;
+            var textPaddingWidth = 20;
             var paddingChar = ' ';
             Console.WriteLine($"|{"Category".PadRight(textPaddingWidth, paddingChar)} " +
                                   $"|{"Type".PadRight(textPaddingWidth, paddingChar)} " +
