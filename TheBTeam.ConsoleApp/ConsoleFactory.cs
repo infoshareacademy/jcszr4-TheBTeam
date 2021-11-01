@@ -4,7 +4,9 @@ using System.Globalization;
 using System.Linq;
 using TheBTeam.BLL;
 using TheBTeam.BLL.Model;
+using TheBTeam.BLL.Services;
 using TheBTeam.BLL.Validators;
+
 
 
 namespace TheBTeam.ConsoleApp
@@ -86,9 +88,11 @@ namespace TheBTeam.ConsoleApp
                 return null;
 
             var transaction = new Transaction(user, type, category, currency, amount);
-            ApplyTransaction(transaction, user);
+            TransactionService.ApplyTransaction(transaction, user);
             Console.WriteLine("=================================================================");
-            Console.WriteLine($"Transaction applied successfully! Press any key to continue.");
+            Console.WriteLine($"Transaction applied successfully!" +
+                              $"Current balance: {user.Balance.ToString("C", CultureInfo.CurrentCulture)}" +
+                              $" Press any key to continue.");
             Console.ReadKey();
 
             return transaction;
@@ -371,23 +375,8 @@ namespace TheBTeam.ConsoleApp
                 Console.WriteLine("Wrong selection, try Again!");
             }
         }
-        public static Transaction ApplyTransaction(Transaction transaction, User user)
-        {
 
-            if (transaction.Type == TypeOfTransaction.Income)
-            {
-                user.Balance += transaction.Amount;
-                Console.WriteLine("Income added");
-            }
-            else if (user.Balance >= transaction.Amount)
-            {
-                user.Balance -= transaction.Amount;
-                Console.WriteLine("Outcome added");
-            }
-            
-            Console.WriteLine($"Current balance: {user.Balance.ToString("C", CultureInfo.CurrentCulture)}");
-            return transaction;
-        }
+
         public static void EditUser(User user)
         {
             var tempuser = new User(user.FirstName, user.LastName, user.Gender, user.Age, user.Email, user.Phone, user.Address, user.Company, user.Currency, user.Balance);
