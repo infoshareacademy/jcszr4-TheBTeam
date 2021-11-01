@@ -36,7 +36,7 @@ namespace TheBTeam.BLL.Validators
             if (!input.StartsWith('+'))
                 return "Invalid phone number! Phone number have to start with country code eg. +48. Retry!";
 
-            if (!double.TryParse(input.Remove(0,1), out var intInput))
+            if (!double.TryParse(input.Remove(0,1), out var doubleInput))
                 return "Invalid input, it's not a number";
 
             return string.Empty;
