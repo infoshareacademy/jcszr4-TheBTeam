@@ -15,9 +15,9 @@ namespace TheBTeam.BLL.Validators
             else if (input.ToLower() == "exit")
                 return null;
             else if (!input.Contains('@') | !input.Contains('.') || input.Length < 7)
-                return "Email have to contain @ and .***, retry!";
+                return "Email have to contain @ and .***, retry or select exit to quit to main menu";
             else if (input.LastIndexOf(".", StringComparison.Ordinal) > input.Length - 3)
-                return "Email should have at least 2 chars after .";
+                return "Email should have at least 2 chars after or select exit to quit to main menu.";
             return string.Empty;
         }
 

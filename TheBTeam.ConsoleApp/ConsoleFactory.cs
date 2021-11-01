@@ -183,7 +183,7 @@ namespace TheBTeam.ConsoleApp
                 
                 if (string.IsNullOrEmpty(message))
                 {
-                    return input;
+                    return null;
                 }
                 Console.WriteLine(message);
             }
