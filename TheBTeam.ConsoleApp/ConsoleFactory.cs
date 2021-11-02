@@ -4,7 +4,9 @@ using System.Globalization;
 using System.Linq;
 using TheBTeam.BLL;
 using TheBTeam.BLL.Model;
+using TheBTeam.BLL.Services;
 using TheBTeam.BLL.Validators;
+
 
 
 namespace TheBTeam.ConsoleApp
@@ -45,7 +47,7 @@ namespace TheBTeam.ConsoleApp
                     return null;
                 Header("CREATING NEW USER");
                 var phone = GetPhoneNumber();
-                if (phone == null)
+                if (phone == "exit")
                     return null;
                 Header("CREATING NEW USER");
                 var address = GetAddress();
@@ -86,9 +88,11 @@ namespace TheBTeam.ConsoleApp
                 return null;
 
             var transaction = new Transaction(user, type, category, currency, amount);
-            ApplyTransaction(transaction, user);
+            TransactionService.ApplyTransaction(transaction, user);
             Console.WriteLine("=================================================================");
-            Console.WriteLine($"Transaction applied successfully! Press any key to continue.");
+            Console.WriteLine($"Transaction applied successfully!" +
+                              $"Current balance: {user.Balance.ToString("C", CultureInfo.CurrentCulture)}" +
+                              $" Press any key to continue.");
             Console.ReadKey();
 
             return transaction;
@@ -180,11 +184,13 @@ namespace TheBTeam.ConsoleApp
                 Console.Write("email: ");
                 var input = Console.ReadLine()?.Trim();
                 var message = UserValidator.ValidateEmail(input);
-                
+
                 if (string.IsNullOrEmpty(message))
-                {
+                    return input;
+
+                if (message == "exit")
                     return null;
-                }
+
                 Console.WriteLine(message);
             }
         }
@@ -198,24 +204,15 @@ namespace TheBTeam.ConsoleApp
                 if (string.IsNullOrEmpty(input))
                     return null;
 
-                if (input.Length < MinPhoneNumberLength)
-                {
-                    Console.WriteLine(
-                        $"Invalid phone number! Phone number have to have at least {MinPhoneNumberLength} digits, or type 'Exit' to abort. Retry!");
-                    continue;
-                }
-                if (input.ToLower() == "exit")
+                var message = UserValidator.ValidatePhoneNumber(input, MinPhoneNumberLength);
+
+                if (string.IsNullOrEmpty(message))
+                    return input;
+
+                if (message == "exit")
                     return null;
-                if (!input.StartsWith('+'))
-                    Console.WriteLine("Invalid phone number! Phone number have to start with country code eg. +48. Retry!");
 
-                if (!int.TryParse(input, out var intInput))
-                {
-                    Console.WriteLine("Invalid input, it's not a number");
-                    continue;
-                }
-
-                return input;
+                Console.WriteLine(message);
             }
         }
         private static string GetAddress()
@@ -313,8 +310,8 @@ namespace TheBTeam.ConsoleApp
                 }
 
                 return user.Email;
-            } while (true);
 
+            } while (true);
         }
         public static TypeOfTransaction GetTypeOfTransaction()
         {
@@ -370,23 +367,6 @@ namespace TheBTeam.ConsoleApp
 
                 Console.WriteLine("Wrong selection, try Again!");
             }
-        }
-        public static Transaction ApplyTransaction(Transaction transaction, User user)
-        {
-
-            if (transaction.Type == TypeOfTransaction.Income)
-            {
-                user.Balance += transaction.Amount;
-                Console.WriteLine("Income added");
-            }
-            else if (user.Balance >= transaction.Amount)
-            {
-                user.Balance -= transaction.Amount;
-                Console.WriteLine("Outcome added");
-            }
-            
-            Console.WriteLine($"Current balance: {user.Balance.ToString("C", CultureInfo.CurrentCulture)}");
-            return transaction;
         }
         public static void EditUser(User user)
         {
