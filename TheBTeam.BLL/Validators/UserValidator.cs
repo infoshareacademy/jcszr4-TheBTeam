@@ -17,10 +17,10 @@ namespace TheBTeam.BLL.Validators
                 return "exit";
 
             else if (!input.Contains('@') | !input.Contains('.') || input.Length < 7)
-                return "Email have to be in correct format";
+                return "Email has to be in correct format";
 
             else if (input.LastIndexOf(".", StringComparison.Ordinal) > input.Length - 3)
-                return "Email should have to be in correct format";
+                return "Email should be in correct format";
 
             return string.Empty;
         }
@@ -38,6 +38,7 @@ namespace TheBTeam.BLL.Validators
 
             if (!double.TryParse(input.Remove(0,1), out var doubleInput))
                 return "Invalid input, it's not a number";
+
 
             return string.Empty;
         }
