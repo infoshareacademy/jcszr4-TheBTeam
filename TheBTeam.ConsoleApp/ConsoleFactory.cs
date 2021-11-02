@@ -78,7 +78,7 @@ namespace TheBTeam.ConsoleApp
             Header("ADDING NEW TRANSACTION");
             var type = GetTypeOfTransaction();
             Header("ADDING NEW TRANSACTION");
-            var category = GetCategoryOfTransaction();
+            var category = GetCategoryOfTransaction(type);
             Header("ADDING NEW TRANSACTION");
             var currency = GetCurrency();
             Header("ADDING NEW TRANSACTION");
@@ -337,6 +337,46 @@ namespace TheBTeam.ConsoleApp
 
                 if (isParsed && selection <= typeArray.Length)
                     return (TypeOfTransaction)selection - 1;
+
+                Console.WriteLine("Wrong selection, try Again!");
+            }
+        }
+        public static CategoryOfTransaction GetCategoryOfTransaction(TypeOfTransaction type)
+        {
+
+            var categoryArray = Enum.GetNames(typeof(CategoryOfTransaction));
+
+            Console.WriteLine("Choose category of transaction:");
+            if (type == TypeOfTransaction.Income)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {categoryArray[i]}");
+                }
+            }
+            else
+            {
+                for (int i = 3; i < categoryArray.Length; i++)
+                {
+                    Console.WriteLine($"{i - 2}. {categoryArray[i]}");
+                }
+            }
+
+            while (true)
+            {
+                var input = Console.ReadLine();
+                Console.WriteLine();
+                if (!int.TryParse(input, out var selection))
+                {
+                    Console.WriteLine("Wrong value, try again!\n");
+                    continue;
+                }
+
+                if (type == TypeOfTransaction.Income && selection <= 3)
+                    return (CategoryOfTransaction)selection - 1;
+
+                if (type == TypeOfTransaction.Outcome && selection < categoryArray.Length - 2)
+                    return (CategoryOfTransaction)selection + 2;
 
                 Console.WriteLine("Wrong selection, try Again!");
             }
