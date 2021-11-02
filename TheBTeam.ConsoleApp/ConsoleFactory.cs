@@ -47,7 +47,7 @@ namespace TheBTeam.ConsoleApp
                     return null;
                 Header("CREATING NEW USER");
                 var phone = GetPhoneNumber();
-                if (phone == null)
+                if (phone == "exit")
                     return null;
                 Header("CREATING NEW USER");
                 var address = GetAddress();
@@ -184,11 +184,13 @@ namespace TheBTeam.ConsoleApp
                 Console.Write("email: ");
                 var input = Console.ReadLine()?.Trim();
                 var message = UserValidator.ValidateEmail(input);
-                
+
                 if (string.IsNullOrEmpty(message))
-                {
                     return input;
-                }
+
+                if (message == "exit")
+                    return null;
+
                 Console.WriteLine(message);
             }
         }
@@ -202,24 +204,15 @@ namespace TheBTeam.ConsoleApp
                 if (string.IsNullOrEmpty(input))
                     return null;
 
-                if (input.Length < MinPhoneNumberLength)
-                {
-                    Console.WriteLine(
-                        $"Invalid phone number! Phone number have to have at least {MinPhoneNumberLength} digits, or type 'Exit' to abort. Retry!");
-                    continue;
-                }
-                if (input.ToLower() == "exit")
+                var message = UserValidator.ValidatePhoneNumber(input, MinPhoneNumberLength);
+
+                if (string.IsNullOrEmpty(message))
+                    return input;
+
+                if (message == "exit")
                     return null;
-                if (!input.StartsWith('+'))
-                    Console.WriteLine("Invalid phone number! Phone number have to start with country code eg. +48. Retry!");
 
-                if (!int.TryParse(input, out var intInput))
-                {
-                    Console.WriteLine("Invalid input, it's not a number");
-                    continue;
-                }
-
-                return input;
+                Console.WriteLine(message);
             }
         }
         private static string GetAddress()
@@ -317,8 +310,8 @@ namespace TheBTeam.ConsoleApp
                 }
 
                 return user.Email;
-            } while (true);
 
+            } while (true);
         }
         public static TypeOfTransaction GetTypeOfTransaction()
         {
@@ -375,8 +368,6 @@ namespace TheBTeam.ConsoleApp
                 Console.WriteLine("Wrong selection, try Again!");
             }
         }
-
-
         public static void EditUser(User user)
         {
             var tempuser = new User(user.FirstName, user.LastName, user.Gender, user.Age, user.Email, user.Phone, user.Address, user.Company, user.Currency, user.Balance);
