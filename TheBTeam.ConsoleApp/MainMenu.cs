@@ -32,7 +32,9 @@ namespace TheBTeam.ConsoleApp
                 {
                     Console.Clear();
                     Console.WriteLine("------------------------------------------");
-                    Console.WriteLine($"Welcome in the financial planner");
+                    Console.WriteLine($"Welcome in the financial planner         ");
+                    Console.WriteLine("------------------------------------------");
+                    Console.WriteLine("---------------TheBTeam-------------------");
                     Console.WriteLine("------------------------------------------");
                     for (int i = 0; i < mainMenuItem.Length; i++)
                     {
@@ -69,6 +71,8 @@ namespace TheBTeam.ConsoleApp
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]} ...");
                     tmpListUsers.UsersList = LoadDataFromFile.ReadUserFile();
+                    Console.WriteLine($"Press any key to continue");
+                    Console.ReadKey();
                 }
                 else if (mainMenuItem[currentItem] == "Add new user")
                 {
@@ -81,8 +85,17 @@ namespace TheBTeam.ConsoleApp
                 }
                 else if (mainMenuItem[currentItem] == ("View users"))
                 {
-                    UserViewer.ViewUsers(tmpListUsers.UsersList);
-                    Console.ReadKey();
+                    if (tmpListUsers.UsersList.Count > 0)
+                    {
+                        UserViewer.ViewUsers(tmpListUsers.UsersList);
+                        Console.ReadKey();
+                    }
+                    else
+                    {
+                        Console.WriteLine($"No data users, Please add new user");
+                        Console.WriteLine($"Press any key to continue");
+                        Console.ReadKey();
+                    }
                 }
                 else if (mainMenuItem[currentItem].Contains("Enter transaction"))
                 {
@@ -97,20 +110,34 @@ namespace TheBTeam.ConsoleApp
                 else if (mainMenuItem[currentItem] == ("Show all transaction"))
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]}");
-                    TransactionViewer.ViewTransaction(tmpListTransactions.TransactionsList);
-                    Console.ReadKey();
+                    if (tmpListTransactions.TransactionsList.Count != 0)
+                    {
+                        TransactionViewer.ViewTransaction(tmpListTransactions.TransactionsList);
+                        Console.ReadKey();
+                    }
+                    else
+                    {
+                        Console.WriteLine($"No data transactions, Please enter transaction");
+                        Console.WriteLine($"Press any key to continue");
+                        Console.ReadKey();
+                    };
                 }
                 else if (mainMenuItem[currentItem] == ("Show transaction according Category"))
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]}");
-                    TransactionViewer.ViewTransactionAccordingCategory(tmpListTransactions.TransactionsList);
-                    Console.ReadKey();
+                    if (tmpListTransactions.TransactionsList.Count != 0)
+                    {
+                        TransactionViewer.ViewTransactionAccordingCategory(tmpListTransactions.TransactionsList);
+                        Console.ReadKey();
+                    }
+                    else
+                    {
+                        Console.WriteLine($"No data transactions, Please enter transaction");
+                        Console.WriteLine($"Press any key to continue");
+                        Console.ReadKey();
+                    }
                 }
-                else if (mainMenuItem[currentItem] == ("Edit existing user"))//there used to be like 3 paragraphs here regarding my reasoning, but fuck that, basically edit user wont work once we pass a tmplist
-                    //to it directly its messy due to the way references are handled
-                    //or maybe more the way i think they are handled - lists being copied, and objects referred
-                    //bottom line is it works but there definitely is to be a nicer way to do this, ill ask patryk during refinements
-                    //Actually nvm im dumb, since below works i jsut understood sb wrong, ill get below to look decent when im done with homework
+                else if (mainMenuItem[currentItem] == ("Edit existing user"))
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]}");
                     string selectedUserEmail =  ConsoleFactory.SelectUserEmail(tmpListUsers.UsersList); //modified SelecUser returns a valid email string

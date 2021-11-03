@@ -7,30 +7,33 @@ namespace TheBTeam.BLL.Servises
     {
         public static void ViewUsers(List<User> users)
         {
-            var textPaddingWidth = 25;
+            var textPaddingWidth = 20;
             var paddingChar = ' ';
+            var numberOfCollumn = 8;
+            Console.WriteLine(("").PadRight(textPaddingWidth * numberOfCollumn, '='));
             Console.WriteLine($"|{"FirstName".PadRight(textPaddingWidth, paddingChar)} " +
-                                  $"|{"LastName".PadRight(textPaddingWidth, paddingChar)} " +
-                                  $"|{"Age".PadRight(textPaddingWidth, paddingChar)} " +
-                                  $"|{"Gender".PadRight(textPaddingWidth, paddingChar)}" +
-                                  $"|{"Company".PadRight(textPaddingWidth, paddingChar)}" +
-                                  $"|{"Email".PadRight(textPaddingWidth, paddingChar)}");
-            Console.WriteLine();
+                              $"|{"LastName".PadRight(textPaddingWidth, paddingChar)} " +
+                              $"|{"Age".PadRight(textPaddingWidth, paddingChar)} " +
+                              $"|{"Gender".PadRight(textPaddingWidth, paddingChar)}" +
+                              $"|{"Company".PadRight(textPaddingWidth, paddingChar)}" +
+                              $"|{"Balance".PadRight(textPaddingWidth, paddingChar)}" +
+                              $"|{"Email".PadRight(textPaddingWidth, paddingChar)}");
+            Console.WriteLine(("").PadRight(textPaddingWidth * numberOfCollumn, '='));
             if (users != null)
             {
-                int index = 0;
                 foreach (var item in users)
                 {
-                    
-                    Console.WriteLine(
-                                      $"|{item.FirstName.ToString().PadRight(textPaddingWidth, paddingChar)} " +
+                    Console.WriteLine($"|{item.FirstName.ToString().PadRight(textPaddingWidth, paddingChar)} " +
                                       $"|{item.LastName.ToString().PadRight(textPaddingWidth, paddingChar)} " +
                                       $"|{item.Age.ToString().PadRight(textPaddingWidth, paddingChar)} " +
                                       $"|{item.Gender.ToString().PadRight(textPaddingWidth, paddingChar)}" +
                                       $"|{item.Company.ToString().PadRight(textPaddingWidth, paddingChar)}" +
+                                      $"|{item.Balance.ToString().PadRight(textPaddingWidth, paddingChar)}" +
                                       $"|{item.Email.ToString().PadRight(textPaddingWidth, paddingChar)}");
-                    index++;
+
                 }
+                Console.WriteLine(("").PadRight(textPaddingWidth * numberOfCollumn, '='));
+                Console.WriteLine($"Press any key to continue");
             }
         }
     }
