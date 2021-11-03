@@ -93,5 +93,33 @@ namespace TheBTeam.ConsoleApp
                 }
             }
         }
+
+
+        public static void ViewTransactionByDate(IEnumerable<Transaction> filteredTransactions, DateTime firstDate, DateTime secondDate)
+        {
+            var textPaddingWidth = 23;
+            var paddingChar = ' ';
+            Console.WriteLine($"|{"FirstName".PadRight(textPaddingWidth, paddingChar)} " +
+                              $"|{"LastName".PadRight(textPaddingWidth, paddingChar)} " +
+                              $"|{"Type".PadRight(textPaddingWidth, paddingChar)}" +
+                              $"|{"Category".PadRight(textPaddingWidth, paddingChar)}" +
+                              $"|{"Currency".PadRight(textPaddingWidth, paddingChar)}" +
+                              $"|{"Amount".PadRight(textPaddingWidth, paddingChar)}" +
+                              $"|{"Time of transaction".PadRight(textPaddingWidth, paddingChar)}");
+            Console.WriteLine();
+
+            Console.WriteLine($"Transaction are presented from: {firstDate} to {secondDate}");
+            Console.WriteLine();
+            foreach (var item in filteredTransactions)
+            {
+                Console.WriteLine($"|{item.User.FirstName.ToString().PadRight(textPaddingWidth, paddingChar)} " +
+                                  $"|{item.User.LastName.ToString().PadRight(textPaddingWidth, paddingChar)} " +
+                                  $"|{item.Type.ToString().PadRight(textPaddingWidth, paddingChar)}" +
+                                  $"|{item.Category.ToString().PadRight(textPaddingWidth, paddingChar)}" +
+                                  $"|{item.Currency.ToString().PadRight(textPaddingWidth, paddingChar)}" +
+                                  $"|{item.Amount.ToString().PadRight(textPaddingWidth, paddingChar)}" +
+                                  $"|{item.OccurenceTime.ToString("yyyy MM dd").PadRight(textPaddingWidth, paddingChar)}");
+            }
+        }
     }
 }

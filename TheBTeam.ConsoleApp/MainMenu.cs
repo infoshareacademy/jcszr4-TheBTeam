@@ -19,6 +19,7 @@ namespace TheBTeam.ConsoleApp
                 "Show transaction according User",
                 "Edit existing user",
                 "Edit transaction",
+                "Search transactions by date",
                 "Exit" };//Guess should be made somehow else- have to change whole text in code every time sth is changed 
         public static void ShowMainMenu()
         {
@@ -114,6 +115,8 @@ namespace TheBTeam.ConsoleApp
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]}");
                     string selectedUserEmail =  ConsoleFactory.SelectUserEmail(tmpListUsers.UsersList); //modified SelecUser returns a valid email string
+                    if (selectedUserEmail == null)
+                        continue;
                     ConsoleFactory.EditUser(tmpListUsers.UsersList.FirstOrDefault(user => user.Email == selectedUserEmail));//we pass the first user object with the specified email since theyre supposed to be unique anyways
                     Console.ReadKey();
                 }
@@ -121,6 +124,30 @@ namespace TheBTeam.ConsoleApp
                 {
                     int indexOfTransaction = TransactionViewer.ViewTransactionEdit(tmpListTransactions.TransactionsList);
                     ConsoleFactory.EditTransaction(tmpListTransactions.TransactionsList[indexOfTransaction]);
+                    Console.ReadKey();
+                }
+                else if (mainMenuItem[currentItem] == ("Search transactions by date"))
+                {
+                    string selectedUserEmail = ConsoleFactory.SelectUserEmail(tmpListUsers.UsersList);
+                    var firstDate = ConsoleFactory.GetDate("first date", new DateTime(1998, 1, 1));
+                    if (firstDate == new DateTime(1970))
+                    {
+                        continue;
+                    }
+                    var secondDate = ConsoleFactory.GetDate("second date or type now", firstDate);
+                    if (secondDate == new DateTime(1970))
+                    {
+                        continue;
+                    }
+
+                    var filteredTransactions = tmpListTransactions.TransactionsList
+                        .Where(x => x.OccurenceTime > firstDate).Where(x => x.OccurenceTime < secondDate)
+                        .Where(x => x.User.Email == selectedUserEmail)
+                        .OrderBy(x => x.OccurenceTime);
+
+                    //date validation
+                    TransactionViewer.ViewTransactionByDate(filteredTransactions, firstDate, secondDate);
+
                     Console.ReadKey();
                 }
                 else if (mainMenuItem[currentItem] == ("Exit"))

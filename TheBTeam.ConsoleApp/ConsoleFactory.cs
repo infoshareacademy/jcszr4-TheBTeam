@@ -522,6 +522,55 @@ namespace TheBTeam.ConsoleApp
                 }
             }
         }
+
+
+        public static DateTime GetDate(string dateNumber, DateTime firstDate)
+        {
+            Console.WriteLine($"Enter {dateNumber} in format yyyy-MM-dd; for example 2010-11-22");
+            while (true)
+            {
+                string dateToConvert = "";
+                try
+                {
+                    dateToConvert = Console.ReadLine();
+                    if (dateToConvert.ToLower() == "exit")
+                    {
+                        return new DateTime(1970);
+                    }
+                    if(dateToConvert.ToLower() == "now")
+                    {
+                        return DateTime.Now;
+                    }
+
+                    DateTime myDate = DateTime.ParseExact(dateToConvert, "yyyy-MM-dd",
+                        System.Globalization.CultureInfo.InvariantCulture);
+                    if (myDate > DateTime.Now.AddDays(1))
+                    {
+                        Console.WriteLine("Please enter date lower or equal than today");
+                        throw new FormatException();
+                    }
+                    else if (myDate < new DateTime(1999, 1, 1))
+                    {
+                        Console.WriteLine("Please enter date higher than 1999");
+                        throw new FormatException();
+                    }
+                    else if (firstDate > myDate)
+                    {
+                        Console.WriteLine($"Please enter higher than first selected date: {firstDate}");
+                        throw new FormatException();
+                    }
+
+                    Console.Clear();
+                    return myDate;
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Please enter correct format yyyy-MM-dd or type exit to quit to main menu",
+                        dateToConvert);
+                }
+            }
+        }
+
     }
 }
 
