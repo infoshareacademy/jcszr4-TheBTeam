@@ -65,8 +65,10 @@ namespace TheBTeam.ConsoleApp
         public static int ViewTransactionEdit(List<Transaction> transactions)
         {
             int index = 0;
-            var textPaddingWidth = 23;
+            var textPaddingWidth = 20;
             var paddingChar = ' ';
+            var numberOfCollumn = 7;
+            Console.WriteLine(("").PadRight(textPaddingWidth * numberOfCollumn, '='));
             Console.WriteLine(    $"|{"Index".PadRight(textPaddingWidth, paddingChar)} " +
                                   $"|{"FirstName".PadRight(textPaddingWidth, paddingChar)} " +
                                   $"|{"LastName".PadRight(textPaddingWidth, paddingChar)} " +
@@ -74,7 +76,7 @@ namespace TheBTeam.ConsoleApp
                                   $"|{"Category".PadRight(textPaddingWidth, paddingChar)}" +
                                   $"|{"Currency".PadRight(textPaddingWidth, paddingChar)}" +
                                   $"|{"Amount".PadRight(textPaddingWidth, paddingChar)}");
-            Console.WriteLine();
+            Console.WriteLine(("").PadRight(textPaddingWidth * numberOfCollumn, '='));
             foreach (var item in transactions)
             {
                 Console.WriteLine($"|{index.ToString().PadRight(textPaddingWidth, paddingChar)}" +
@@ -86,6 +88,7 @@ namespace TheBTeam.ConsoleApp
                                   $"|{item.Amount.ToString().PadRight(textPaddingWidth, paddingChar)}");
                 index++;
             }
+            Console.WriteLine(("").PadRight(textPaddingWidth * numberOfCollumn, '='));
             Console.WriteLine("\n\nChoose transaction to edit by index\n");
             var name = "Index";
             var min = 0;
