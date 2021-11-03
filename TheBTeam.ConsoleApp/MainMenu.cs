@@ -31,11 +31,11 @@ namespace TheBTeam.ConsoleApp
                 do
                 {
                     Console.Clear();
-                    Console.WriteLine("------------------------------------------");
-                    Console.WriteLine($"Welcome in the financial planner         ");
-                    Console.WriteLine("------------------------------------------");
-                    Console.WriteLine("---------------TheBTeam-------------------");
-                    Console.WriteLine("------------------------------------------");
+                    Console.WriteLine("========================================================");
+                    Console.WriteLine("========================================================");
+                    Console.WriteLine("||    Welcome in the financial planner by TheBTeam    ||");
+                    Console.WriteLine("========================================================");
+                    Console.WriteLine("========================================================");
                     for (int i = 0; i < mainMenuItem.Length; i++)
                     {
                         if (currentItem == i)
@@ -71,6 +71,14 @@ namespace TheBTeam.ConsoleApp
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]} ...");
                     tmpListUsers.UsersList = LoadDataFromFile.ReadUserFile();
+                    if (tmpListUsers.UsersList.Count > 0)
+                    {
+                        Console.WriteLine($"The Users were loaded successful");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"The users have not been loaded!");
+                    }
                     Console.WriteLine($"Press any key to continue");
                     Console.ReadKey();
                 }
@@ -92,7 +100,7 @@ namespace TheBTeam.ConsoleApp
                     }
                     else
                     {
-                        Console.WriteLine($"No data users, Please add new user");
+                        Console.WriteLine($"No users, Please add new user");
                         Console.WriteLine($"Press any key to continue");
                         Console.ReadKey();
                     }
@@ -117,7 +125,7 @@ namespace TheBTeam.ConsoleApp
                     }
                     else
                     {
-                        Console.WriteLine($"No data transactions, Please enter transaction");
+                        Console.WriteLine($"No transactions, Please enter transaction");
                         Console.WriteLine($"Press any key to continue");
                         Console.ReadKey();
                     };
@@ -132,7 +140,7 @@ namespace TheBTeam.ConsoleApp
                     }
                     else
                     {
-                        Console.WriteLine($"No data transactions, Please enter transaction");
+                        Console.WriteLine($"No transactions, Please enter transaction");
                         Console.WriteLine($"Press any key to continue");
                         Console.ReadKey();
                     }
