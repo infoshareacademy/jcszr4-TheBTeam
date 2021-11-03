@@ -5,7 +5,7 @@ namespace TheBTeam.ConsoleApp
 {
     class Program
     {
-        private const int MinimizeSizeConsoleWindow = 160;
+        private const int MinimizeSizeConsoleWindow = 170;
         static void Main(string[] args)
         {
             if (Console.BufferWidth < MinimizeSizeConsoleWindow)

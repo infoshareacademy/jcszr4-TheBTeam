@@ -44,20 +44,28 @@ namespace TheBTeam.ConsoleApp
             var textPaddingWidth = 20;
             var paddingChar = ' ';
             var numberOfCollumn = 5;
-            Console.WriteLine(("").PadRight(textPaddingWidth * numberOfCollumn, '='));
-            Console.WriteLine($"|{"Category".PadRight(textPaddingWidth, paddingChar)} " +
-                              $"|{"Type".PadRight(textPaddingWidth, paddingChar)} " +
-                              $"|{"OccuranceTime".PadRight(textPaddingWidth, paddingChar)} " +
-                              $"|{"Balance".PadRight(textPaddingWidth, paddingChar)}" +
-                              $"|{"Amount".PadRight(textPaddingWidth, paddingChar)}");
-            Console.WriteLine(("").PadRight(textPaddingWidth * numberOfCollumn, '='));
-            foreach (var item in tmpTransactions)
+
+            if (tmpTransactions.ToList().Count > 0)
             {
-                Console.WriteLine($"|{item.Category.ToString().PadRight(textPaddingWidth, paddingChar)} " +
-                                  $"|{item.Type.ToString().PadRight(textPaddingWidth, paddingChar)} " +
-                                  $"|{item.OccurenceTime.ToString("dd/MM/yyyy").PadRight(textPaddingWidth, paddingChar)} " +
-                                  $"|{item.User.Balance.ToString().PadRight(textPaddingWidth, paddingChar)}" +
-                                  $"|{item.Amount.ToString().PadRight(textPaddingWidth, paddingChar)}");
+                Console.WriteLine(("").PadRight(textPaddingWidth * numberOfCollumn, '='));
+                Console.WriteLine($"|{"Category".PadRight(textPaddingWidth, paddingChar)} " +
+                                  $"|{"Type".PadRight(textPaddingWidth, paddingChar)} " +
+                                  $"|{"OccuranceTime".PadRight(textPaddingWidth, paddingChar)} " +
+                                  $"|{"Balance".PadRight(textPaddingWidth, paddingChar)}" +
+                                  $"|{"Amount".PadRight(textPaddingWidth, paddingChar)}");
+                Console.WriteLine(("").PadRight(textPaddingWidth * numberOfCollumn, '='));
+                foreach (var item in tmpTransactions)
+                {
+                    Console.WriteLine($"|{item.Category.ToString().PadRight(textPaddingWidth, paddingChar)} " +
+                                      $"|{item.Type.ToString().PadRight(textPaddingWidth, paddingChar)} " +
+                                      $"|{item.OccurenceTime.ToString("dd/MM/yyyy").PadRight(textPaddingWidth, paddingChar)} " +
+                                      $"|{item.User.Balance.ToString().PadRight(textPaddingWidth, paddingChar)}" +
+                                      $"|{item.Amount.ToString().PadRight(textPaddingWidth, paddingChar)}");
+                }
+            }
+            else
+            {
+                Console.WriteLine($"No transactions, select another category again");
             }
             Console.WriteLine(("").PadRight(textPaddingWidth * numberOfCollumn, '='));
             Console.WriteLine($"Press any key to continue");
