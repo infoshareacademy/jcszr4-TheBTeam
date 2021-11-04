@@ -103,7 +103,7 @@ namespace TheBTeam.ConsoleApp
             Console.Clear();
             Console.WriteLine($"                       {name}                        ");
             Console.WriteLine("=================================================================");
-            Console.WriteLine("Type following information, or type 'Exit' to abort creating new user");
+            Console.WriteLine("Type following information, or type 'Exit' to abort.");
         }
         private static string GetStringInput(string name, int minLength)
         {
