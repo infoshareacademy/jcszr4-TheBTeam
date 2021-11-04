@@ -129,25 +129,7 @@ namespace TheBTeam.ConsoleApp
                 else if (mainMenuItem[currentItem] == ("Search transactions by date"))
                 {
                     string selectedUserEmail = ConsoleFactory.SelectUserEmail(tmpListUsers.UsersList);
-                    var firstDate = ConsoleFactory.GetDate("first date", new DateTime(1998, 1, 1));
-                    if (firstDate == new DateTime(1970))
-                    {
-                        continue;
-                    }
-                    var secondDate = ConsoleFactory.GetDate("second date or type now", firstDate);
-                    if (secondDate == new DateTime(1970))
-                    {
-                        continue;
-                    }
-
-                    var filteredTransactions = tmpListTransactions.TransactionsList
-                        .Where(x => x.OccurenceTime > firstDate).Where(x => x.OccurenceTime < secondDate)
-                        .Where(x => x.User.Email == selectedUserEmail)
-                        .OrderBy(x => x.OccurenceTime);
-
-                    //date validation
-                    TransactionViewer.ViewTransactionByDate(filteredTransactions, firstDate, secondDate);
-
+                    ConsoleFactory.SelectDate(selectedUserEmail, tmpListTransactions);
                     Console.ReadKey();
                 }
                 else if (mainMenuItem[currentItem] == ("Exit"))

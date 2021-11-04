@@ -108,7 +108,7 @@ namespace TheBTeam.ConsoleApp
                               $"|{"Time of transaction".PadRight(textPaddingWidth, paddingChar)}");
             Console.WriteLine();
 
-            Console.WriteLine($"Transaction are presented from: {firstDate} to {secondDate}");
+            Console.WriteLine($"Transaction are presented from: {firstDate:yyyy MM dd} to {secondDate:yyyy MM dd}");
             Console.WriteLine();
             foreach (var item in filteredTransactions)
             {
@@ -118,7 +118,7 @@ namespace TheBTeam.ConsoleApp
                                   $"|{item.Category.ToString().PadRight(textPaddingWidth, paddingChar)}" +
                                   $"|{item.Currency.ToString().PadRight(textPaddingWidth, paddingChar)}" +
                                   $"|{item.Amount.ToString().PadRight(textPaddingWidth, paddingChar)}" +
-                                  $"|{item.OccurenceTime.ToString("yyyy MM dd").PadRight(textPaddingWidth, paddingChar)}");
+                                  $"|{item.OccurenceTime.ToString("yyyy MM dd HH:mm").PadRight(textPaddingWidth, paddingChar)}");
             }
         }
     }

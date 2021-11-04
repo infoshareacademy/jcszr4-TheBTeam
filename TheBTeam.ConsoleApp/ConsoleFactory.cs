@@ -571,6 +571,27 @@ namespace TheBTeam.ConsoleApp
             }
         }
 
+        public static void SelectDate(string selectedUserEmail, TmpDatabase tmpListTransactions)
+        {
+            var firstDate = ConsoleFactory.GetDate("first date", new DateTime(1998, 1, 1));
+            if (firstDate == new DateTime(1970))
+            {
+                return;
+            }
+            var secondDate = ConsoleFactory.GetDate("second date or type now", firstDate);
+            if (secondDate == new DateTime(1970))
+            {
+                return;
+            }
+
+            var filteredTransactions = tmpListTransactions.TransactionsList
+                .Where(x => x.OccurenceTime > firstDate).Where(x => x.OccurenceTime < secondDate)
+                .Where(x => x.User.Email == selectedUserEmail)
+                .OrderBy(x => x.OccurenceTime);
+
+            //date validation
+            TransactionViewer.ViewTransactionByDate(filteredTransactions, firstDate, secondDate);
+        }
     }
 }
 
