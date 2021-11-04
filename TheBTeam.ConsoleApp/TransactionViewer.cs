@@ -52,7 +52,7 @@ namespace TheBTeam.ConsoleApp
         }
         public static int ViewTransactionEdit(List<Transaction> transactions)
         {
-            int index = 0;
+            int index = 1;
             var textPaddingWidth = 23;
             var paddingChar = ' ';
             Console.WriteLine(    $"|{"Index".PadRight(textPaddingWidth, paddingChar)} " +
@@ -76,7 +76,7 @@ namespace TheBTeam.ConsoleApp
             }
             Console.WriteLine("\n\nChoose transaction to edit by index\n");
             var name = "Index";
-            var min = 0;
+            var min = 1;
             var max = index;
             while (true)
             {
@@ -85,7 +85,7 @@ namespace TheBTeam.ConsoleApp
                 var isDig = int.TryParse(input, out var result);
                 if (isDig && result >= min && result < max)
                 {
-                    return result;
+                    return result-1;
                 }
                 else
                 {
