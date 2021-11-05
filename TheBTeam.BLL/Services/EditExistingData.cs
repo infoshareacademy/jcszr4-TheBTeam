@@ -8,7 +8,7 @@ using TheBTeam.BLL.Validators;
 
 namespace TheBTeam.BLL.Services
 {
-    public class Edits
+    public class EditExistingData
     {
         const int MinAddressLength = 3;
         const int MinNameLength = 2;
@@ -24,67 +24,93 @@ namespace TheBTeam.BLL.Services
             {
                 Console.WriteLine(options, "\n");
                 string choice = Console.ReadLine();
-                if (choice == "1")
+                switch (choice)
                 {
-                    tempuser.LastName = GetStringInput("Last Name", MinNameLength);
-                }
-                else if (choice == "2")
-                {
-                    tempuser.Age = GetIntInput("Age", MinAge, MaxAge);
-                }
-                else if (choice == "3")
-                {
-                    tempuser.Company = GetCompany();
-                }
-                else if (choice == "4")
-                {
-                    tempuser.Gender = GetGender();
-                }
-                else if (choice == "5")
-                {
-                    tempuser.Phone = GetPhoneNumber();
-                }
-                else if (choice == "6")
-                {
-                    tempuser.Balance = GetDecimalInput("Current balance");
-                }
-                else if (choice == "7")
-                {
-                    tempuser.Currency = GetCurrency();
-                }
-                else if (choice == "8")
-                {
-                    Console.WriteLine(" S to save, X to cancel\n");
-                    bool choiceSubmitted = false;
-                    while (choiceSubmitted == false)
-                    {
-                        string key = Console.ReadKey().Key.ToString();
-                        if (key.ToUpper() == "S")
+                    case "1":
+                        tempuser.LastName = GetStringInput("Last Name", MinNameLength);
+                        break;
+                    case "2":
+                        tempuser.Age = GetIntInput("Age", MinAge, MaxAge);
+                        break;
+                    case "3":
+                        tempuser.Company = GetCompany();
+                        break;
+                    case "4":
+                        tempuser.Gender = GetGender();
+                        break;
+                    case "5":
+                        tempuser.Phone = GetPhoneNumber();
+                        break;
+                    case "6":
+                        tempuser.Balance = GetDecimalInput("Current balance");
+                        break;
+                    case "7":
+                        tempuser.Currency = GetCurrency();
+                        break;
+                    case "8":
                         {
-                            user.LastName = tempuser.LastName;
-                            user.Age = tempuser.Age;
-                            user.Company = tempuser.Company;
-                            user.Gender = tempuser.Gender;
-                            user.Phone = tempuser.Phone;
-                            user.Currency = tempuser.Currency;
-                            user.Balance = tempuser.Balance;
-                            Console.WriteLine("\nSaved");
-                            choiceSubmitted = true;
-                            exit = true;
-                        }
+                            Console.WriteLine("S to save, X to cancel\n");
+                            bool choiceSubmitted = false;
+                            while (choiceSubmitted == false)
+                            {
+                                string key = Console.ReadKey().Key.ToString();
+                                if (key.ToUpper() == "S")
+                                {
+                                    Console.WriteLine("\nSaved");
+                                    if (user.LastName != tempuser.LastName)
+                                    {
+                                        Console.WriteLine($"{user.LastName} changed to {tempuser.LastName}");
+                                    }
+                                    if (user.Age != tempuser.Age)
+                                    {
+                                        Console.WriteLine($"{user.Age} changed to {tempuser.Age}");
+                                    }
+                                    if (user.Company != tempuser.Company)
+                                    {
+                                        Console.WriteLine($"{user.Company} changed to {tempuser.Company}");
+                                    }
+                                    if (user.Gender != tempuser.Gender)
+                                    {
+                                        Console.WriteLine($"{user.Gender} changed to {tempuser.Gender}");
+                                    }
+                                    if (user.Phone != tempuser.Phone)
+                                    {
+                                        Console.WriteLine($"{user.Phone} changed to {tempuser.Phone}");
+                                    }
+                                    if (user.Currency != tempuser.Currency)
+                                    {
+                                        Console.WriteLine($"{user.Currency} changed to {tempuser.Currency}");
+                                    }
+                                    if (user.Balance != tempuser.Balance)
+                                    {
+                                        Console.WriteLine($"{user.Balance} changed to {tempuser.Balance}");
+                                    }
+                                    user.LastName = tempuser.LastName;
+                                    user.Age = tempuser.Age;
+                                    user.Company = tempuser.Company;
+                                    user.Gender = tempuser.Gender;
+                                    user.Phone = tempuser.Phone;
+                                    user.Currency = tempuser.Currency;
+                                    user.Balance = tempuser.Balance;
+                                    choiceSubmitted = true;
+                                    Console.ReadLine();
+                                    exit = true;
+                                }
 
-                        else if (key.ToUpper() == "X")
-                        {
-                            Console.WriteLine("\nCancelled");
-                            choiceSubmitted = true;
-                            exit = true;
+                                else if (key.ToUpper() == "X")
+                                {
+                                    Console.WriteLine("\nCancelled");
+                                    choiceSubmitted = true;
+                                    exit = true;
 
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Select X to abort or S to save please\n");
+                                }
+                            }
+                            break;
                         }
-                        else
-                        {
-                            Console.WriteLine("Select X to abort or S to save please\n");
-                        }
-                    }
                 }
             }
         }
@@ -111,9 +137,14 @@ namespace TheBTeam.BLL.Services
                         string key = Console.ReadKey().Key.ToString();
                         if (key.ToUpper() == "S")
                         {
+                            if(transaction.Category != tempTransaction.Category)
+                            {
+                                Console.WriteLine($"{transaction.Category} changed to {tempTransaction.Category}");
+                            }
                             transaction.Category = tempTransaction.Category;
                             choiceSubmitted = true;
                             Console.WriteLine("\nSaved");
+                            Console.ReadLine();
                             exit = true;
                         }
                         else if (key.ToUpper() == "X")

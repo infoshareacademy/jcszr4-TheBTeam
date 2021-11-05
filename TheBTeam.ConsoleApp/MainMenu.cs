@@ -32,7 +32,7 @@ namespace TheBTeam.ConsoleApp
                 {
                     Console.Clear();
                     Console.WriteLine("------------------------------------------");
-                    Console.WriteLine($"Welcome in the financial planner");
+                    Console.WriteLine($"Welcome to the financial planner");
                     Console.WriteLine("------------------------------------------");
                     for (int i = 0; i < mainMenuItem.Length; i++)
                     {
@@ -110,12 +110,12 @@ namespace TheBTeam.ConsoleApp
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]}");
                     string selectedUserEmail =  ConsoleFactory.SelectUserEmail(tmpListUsers.UsersList); 
-                    Edits.EditUser(tmpListUsers.UsersList.FirstOrDefault(user => user.Email == selectedUserEmail));
+                    EditExistingData.EditUser(tmpListUsers.UsersList.FirstOrDefault(user => user.Email == selectedUserEmail));
                 }
                 else if (mainMenuItem[currentItem] == ("Edit transaction"))
                 {
                     int indexOfTransaction = TransactionViewer.ViewTransactionEdit(tmpListTransactions.TransactionsList);
-                    Edits.EditTransaction(tmpListTransactions.TransactionsList[indexOfTransaction]);
+                    EditExistingData.EditTransaction(tmpListTransactions.TransactionsList[indexOfTransaction]);
                     Console.ReadKey();
                 }
                 else if (mainMenuItem[currentItem] == ("Exit"))
