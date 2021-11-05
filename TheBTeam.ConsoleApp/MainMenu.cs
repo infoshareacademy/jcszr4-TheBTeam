@@ -93,17 +93,7 @@ namespace TheBTeam.ConsoleApp
                 }
                 else if (mainMenuItem[currentItem] == ("View users"))
                 {
-                    if (tmpListUsers.UsersList.Count > 0)
-                    {
-                        UserViewer.ViewUsers(tmpListUsers.UsersList);
-                        Console.ReadKey();
-                    }
-                    else
-                    {
-                        Console.WriteLine($"No users, Please add new user");
-                        Console.WriteLine($"Press any key to continue");
-                        Console.ReadKey();
-                    }
+                    UserViewer.ViewUsers(tmpListUsers.UsersList);
                 }
                 else if (mainMenuItem[currentItem].Contains("Enter transaction"))
                 {
@@ -118,32 +108,12 @@ namespace TheBTeam.ConsoleApp
                 else if (mainMenuItem[currentItem] == ("Show all transaction"))
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]}");
-                    if (tmpListTransactions.TransactionsList.Count != 0)
-                    {
-                        TransactionViewer.ViewTransaction(tmpListTransactions.TransactionsList);
-                        Console.ReadKey();
-                    }
-                    else
-                    {
-                        Console.WriteLine($"No transactions, Please enter transaction");
-                        Console.WriteLine($"Press any key to continue");
-                        Console.ReadKey();
-                    };
+                    TransactionViewer.ViewTransaction(tmpListTransactions.TransactionsList);
                 }
                 else if (mainMenuItem[currentItem] == ("Show transaction according Category"))
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]}");
-                    if (tmpListTransactions.TransactionsList.Count != 0)
-                    {
-                        TransactionViewer.ViewTransactionAccordingCategory(tmpListTransactions.TransactionsList);
-                        Console.ReadKey();
-                    }
-                    else
-                    {
-                        Console.WriteLine($"No transactions, Please enter transaction");
-                        Console.WriteLine($"Press any key to continue");
-                        Console.ReadKey();
-                    }
+                    TransactionViewer.ViewTransactionAccordingCategory(tmpListTransactions.TransactionsList);
                 }
                 else if (mainMenuItem[currentItem] == ("Edit existing user"))
                 {
