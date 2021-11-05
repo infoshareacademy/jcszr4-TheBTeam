@@ -36,11 +36,9 @@ namespace TheBTeam.ConsoleApp
         }
         public static void ViewTransactionAccordingCategory(List<Transaction> transactions)
         {
-            //TODO : added here readline with user!
-            var email = ConsoleFactory.GetEmail();
             var categoryOfTransaction = ConsoleFactory.GetCategoryOfTransaction();
             Console.WriteLine($"{categoryOfTransaction}");
-            var tmpTransactions = transactions.Where(t => t.User.Email == email).Where(t => t.Category == categoryOfTransaction);
+            var tmpTransactions = transactions.Where(t => t.Category == categoryOfTransaction);
             var textPaddingWidth = 20;
             var paddingChar = ' ';
             var numberOfCollumn = 5;
@@ -69,6 +67,7 @@ namespace TheBTeam.ConsoleApp
             }
             Console.WriteLine(("").PadRight(textPaddingWidth * numberOfCollumn, '='));
             Console.WriteLine($"Press any key to continue");
+            Console.ReadKey();
         }
         public static int ViewTransactionEdit(List<Transaction> transactions)
         {
