@@ -19,7 +19,7 @@ namespace TheBTeam.BLL.Services
         {
             Console.WriteLine("EDIT USER\n=================");
             var tempuser = new User(user.FirstName, user.LastName, user.Gender, user.Age, user.Email, user.Phone, user.Address, user.Company, user.Currency, user.Balance);
-            string options = "1)Edit surname\n2)Edit age\n3)Edit Company\n4)Edit gender\n5)Edit phone\n6)Edit balance\n7)Edit currency\n8)Finish";
+            string options = "1)Edit surname\n2)Edit age\n3)Edit Company\n4)Edit gender\n5)Edit phone\n6)Edit balance\n7)Edit currency\n8)Finish\n9)Exit";
             bool exit = false;
             do
             {
@@ -48,6 +48,8 @@ namespace TheBTeam.BLL.Services
                     case "7":
                         tempuser.Currency = GetCurrency();
                         break;
+                    case "9":
+                        return;
                     case "8":
                         {
                             Console.WriteLine("S to save, X to cancel\n");
@@ -108,6 +110,7 @@ namespace TheBTeam.BLL.Services
                                 {
                                     Console.WriteLine("Select X to abort or S to save please\n");
                                 }
+                                
                             }
                             break;
                         }
@@ -119,45 +122,52 @@ namespace TheBTeam.BLL.Services
         {
             Console.WriteLine("EDIT TRANSACTION\n==================");
             var tempTransaction = new Transaction(transaction.User, transaction.Type, transaction.Category, transaction.Currency, transaction.Amount);
-            string options = "1)Edit category\n2)Save or cancel changes";
+            string options = "1)Edit category\n2)Save or cancel changes\n3)Exit";
             bool exit = false;
             do
             {
                 Console.WriteLine(options, "\n");
                 string choice = Console.ReadLine();
-                if (choice == "1")
+                switch (choice)
                 {
-                    tempTransaction.Category = GetCategoryOfTransaction();
-                }
-                else if (choice == "2")
-                {
-                    Console.WriteLine("S to save changes or X to cancel\n");
-                    while(true)
-                    {
-                        string key = Console.ReadKey().Key.ToString();
-                        if (key.ToUpper() == "S")
+                    case "1":
+                        tempTransaction.Category = GetCategoryOfTransaction();
+                        break;
+                    case "2":
                         {
-                            if(transaction.Category != tempTransaction.Category)
+                            Console.WriteLine("S to save changes or X to cancel\n");
+                            while (true)
                             {
-                                Console.WriteLine($"{transaction.Category} changed to {tempTransaction.Category}");
+                                string key = Console.ReadKey().Key.ToString();
+                                if (key.ToUpper() == "S")
+                                {
+                                    if (transaction.Category != tempTransaction.Category)
+                                    {
+                                        Console.WriteLine($"{transaction.Category} changed to {tempTransaction.Category}");
+                                    }
+                                    transaction.Category = tempTransaction.Category;
+                                    Console.WriteLine("\nSaved");
+                                    Console.ReadLine();
+                                    exit = true;
+                                    break;
+                                }
+                                else if (key.ToUpper() == "X")
+                                {
+                                    Console.WriteLine("\nCanceled");
+                                    exit = true;
+                                    break;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Select S to save changes or X to cancel\n");
+                                }
                             }
-                            transaction.Category = tempTransaction.Category;
-                            Console.WriteLine("\nSaved");
-                            Console.ReadLine();
-                            exit = true;
+
                             break;
                         }
-                        else if (key.ToUpper() == "X")
-                        {
-                            Console.WriteLine("\nCanceled");
-                            exit = true;
-                            break;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Select S to save changes or X to cancel\n");
-                        }
-                    }
+
+                    case "3":
+                        return;
                 }
             } while (exit == false) ;
         }

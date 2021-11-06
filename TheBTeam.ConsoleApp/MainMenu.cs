@@ -110,13 +110,19 @@ namespace TheBTeam.ConsoleApp
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]}");
                     string selectedUserEmail =  ConsoleFactory.SelectUserEmail(tmpListUsers.UsersList); 
-                    EditExistingData.EditUser(tmpListUsers.UsersList.FirstOrDefault(user => user.Email == selectedUserEmail));
+                    if (selectedUserEmail != null)
+                    {
+                        EditExistingData.EditUser(tmpListUsers.UsersList.FirstOrDefault(user => user.Email == selectedUserEmail));
+                    }
                 }
                 else if (mainMenuItem[currentItem] == ("Edit transaction"))
                 {
                     int indexOfTransaction = TransactionViewer.ViewTransactionEdit(tmpListTransactions.TransactionsList);
-                    EditExistingData.EditTransaction(tmpListTransactions.TransactionsList[indexOfTransaction]);
-                    Console.ReadKey();
+                    if (indexOfTransaction != -1)
+                    {
+                        EditExistingData.EditTransaction(tmpListTransactions.TransactionsList[indexOfTransaction]);
+                        Console.ReadKey();
+                    }
                 }
                 else if (mainMenuItem[currentItem] == ("Exit"))
                 {

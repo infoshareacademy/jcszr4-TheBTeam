@@ -74,7 +74,7 @@ namespace TheBTeam.ConsoleApp
                                   $"|{item.Amount.ToString().PadRight(textPaddingWidth, paddingChar)}");
                 index++;
             }
-            Console.WriteLine("\n\nChoose transaction to edit by index\n");
+            Console.WriteLine("\n\nChoose transaction to edit by index, or type 'Exit' to exit\n");
             var name = "Index";
             var min = 1;
             var max = index;
@@ -82,6 +82,10 @@ namespace TheBTeam.ConsoleApp
             {
                 Console.Write($"{name}: ");
                 var input = Console.ReadLine();
+                if (input.ToUpper().Trim() == "EXIT")
+                {
+                    return -1;
+                }
                 var isDig = int.TryParse(input, out var result);
                 if (isDig && result >= min && result < max)
                 {
