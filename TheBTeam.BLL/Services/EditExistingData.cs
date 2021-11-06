@@ -17,10 +17,11 @@ namespace TheBTeam.BLL.Services
         const int MaxAge = 99;
         public static void EditUser(User user)
         {
+            Console.WriteLine("EDIT USER\n=================");
             var tempuser = new User(user.FirstName, user.LastName, user.Gender, user.Age, user.Email, user.Phone, user.Address, user.Company, user.Currency, user.Balance);
             string options = "1)Edit surname\n2)Edit age\n3)Edit Company\n4)Edit gender\n5)Edit phone\n6)Edit balance\n7)Edit currency\n8)Finish";
             bool exit = false;
-            while (exit == false)
+            do
             {
                 Console.WriteLine(options, "\n");
                 string choice = Console.ReadLine();
@@ -50,8 +51,7 @@ namespace TheBTeam.BLL.Services
                     case "8":
                         {
                             Console.WriteLine("S to save, X to cancel\n");
-                            bool choiceSubmitted = false;
-                            while (choiceSubmitted == false)
+                            while (true)
                             {
                                 string key = Console.ReadKey().Key.ToString();
                                 if (key.ToUpper() == "S")
@@ -92,16 +92,16 @@ namespace TheBTeam.BLL.Services
                                     user.Phone = tempuser.Phone;
                                     user.Currency = tempuser.Currency;
                                     user.Balance = tempuser.Balance;
-                                    choiceSubmitted = true;
                                     Console.ReadLine();
                                     exit = true;
+                                    break;
                                 }
 
                                 else if (key.ToUpper() == "X")
                                 {
                                     Console.WriteLine("\nCancelled");
-                                    choiceSubmitted = true;
                                     exit = true;
+                                    break;
 
                                 }
                                 else
@@ -112,15 +112,16 @@ namespace TheBTeam.BLL.Services
                             break;
                         }
                 }
-            }
+            } while (!exit);
         }
 
         public static void EditTransaction(Transaction transaction)
         {
+            Console.WriteLine("EDIT TRANSACTION\n==================");
             var tempTransaction = new Transaction(transaction.User, transaction.Type, transaction.Category, transaction.Currency, transaction.Amount);
             string options = "1)Edit category\n2)Save or cancel changes";
             bool exit = false;
-            while (exit == false)
+            do
             {
                 Console.WriteLine(options, "\n");
                 string choice = Console.ReadLine();
@@ -131,8 +132,7 @@ namespace TheBTeam.BLL.Services
                 else if (choice == "2")
                 {
                     Console.WriteLine("S to save changes or X to cancel\n");
-                    bool choiceSubmitted = false;
-                    while (choiceSubmitted == false)
+                    while(true)
                     {
                         string key = Console.ReadKey().Key.ToString();
                         if (key.ToUpper() == "S")
@@ -142,16 +142,16 @@ namespace TheBTeam.BLL.Services
                                 Console.WriteLine($"{transaction.Category} changed to {tempTransaction.Category}");
                             }
                             transaction.Category = tempTransaction.Category;
-                            choiceSubmitted = true;
                             Console.WriteLine("\nSaved");
                             Console.ReadLine();
                             exit = true;
+                            break;
                         }
                         else if (key.ToUpper() == "X")
                         {
-                            choiceSubmitted = true;
                             Console.WriteLine("\nCanceled");
                             exit = true;
+                            break;
                         }
                         else
                         {
@@ -159,7 +159,7 @@ namespace TheBTeam.BLL.Services
                         }
                     }
                 }
-            }
+            } while (exit == false) ;
         }
 
         private static string GetStringInput(string name, int minLength)
