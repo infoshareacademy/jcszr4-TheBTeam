@@ -32,9 +32,11 @@ namespace TheBTeam.ConsoleApp
                 do
                 {
                     Console.Clear();
-                    Console.WriteLine("------------------------------------------");
-                    Console.WriteLine($"Welcome in the financial planner");
-                    Console.WriteLine("------------------------------------------");
+                    Console.WriteLine("========================================================");
+                    Console.WriteLine("========================================================");
+                    Console.WriteLine("||    Welcome in the financial planner by TheBTeam    ||");
+                    Console.WriteLine("========================================================");
+                    Console.WriteLine("========================================================");
                     for (int i = 0; i < mainMenuItem.Length; i++)
                     {
                         if (currentItem == i)
@@ -70,6 +72,16 @@ namespace TheBTeam.ConsoleApp
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]} ...");
                     tmpListUsers.UsersList = LoadDataFromFile.ReadUserFile();
+                    if (tmpListUsers.UsersList.Count > 0)
+                    {
+                        Console.WriteLine($"The Users were loaded successful");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"The users have not been loaded!");
+                    }
+                    Console.WriteLine($"Press any key to continue");
+                    Console.ReadKey();
                 }
                 else if (mainMenuItem[currentItem] == "Add new user")
                 {
@@ -83,7 +95,6 @@ namespace TheBTeam.ConsoleApp
                 else if (mainMenuItem[currentItem] == "View users")
                 {
                     UserViewer.ViewUsers(tmpListUsers.UsersList);
-                    Console.ReadKey();
                 }
                 else if (mainMenuItem[currentItem].Contains("Enter transaction"))
                 {
@@ -99,12 +110,16 @@ namespace TheBTeam.ConsoleApp
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]}");
                     TransactionViewer.ViewTransaction(tmpListTransactions.TransactionsList);
-                    Console.ReadKey();
                 }
                 else if (mainMenuItem[currentItem] == ("Show transaction by Category"))
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]}");
                     TransactionViewer.ViewTransactionAccordingCategory(tmpListTransactions.TransactionsList);
+                }
+                else if (mainMenuItem[currentItem] == "Show Users transaction by Type")
+                {
+                    Console.WriteLine($"{mainMenuItem[currentItem]}");
+                    TransactionViewer.UserAndTypeTransaction(tmpListUsers.UsersList, tmpListTransactions.TransactionsList);
                     Console.ReadKey();
                 }
                 else if (mainMenuItem[currentItem] == "Show Users transaction by Type")
