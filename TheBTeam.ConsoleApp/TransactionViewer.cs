@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TheBTeam.BLL.Model;
+using TheBTeam.BLL.Services;
 
 namespace TheBTeam.ConsoleApp
 {
@@ -132,6 +133,20 @@ namespace TheBTeam.ConsoleApp
                     Console.WriteLine($"{name} should be between {min} and {max-1}");
                 }
             }
+        }
+        public static void UserAndTypeTransaction(List<User> usersList, List<Transaction> transactions)
+        {
+            ConsoleFactory.Header("SEARCH USERS TRANSACTION BY TYPE");
+            var user = ConsoleFactory.SelectUser(usersList);
+            if (user == null)
+                return;
+
+            var type = ConsoleFactory.GetTypeOfTransaction();
+
+            var transactionByUser = TransactionService.SearchTransactionByUser(user, transactions);
+            var transactionByType = TransactionService.SearchTransactionByType(type, transactionByUser);
+
+            ViewTransaction(transactionByType);
         }
     }
 }
