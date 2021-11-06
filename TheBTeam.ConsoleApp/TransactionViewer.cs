@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TheBTeam.BLL.Model;
+using TheBTeam.BLL.Services;
 
 namespace TheBTeam.ConsoleApp
 {
@@ -55,7 +56,7 @@ namespace TheBTeam.ConsoleApp
             int index = 0;
             var textPaddingWidth = 23;
             var paddingChar = ' ';
-            Console.WriteLine(    $"|{"Index".PadRight(textPaddingWidth, paddingChar)} " +
+            Console.WriteLine($"|{"Index".PadRight(textPaddingWidth, paddingChar)} " +
                                   $"|{"FirstName".PadRight(textPaddingWidth, paddingChar)} " +
                                   $"|{"LastName".PadRight(textPaddingWidth, paddingChar)} " +
                                   $"|{"Type".PadRight(textPaddingWidth, paddingChar)}" +
@@ -89,9 +90,24 @@ namespace TheBTeam.ConsoleApp
                 }
                 else
                 {
-                    Console.WriteLine($"{name} should be between {min} and {max-1}");
+                    Console.WriteLine($"{name} should be between {min} and {max - 1}");
                 }
             }
         }
+        public static void UserAndTypeTransaction(List<User> usersList, List<Transaction> transactions)
+        {
+            ConsoleFactory.Header("SEARCH USERS TRANSACTION BY TYPE");
+            var user = ConsoleFactory.SelectUser(usersList);
+            if (user == null)
+                return;
+               
+            var type = ConsoleFactory.GetTypeOfTransaction();
+
+            var transactionByUser = TransactionService.SearchTransactionByUser(user, transactions);
+            var transactionByType = TransactionService.SearchTransactionByType(type, transactionByUser);
+
+            ViewTransaction(transactionByType);
+        }
+
     }
 }
