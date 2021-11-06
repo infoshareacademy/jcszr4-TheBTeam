@@ -15,8 +15,9 @@ namespace TheBTeam.ConsoleApp
                 "View users",
                 "Enter transaction",
                 "Show all transaction",
-                "Show transaction according Category",
+                "Show transaction by Category",
                 "Show transaction according User",
+                "Show Users transaction by Type",
                 "Edit existing user",
                 "Edit transaction",
                 "Exit" };//Guess should be made somehow else- have to change whole text in code every time sth is changed 
@@ -31,9 +32,13 @@ namespace TheBTeam.ConsoleApp
                 do
                 {
                     Console.Clear();
-                    Console.WriteLine("------------------------------------------");
-                    Console.WriteLine($"Welcome to the financial planner");
-                    Console.WriteLine("------------------------------------------");
+
+                    Console.WriteLine("========================================================");
+                    Console.WriteLine("========================================================");
+                    Console.WriteLine("||    Welcome in the financial planner by TheBTeam    ||");
+                    Console.WriteLine("========================================================");
+                    Console.WriteLine("========================================================");
+
                     for (int i = 0; i < mainMenuItem.Length; i++)
                     {
                         if (currentItem == i)
@@ -69,6 +74,16 @@ namespace TheBTeam.ConsoleApp
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]} ...");
                     tmpListUsers.UsersList = LoadDataFromFile.ReadUserFile();
+                    if (tmpListUsers.UsersList.Count > 0)
+                    {
+                        Console.WriteLine($"The Users were loaded successful");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"The users have not been loaded!");
+                    }
+                    Console.WriteLine($"Press any key to continue");
+                    Console.ReadKey();
                 }
                 else if (mainMenuItem[currentItem] == "Add new user")
                 {
@@ -79,10 +94,9 @@ namespace TheBTeam.ConsoleApp
                         tmpListUsers.UsersList.Add(user);
                     }
                 }
-                else if (mainMenuItem[currentItem] == ("View users"))
+                else if (mainMenuItem[currentItem] == "View users")
                 {
                     UserViewer.ViewUsers(tmpListUsers.UsersList);
-                    Console.ReadKey();
                 }
                 else if (mainMenuItem[currentItem].Contains("Enter transaction"))
                 {
@@ -98,14 +112,25 @@ namespace TheBTeam.ConsoleApp
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]}");
                     TransactionViewer.ViewTransaction(tmpListTransactions.TransactionsList);
-                    Console.ReadKey();
                 }
-                else if (mainMenuItem[currentItem] == ("Show transaction according Category"))
+                else if (mainMenuItem[currentItem] == ("Show transaction by Category"))
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]}");
                     TransactionViewer.ViewTransactionAccordingCategory(tmpListTransactions.TransactionsList);
+                }
+                else if (mainMenuItem[currentItem] == "Show Users transaction by Type")
+                {
+                    Console.WriteLine($"{mainMenuItem[currentItem]}");
+                    TransactionViewer.UserAndTypeTransaction(tmpListUsers.UsersList, tmpListTransactions.TransactionsList);
                     Console.ReadKey();
                 }
+                else if (mainMenuItem[currentItem] == "Show Users transaction by Type")
+                {
+                    Console.WriteLine($"{mainMenuItem[currentItem]}");
+                    TransactionViewer.UserAndTypeTransaction(tmpListUsers.UsersList, tmpListTransactions.TransactionsList);
+                    Console.ReadKey();
+                }
+
                 else if (mainMenuItem[currentItem] == ("Edit existing user"))
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]}");
@@ -114,6 +139,7 @@ namespace TheBTeam.ConsoleApp
                     {
                         EditExistingData.EditUser(tmpListUsers.UsersList.FirstOrDefault(user => user.Email == selectedUserEmail));
                     }
+
                 }
                 else if (mainMenuItem[currentItem] == ("Edit transaction"))
                 {
