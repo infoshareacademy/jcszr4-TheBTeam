@@ -130,7 +130,7 @@ namespace TheBTeam.ConsoleApp
                 }
                 else
                 {
-                    Console.WriteLine($"{name} should be between {min} and {max-1}");
+                    Console.WriteLine($"{name} should be between {min} and {max - 1}");
                 }
             }
         }
@@ -148,5 +148,6 @@ namespace TheBTeam.ConsoleApp
 
             ViewTransaction(transactionByType);
         }
+
     }
 }
