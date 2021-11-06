@@ -584,10 +584,7 @@ namespace TheBTeam.ConsoleApp
                 return;
             }
 
-            var filteredTransactions = tmpListTransactions.TransactionsList
-                .Where(x => x.OccurenceTime > firstDate).Where(x => x.OccurenceTime < secondDate)
-                .Where(x => x.User.Email == selectedUserEmail)
-                .OrderBy(x => x.OccurenceTime);
+            IOrderedEnumerable<Transaction> filteredTransactions = TransactionService.SearchTransactionByDate(tmpListTransactions, firstDate, secondDate, selectedUserEmail);
 
             //date validation
             TransactionViewer.ViewTransactionByDate(filteredTransactions, firstDate, secondDate);
