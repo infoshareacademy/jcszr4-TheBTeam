@@ -28,11 +28,11 @@ namespace TheBTeam.ConsoleApp
 
                 Header("CREATING NEW USER");
 
-                var firstName = GetStringInput("First Name", MinNameLength);
+                var firstName = GetNonDigString("First Name", MinNameLength);
                 if (firstName.ToLower() == "exit")
                     return null;
                 Header("CREATING NEW USER");
-                var lastName = GetStringInput("Last Name", MinNameLength);
+                var lastName = GetNonDigString("Last Name", MinNameLength);
                 if (lastName.ToLower() == "exit")
                     return null;
                 Header("CREATING NEW USER");
@@ -103,7 +103,7 @@ namespace TheBTeam.ConsoleApp
             Console.Clear();
             Console.WriteLine($"                       {name}                        ");
             Console.WriteLine("=================================================================");
-            Console.WriteLine("Type following information, or type 'Exit' to abort creating new user");
+            Console.WriteLine("Type following information, or type 'Exit' to abort.");
         }
         private static string GetStringInput(string name, int minLength)
         {
@@ -123,6 +123,25 @@ namespace TheBTeam.ConsoleApp
                 else
                     return input;
 
+            }
+        }
+        public static string GetNonDigString(string name, int minLength)
+        {
+            while (true)
+            {
+                var input = string.Empty;
+                if (minLength == 0)
+                {
+                    Console.Write($"{name}(press enter if null): ");
+                    return Console.ReadLine()?.Trim();
+                }
+
+                Console.Write($"{name}: ");
+                input = Console.ReadLine()?.Trim();
+                if (input == null || input.Length < minLength || input.Any(char.IsDigit) || input.Any(char.IsWhiteSpace))
+                    Console.WriteLine($"Invalid data. {name} should have at least {minLength} char long and in correct format Retry!");
+                else
+                    return input;
             }
         }
         private static string GetCompany()
