@@ -30,7 +30,7 @@ namespace TheBTeam.BLL.Servises
                                           $"|{item.Age.ToString().PadRight(textPaddingWidth, paddingChar)} " +
                                           $"|{item.Gender.ToString().PadRight(textPaddingWidth, paddingChar)}" +
                                           $"|{item.Company.ToString().PadRight(textPaddingWidth, paddingChar)}" +
-                                          $"|{item.Balance.ToString().PadRight(textPaddingWidth, paddingChar)}" +
+                                          $"|{item.Balance.ToString("C").PadRight(textPaddingWidth, paddingChar)}" +
                                           $"|{item.Email.ToString().PadRight(textPaddingWidth, paddingChar)}");
 
                     }

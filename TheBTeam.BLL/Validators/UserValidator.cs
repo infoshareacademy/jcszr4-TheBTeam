@@ -16,7 +16,7 @@ namespace TheBTeam.BLL.Validators
             else if (input.ToLower() == "exit")
                 return "exit";
 
-            else if (!input.Contains('@') | !input.Contains('.') || input.Length < 7)
+            else if (!input.Contains('@') || !input.Contains('.') || input.Length < 7)
                 return "Email has to be in correct format";
 
             else if (input.LastIndexOf(".", StringComparison.Ordinal) > input.Length - 3)
@@ -28,7 +28,7 @@ namespace TheBTeam.BLL.Validators
         public static string ValidatePhoneNumber(string input, int minPhoneNumberLength)
         {
             if (input.Length < minPhoneNumberLength)
-                return $"Invalid phone number! Phone number have to have at least {minPhoneNumberLength-3} (excluding prefix) digits. Type 'Exit' to abort. Retry!";
+                return $"Invalid phone number! Phone number have to have at least {minPhoneNumberLength - 3} (excluding prefix) digits. Type 'Exit' to abort. Retry!";
 
             if (input.ToLower() == "exit")
                 return "exit";
@@ -36,7 +36,7 @@ namespace TheBTeam.BLL.Validators
             if (!input.StartsWith('+'))
                 return "Invalid phone number! Phone number have to start with country code eg. +48. Retry!";
 
-            if (!double.TryParse(input.Remove(0,1), out var doubleInput))
+            if (!double.TryParse(input.Remove(0, 1), out var doubleInput))
                 return "Invalid input, it's not a number";
 
 

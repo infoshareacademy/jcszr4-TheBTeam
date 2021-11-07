@@ -134,7 +134,7 @@ namespace TheBTeam.ConsoleApp
                 else if (mainMenuItem[currentItem] == ("Edit existing user"))
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]}");
-                    string selectedUserEmail =  ConsoleFactory.SelectUserEmail(tmpListUsers.UsersList); 
+                    string selectedUserEmail = ConsoleFactory.SelectUserEmail(tmpListUsers.UsersList);
                     if (selectedUserEmail != null)
                     {
                         EditExistingData.EditUser(tmpListUsers.UsersList.FirstOrDefault(user => user.Email == selectedUserEmail));

@@ -11,6 +11,7 @@ namespace TheBTeam.BLL.Services
         public TmpDatabase()
         {
             UsersList = new List<User>();
+            TransactionsList = new List<Transaction>();
             //UsersList = LoadDataFromFile.ReadUserFile();
         }
         public void AddNewUser(User user)
