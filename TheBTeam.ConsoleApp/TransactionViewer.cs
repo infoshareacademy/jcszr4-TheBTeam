@@ -31,7 +31,7 @@ namespace TheBTeam.ConsoleApp
                                       $"|{item.Type.ToString().PadRight(textPaddingWidth, paddingChar)}" +
                                       $"|{item.Category.ToString().PadRight(textPaddingWidth, paddingChar)}" +
                                       $"|{item.Currency.ToString().PadRight(textPaddingWidth, paddingChar)}" +
-                                      $"|{item.User.Balance.ToString("C").PadRight(textPaddingWidth, paddingChar)}" +
+                                      $"|{item.BalanceAfterTransaction.ToString("C").PadRight(textPaddingWidth, paddingChar)}" +
                                       $"|{item.Amount.ToString().PadRight(textPaddingWidth, paddingChar)}");
                 }
                 Console.WriteLine(("").PadRight(textPaddingWidth * numberOfCollumn, '='));

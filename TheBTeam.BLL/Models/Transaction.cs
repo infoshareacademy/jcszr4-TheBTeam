@@ -13,7 +13,7 @@ namespace TheBTeam.BLL.Model
         /// </summary>
         public CategoryOfTransaction Category { get; set; }
         public decimal Amount { get; }
-        public decimal BalanceAfterTransaction { get; set }
+        public decimal BalanceAfterTransaction { get; set; }
         public Transaction(User user, TypeOfTransaction type, CategoryOfTransaction category, Currency currency, decimal amount)
         {
             OccurenceTime = DateTime.Now;
