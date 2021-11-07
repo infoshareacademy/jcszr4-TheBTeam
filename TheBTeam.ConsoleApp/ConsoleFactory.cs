@@ -427,8 +427,6 @@ namespace TheBTeam.ConsoleApp
                 Console.WriteLine("Wrong selection, try Again!");
             }
         }
-       
-
     }
 }
 
