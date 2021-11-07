@@ -32,11 +32,13 @@ namespace TheBTeam.ConsoleApp
                 do
                 {
                     Console.Clear();
+
                     Console.WriteLine("========================================================");
                     Console.WriteLine("========================================================");
                     Console.WriteLine("||    Welcome in the financial planner by TheBTeam    ||");
                     Console.WriteLine("========================================================");
                     Console.WriteLine("========================================================");
+
                     for (int i = 0; i < mainMenuItem.Length; i++)
                     {
                         if (currentItem == i)
@@ -128,22 +130,25 @@ namespace TheBTeam.ConsoleApp
                     TransactionViewer.UserAndTypeTransaction(tmpListUsers.UsersList, tmpListTransactions.TransactionsList);
                     Console.ReadKey();
                 }
-                else if (mainMenuItem[currentItem] == ("Edit existing user"))//there used to be like 3 paragraphs here regarding my reasoning, but fuck that, basically edit user wont work once we pass a tmplist
-                                                                             //to it directly its messy due to the way references are handled
-                                                                             //or maybe more the way i think they are handled - lists being copied, and objects referred
-                                                                             //bottom line is it works but there definitely is to be a nicer way to do this, ill ask patryk during refinements
-                                                                             //Actually nvm im dumb, since below works i jsut understood sb wrong, ill get below to look decent when im done with homework
+
+                else if (mainMenuItem[currentItem] == ("Edit existing user"))
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]}");
-                    string selectedUserEmail = ConsoleFactory.SelectUserEmail(tmpListUsers.UsersList); //modified SelecUser returns a valid email string
-                    ConsoleFactory.EditUser(tmpListUsers.UsersList.FirstOrDefault(user => user.Email == selectedUserEmail));//we pass the first user object with the specified email since theyre supposed to be unique anyways
-                    Console.ReadKey();
+                    string selectedUserEmail =  ConsoleFactory.SelectUserEmail(tmpListUsers.UsersList); 
+                    if (selectedUserEmail != null)
+                    {
+                        EditExistingData.EditUser(tmpListUsers.UsersList.FirstOrDefault(user => user.Email == selectedUserEmail));
+                    }
+
                 }
                 else if (mainMenuItem[currentItem] == ("Edit transaction"))
                 {
                     int indexOfTransaction = TransactionViewer.ViewTransactionEdit(tmpListTransactions.TransactionsList);
-                    ConsoleFactory.EditTransaction(tmpListTransactions.TransactionsList[indexOfTransaction]);
-                    Console.ReadKey();
+                    if (indexOfTransaction != -1)
+                    {
+                        EditExistingData.EditTransaction(tmpListTransactions.TransactionsList[indexOfTransaction]);
+                        Console.ReadKey();
+                    }
                 }
                 else if (mainMenuItem[currentItem] == ("Exit"))
                 {
