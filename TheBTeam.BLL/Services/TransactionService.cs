@@ -14,12 +14,12 @@ namespace TheBTeam.BLL.Services
             if (transaction.Type == TypeOfTransaction.Income)
             {
                 user.Balance += transaction.Amount;
-                transaction.BalanceAfterTransaction = user.Balance + transaction.Amount;
+                transaction.BalanceAfterTransaction = user.Balance;
                 return;
             }
 
             user.Balance -= transaction.Amount;
-            transaction.BalanceAfterTransaction = user.Balance - transaction.Amount;
+            transaction.BalanceAfterTransaction = user.Balance;
         }
 
         public static List<Transaction> SearchTransactionByUser(User user, List<Transaction> transactions)
