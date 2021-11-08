@@ -24,8 +24,7 @@ namespace TheBTeam.ConsoleApp
         public static void ShowMainMenu()
         {
             short currentItem = 0;
-            TmpDatabase tmpListUsers = new TmpDatabase();
-            TmpDatabase tmpListTransactions = new TmpDatabase();
+            var usersAndTransaction = new TmpDatabase();
             do
             {
                 ConsoleKeyInfo keyPressed;
@@ -73,8 +72,11 @@ namespace TheBTeam.ConsoleApp
                 if (mainMenuItem[currentItem] == "Load data from external file")//thing it is better way
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]} ...");
-                    tmpListUsers.UsersList = LoadDataFromFile.ReadUserFile();
-                    if (tmpListUsers.UsersList.Count > 0)
+                    if (usersAndTransaction.UsersList.Count == 0)
+                    {
+                        usersAndTransaction.UsersList.AddRange(LoadDataFromFile.ReadUserFile());
+                    }
+                    if (usersAndTransaction.UsersList.Count > 0)
                     {
                         Console.WriteLine($"The Users were loaded successful");
                     }
@@ -91,19 +93,19 @@ namespace TheBTeam.ConsoleApp
                     var user = ConsoleFactory.CreateNewUser();
                     if (user != null)
                     {
-                        tmpListUsers.UsersList.Add(user);
+                        usersAndTransaction.UsersList.Add(user);
                     }
                 }
                 else if (mainMenuItem[currentItem] == "View users")
                 {
-                    UserViewer.ViewUsers(tmpListUsers.UsersList);
+                    UserViewer.ViewUsers(usersAndTransaction.UsersList);
                 }
                 else if (mainMenuItem[currentItem].Contains("Enter transaction"))
                 {
-                    var transaction = ConsoleFactory.AddNewTransaction(tmpListUsers.UsersList);
+                    var transaction = ConsoleFactory.AddNewTransaction(usersAndTransaction.UsersList);
                     if (transaction != null)
                     {
-                        tmpListTransactions.TransactionsList.Add(transaction);
+                        usersAndTransaction.TransactionsList.Add(transaction);
                     }
                     if (transaction == null)
                         continue;
@@ -111,42 +113,41 @@ namespace TheBTeam.ConsoleApp
                 else if (mainMenuItem[currentItem] == ("Show all transaction"))
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]}");
-                    TransactionViewer.ViewTransaction(tmpListTransactions.TransactionsList);
+                    TransactionViewer.ViewTransaction(usersAndTransaction.TransactionsList);
                 }
                 else if (mainMenuItem[currentItem] == ("Show transaction by Category"))
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]}");
-                    TransactionViewer.ViewTransactionAccordingCategory(tmpListTransactions.TransactionsList);
+                    TransactionViewer.ViewTransactionAccordingCategory(usersAndTransaction.TransactionsList);
                 }
                 else if (mainMenuItem[currentItem] == "Show Users transaction by Type")
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]}");
-                    TransactionViewer.UserAndTypeTransaction(tmpListUsers.UsersList, tmpListTransactions.TransactionsList);
+                    TransactionViewer.UserAndTypeTransaction(usersAndTransaction.UsersList, usersAndTransaction.TransactionsList);
                     Console.ReadKey();
                 }
-                else if (mainMenuItem[currentItem] == "Show Users transaction by Type")
+                else if (mainMenuItem[currentItem] == "Show transaction according User")
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]}");
-                    TransactionViewer.UserAndTypeTransaction(tmpListUsers.UsersList, tmpListTransactions.TransactionsList);
+                    TransactionViewer.UserTransaction(usersAndTransaction.UsersList, usersAndTransaction.TransactionsList);
                     Console.ReadKey();
                 }
-
                 else if (mainMenuItem[currentItem] == ("Edit existing user"))
                 {
                     Console.WriteLine($"{mainMenuItem[currentItem]}");
-                    string selectedUserEmail = ConsoleFactory.SelectUserEmail(tmpListUsers.UsersList);
+                    string selectedUserEmail = ConsoleFactory.SelectUserEmail(usersAndTransaction.UsersList);
                     if (selectedUserEmail != null)
                     {
-                        EditExistingData.EditUser(tmpListUsers.UsersList.FirstOrDefault(user => user.Email == selectedUserEmail));
+                        EditExistingData.EditUser(usersAndTransaction.UsersList.FirstOrDefault(user => user.Email == selectedUserEmail));
                     }
 
                 }
                 else if (mainMenuItem[currentItem] == ("Edit transaction"))
                 {
-                    int indexOfTransaction = TransactionViewer.ViewTransactionEdit(tmpListTransactions.TransactionsList);
+                    int indexOfTransaction = TransactionViewer.ViewTransactionEdit(usersAndTransaction.TransactionsList);
                     if (indexOfTransaction != -1)
                     {
-                        EditExistingData.EditTransaction(tmpListTransactions.TransactionsList[indexOfTransaction]);
+                        EditExistingData.EditTransaction(usersAndTransaction.TransactionsList[indexOfTransaction]);
                         Console.ReadKey();
                     }
                 }

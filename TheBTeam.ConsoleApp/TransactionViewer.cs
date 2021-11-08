@@ -154,5 +154,16 @@ namespace TheBTeam.ConsoleApp
             ViewTransaction(transactionByType);
         }
 
+        public static void UserTransaction(List<User> usersList, List<Transaction> transactions)
+        {
+            ConsoleFactory.Header("SEARCH USERS TRANSACTION BY TYPE");
+            var user = ConsoleFactory.SelectUser(usersList);
+            if (user == null)
+                return;
+            var transactionByUser = TransactionService.SearchTransactionByUser(user, transactions);
+
+            ViewTransaction(transactionByUser);
+        }
+
     }
 }
