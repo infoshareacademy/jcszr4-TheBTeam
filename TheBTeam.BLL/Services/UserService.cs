@@ -11,24 +11,25 @@ namespace TheBTeam.BLL.Services
 {
     public class UserService
     {
-        private static List<User> Users = LoadDataFromFile.ReadUserFile();
+        private static List<User> _users = LoadDataFromFile.ReadUserFile();
         public List<User> GetAll()
         {
-            return Users;
+            return _users;
         }
         public User GetById(string id)
         {
-            return Users.SingleOrDefault(m => m.Id == id);
+            return _users.SingleOrDefault(m => m.Id == id);
         }
         public void Create(User model)
         {
             model.Id = GetNextId();
+            model.Registered = DateTime.Now;
 
-            Users.Add(model);
+            _users.Add(model);
         }
         public string GetNextId()
         {
-            if (!Users.Any())
+            if (!_users.Any())
                 return String.Empty;
             var random = new Random();
             var bytes = new byte[12];
@@ -39,7 +40,7 @@ namespace TheBTeam.BLL.Services
         public void Delete(string id)
         {
             var user = GetById(id);
-            Users.Remove(user);
+            _users.Remove(user);
         }
 
         public void Update(User model)
@@ -50,6 +51,8 @@ namespace TheBTeam.BLL.Services
             user.LastName = model.LastName;
             user.Gender = model.Gender;
             user.Balance = model.Balance;
+            user.Email = model.Email;
+            user.IsActive = model.IsActive;
         }
     }
 }

@@ -46,7 +46,7 @@
                 @item.Email
             </td>
             <td>
-                @item.Balance
+                @item.Balance.ToString("C")
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

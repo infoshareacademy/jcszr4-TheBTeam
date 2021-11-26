@@ -20,7 +20,7 @@
             <label asp-for="Balance"></label>
         </dt>
         <dd class = "col-sm-10">
-            @Model.Balance
+            @Model.Balance.ToString("C")
         </dd>
         <dt class = "col-sm-2">
             <label asp-for="Currency"></label>
@@ -80,7 +80,7 @@
             <label asp-for="Registered"></label>
         </dt>
         <dd class="col-sm-10">
-            @Model.Registered
+            @Model.Registered.Date
         </dd>
     </dl>
 </div>

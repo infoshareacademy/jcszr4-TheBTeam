@@ -49,6 +49,7 @@ namespace TheBTeam.Web.Controllers
                     return View(model);
                 }
 
+               
                 _userService.Create(model);
 
                 return RedirectToAction(nameof(Index));
