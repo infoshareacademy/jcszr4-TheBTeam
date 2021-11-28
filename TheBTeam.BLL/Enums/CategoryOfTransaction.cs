@@ -2,6 +2,7 @@
 {
     public enum CategoryOfTransaction
     {
+        All = 0,
         Salary,
         Prize,
         ExtraMoney,

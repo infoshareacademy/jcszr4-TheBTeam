@@ -24,4 +24,10 @@
     <ProjectReference Include="..\TheBTeam.BLL\TheBTeam.BLL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\LogoTheBTeam.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

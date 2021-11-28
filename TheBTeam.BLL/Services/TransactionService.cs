@@ -8,9 +8,69 @@ namespace TheBTeam.BLL.Services
 {
     public class TransactionService
     {
+        private List<Transaction> Transaction = new List<Transaction>
+        {
+            new Transaction
+            {
+                User = new User("mm@wp.pl"),
+                Type = TypeOfTransaction.Income,
+                Category = CategoryOfTransaction.Salary,
+                Currency = Currency.PLN,
+                Amount = 1220m,
+                BalanceAfterTransaction = GetBalanceAfterTransaction(TypeOfTransaction.Income,1220m)
+            },
+            new Transaction
+            {
+                User = new User("mariobros@wp.pl"),
+                Type = TypeOfTransaction.Income,
+                Category = CategoryOfTransaction.Salary,
+                Currency = Currency.PLN,
+                Amount = 1520m,
+                BalanceAfterTransaction = GetBalanceAfterTransaction(TypeOfTransaction.Income,1520m)
+            },
+            new Transaction
+            {
+                User = new User("grzesio@wp.pl"),
+                Type = TypeOfTransaction.Outcome,
+                Category = CategoryOfTransaction.Credit,
+                Currency = Currency.PLN,
+                Amount = 2520m,
+                BalanceAfterTransaction = GetBalanceAfterTransaction(TypeOfTransaction.Outcome,2520m)
+            },
+            new Transaction
+            {
+                User = new User("edekwielki@wp.pl"),
+                Type = TypeOfTransaction.Outcome,
+                Category = CategoryOfTransaction.Car,
+                Currency = Currency.PLN,
+                Amount = 1250m,
+                BalanceAfterTransaction = GetBalanceAfterTransaction(TypeOfTransaction.Outcome,1250m)
+            }
+        };
+
+        public List<Transaction> GetAll(CategoryOfTransaction category)
+        {
+            if (category == CategoryOfTransaction.All)
+            {
+                return Transaction;
+            }
+            return Transaction.Where(t => t.Category == category).ToList();
+        }
+
+        public static decimal GetBalanceAfterTransaction(TypeOfTransaction typeOfTransaction, decimal amount)
+        {
+            decimal result = 0;
+            if (typeOfTransaction == TypeOfTransaction.Income)
+            {
+                result += amount;
+                return result;
+            }
+            result -= amount;
+            return result;
+        }
+
         public static void ApplyTransaction(Transaction transaction, User user)
         {
-
             if (transaction.Type == TypeOfTransaction.Income)
             {
                 user.Balance += transaction.Amount;
@@ -21,7 +81,6 @@ namespace TheBTeam.BLL.Services
             user.Balance -= transaction.Amount;
             transaction.BalanceAfterTransaction = user.Balance;
         }
-
         public static List<Transaction> SearchTransactionByUser(User user, List<Transaction> transactions)
         {
             var transactionByUser = transactions.Where(t => t.User == user).ToList();

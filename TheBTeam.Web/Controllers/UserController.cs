@@ -20,6 +20,7 @@ namespace TheBTeam.Web.Controllers
         // GET: UserController
         public ActionResult Index()
         {
+            
             var model = _userService.GetAll();
             return View(model);
         }

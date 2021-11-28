@@ -41,9 +41,9 @@ namespace TheBTeam.BLL.Model
 
         [JsonConstructor]//TO DO: check if all inputs of created classes exists
 
-        public User()
+        public User(string email)
         {
-
+            Email = email;
         }
 
         public User(string id, decimal balance, Currency currency, int age, string firstName, string lastName, Gender gender, string company, string email, string phone, string address)
