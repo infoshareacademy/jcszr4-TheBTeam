@@ -12,9 +12,12 @@
 
 <form asp-action="Index">
     <div class="form-group">
-        <label class="control-label"> Category of transaction </label>
+        <label class="control-label"> Category and Type </label>
         <select style="width: 20%" name="category" asp-items="Html.GetEnumSelectList<CategoryOfTransaction>()" class="form-control">
             <option selected="selected" value="">Please select category</option>
+        </select>
+        <select style="width: 20%" name="type" asp-items="Html.GetEnumSelectList<TypeOfTransaction>()" class="form-control">
+            <option selected="selected" value="">Please select Type</option>
         </select>
     </div>
     <div class="form-group">

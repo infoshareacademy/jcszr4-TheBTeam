@@ -11,15 +11,15 @@ namespace TheBTeam.Web.Controllers
 {
     public class TransactionController : Controller
     {
-        private TransactionService _transactionService;
+        private TransactionService _transactionService;//TODO wez tutaj tranzakcje z usera
         public TransactionController()
         {
             _transactionService = new TransactionService();
         }
         // GET: TransactionController
-        public ActionResult Index(CategoryOfTransaction category)
+        public ActionResult Index(CategoryOfTransaction category, TypeOfTransaction type)
         {
-            var model = _transactionService.GetAll(category);
+            var model = _transactionService.GetAll(category, type);
             return View(model);
         }
         // GET: TransactionController/Details/5

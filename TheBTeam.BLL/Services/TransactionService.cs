@@ -48,13 +48,33 @@ namespace TheBTeam.BLL.Services
             }
         };
 
-        public List<Transaction> GetAll(CategoryOfTransaction category)
+        public List<Transaction> GetAll(CategoryOfTransaction category, TypeOfTransaction type)
         {
-            if (category == CategoryOfTransaction.All)
+            if (category == CategoryOfTransaction.All && type == TypeOfTransaction.All)
             {
                 return Transaction;
             }
-            return Transaction.Where(t => t.Category == category).ToList();
+            if (category == CategoryOfTransaction.All && type != TypeOfTransaction.All)
+            {
+                return Transaction.Where(t=>t.Type == type).ToList();
+            }
+            if (category != CategoryOfTransaction.All && (type == TypeOfTransaction.Income || type == TypeOfTransaction.Outcome))
+            {
+                return Transaction.Where(t => t.Category == category && t.Type == type).ToList();
+            }
+            if (category != CategoryOfTransaction.All && type == TypeOfTransaction.All)
+            {
+                return Transaction.Where(t => t.Category == category).ToList();
+            }
+            return Transaction;
+        }
+
+        public List<Transaction> AddTransaction(Transaction modelT, User user)
+        {
+            modelT.OccurenceTime = DateTime.Now;
+            ApplyTransaction(modelT, user);
+            Transaction.Add(modelT);
+            return Transaction;
         }
 
         public static decimal GetBalanceAfterTransaction(TypeOfTransaction typeOfTransaction, decimal amount)
