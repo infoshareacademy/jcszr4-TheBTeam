@@ -19,7 +19,7 @@ namespace TheBTeam.Web.Controllers
         // GET: TransactionController
         public ActionResult Index(CategoryOfTransaction category, TypeOfTransaction type)
         {
-            //TODO how to get transaction from user
+            //TODO how to get here users!
             var model = _transactionService.GetAll(category, type);
             return View(model);
         }

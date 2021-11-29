@@ -8,45 +8,46 @@ namespace TheBTeam.BLL.Services
 {
     public class TransactionService
     {
-        private List<Transaction> Transaction = new List<Transaction>
-        {
-            new Transaction
-            {
-                User = new User("mm@wp.pl"),
-                Type = TypeOfTransaction.Income,
-                Category = CategoryOfTransaction.Salary,
-                Currency = Currency.PLN,
-                Amount = 1220m,
-                BalanceAfterTransaction = GetBalanceAfterTransaction(TypeOfTransaction.Income,1220m)
-            },
-            new Transaction
-            {
-                User = new User("mariobros@wp.pl"),
-                Type = TypeOfTransaction.Income,
-                Category = CategoryOfTransaction.Salary,
-                Currency = Currency.PLN,
-                Amount = 1520m,
-                BalanceAfterTransaction = GetBalanceAfterTransaction(TypeOfTransaction.Income,1520m)
-            },
-            new Transaction
-            {
-                User = new User("grzesio@wp.pl"),
-                Type = TypeOfTransaction.Outcome,
-                Category = CategoryOfTransaction.Credit,
-                Currency = Currency.PLN,
-                Amount = 2520m,
-                BalanceAfterTransaction = GetBalanceAfterTransaction(TypeOfTransaction.Outcome,2520m)
-            },
-            new Transaction
-            {
-                User = new User("edekwielki@wp.pl"),
-                Type = TypeOfTransaction.Outcome,
-                Category = CategoryOfTransaction.Car,
-                Currency = Currency.PLN,
-                Amount = 1250m,
-                BalanceAfterTransaction = GetBalanceAfterTransaction(TypeOfTransaction.Outcome,1250m)
-            }
-        };
+        private static List<Transaction> Transaction = new List<Transaction>();
+        //private List<Transaction> Transaction = new List<Transaction>
+        //{
+        //    new Transaction
+        //    {
+        //        User = new User("mm@wp.pl"),
+        //        Type = TypeOfTransaction.Income,
+        //        Category = CategoryOfTransaction.Salary,
+        //        Currency = Currency.PLN,
+        //        Amount = 1220m,
+        //        BalanceAfterTransaction = GetBalanceAfterTransaction(TypeOfTransaction.Income,1220m)
+        //    },
+        //    new Transaction
+        //    {
+        //        User = new User("mariobros@wp.pl"),
+        //        Type = TypeOfTransaction.Income,
+        //        Category = CategoryOfTransaction.Salary,
+        //        Currency = Currency.PLN,
+        //        Amount = 1520m,
+        //        BalanceAfterTransaction = GetBalanceAfterTransaction(TypeOfTransaction.Income,1520m)
+        //    },
+        //    new Transaction
+        //    {
+        //        User = new User("grzesio@wp.pl"),
+        //        Type = TypeOfTransaction.Outcome,
+        //        Category = CategoryOfTransaction.Credit,
+        //        Currency = Currency.PLN,
+        //        Amount = 2520m,
+        //        BalanceAfterTransaction = GetBalanceAfterTransaction(TypeOfTransaction.Outcome,2520m)
+        //    },
+        //    new Transaction
+        //    {
+        //        User = new User("edekwielki@wp.pl"),
+        //        Type = TypeOfTransaction.Outcome,
+        //        Category = CategoryOfTransaction.Car,
+        //        Currency = Currency.PLN,
+        //        Amount = 1250m,
+        //        BalanceAfterTransaction = GetBalanceAfterTransaction(TypeOfTransaction.Outcome,1250m)
+        //    }
+        //};
 
         public List<Transaction> GetAll(CategoryOfTransaction category, TypeOfTransaction type)
         {
@@ -76,6 +77,12 @@ namespace TheBTeam.BLL.Services
             Transaction.Add(modelT);
             return Transaction;
         }
+
+        public List<Transaction> GetTransactionFromUser()
+        {
+            return Transaction;
+        }
+
 
         public static decimal GetBalanceAfterTransaction(TypeOfTransaction typeOfTransaction, decimal amount)
         {
