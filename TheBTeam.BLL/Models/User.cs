@@ -46,6 +46,11 @@ namespace TheBTeam.BLL.Model
 
         }
 
+        public User(string email)
+        {
+            Email = email;
+        }
+
         public User(string id, decimal balance, Currency currency, int age, string firstName, string lastName, Gender gender, string company, string email, string phone, string address)
         {
             Id = id;

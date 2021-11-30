@@ -1,0 +1,91 @@
+﻿@model IEnumerable<TheBTeam.BLL.Model.Transaction>
+@using TheBTeam.BLL
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form asp-action="Index">
+    <div class="form-group">
+        <label class="control-label"> Category and Type </label>
+        <select style="width: 20%" name="category" asp-items="Html.GetEnumSelectList<CategoryOfTransaction>()" class="form-control">
+            <option selected="selected" value="">Please select category</option>
+        </select>
+        <select style="width: 20%" name="type" asp-items="Html.GetEnumSelectList<TypeOfTransaction>()" class="form-control">
+            <option selected="selected" value="">Please select Type</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Search Category" class="btn btn-primary" />
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+
+                @*@Html.ActionLink("User.Email", "Index", new { sortOrder = ViewBag.NameSortParm })*@
+
+                <label asp-for="First().User.Email"></label>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OccurenceTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Currency)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BalanceAfterTransaction)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OccurenceTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Currency)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BalanceAfterTransaction)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

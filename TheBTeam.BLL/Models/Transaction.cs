@@ -1,29 +1,33 @@
 ﻿using System;
+using Microsoft.VisualBasic;
 
 namespace TheBTeam.BLL.Model
 {
     public class Transaction
     {
-        public DateTime OccurenceTime { get; }
-        public Currency Currency { get; }
+        public DateTime OccurenceTime { get; set; }
+        public Currency Currency { get; set; }
         public TypeOfTransaction Type { get; set; }
-        public User User { get; }
+        public User User { get; set; }
         /// <summary>
         /// 
         /// </summary>
         public CategoryOfTransaction Category { get; set; }
-        public decimal Amount { get; }
+        public decimal Amount { get; set; }
         public decimal BalanceAfterTransaction { get; set; }
+        
         public Transaction(User user, TypeOfTransaction type, CategoryOfTransaction category, Currency currency, decimal amount)
-        {
-            OccurenceTime = DateTime.Now;
+        {         
             User = user;
             Type = type;
             Category = category;
             Currency = currency;
             Amount = amount;
-            //BalanceAfterTransaction=
+            OccurenceTime = DateAndTime.Now;
         }
-        
+        public Transaction()
+        {
+            OccurenceTime = DateTime.Now;
+        }
     }
 }
