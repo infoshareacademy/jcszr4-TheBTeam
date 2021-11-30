@@ -9,43 +9,43 @@ namespace TheBTeam.BLL.Services
     public class TransactionService
     {
         private static List<Transaction> Transaction = new List<Transaction>();
-        //private List<Transaction> Transaction = new List<Transaction>
+        //private list<transaction> transaction = new list<transaction>
         //{
-        //    new Transaction
+        //    new transaction
         //    {
-        //        User = new User("mm@wp.pl"),
-        //        Type = TypeOfTransaction.Income,
-        //        Category = CategoryOfTransaction.Salary,
-        //        Currency = Currency.PLN,
-        //        Amount = 1220m,
-        //        BalanceAfterTransaction = GetBalanceAfterTransaction(TypeOfTransaction.Income,1220m)
+        //        user = new user("mm@wp.pl"),
+        //        type = typeoftransaction.income,
+        //        category = categoryoftransaction.salary,
+        //        currency = currency.pln,
+        //        amount = 1220m,
+        //        balanceaftertransaction = getbalanceaftertransaction(typeoftransaction.income,1220m)
         //    },
-        //    new Transaction
+        //    new transaction
         //    {
-        //        User = new User("mariobros@wp.pl"),
-        //        Type = TypeOfTransaction.Income,
-        //        Category = CategoryOfTransaction.Salary,
-        //        Currency = Currency.PLN,
-        //        Amount = 1520m,
-        //        BalanceAfterTransaction = GetBalanceAfterTransaction(TypeOfTransaction.Income,1520m)
+        //        user = new user("mariobros@wp.pl"),
+        //        type = typeoftransaction.income,
+        //        category = categoryoftransaction.salary,
+        //        currency = currency.pln,
+        //        amount = 1520m,
+        //        balanceaftertransaction = getbalanceaftertransaction(typeoftransaction.income,1520m)
         //    },
-        //    new Transaction
+        //    new transaction
         //    {
-        //        User = new User("grzesio@wp.pl"),
-        //        Type = TypeOfTransaction.Outcome,
-        //        Category = CategoryOfTransaction.Credit,
-        //        Currency = Currency.PLN,
-        //        Amount = 2520m,
-        //        BalanceAfterTransaction = GetBalanceAfterTransaction(TypeOfTransaction.Outcome,2520m)
+        //        user = new user("grzesio@wp.pl"),
+        //        type = typeoftransaction.outcome,
+        //        category = categoryoftransaction.credit,
+        //        currency = currency.pln,
+        //        amount = 2520m,
+        //        balanceaftertransaction = getbalanceaftertransaction(typeoftransaction.outcome,2520m)
         //    },
-        //    new Transaction
+        //    new transaction
         //    {
-        //        User = new User("edekwielki@wp.pl"),
-        //        Type = TypeOfTransaction.Outcome,
-        //        Category = CategoryOfTransaction.Car,
-        //        Currency = Currency.PLN,
-        //        Amount = 1250m,
-        //        BalanceAfterTransaction = GetBalanceAfterTransaction(TypeOfTransaction.Outcome,1250m)
+        //        user = new user("edekwielki@wp.pl"),
+        //        type = typeoftransaction.outcome,
+        //        category = categoryoftransaction.car,
+        //        currency = currency.pln,
+        //        amount = 1250m,
+        //        balanceaftertransaction = getbalanceaftertransaction(typeoftransaction.outcome,1250m)
         //    }
         //};
 
@@ -57,7 +57,7 @@ namespace TheBTeam.BLL.Services
             }
             if (category == CategoryOfTransaction.All && type != TypeOfTransaction.All)
             {
-                return Transaction.Where(t=>t.Type == type).ToList();
+                return Transaction.Where(t => t.Type == type).ToList();
             }
             if (category != CategoryOfTransaction.All && (type == TypeOfTransaction.Income || type == TypeOfTransaction.Outcome))
             {
@@ -72,7 +72,7 @@ namespace TheBTeam.BLL.Services
 
         public List<Transaction> AddTransaction(Transaction modelT, User user)
         {
-            modelT.OccurenceTime = DateTime.Now;
+            modelT.OccurrenceTime = DateTime.Now;
             ApplyTransaction(modelT, user);
             Transaction.Add(modelT);
             return Transaction;

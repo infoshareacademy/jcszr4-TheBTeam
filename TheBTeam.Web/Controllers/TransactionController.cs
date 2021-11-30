@@ -35,6 +35,11 @@ namespace TheBTeam.Web.Controllers
             return View();
         }
 
+        public ActionResult UserTransactions()
+        {
+            return View();
+        }
+
         // POST: TransactionController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -118,7 +118,7 @@ namespace TheBTeam.BLL.Services
             } while (!exit);
         }
 
-        public static void EditTransaction(Transaction transaction)
+      /*  public static void EditTransaction(Transaction transaction)
         {
             Console.WriteLine("EDIT TRANSACTION\n==================");
             var tempTransaction = new Transaction(transaction.User, transaction.Type, transaction.Category, transaction.Currency, transaction.Amount);
@@ -171,7 +171,7 @@ namespace TheBTeam.BLL.Services
                 }
             } while (exit == false) ;
         }
-
+*/
         private static string GetStringInput(string name, int minLength)
         {
             while (true)

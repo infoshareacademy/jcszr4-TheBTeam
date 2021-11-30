@@ -1,10 +1,10 @@
 ﻿@model TheBTeam.BLL.Model.Transaction
 @using TheBTeam.BLL
 @{
-    ViewData["Title"] = "AddTransaction";
+    ViewData["Title"] = "Add Transaction";
 }
 
-<h1>AddTransaction</h1>
+<h1>Add Transaction</h1>
 
 <h4>Transaction</h4>
 <hr />
@@ -13,9 +13,9 @@
         <form asp-action="AddTransaction">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @*<div class="form-group">
-                <label asp-for="OccurenceTime" class="control-label"></label>
-                <input asp-for="OccurenceTime" class="form-control" />
-                <span asp-validation-for="OccurenceTime" class="text-danger"></span>
+                <label asp-for="OccurrenceTime" class="control-label"></label>
+                <input asp-for="OccurrenceTime" class="form-control" />
+                <span asp-validation-for="OccurrenceTime" class="text-danger"></span>
             </div>*@
             <div class="form-group">
                 <label asp-for="Currency" class="control-label"></label>
@@ -49,7 +49,7 @@
                 <span asp-validation-for="BalanceAfterTransaction" class="text-danger"></span>
             </div>*@
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="ADD" class="btn btn-primary" />
             </div>
         </form>
     </div>

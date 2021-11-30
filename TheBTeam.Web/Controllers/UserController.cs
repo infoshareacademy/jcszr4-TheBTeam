@@ -63,6 +63,13 @@ namespace TheBTeam.Web.Controllers
             }
         }
 
+        public ActionResult UserTransactions(string id)
+        {
+            TempData["user"] = _userService.GetById(id);
+            
+            return new RedirectResult(@"~\Controllers\TransactionController\UserController");
+        }
+
 
         // GET: UserController/AddTransaction
         public ActionResult AddTransaction()

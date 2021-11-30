@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<TheBTeam.BLL.Model.Transaction>
 @using TheBTeam.BLL
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "List of transactions";
 }
 
-<h1>Index</h1>
+<h1>List of transactions</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -21,7 +21,7 @@
         </select>
     </div>
     <div class="form-group">
-        <input type="submit" value="Search Category" class="btn btn-primary" />
+        <input type="submit" value="Search transaction" class="btn btn-primary" />
     </div>
 </form>
 
@@ -35,7 +35,7 @@
                 <label asp-for="First().User.Email"></label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OccurenceTime)
+                @Html.DisplayNameFor(model => model.OccurrenceTime)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Currency)
@@ -63,7 +63,7 @@
                     @Html.DisplayFor(modelItem => item.User.Email)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.OccurenceTime)
+                    @Html.DisplayFor(modelItem => item.OccurrenceTime)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Currency)
