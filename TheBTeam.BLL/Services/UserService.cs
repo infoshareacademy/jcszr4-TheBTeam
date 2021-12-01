@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using TheBTeam.BLL.Model;
+using TheBTeam.BLL.Models;
 using TheBTeam.BLL.Services;
 
 

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheBTeam.BLL;
 using TheBTeam.BLL.Services;
-using TheBTeam.BLL.Model;
+using TheBTeam.BLL.Models;
 
 
 namespace TheBTeam.Web.Controllers

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using TheBTeam.BLL.Model;
+using TheBTeam.BLL.Models;
 namespace TheBTeam.BLL.Servises
 {
     public static class UserViewer

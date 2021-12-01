@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using TheBTeam.BLL;
-using TheBTeam.BLL.Model;
+using TheBTeam.BLL.Models;
 using TheBTeam.BLL.Services;
 using TheBTeam.BLL.Validators;
 

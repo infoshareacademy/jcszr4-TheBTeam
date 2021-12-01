@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.VisualBasic;
 
-namespace TheBTeam.BLL.Model
+namespace TheBTeam.BLL.Models
 {
     public class Transaction
     {
@@ -10,7 +10,7 @@ namespace TheBTeam.BLL.Model
         public DateTime OccurrenceTime { get; set; }
         public Currency Currency { get; set; }
 
-        [Display(Name = "Type)]
+        [Display(Name = "Type)"]
         public TypeOfTransaction Type { get; set; }
         public User User { get; set; }
         /// <summary>

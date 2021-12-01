@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
-using TheBTeam.BLL.Model;
+using TheBTeam.BLL.Models;
 
 namespace TheBTeam.BLL.Services
 

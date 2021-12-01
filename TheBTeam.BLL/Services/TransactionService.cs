@@ -1,4 +1,4 @@
-﻿using TheBTeam.BLL.Model;
+﻿using TheBTeam.BLL.Models;
 using System;
 using System.Collections.Generic;
 using TheBTeam.BLL;
