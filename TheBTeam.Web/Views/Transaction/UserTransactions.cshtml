@@ -1,4 +1,5 @@
-﻿@model IEnumerable<TheBTeam.BLL.Model.Transaction>
+﻿@using System.Linq
+@model IEnumerable<TheBTeam.BLL.Model.Transaction>
 
 @{
     ViewData["Title"] = "UserTransactions";
@@ -12,23 +13,24 @@
 <table class="table">
     <thead>
         <tr>
+
             <th>
-                @Html.DisplayNameFor(model => model.OccurrenceTime)
+                <label asp-for="First().Type"></label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Currency)
+                <label asp-for="First().Category"></label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Type)
+                <label asp-for="First().OccurrenceTime"></label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Category)
+                <label asp-for="First().Amount"></label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Amount)
+                <label asp-for="First().Currency"></label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BalanceAfterTransaction)
+                <label asp-for="First().BalanceAfterTransaction"></label>
             </th>
             <th></th>
         </tr>
@@ -36,23 +38,24 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+
             <td>
-                @Html.DisplayFor(modelItem => item.OccurrenceTime)
+                @item.Type
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Currency)
+                @item.Category
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Type)
+                @item.OccurrenceTime
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Category)
+                @item.Amount.ToString("C")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Amount)
+                @item.Currency
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.BalanceAfterTransaction)
+                @item.BalanceAfterTransaction.ToString("C")
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

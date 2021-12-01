@@ -10,13 +10,13 @@ namespace TheBTeam.BLL.Model
         public DateTime OccurrenceTime { get; set; }
         public Currency Currency { get; set; }
 
-        [Display(Name = "Type of transaction")]
+        [Display(Name = "Type)]
         public TypeOfTransaction Type { get; set; }
         public User User { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        [Display(Name = "Category of transaction")]
+        [Display(Name = "Category")]
         public CategoryOfTransaction Category { get; set; }
 
         [Required(ErrorMessage = "Please provide value")]
