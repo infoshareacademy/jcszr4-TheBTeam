@@ -26,4 +26,23 @@ namespace TheBTeam.BLL.Model
         }
         
     }
+    public class TransactionTest
+    {
+        public string Email { get; set; }
+        public DateTime OccurenceTime { get; }
+        public Currency Currency { get; }
+        public TypeOfTransaction Type { get; set; }
+        public CategoryOfTransaction Category { get; set; }
+        public decimal Amount { get; }
+        public decimal BalanceAfterTransaction { get; set; }
+        public TransactionTest(string email, TypeOfTransaction type, CategoryOfTransaction category, Currency currency, decimal amount)
+        {
+            OccurenceTime = DateTime.Now;
+            Type = type;
+            Category = category;
+            Currency = currency;
+            Amount = amount;
+            //BalanceAfterTransaction=
+        }
+    }
 }

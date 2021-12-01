@@ -20,6 +20,9 @@ namespace TheBTeam.ConsoleApp
                 "Show Users transaction by Type",
                 "Edit existing user",
                 "Edit transaction",
+                "Generate Test Transactions",
+                "Import Transactions",
+                "Export Transactions",
                 "Exit" };//Guess should be made somehow else- have to change whole text in code every time sth is changed 
         public static void ShowMainMenu()
         {
@@ -140,7 +143,6 @@ namespace TheBTeam.ConsoleApp
                     {
                         EditExistingData.EditUser(usersAndTransaction.UsersList.FirstOrDefault(user => user.Email == selectedUserEmail));
                     }
-
                 }
                 else if (mainMenuItem[currentItem] == ("Edit transaction"))
                 {
@@ -150,6 +152,16 @@ namespace TheBTeam.ConsoleApp
                         EditExistingData.EditTransaction(usersAndTransaction.TransactionsList[indexOfTransaction]);
                         Console.ReadKey();
                     }
+                }
+                else if (mainMenuItem[currentItem] == ("Generate Test Transactions"))
+                {
+                    var testTransactions = GenerateTestData.PopulateTestTransactionList(usersAndTransaction.UsersList);
+                    ExportTransactionToJSON.exportTransactions(testTransactions);
+                }
+                else if (mainMenuItem[currentItem] == ("Import Transactions"))
+                {
+                    var loadedTransactions = LoadDataFromFile.ReadTransactionFile("Transactions.json");
+                    LoadDataFromFile.ApplyJsonTransactions(usersAndTransaction.TransactionsList, loadedTransactions, usersAndTransaction.UsersList);
                 }
                 else if (mainMenuItem[currentItem] == ("Exit"))
                 {
