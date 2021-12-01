@@ -73,6 +73,7 @@ namespace TheBTeam.BLL.Services
         public List<Transaction> AddTransaction(Transaction modelT, User user)
         {
             modelT.OccurrenceTime = DateTime.Now;
+            modelT.User = user;
             ApplyTransaction(modelT, user);
             Transaction.Add(modelT);
             return Transaction;
@@ -108,10 +109,9 @@ namespace TheBTeam.BLL.Services
             user.Balance -= transaction.Amount;
             transaction.BalanceAfterTransaction = user.Balance;
         }
-        public static List<Transaction> SearchTransactionByUser(User user, List<Transaction> transactions)
+        public List<Transaction> SearchTransactionByUser(string email)
         {
-            var transactionByUser = transactions.Where(t => t.User == user).ToList();
-            return transactionByUser;
+            return Transaction.Where(t => t.User.Email == email).ToList();
         }
         public static List<Transaction> SearchTransactionByType(TypeOfTransaction type, List<Transaction> transactions)
         {
