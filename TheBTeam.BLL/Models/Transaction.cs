@@ -10,7 +10,7 @@ namespace TheBTeam.BLL.Models
         public DateTime OccurrenceTime { get; set; }
         public Currency Currency { get; set; }
 
-        [Display(Name = "Type)"]
+        [Display(Name = "Type")]
         public TypeOfTransaction Type { get; set; }
         public User User { get; set; }
         /// <summary>
