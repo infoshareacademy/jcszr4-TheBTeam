@@ -22,7 +22,7 @@ namespace TheBTeam.Web.Controllers
         // GET: UserController
         public ActionResult Index()
         {
-            
+
             var model = _userService.GetAll();
             return View(model);
         }
@@ -52,7 +52,7 @@ namespace TheBTeam.Web.Controllers
                     return View(model);
                 }
 
-               
+
                 _userService.Create(model);
 
                 return RedirectToAction(nameof(Index));
@@ -65,8 +65,8 @@ namespace TheBTeam.Web.Controllers
 
         public ActionResult UserTransactions(string id)
         {
-            var user = _userService.GetById(id);
-            TempData["email"] = user.Email;
+            
+            TempData["id"] = id;
 
             return RedirectToAction("UserTransactions", "Transaction");
         }

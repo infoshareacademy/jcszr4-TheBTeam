@@ -39,9 +39,9 @@ namespace TheBTeam.Web.Controllers
 
         public ActionResult UserTransactions()
         {
-            //User user = TempData["user"] as User;
-            var email = TempData["email"] as string;
-            var model = _transactionService.SearchTransactionByUser(email);
+            
+            var id = TempData["id"] as string;
+            var model = _transactionService.SearchTransactionByUser(id);
             return View(model);
         }
 

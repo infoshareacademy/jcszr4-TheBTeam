@@ -109,9 +109,9 @@ namespace TheBTeam.BLL.Services
             user.Balance -= transaction.Amount;
             transaction.BalanceAfterTransaction = user.Balance;
         }
-        public List<Transaction> SearchTransactionByUser(string email)
+        public List<Transaction> SearchTransactionByUser(string id)
         {
-            return Transaction.Where(t => t.User.Email == email).ToList();
+            return Transaction.Where(t => t.User.Id == id).ToList();
         }
         public static List<Transaction> SearchTransactionByType(TypeOfTransaction type, List<Transaction> transactions)
         {
