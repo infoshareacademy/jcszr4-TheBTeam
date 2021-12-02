@@ -9,48 +9,8 @@ namespace TheBTeam.BLL.Services
     public class TransactionService
     {
         private static List<Transaction> Transaction = new List<Transaction>();
-        //private List<Transaction> Transaction = new List<Transaction>
-        //{
-        //    new Transaction
-        //    {
-        //        User = new User("mm@wp.pl"),
-        //        Type = TypeOfTransaction.Income,
-        //        Category = CategoryOfTransaction.Salary,
-        //        Currency = Currency.PLN,
-        //        Amount = 1220m,
-        //        BalanceAfterTransaction = GetBalanceAfterTransaction(TypeOfTransaction.Income,1220m)
-        //    },
-        //    new Transaction
-        //    {
-        //        User = new User("mariobros@wp.pl"),
-        //        Type = TypeOfTransaction.Income,
-        //        Category = CategoryOfTransaction.Salary,
-        //        Currency = Currency.PLN,
-        //        Amount = 1520m,
-        //        BalanceAfterTransaction = GetBalanceAfterTransaction(TypeOfTransaction.Income,1520m)
-        //    },
-        //    new Transaction
-        //    {
-        //        User = new User("grzesio@wp.pl"),
-        //        Type = TypeOfTransaction.Outcome,
-        //        Category = CategoryOfTransaction.Credit,
-        //        Currency = Currency.PLN,
-        //        Amount = 2520m,
-        //        BalanceAfterTransaction = GetBalanceAfterTransaction(TypeOfTransaction.Outcome,2520m)
-        //    },
-        //    new Transaction
-        //    {
-        //        User = new User("edekwielki@wp.pl"),
-        //        Type = TypeOfTransaction.Outcome,
-        //        Category = CategoryOfTransaction.Car,
-        //        Currency = Currency.PLN,
-        //        Amount = 1250m,
-        //        BalanceAfterTransaction = GetBalanceAfterTransaction(TypeOfTransaction.Outcome,1250m)
-        //    }
-        //};
-
         public List<Transaction> GetAll(CategoryOfTransaction category, TypeOfTransaction type)
-        {
+        {  
             if (category == CategoryOfTransaction.All && type == TypeOfTransaction.All)
             {
                 return Transaction;
@@ -73,27 +33,24 @@ namespace TheBTeam.BLL.Services
         public List<Transaction> AddTransaction(Transaction modelT, User user)
         {
             modelT.OccurenceTime = DateTime.Now;
-            ApplyTransaction(modelT, user);
-            Transaction.Add(modelT);
+            var addNewTransaction = GetTransactionWithUser(modelT, user);
+            Transaction.Add(addNewTransaction);
             return Transaction;
         }
 
-        public List<Transaction> GetTransactionFromUser()
+        public static Transaction GetTransactionWithUser(Transaction transaction, User user)
         {
-            return Transaction;
-        }
-
-
-        public static decimal GetBalanceAfterTransaction(TypeOfTransaction typeOfTransaction, decimal amount)
-        {
-            decimal result = 0;
-            if (typeOfTransaction == TypeOfTransaction.Income)
+            transaction.User = user;
+            if (transaction.Type == TypeOfTransaction.Income)
             {
-                result += amount;
-                return result;
+                user.Balance += transaction.Amount;
+                transaction.BalanceAfterTransaction = user.Balance;
+                return transaction;
             }
-            result -= amount;
-            return result;
+
+            user.Balance -= transaction.Amount;
+            transaction.BalanceAfterTransaction = user.Balance;
+            return transaction;
         }
 
         public static void ApplyTransaction(Transaction transaction, User user)

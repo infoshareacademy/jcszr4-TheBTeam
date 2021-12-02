@@ -12,13 +12,23 @@ namespace TheBTeam.BLL.Services
     public class UserService
     {
         private static List<User> _users = LoadDataFromFile.ReadUserFile();
+        public static string IdUser;
         public List<User> GetAll()
         {
             return _users;
         }
         public User GetById(string id)
         {
+            IdUser = id;
             return _users.SingleOrDefault(m => m.Id == id);
+        }
+        public string GetIdUser()
+        {
+            return _users.Where(n => n.Id == IdUser).Select(m => m.Id).FirstOrDefault();
+        }
+        public string GetUserEmail()
+        {
+            return _users.Where(n => n.Id == IdUser).Select(m => m.Email).FirstOrDefault();
         }
         public void Create(User model)
         {
