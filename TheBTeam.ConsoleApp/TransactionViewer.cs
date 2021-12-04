@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TheBTeam.BLL.Model;
+using TheBTeam.BLL.Models;
 using TheBTeam.BLL.Services;
 
 namespace TheBTeam.ConsoleApp
@@ -68,7 +68,7 @@ namespace TheBTeam.ConsoleApp
                     {
                         Console.WriteLine($"|{item.Category.ToString().PadRight(textPaddingWidth, paddingChar)} " +
                                           $"|{item.Type.ToString().PadRight(textPaddingWidth, paddingChar)} " +
-                                          $"|{item.OccurenceTime.ToString("dd/MM/yyyy").PadRight(textPaddingWidth, paddingChar)} " +
+                                          $"|{item.OccurrenceTime.ToString("dd/MM/yyyy").PadRight(textPaddingWidth, paddingChar)} " +
                                           $"|{item.User.Balance.ToString().PadRight(textPaddingWidth, paddingChar)}" +
                                           $"|{item.Amount.ToString().PadRight(textPaddingWidth, paddingChar)}");
                     }

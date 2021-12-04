@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheBTeam.BLL;
 using TheBTeam.BLL.Services;
+using TheBTeam.BLL.Models;
+
 
 namespace TheBTeam.Web.Controllers
 {
@@ -33,6 +35,14 @@ namespace TheBTeam.Web.Controllers
         public ActionResult Create()
         {
             return View();
+        }
+
+        public ActionResult UserTransactions()
+        {
+            
+            var id = TempData["id"] as string;
+            var model = _transactionService.SearchTransactionByUser(id);
+            return View(model);
         }
 
         // POST: TransactionController/Create

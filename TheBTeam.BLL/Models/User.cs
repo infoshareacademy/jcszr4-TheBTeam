@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace TheBTeam.BLL.Model
+namespace TheBTeam.BLL.Models
 {
     public class User
     {

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TheBTeam.BLL.Model;
+using TheBTeam.BLL.Models;
 using TheBTeam.BLL.Services;
 
 namespace TheBTeam.Web.Controllers
@@ -22,7 +22,7 @@ namespace TheBTeam.Web.Controllers
         // GET: UserController
         public ActionResult Index()
         {
-            
+
             var model = _userService.GetAll();
             return View(model);
         }
@@ -52,7 +52,7 @@ namespace TheBTeam.Web.Controllers
                     return View(model);
                 }
 
-               
+
                 _userService.Create(model);
 
                 return RedirectToAction(nameof(Index));
@@ -61,6 +61,14 @@ namespace TheBTeam.Web.Controllers
             {
                 return View();
             }
+        }
+
+        public ActionResult UserTransactions(string id)
+        {
+            
+            TempData["id"] = id;
+
+            return RedirectToAction("UserTransactions", "Transaction");
         }
 
 

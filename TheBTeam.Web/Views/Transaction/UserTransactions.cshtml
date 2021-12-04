@@ -1,0 +1,68 @@
+﻿@using System.Linq
+@model IEnumerable<TheBTeam.BLL.Models.Transaction>
+
+@{
+    ViewData["Title"] = "UserTransactions";
+}
+
+<h1>User's Transactions</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                <label asp-for="First().Type"></label>
+            </th>
+            <th>
+                <label asp-for="First().Category"></label>
+            </th>
+            <th>
+                <label asp-for="First().OccurrenceTime"></label>
+            </th>
+            <th>
+                <label asp-for="First().Amount"></label>
+            </th>
+            <th>
+                <label asp-for="First().Currency"></label>
+            </th>
+            <th>
+                <label asp-for="First().BalanceAfterTransaction"></label>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+
+            <td>
+                @item.Type
+            </td>
+            <td>
+                @item.Category
+            </td>
+            <td>
+                @item.OccurrenceTime
+            </td>
+            <td>
+                @item.Amount.ToString("C")
+            </td>
+            <td>
+                @item.Currency
+            </td>
+            <td>
+                @item.BalanceAfterTransaction.ToString("C")
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

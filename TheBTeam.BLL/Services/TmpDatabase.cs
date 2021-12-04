@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TheBTeam.BLL.Model;
+using TheBTeam.BLL.Models;
 using TheBTeam.BLL.Services;
 
 namespace TheBTeam.BLL.Services
