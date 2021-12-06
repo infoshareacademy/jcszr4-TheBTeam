@@ -12,11 +12,9 @@ namespace TheBTeam.Web.Controllers
     public class UserController : Controller
     {
         private UserService _userService;
-        private TransactionService _transactionService;
         public UserController()
         {
             _userService = new UserService();
-            _transactionService = new TransactionService();
         }
 
         // GET: UserController
@@ -73,32 +71,11 @@ namespace TheBTeam.Web.Controllers
 
 
         // GET: UserController/AddTransaction
-        public ActionResult AddTransaction()
+        public ActionResult AddTransaction(string id)
         {
-            return View();
+            TempData["id"] = id;
+            return RedirectToAction("AddTransaction", "Transaction");
         }
-        // POST: UserController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddTransaction(Transaction modelTransaction, string id)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return View(modelTransaction);
-                }
-                var user = _userService.GetById(id);
-                _transactionService.AddTransaction(modelTransaction, user);
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-
 
         // GET: UserController/Edit/5
         public ActionResult Edit(string id)

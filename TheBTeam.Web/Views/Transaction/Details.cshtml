@@ -1,0 +1,68 @@
+﻿@model TheBTeam.BLL.Models.Transaction
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Transaction</h4>
+    <hr />
+    <dl class="row">
+
+        <dt class="col-sm-2">
+            <label asp-for="User.FirstName"></label>
+        </dt>
+        <dd class="col-sm-10">
+            @Model.User.FirstName
+        </dd>
+        <dt class="col-sm-2">
+            <label asp-for="User.LastName"></label>
+        </dt>
+        <dd class="col-sm-10">
+            @Model.User.LastName
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.OccurrenceTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OccurrenceTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Currency)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Currency)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Category)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Category)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BalanceAfterTransaction)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BalanceAfterTransaction)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

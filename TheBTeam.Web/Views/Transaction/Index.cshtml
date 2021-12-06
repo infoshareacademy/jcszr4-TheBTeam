@@ -29,28 +29,25 @@
     <thead>
         <tr>
             <th>
-
-                @*@Html.ActionLink("User.Email", "Index", new { sortOrder = ViewBag.NameSortParm })*@
-
                 <label asp-for="First().User.Email"></label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OccurrenceTime)
+                <label asp-for="First().OccurrenceTime"></label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Currency)
+                <label asp-for="First().Currency"></label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Type)
+                <label asp-for="First().Type"></label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Category)
+                <label asp-for="First().Category"></label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Amount)
+                <label asp-for="First().Amount"></label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BalanceAfterTransaction)
+                <label asp-for="First().BalanceAfterTransaction"></label>
             </th>
             <th></th>
         </tr>
@@ -60,30 +57,33 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.User.Email)
+                    @item.User.Email
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.OccurrenceTime)
+                    @item.OccurrenceTime
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Currency)
+                    @item.Currency
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Type)
+                    @item.Type
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Category)
+                    @item.Category
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Amount)
+                    @item.Amount
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.BalanceAfterTransaction)
+                    @item.BalanceAfterTransaction
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                     @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+                    <a asp-action="Edit" asp-route-id="@item.User.Email">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.User.Email">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.User.Email">Delete</a> 
                 </td>
             </tr>
         }
