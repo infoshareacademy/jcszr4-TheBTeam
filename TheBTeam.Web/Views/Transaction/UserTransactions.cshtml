@@ -1,8 +1,16 @@
 ﻿@using System.Linq
+@using TheBTeam.BLL
 @model IEnumerable<TheBTeam.BLL.Models.Transaction>
 
 @{
-    ViewData["Title"] = "UserTransactions";
+    ViewData["Title"] = "User Transactions";
+}
+
+@{
+    //var incomeList = Enum.GetNames(typeof(CategoryOfTransaction)).Where(l => l.Contains("income")).ToList();
+    var incomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) >= 0 && int.Parse(l.Value) < 100).ToList();
+    var outcomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) == 0 && int.Parse(l.Value) >= 100).ToList();
+    var nuulList = new List<SelectListItem>();
 }
 
 <h1>User's Transactions</h1>
@@ -10,6 +18,24 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<form asp-action="UserTransactions">
+    <div class="form-group">
+        <label class="control-label"> Category and Type </label>
+        <select style="width: 20%" name="type" id="transactionTypeSelect" asp-items="Html.GetEnumSelectList<TypeOfTransaction>()" class="form-control">
+            <option selected="selected" value="wqeqw">Please select Type</option>
+        </select>
+
+        <select style="width: 20%" name="category" id="categorySelect" asp-items="nuulList" class="form-control">
+            <option selected="selected" value="">Please select category</option>
+        </select>
+
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Search transaction" class="btn btn-primary" />
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>
@@ -36,33 +62,68 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
+        @foreach (var item in Model)
+        {
+            <tr>
 
-            <td>
-                @item.Type
-            </td>
-            <td>
-                @item.Category
-            </td>
-            <td>
-                @item.OccurrenceTime
-            </td>
-            <td>
-                @item.Amount.ToString("C")
-            </td>
-            <td>
-                @item.Currency
-            </td>
-            <td>
-                @item.BalanceAfterTransaction.ToString("C")
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
+                <td>
+                    @item.Type
+                </td>
+                <td>
+                    @item.Category
+                </td>
+                <td>
+                    @item.OccurrenceTime
+                </td>
+                <td>
+                    @item.Amount.ToString("C")
+                </td>
+                <td>
+                    @item.Currency
+                </td>
+                <td>
+                    @item.BalanceAfterTransaction.ToString("C")
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<script>
+    $(document).ready(function () {
+        var outcomeOptions = @Html.Raw(Json.Serialize(outcomeList));
+        var incomeOptions = @Html.Raw(Json.Serialize(incomeList));
+        var categorySelect = $('#categorySelect');
+        $('#transactionTypeSelect').change(function () {
+            categorySelect.empty();
+            var selected = $(this).val();
+            if (selected === '0') {
+                addOptionsToSelect(incomeOptions);
+                addOptionsToSelect(outcomeOptions);
+
+            }
+            if (selected === '1') {
+                addOptionsToSelect(incomeOptions);
+
+            }
+            if (selected === '2') {
+                addOptionsToSelect(outcomeOptions);
+            }
+        });
+
+        function addOptionsToSelect(options) {
+            options.forEach(function (i, item) {
+                categorySelect.append($('<option>',
+                    {
+                        value: i.value,
+                        text: i.text
+                    }));
+            });
+        }
+    });
+</script>

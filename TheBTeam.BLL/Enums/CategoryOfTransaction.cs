@@ -5,6 +5,9 @@ namespace TheBTeam.BLL
     public enum CategoryOfTransaction
     {
         All = 0,
+
+        [Display(Name = "All Incomes")]
+        AllIncome,
         [Display(Name = "Salary")]
         incomeSalary,
         [Display(Name = "Prize")]
@@ -12,8 +15,10 @@ namespace TheBTeam.BLL
         [Display(Name = "Extra money")]
         incomeExtraMoney,
 
+        [Display(Name = "All Outcomes")]
+        allOutcome=100,
         [Display(Name = "Home")]
-        outcomeHome = 100,
+        outcomeHome,
         [Display(Name = "Car")]
         outcomeCar,
         [Display(Name = "School")]
