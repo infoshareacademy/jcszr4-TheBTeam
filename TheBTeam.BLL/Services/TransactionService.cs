@@ -61,7 +61,7 @@ namespace TheBTeam.BLL.Services
             return transactionsByType;
         }
 
-        public Transaction GetTransactionByUser(string id)
+        public Transaction GetTransactionByUser(string id)//TODO error if you want delete more than one transaction for the same user! 
         {
             return _transactions.SingleOrDefault(t => t.User.Id == id);
         }
@@ -69,10 +69,31 @@ namespace TheBTeam.BLL.Services
         {
             return _transactions.SingleOrDefault(t => t.User.Email == email);
         }
+
+        public static void CancelTransaction(Transaction transaction, User user)
+        {
+            if (transaction.Type == TypeOfTransaction.Income)
+            {
+                user.Balance -= transaction.Amount;
+                transaction.BalanceAfterTransaction = user.Balance;
+                return;
+            }
+
+            user.Balance += transaction.Amount;
+            transaction.BalanceAfterTransaction = user.Balance;
+        }
+
+        public User GetUserFromTransaction(Transaction transaction)
+        {
+            return transaction.User;
+        }
+
         public void Delete(string id)
         {
-            var transaction = GetTransactionByEmail(id);//TODO here we have fix balance user
-            _transactions.Remove(transaction);
+            var transactionByEmail = GetTransactionByEmail(id);
+            var user = GetUserFromTransaction(transactionByEmail);
+            CancelTransaction(transactionByEmail, user);
+            _transactions.Remove(transactionByEmail);
         }
     }
 }

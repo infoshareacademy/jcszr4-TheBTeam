@@ -27,16 +27,16 @@ namespace TheBTeam.BLL.Models
 
         [Display(Name = "Balance after transaction")]
         public decimal BalanceAfterTransaction { get; set; }
-        
-        /*public Transaction(User user, TypeOfTransaction type, CategoryOfTransaction category, Currency currency, decimal amount)
-        {         
-            User = user;
-            Type = type;
-            Category = category;
-            Currency = currency;
-            Amount = amount;
-            OccurrenceTime = DateAndTime.Now;
-        }*/
+
+        //public Transaction(User user, TypeOfTransaction type, CategoryOfTransaction category, Currency currency, decimal amount)
+        //{
+        //    User = user;
+        //    Type = type;
+        //    Category = category;
+        //    Currency = currency;
+        //    Amount = amount;
+        //    OccurrenceTime = DateAndTime.Now;
+        //}
         public Transaction()
         {
             OccurrenceTime = DateTime.Now;

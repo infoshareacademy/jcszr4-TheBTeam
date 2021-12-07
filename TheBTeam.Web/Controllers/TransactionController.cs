@@ -122,7 +122,7 @@ namespace TheBTeam.Web.Controllers
         // POST: TransactionController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(string id, Transaction model)
+        public ActionResult Delete(string id)
         {
             try
             {
