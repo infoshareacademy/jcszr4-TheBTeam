@@ -8,7 +8,9 @@ namespace TheBTeam.BLL.Services
 {
     public class TransactionService
     {
-        private static List<Transaction> Transaction = new List<Transaction>();
+        private int incomeCategoryLimit = 99;
+
+        private static List<Transaction> _transaction = new List<Transaction>();
         //private list<transaction> transaction = new list<transaction>
         //{
         //    new transaction
@@ -51,23 +53,32 @@ namespace TheBTeam.BLL.Services
 
         public List<Transaction> GetAll(CategoryOfTransaction category, TypeOfTransaction type)
         {
-            if (category == CategoryOfTransaction.All && type == TypeOfTransaction.All)
-            {
-                return Transaction;
-            }
-            if (category == CategoryOfTransaction.All && type != TypeOfTransaction.All)
-            {
-                return Transaction.Where(t => t.Type == type).ToList();
-            }
-            if (category != CategoryOfTransaction.All && (type == TypeOfTransaction.Income || type == TypeOfTransaction.Outcome))
-            {
-                return Transaction.Where(t => t.Category == category && t.Type == type).ToList();
-            }
+            if (type == TypeOfTransaction.All)
+                return _transaction;
+
+            if (type == TypeOfTransaction.Income && category == CategoryOfTransaction.AllIncome)
+                return _transaction.Where(t => t.Type == TypeOfTransaction.Income).ToList();
+
+            if (type == TypeOfTransaction.Outcome && category == CategoryOfTransaction.allOutcome)
+                return _transaction.Where(t => t.Type == TypeOfTransaction.Outcome).ToList();
+
+            if (type == TypeOfTransaction.Income && (int)category <= incomeCategoryLimit)
+                return _transaction.Where(t => t.Category == category).ToList();
+
+            if (type == TypeOfTransaction.Outcome && (int) category > incomeCategoryLimit)
+                return _transaction.Where(t => t.Category == category).ToList();
+
+
+            //todo  add more options, check if it is seal no erros can be generated!
+                if (category != CategoryOfTransaction.All && (type == TypeOfTransaction.Income || type == TypeOfTransaction.Outcome))
+                {
+                    return _transaction.Where(t => t.Category == category && t.Type == type).ToList();
+                }
             if (category != CategoryOfTransaction.All && type == TypeOfTransaction.All)
             {
-                return Transaction.Where(t => t.Category == category).ToList();
+                return _transaction.Where(t => t.Category == category).ToList();
             }
-            return Transaction;
+            return _transaction;
         }
 
         public List<Transaction> AddTransaction(Transaction modelT, User user)
@@ -75,13 +86,13 @@ namespace TheBTeam.BLL.Services
             modelT.OccurrenceTime = DateTime.Now;
             modelT.User = user;
             ApplyTransaction(modelT, user);
-            Transaction.Add(modelT);
-            return Transaction;
+            _transaction.Add(modelT);
+            return _transaction;
         }
 
         public List<Transaction> GetTransactionFromUser()
         {
-            return Transaction;
+            return _transaction;
         }
 
 
@@ -111,7 +122,7 @@ namespace TheBTeam.BLL.Services
         }
         public List<Transaction> SearchTransactionByUser(string id)
         {
-            return Transaction.Where(t => t.User.Id == id).ToList();
+            return _transaction.Where(t => t.User.Id == id).ToList();
         }
         public static List<Transaction> SearchTransactionByType(TypeOfTransaction type, List<Transaction> transactions)
         {
