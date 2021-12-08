@@ -26,17 +26,39 @@ namespace TheBTeam.Web.Controllers
             var model = _transactionService.GetAll(category, type);
             return View(model);
         }
+
         // GET: TransactionController/Details/5
-        public ActionResult Details(string id)
-        {
-            var model = _transactionService.GetTransactionByEmail(id);
-            return View(model);
-        }
+        //public ActionResult Details(string id)//
+        //{
+        //    var model = _transactionService.GetTransactionByEmail(id);
+        //    return View(model);
+        //}
+
 
         // GET: TransactionController/Create
         public ActionResult Create()
         {
             return View();
+        }
+
+        // POST: TransactionController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Transaction model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+                _transactionService.Create(model);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         public ActionResult UserTransactions()
@@ -66,21 +88,7 @@ namespace TheBTeam.Web.Controllers
                 var id = TempData["id"] as string;
                 var user = _userService.GetById(id);
                 _transactionService.AddTransactionByUser(model, user);
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
-        // POST: TransactionController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -92,16 +100,23 @@ namespace TheBTeam.Web.Controllers
         // GET: TransactionController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var model = _transactionService.GetById(id);
+            return View(model);
         }
 
         // POST: TransactionController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(string id, Transaction model)
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+
+                _transactionService.Update(model);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -110,25 +125,20 @@ namespace TheBTeam.Web.Controllers
             }
         }
 
-        // GET: TransactionController/Delete/5
-        public ActionResult Delete()
+        public ActionResult Delete(int id)//why here is 0!!
         {
-
-            var id = TempData["id"] as string;
-            var model = _transactionService.GetTransactionByUser(id);
+            var model = _transactionService.GetById(id);
             return View(model);
         }
 
         // POST: TransactionController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(string id)
+        public ActionResult Delete(int id, Transaction model)
         {
             try
             {
-                //here id is key as user.Email
                 _transactionService.Delete(id);
-
                 return RedirectToAction(nameof(Index));
             }
             catch
