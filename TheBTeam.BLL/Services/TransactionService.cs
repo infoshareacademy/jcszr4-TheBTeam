@@ -83,15 +83,6 @@ namespace TheBTeam.BLL.Services
             return transactionsByType;
         }
 
-        public Transaction GetTransactionByUser(string id)//TODO error if you want delete more than one transaction for the same user! 
-        {
-            return Transactions.SingleOrDefault(t => t.User.Id == id);
-        }
-        public Transaction GetTransactionByEmail(string email)
-        {
-            return Transactions.SingleOrDefault(t => t.User.Email == email);
-        }
-
         public static void CancelTransaction(Transaction transaction, User user)
         {
             if (transaction.Type == TypeOfTransaction.Income)
