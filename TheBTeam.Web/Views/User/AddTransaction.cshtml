@@ -4,6 +4,13 @@
     ViewData["Title"] = "Add Transaction";
 }
 
+@{
+    var incomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) > 0 && int.Parse(l.Value) < 100).ToList();
+    var outcomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) >= 100).ToList();
+    var allList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) == 0);
+
+}
+
 <h1>Add Transaction</h1>
 
 <h4>Transaction</h4>
@@ -13,10 +20,10 @@
         <form asp-action="AddTransaction">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @*<div class="form-group">
-                <label asp-for="OccurrenceTime" class="control-label"></label>
-                <input asp-for="OccurrenceTime" class="form-control" />
-                <span asp-validation-for="OccurrenceTime" class="text-danger"></span>
-            </div>*@
+                    <label asp-for="OccurrenceTime" class="control-label"></label>
+                    <input asp-for="OccurrenceTime" class="form-control" />
+                    <span asp-validation-for="OccurrenceTime" class="text-danger"></span>
+                </div>*@
             <div class="form-group">
                 <label asp-for="Currency" class="control-label"></label>
                 <select asp-for="Currency" asp-items="Html.GetEnumSelectList<Currency>()" class="form-control">
@@ -44,10 +51,10 @@
                 <span asp-validation-for="Amount" class="text-danger"></span>
             </div>
             @*<div class="form-group">
-                <label asp-for="BalanceAfterTransaction" class="control-label"></label>
-                <input asp-for="BalanceAfterTransaction" class="form-control" />
-                <span asp-validation-for="BalanceAfterTransaction" class="text-danger"></span>
-            </div>*@
+                    <label asp-for="BalanceAfterTransaction" class="control-label"></label>
+                    <input asp-for="BalanceAfterTransaction" class="form-control" />
+                    <span asp-validation-for="BalanceAfterTransaction" class="text-danger"></span>
+                </div>*@
             <div class="form-group">
                 <input type="submit" value="ADD" class="btn btn-primary" />
             </div>
@@ -62,3 +69,36 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+    $(document).ready(function () {
+        var outcomeOptions = @Html.Raw(Json.Serialize(outcomeList));
+        var incomeOptions = @Html.Raw(Json.Serialize(incomeList));
+        var allList= @Html.Raw(Json.Serialize(allList));
+        var categorySelect = $('#categorySelect');
+        $('#transactionTypeSelect').change(function () {
+            categorySelect.empty();
+            var selected = $(this).val();
+            if (selected === '0') {
+                addOptionsToSelect(allList);
+            }
+            if (selected === '1') {
+                addOptionsToSelect(incomeOptions);
+
+            }
+            if (selected === '2') {
+                addOptionsToSelect(outcomeOptions);
+            }
+        });
+
+        function addOptionsToSelect(options) {
+            options.forEach(function (i, item) {
+                categorySelect.append($('<option>',
+                    {
+                        value: i.value,
+                        text: i.text
+                    }));
+            });
+        }
+    });
+</script>

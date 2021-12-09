@@ -1,6 +1,7 @@
 ﻿using TheBTeam.BLL.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using TheBTeam.BLL;
 using System.Linq;
 
@@ -8,7 +9,7 @@ namespace TheBTeam.BLL.Services
 {
     public class TransactionService
     {
-        private int incomeCategoryLimit = 99;
+        private int incomeCategoryLimit = 100;
 
         private static List<Transaction> _transaction = new List<Transaction>();
         //private list<transaction> transaction = new list<transaction>
@@ -62,23 +63,14 @@ namespace TheBTeam.BLL.Services
             if (type == TypeOfTransaction.Outcome && category == CategoryOfTransaction.allOutcome)
                 return _transaction.Where(t => t.Type == TypeOfTransaction.Outcome).ToList();
 
-            if (type == TypeOfTransaction.Income && (int)category <= incomeCategoryLimit)
+            if (type == TypeOfTransaction.Income && (int)category < incomeCategoryLimit)
                 return _transaction.Where(t => t.Category == category).ToList();
 
-            if (type == TypeOfTransaction.Outcome && (int) category > incomeCategoryLimit)
+            if (type == TypeOfTransaction.Outcome && (int)category > incomeCategoryLimit)
                 return _transaction.Where(t => t.Category == category).ToList();
 
+            throw new InvalidDataException();
 
-            //todo  add more options, check if it is seal no erros can be generated!
-                if (category != CategoryOfTransaction.All && (type == TypeOfTransaction.Income || type == TypeOfTransaction.Outcome))
-                {
-                    return _transaction.Where(t => t.Category == category && t.Type == type).ToList();
-                }
-            if (category != CategoryOfTransaction.All && type == TypeOfTransaction.All)
-            {
-                return _transaction.Where(t => t.Category == category).ToList();
-            }
-            return _transaction;
         }
 
         public List<Transaction> AddTransaction(Transaction modelT, User user)

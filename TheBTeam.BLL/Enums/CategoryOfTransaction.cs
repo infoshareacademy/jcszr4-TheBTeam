@@ -2,6 +2,7 @@
 
 namespace TheBTeam.BLL
 {
+
     public enum CategoryOfTransaction
     {
         All = 0,

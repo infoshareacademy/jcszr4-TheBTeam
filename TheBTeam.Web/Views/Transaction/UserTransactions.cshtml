@@ -7,9 +7,9 @@
 }
 
 @{
-    //var incomeList = Enum.GetNames(typeof(CategoryOfTransaction)).Where(l => l.Contains("income")).ToList();
-    var incomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) >= 0 && int.Parse(l.Value) < 100).ToList();
-    var outcomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) == 0 && int.Parse(l.Value) >= 100).ToList();
+    var incomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) > 0 && int.Parse(l.Value) < 100).ToList();
+    var outcomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) >= 100).ToList();
+    var allList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) == 0);
 
 }
 
@@ -94,36 +94,35 @@
     </tbody>
 </table>
 
-<script>
-    $(document).ready(function () {
-        var outcomeOptions = @Html.Raw(Json.Serialize(outcomeList));
-        var incomeOptions = @Html.Raw(Json.Serialize(incomeList));
-        var categorySelect = $('#categorySelect');
-        $('#transactionTypeSelect').change(function () {
-            categorySelect.empty();
-            var selected = $(this).val();
-            if (selected === '0') {
-                addOptionsToSelect(incomeOptions);
-                addOptionsToSelect(outcomeOptions);
+<<script>
+     $(document).ready(function () {
+         var outcomeOptions = @Html.Raw(Json.Serialize(outcomeList));
+         var incomeOptions = @Html.Raw(Json.Serialize(incomeList));
+         var allList= @Html.Raw(Json.Serialize(allList));
+         var categorySelect = $('#categorySelect');
+         $('#transactionTypeSelect').change(function () {
+             categorySelect.empty();
+             var selected = $(this).val();
+             if (selected === '0') {
+                 addOptionsToSelect(allList);
+             }
+             if (selected === '1') {
+                 addOptionsToSelect(incomeOptions);
 
-            }
-            if (selected === '1') {
-                addOptionsToSelect(incomeOptions);
+             }
+             if (selected === '2') {
+                 addOptionsToSelect(outcomeOptions);
+             }
+         });
 
-            }
-            if (selected === '2') {
-                addOptionsToSelect(outcomeOptions);
-            }
-        });
-
-        function addOptionsToSelect(options) {
-            options.forEach(function (i, item) {
-                categorySelect.append($('<option>',
-                    {
-                        value: i.value,
-                        text: i.text
-                    }));
-            });
-        }
-    });
-</script>
+         function addOptionsToSelect(options) {
+             options.forEach(function (i, item) {
+                 categorySelect.append($('<option>',
+                     {
+                         value: i.value,
+                         text: i.text
+                     }));
+             });
+         }
+     });
+ </script>

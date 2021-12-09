@@ -20,12 +20,13 @@ namespace TheBTeam.BLL.Models
         public CategoryOfTransaction Category { get; set; }
 
         [Required(ErrorMessage = "Please provide value")]
-        [Range(0, double.PositiveInfinity, ErrorMessage = "Price can't be negative")]
+        [Range(0, double.PositiveInfinity, ErrorMessage = "Amount can't be negative")]
         [DataType(DataType.Currency)]
         [RegularExpression(@"^\d+(.\d{1,2})?$", ErrorMessage = "Provide valid price")]
         public decimal Amount { get; set; }
 
         [Display(Name = "Balance after transaction")]
+        [DataType(DataType.Currency)]
         public decimal BalanceAfterTransaction { get; set; }
         
         /*public Transaction(User user, TypeOfTransaction type, CategoryOfTransaction category, Currency currency, decimal amount)
