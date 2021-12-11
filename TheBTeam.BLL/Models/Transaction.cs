@@ -6,6 +6,15 @@ namespace TheBTeam.BLL.Models
 {
     public class Transaction
     {
+        //private int StartId = 0;
+        //public int Id
+        //{
+        //    get { return Id; }
+        //    set { Id = StartId + 1; }
+        //}
+
+        public int Id { get; set; }
+
         [Display(Name = "Occurrence Time")]
         public DateTime OccurrenceTime { get; set; }
         public Currency Currency { get; set; }
@@ -27,16 +36,16 @@ namespace TheBTeam.BLL.Models
 
         [Display(Name = "Balance after transaction")]
         public decimal BalanceAfterTransaction { get; set; }
-        
-        /*public Transaction(User user, TypeOfTransaction type, CategoryOfTransaction category, Currency currency, decimal amount)
-        {         
-            User = user;
-            Type = type;
-            Category = category;
-            Currency = currency;
-            Amount = amount;
-            OccurrenceTime = DateAndTime.Now;
-        }*/
+
+        //public Transaction(User user, TypeOfTransaction type, CategoryOfTransaction category, Currency currency, decimal amount)
+        //{
+        //    User = user;
+        //    Type = type;
+        //    Category = category;
+        //    Currency = currency;
+        //    Amount = amount;
+        //    OccurrenceTime = DateAndTime.Now;
+        //}
         public Transaction()
         {
             OccurrenceTime = DateTime.Now;

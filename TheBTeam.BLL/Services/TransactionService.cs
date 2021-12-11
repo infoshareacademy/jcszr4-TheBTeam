@@ -8,93 +8,56 @@ namespace TheBTeam.BLL.Services
 {
     public class TransactionService
     {
-        private static List<Transaction> Transaction = new List<Transaction>();
-        //private list<transaction> transaction = new list<transaction>
-        //{
-        //    new transaction
-        //    {
-        //        user = new user("mm@wp.pl"),
-        //        type = typeoftransaction.income,
-        //        category = categoryoftransaction.salary,
-        //        currency = currency.pln,
-        //        amount = 1220m,
-        //        balanceaftertransaction = getbalanceaftertransaction(typeoftransaction.income,1220m)
-        //    },
-        //    new transaction
-        //    {
-        //        user = new user("mariobros@wp.pl"),
-        //        type = typeoftransaction.income,
-        //        category = categoryoftransaction.salary,
-        //        currency = currency.pln,
-        //        amount = 1520m,
-        //        balanceaftertransaction = getbalanceaftertransaction(typeoftransaction.income,1520m)
-        //    },
-        //    new transaction
-        //    {
-        //        user = new user("grzesio@wp.pl"),
-        //        type = typeoftransaction.outcome,
-        //        category = categoryoftransaction.credit,
-        //        currency = currency.pln,
-        //        amount = 2520m,
-        //        balanceaftertransaction = getbalanceaftertransaction(typeoftransaction.outcome,2520m)
-        //    },
-        //    new transaction
-        //    {
-        //        user = new user("edekwielki@wp.pl"),
-        //        type = typeoftransaction.outcome,
-        //        category = categoryoftransaction.car,
-        //        currency = currency.pln,
-        //        amount = 1250m,
-        //        balanceaftertransaction = getbalanceaftertransaction(typeoftransaction.outcome,1250m)
-        //    }
-        //};
+        private static List<Transaction> Transactions = new List<Transaction>();
 
         public List<Transaction> GetAll(CategoryOfTransaction category, TypeOfTransaction type)
         {
+            //var transaction = new Transaction();
+            //transaction.Id = GetNextId();
             if (category == CategoryOfTransaction.All && type == TypeOfTransaction.All)
             {
-                return Transaction;
+                return Transactions;
             }
             if (category == CategoryOfTransaction.All && type != TypeOfTransaction.All)
             {
-                return Transaction.Where(t => t.Type == type).ToList();
+                return Transactions.Where(t => t.Type == type).ToList();
             }
             if (category != CategoryOfTransaction.All && (type == TypeOfTransaction.Income || type == TypeOfTransaction.Outcome))
             {
-                return Transaction.Where(t => t.Category == category && t.Type == type).ToList();
+                return Transactions.Where(t => t.Category == category && t.Type == type).ToList();
             }
             if (category != CategoryOfTransaction.All && type == TypeOfTransaction.All)
             {
-                return Transaction.Where(t => t.Category == category).ToList();
+                return Transactions.Where(t => t.Category == category).ToList();
             }
-            return Transaction;
+            return Transactions;
+        }
+        public int GetNextId()
+        {
+            if (!Transactions.Any())
+                return 0;
+            return (Transactions?.Max(m => m.Id) ?? 0) + 1;
         }
 
-        public List<Transaction> AddTransaction(Transaction modelT, User user)
+        public Transaction GetById(int id)
         {
-            modelT.OccurrenceTime = DateTime.Now;
-            modelT.User = user;
-            ApplyTransaction(modelT, user);
-            Transaction.Add(modelT);
-            return Transaction;
+            return Transactions.SingleOrDefault(m => m.Id == id);
         }
 
-        public List<Transaction> GetTransactionFromUser()
+        public void Create(Transaction model)
         {
-            return Transaction;
+            model.Id = GetNextId();
+            model.OccurrenceTime = DateTime.Now;
+            Transactions.Add(model);
         }
 
-
-        public static decimal GetBalanceAfterTransaction(TypeOfTransaction typeOfTransaction, decimal amount)
+        public void AddTransactionByUser(Transaction model, User user)
         {
-            decimal result = 0;
-            if (typeOfTransaction == TypeOfTransaction.Income)
-            {
-                result += amount;
-                return result;
-            }
-            result -= amount;
-            return result;
+            model.Id = GetNextId();
+            model.User = user;
+            model.OccurrenceTime = DateTime.Now;
+            ApplyTransaction(model, user);
+            Transactions.Add(model);
         }
 
         public static void ApplyTransaction(Transaction transaction, User user)
@@ -109,14 +72,67 @@ namespace TheBTeam.BLL.Services
             user.Balance -= transaction.Amount;
             transaction.BalanceAfterTransaction = user.Balance;
         }
+
         public List<Transaction> SearchTransactionByUser(string id)
         {
-            return Transaction.Where(t => t.User.Id == id).ToList();
+            return Transactions.Where(t => t.User.Id == id).ToList();
         }
         public static List<Transaction> SearchTransactionByType(TypeOfTransaction type, List<Transaction> transactions)
         {
             var transactionsByType = transactions.Where(t => t.Type == type).ToList();
             return transactionsByType;
+        }
+
+        public static void CancelTransaction(Transaction transaction, User user)
+        {
+            if (transaction.Type == TypeOfTransaction.Income)
+            {
+                user.Balance -= transaction.Amount;
+                transaction.BalanceAfterTransaction = user.Balance;
+                return;
+            }
+
+            user.Balance += transaction.Amount;
+            transaction.BalanceAfterTransaction = user.Balance;
+        }
+
+        public static void UpdateTransaction(Transaction transaction,decimal lastAmount, User user)
+        {
+            if (transaction.Type == TypeOfTransaction.Income)
+            {
+                user.Balance += lastAmount;
+                transaction.BalanceAfterTransaction = user.Balance;
+                return;
+            }
+            user.Balance += lastAmount;
+            transaction.BalanceAfterTransaction = user.Balance;
+        }
+
+        public void Update(Transaction model)
+        {
+            var transaction = GetById(model.Id);
+            transaction.Category = model.Category;
+            transaction.Type = model.Type;
+            var lastAmount = 0m;
+            if (model.Type == TypeOfTransaction.Income)
+            {
+                 lastAmount = model.Amount - transaction.Amount;
+            }
+            if (model.Type == TypeOfTransaction.Outcome)
+            {
+                lastAmount = transaction.Amount - model.Amount;
+            }
+            transaction.Amount = model.Amount;            
+            var user = transaction.User;
+            UpdateTransaction(transaction, lastAmount, user);
+        }
+
+        public void Delete(int id)
+        {
+            var transaction = GetById(id);
+            var user = transaction.User;
+            CancelTransaction(transaction, user);
+            Transactions.Remove(transaction);
         }
     }
 }
