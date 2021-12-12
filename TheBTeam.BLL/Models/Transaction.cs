@@ -37,18 +37,46 @@ namespace TheBTeam.BLL.Models
         [Display(Name = "Balance after transaction")]
         public decimal BalanceAfterTransaction { get; set; }
 
-        //public Transaction(User user, TypeOfTransaction type, CategoryOfTransaction category, Currency currency, decimal amount)
-        //{
-        //    User = user;
-        //    Type = type;
-        //    Category = category;
-        //    Currency = currency;
-        //    Amount = amount;
-        //    OccurrenceTime = DateAndTime.Now;
-        //}
+        public Transaction(User user, TypeOfTransaction type, CategoryOfTransaction category, Currency currency, decimal amount)
+        {
+            User = user;
+            Type = type;
+            Category = category;
+            Currency = currency;
+            Amount = amount;
+            OccurrenceTime = DateAndTime.Now;
+        }
         public Transaction()
         {
             OccurrenceTime = DateTime.Now;
+        }
+    }
+    public class TransactionTest
+    {
+        public string Id { get; }
+        public string Email { get; set; }
+        public DateTime OccurenceTime { get; }
+        public Currency Currency { get; }
+        public TypeOfTransaction Type { get; set; }
+        public CategoryOfTransaction Category { get; set; }
+        public decimal Amount { get; }
+        public decimal BalanceAfterTransaction { get; set; }
+        public TransactionTest(string email, TypeOfTransaction type, CategoryOfTransaction category, Currency currency, decimal amount)
+        {
+            Email = email;
+            OccurenceTime = DateTime.Now;
+            Type = type;
+            Category = category;
+            Currency = currency;
+            Amount = amount;
+            //BalanceAfterTransaction=
+        }
+        public string GenerateId()
+        {
+            var random = new Random();
+            var bytes = new byte[12];
+            random.NextBytes(bytes);
+            return BitConverter.ToString(bytes).Replace("-", "").ToLower();
         }
     }
 }

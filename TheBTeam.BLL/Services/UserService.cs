@@ -11,7 +11,7 @@ namespace TheBTeam.BLL.Services
 {
     public class UserService
     {
-        private static List<User> _users = LoadDataFromFile.ReadUserFile();
+        public static List<User> _users = LoadDataFromFile.ReadUserFile();
         public List<User> GetAll()
         {
             return _users;

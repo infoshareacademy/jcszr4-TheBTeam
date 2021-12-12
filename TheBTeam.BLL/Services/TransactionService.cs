@@ -2,13 +2,14 @@
 using System;
 using System.Collections.Generic;
 using TheBTeam.BLL;
+using TheBTeam.BLL.Services;
 using System.Linq;
 
 namespace TheBTeam.BLL.Services
 {
     public class TransactionService
     {
-        private static List<Transaction> Transactions = new List<Transaction>();
+        private static List<Transaction> Transactions = LoadDataFromFile.ReadAndApplyTransactionFile(UserService._users);
 
         public List<Transaction> GetAll(CategoryOfTransaction category, TypeOfTransaction type)
         {
