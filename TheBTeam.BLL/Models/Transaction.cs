@@ -13,7 +13,7 @@ namespace TheBTeam.BLL.Models
         //    set { Id = StartId + 1; }
         //}
 
-        public int Id { get; set; }
+        public int Id { get; set; } 
 
         [Display(Name = "Occurrence Time")]
         public DateTime OccurrenceTime { get; set; }
@@ -37,8 +37,9 @@ namespace TheBTeam.BLL.Models
         [Display(Name = "Balance after transaction")]
         public decimal BalanceAfterTransaction { get; set; }
 
-        public Transaction(User user, TypeOfTransaction type, CategoryOfTransaction category, Currency currency, decimal amount)
+        public Transaction(User user, TypeOfTransaction type, CategoryOfTransaction category, Currency currency, decimal amount,int id)
         {
+            Id = id;
             User = user;
             Type = type;
             Category = category;
@@ -49,6 +50,13 @@ namespace TheBTeam.BLL.Models
         public Transaction()
         {
             OccurrenceTime = DateTime.Now;
+        }
+        public string GenerateId()
+        {
+            var random = new Random();
+            var bytes = new byte[12];
+            random.NextBytes(bytes);
+            return BitConverter.ToString(bytes).Replace("-", "").ToLower();
         }
     }
     public class TransactionTest

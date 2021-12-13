@@ -31,18 +31,19 @@ namespace TheBTeam.BLL.Services
             {
                 int rand = GenerateTestData.GetRandInt(0, users.Count());
                 User user = users.Where(x => x.Email == item.Email).Single();
+                int id = GenerateTestData.GetRandInt(0,999999999);
                 var datetime = item.OccurenceTime;
                 var currency = item.Currency;
                 var type = item.Type;
                 var category = item.Category;
                 var amount = item.Amount;
-                var addedTransaction = new Transaction(user, type, category, currency, amount);
+                var addedTransaction = new Transaction(user, type, category, currency, amount, id);
                 addedTransactions.Add(addedTransaction);
             }
             transactions.AddRange(addedTransactions);
             return transactions;
         }
-        public static List<Transaction> ReadAndApplyTransactionFile( List<User> users)
+        public static List<Transaction> ReadAndApplyTransactionFile(List<User> users)
         {
             List<Transaction> result = new List<Transaction>();
             var testTransactions = ReadTransactionFile(@"SourceFiles\Transactions.json");
