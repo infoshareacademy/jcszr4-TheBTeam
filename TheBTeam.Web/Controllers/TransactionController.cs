@@ -37,11 +37,12 @@ namespace TheBTeam.Web.Controllers
             return View();
         }
 
-        public ActionResult UserTransactions()
+        public ActionResult UserTransactions(CategoryOfTransaction category, TypeOfTransaction type)
         {
             
             var id = TempData["id"] as string;
             var model = _transactionService.SearchTransactionByUser(id);
+            model = _transactionService.GetAll(category, type);
             return View(model);
         }
 
