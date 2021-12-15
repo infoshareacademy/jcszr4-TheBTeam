@@ -37,7 +37,7 @@ namespace TheBTeam.BLL.Services
                 var type = item.Type;
                 var category = item.Category;
                 var amount = item.Amount;
-                var addedTransaction = new Transaction(user, type, category, currency, amount, id);
+                var addedTransaction = new Transaction(datetime,user, type, category, currency, amount, id);
                 addedTransactions.Add(addedTransaction);
             }
             transactions.AddRange(addedTransactions);

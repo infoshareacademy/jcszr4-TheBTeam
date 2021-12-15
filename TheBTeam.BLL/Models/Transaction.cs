@@ -47,6 +47,17 @@ namespace TheBTeam.BLL.Models
             Amount = amount;
             OccurrenceTime = DateAndTime.Now;
         }
+        public Transaction(DateTime occurenceTime, User user, TypeOfTransaction type, CategoryOfTransaction category, Currency currency, decimal amount,int id)
+        {
+            OccurrenceTime = occurenceTime;
+            User = user;
+            Type = type;
+            Category = category;
+            Currency = currency;
+            Amount = amount;
+            Id = id;
+            //BalanceAfterTransaction=
+        }
         public Transaction()
         {
             OccurrenceTime = DateTime.Now;
