@@ -41,8 +41,9 @@ namespace TheBTeam.Web.Controllers
         {
             
             var id = TempData["id"] as string;
-            var model = _transactionService.SearchTransactionByUser(id);
-            model = _transactionService.GetAll(category, type);
+            //var model = _transactionService.SearchTransactionByUser(id);
+            var model = _transactionService.GetAll(category, type, id);
+            TempData["id"] = id;
             return View(model);
         }
 

@@ -11,7 +11,7 @@ namespace TheBTeam.BLL.Services
     {
         private int incomeCategoryLimit = 100;
 
-        private static List<Transaction> _transaction = new List<Transaction>();
+        private static readonly List<Transaction> _transactions = new List<Transaction>();
         //private list<transaction> transaction = new list<transaction>
         //{
         //    new transaction
@@ -52,22 +52,29 @@ namespace TheBTeam.BLL.Services
         //    }
         //};
 
-        public List<Transaction> GetAll(CategoryOfTransaction category, TypeOfTransaction type)
+        public List<Transaction> GetAll(CategoryOfTransaction category, TypeOfTransaction type, string id= null)
         {
+            var transaction = new List<Transaction>();
+
+            if (id == null)
+                transaction = _transactions;
+            else
+                transaction=_transactions.Where(t => t.User.Id == id).ToList();
+            
             if (type == TypeOfTransaction.All)
-                return _transaction;
+                return transaction;
 
             if (type == TypeOfTransaction.Income && category == CategoryOfTransaction.AllIncome)
-                return _transaction.Where(t => t.Type == TypeOfTransaction.Income).ToList();
+                return transaction.Where(t => t.Type == TypeOfTransaction.Income).ToList();
 
             if (type == TypeOfTransaction.Outcome && category == CategoryOfTransaction.allOutcome)
-                return _transaction.Where(t => t.Type == TypeOfTransaction.Outcome).ToList();
+                return transaction.Where(t => t.Type == TypeOfTransaction.Outcome).ToList();
 
             if (type == TypeOfTransaction.Income && (int)category < incomeCategoryLimit)
-                return _transaction.Where(t => t.Category == category).ToList();
+                return transaction.Where(t => t.Category == category).ToList();
 
             if (type == TypeOfTransaction.Outcome && (int)category > incomeCategoryLimit)
-                return _transaction.Where(t => t.Category == category).ToList();
+                return transaction.Where(t => t.Category == category).ToList();
 
             throw new InvalidDataException();
 
@@ -78,13 +85,13 @@ namespace TheBTeam.BLL.Services
             modelT.OccurrenceTime = DateTime.Now;
             modelT.User = user;
             ApplyTransaction(modelT, user);
-            _transaction.Add(modelT);
-            return _transaction;
+            _transactions.Add(modelT);
+            return _transactions;
         }
 
         public List<Transaction> GetTransactionFromUser()
         {
-            return _transaction;
+            return _transactions;
         }
 
 
@@ -114,7 +121,7 @@ namespace TheBTeam.BLL.Services
         }
         public List<Transaction> SearchTransactionByUser(string id)
         {
-            return _transaction.Where(t => t.User.Id == id).ToList();
+            return _transactions.Where(t => t.User.Id == id).ToList();
         }
         public static List<Transaction> SearchTransactionByType(TypeOfTransaction type, List<Transaction> transactions)
         {
