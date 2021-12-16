@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.VisualBasic;
+using Newtonsoft.Json;
 
 namespace TheBTeam.BLL.Models
 {
@@ -81,9 +82,21 @@ namespace TheBTeam.BLL.Models
         public decimal Amount { get; }
         public decimal BalanceAfterTransaction { get; set; }
         public TransactionTest(string email, TypeOfTransaction type, CategoryOfTransaction category, Currency currency, decimal amount)
-        {
+        {;
             Email = email;
             OccurenceTime = DateTime.Now;
+            Type = type;
+            Category = category;
+            Currency = currency;
+            Amount = amount;
+            //BalanceAfterTransaction=
+        }
+
+        [JsonConstructor]
+        public TransactionTest(DateTime occurenceTime, string email, TypeOfTransaction type, CategoryOfTransaction category, Currency currency, decimal amount)
+        {
+            Email = email;
+            OccurenceTime = occurenceTime;
             Type = type;
             Category = category;
             Currency = currency;

@@ -35,6 +35,10 @@ namespace TheBTeam.BLL.Services
                 var datetime = item.OccurenceTime;
                 var currency = item.Currency;
                 var type = item.Type;
+                if (item.Category == CategoryOfTransaction.Salary || item.Category == CategoryOfTransaction.Prize)
+                {
+                    type = TypeOfTransaction.Income;
+                }
                 var category = item.Category;
                 var amount = item.Amount;
                 var addedTransaction = new Transaction(datetime,user, type, category, currency, amount, id);
