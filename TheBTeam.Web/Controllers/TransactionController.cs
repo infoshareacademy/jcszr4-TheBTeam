@@ -61,11 +61,12 @@ namespace TheBTeam.Web.Controllers
             }
         }
 
-        public ActionResult UserTransactions()
-        {
-            
+        public ActionResult UserTransactions(CategoryOfTransaction category, TypeOfTransaction type)
+        {      
             var id = TempData["id"] as string;
-            var model = _transactionService.SearchTransactionByUser(id);
+            //var model = _transactionService.SearchTransactionByUser(id);
+            var model = _transactionService.GetAll(category, type, id);
+            TempData["id"] = id;
             return View(model);
         }
 
@@ -89,7 +90,7 @@ namespace TheBTeam.Web.Controllers
                 var user = _userService.GetById(id);
                 _transactionService.AddTransactionByUser(model, user);
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("UserTransactions", "User");
             }
             catch
             {

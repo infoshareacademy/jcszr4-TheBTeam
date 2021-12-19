@@ -4,52 +4,59 @@ using System.Collections.Generic;
 using TheBTeam.BLL;
 using TheBTeam.BLL.Services;
 using System.Linq;
+using System.IO;
 
 namespace TheBTeam.BLL.Services
 {
     public class TransactionService
     {
-        private static List<Transaction> Transactions = LoadDataFromFile.ReadAndApplyTransactionFile(UserService._users);
+        private int incomeCategoryLimit = 100;
 
-        public List<Transaction> GetAll(CategoryOfTransaction category, TypeOfTransaction type)
+        private static List<Transaction> _transactions = LoadDataFromFile.ReadAndApplyTransactionFile(UserService._users);
+
+        public List<Transaction> GetAll(CategoryOfTransaction category, TypeOfTransaction type, string id = null)
         {
-            //var transaction = new Transaction();
-            //transaction.Id = GetNextId();
-            if (category == CategoryOfTransaction.All && type == TypeOfTransaction.All)
-            {
-                return Transactions;
-            }
-            if (category == CategoryOfTransaction.All && type != TypeOfTransaction.All)
-            {
-                return Transactions.Where(t => t.Type == type).ToList();
-            }
-            if (category != CategoryOfTransaction.All && (type == TypeOfTransaction.Income || type == TypeOfTransaction.Outcome))
-            {
-                return Transactions.Where(t => t.Category == category && t.Type == type).ToList();
-            }
-            if (category != CategoryOfTransaction.All && type == TypeOfTransaction.All)
-            {
-                return Transactions.Where(t => t.Category == category).ToList();
-            }
-            return Transactions;
+            var transaction = new List<Transaction>();
+
+            if (id == null)
+                transaction = _transactions.OrderByDescending(t => t.OccurrenceTime).ToList(); 
+            else
+                transaction = _transactions.Where(t => t.User.Id == id).OrderByDescending(t => t.OccurrenceTime).ToList();
+
+            if (type == TypeOfTransaction.All)
+                return transaction;
+
+            if (type == TypeOfTransaction.Income && category == CategoryOfTransaction.AllIncome)
+                return transaction.Where(t => t.Type == TypeOfTransaction.Income).OrderByDescending(t => t.OccurrenceTime).ToList();
+
+            if (type == TypeOfTransaction.Outcome && category == CategoryOfTransaction.allOutcome)
+                return transaction.Where(t => t.Type == TypeOfTransaction.Outcome).OrderByDescending(t => t.OccurrenceTime).ToList();
+
+            if (type == TypeOfTransaction.Income && (int)category < incomeCategoryLimit)
+                return transaction.Where(t => t.Category == category).OrderByDescending(t => t.OccurrenceTime).ToList();
+
+            if (type == TypeOfTransaction.Outcome && (int)category > incomeCategoryLimit)
+                return transaction.Where(t => t.Category == category).OrderByDescending(t => t.OccurrenceTime).ToList();
+
+            throw new InvalidDataException();
         }
         public int GetNextId()
         {
-            if (!Transactions.Any())
+            if (!_transactions.Any())
                 return 0;
-            return (Transactions?.Max(m => m.Id) ?? 0) + 1;
+            return (_transactions?.Max(m => m.Id) ?? 0) + 1;
         }
 
         public Transaction GetById(int id)
         {
-            return Transactions.SingleOrDefault(m => m.Id == id);
+            return _transactions.SingleOrDefault(m => m.Id == id);
         }
 
         public void Create(Transaction model)
         {
             model.Id = GetNextId();
             model.OccurrenceTime = DateTime.Now;
-            Transactions.Add(model);
+            _transactions.Add(model);
         }
 
         public void AddTransactionByUser(Transaction model, User user)
@@ -58,7 +65,7 @@ namespace TheBTeam.BLL.Services
             model.User = user;
             model.OccurrenceTime = DateTime.Now;
             ApplyTransaction(model, user);
-            Transactions.Add(model);
+            _transactions.Add(model);
         }
 
         public static void ApplyTransaction(Transaction transaction, User user)
@@ -76,7 +83,7 @@ namespace TheBTeam.BLL.Services
 
         public List<Transaction> SearchTransactionByUser(string id)
         {
-            return Transactions.Where(t => t.User.Id == id).ToList();
+            return _transactions.Where(t => t.User.Id == id).ToList();
         }
         public static List<Transaction> SearchTransactionByType(TypeOfTransaction type, List<Transaction> transactions)
         {
@@ -133,7 +140,7 @@ namespace TheBTeam.BLL.Services
             var transaction = GetById(id);
             var user = transaction.User;
             CancelTransaction(transaction, user);
-            Transactions.Remove(transaction);
+            _transactions.Remove(transaction);
         }
     }
 }
