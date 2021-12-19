@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TheBTeam.BLL.DAL;
+using TheBTeam.BLL.DAL.Repository;
 
 namespace TheBTeam.Web
 {
@@ -28,6 +29,9 @@ namespace TheBTeam.Web
             services.AddControllersWithViews();
             var connectionString = Configuration.GetConnectionString("MoviesDatabase");
             services.AddDbContext<PlannerContext>(o => o.UseSqlServer(connectionString));
+
+            
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
