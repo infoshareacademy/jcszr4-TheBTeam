@@ -11,7 +11,7 @@ namespace TheBTeam.BLL.Services
     {
         private int incomeCategoryLimit = 100;
 
-        private static readonly List<Transaction> _transactions = new List<Transaction>();
+        private static readonly List<TransactionDto> _transactions = new List<TransactionDto>();
         //private list<transaction> transaction = new list<transaction>
         //{
         //    new transaction
@@ -52,14 +52,14 @@ namespace TheBTeam.BLL.Services
         //    }
         //};
 
-        public List<Transaction> GetAll(CategoryOfTransaction category, TypeOfTransaction type, string id= null)
+        public List<TransactionDto> GetAll(CategoryOfTransaction category, TypeOfTransaction type, string id= null)
         {
-            var transaction = new List<Transaction>();
+            var transaction = new List<TransactionDto>();
 
             if (id == null)
                 transaction = _transactions;
             else
-                transaction=_transactions.Where(t => t.User.Id == id).ToList();
+                transaction=_transactions.Where(t => t.UserDto.Id == id).ToList();
             
             if (type == TypeOfTransaction.All)
                 return transaction;
@@ -80,16 +80,16 @@ namespace TheBTeam.BLL.Services
 
         }
 
-        public List<Transaction> AddTransaction(Transaction modelT, User user)
+        public List<TransactionDto> AddTransaction(TransactionDto modelT, UserDto userDto)
         {
             modelT.OccurrenceTime = DateTime.Now;
-            modelT.User = user;
-            ApplyTransaction(modelT, user);
+            modelT.UserDto = userDto;
+            ApplyTransaction(modelT, userDto);
             _transactions.Add(modelT);
             return _transactions;
         }
 
-        public List<Transaction> GetTransactionFromUser()
+        public List<TransactionDto> GetTransactionFromUser()
         {
             return _transactions;
         }
@@ -107,23 +107,23 @@ namespace TheBTeam.BLL.Services
             return result;
         }
 
-        public static void ApplyTransaction(Transaction transaction, User user)
+        public static void ApplyTransaction(TransactionDto transactionDto, UserDto userDto)
         {
-            if (transaction.Type == TypeOfTransaction.Income)
+            if (transactionDto.Type == TypeOfTransaction.Income)
             {
-                user.Balance += transaction.Amount;
-                transaction.BalanceAfterTransaction = user.Balance;
+                userDto.Balance += transactionDto.Amount;
+                transactionDto.BalanceAfterTransaction = userDto.Balance;
                 return;
             }
 
-            user.Balance -= transaction.Amount;
-            transaction.BalanceAfterTransaction = user.Balance;
+            userDto.Balance -= transactionDto.Amount;
+            transactionDto.BalanceAfterTransaction = userDto.Balance;
         }
-        public List<Transaction> SearchTransactionByUser(string id)
+        public List<TransactionDto> SearchTransactionByUser(string id)
         {
-            return _transactions.Where(t => t.User.Id == id).ToList();
+            return _transactions.Where(t => t.UserDto.Id == id).ToList();
         }
-        public static List<Transaction> SearchTransactionByType(TypeOfTransaction type, List<Transaction> transactions)
+        public static List<TransactionDto> SearchTransactionByType(TypeOfTransaction type, List<TransactionDto> transactions)
         {
             var transactionsByType = transactions.Where(t => t.Type == type).ToList();
             return transactionsByType;

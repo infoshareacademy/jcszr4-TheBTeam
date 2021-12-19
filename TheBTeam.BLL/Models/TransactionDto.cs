@@ -4,7 +4,7 @@ using Microsoft.VisualBasic;
 
 namespace TheBTeam.BLL.Models
 {
-    public class Transaction
+    public class TransactionDto
     {
         [Display(Name = "Occurrence Time")]
         public DateTime OccurrenceTime { get; set; }
@@ -12,7 +12,7 @@ namespace TheBTeam.BLL.Models
 
         [Display(Name = "Type")]
         public TypeOfTransaction Type { get; set; }
-        public User User { get; set; }
+        public UserDto UserDto { get; set; }
         /// <summary>
         /// 
         /// </summary>
@@ -38,7 +38,7 @@ namespace TheBTeam.BLL.Models
             Amount = amount;
             OccurrenceTime = DateAndTime.Now;
         }*/
-        public Transaction()
+        public TransactionDto()
         {
             OccurrenceTime = DateTime.Now;
         }

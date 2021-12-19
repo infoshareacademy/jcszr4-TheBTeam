@@ -11,16 +11,16 @@ namespace TheBTeam.BLL.Services
 {
     public class UserService
     {
-        private static List<User> _users = LoadDataFromFile.ReadUserFile();
-        public List<User> GetAll()
+        private static List<UserDto> _users = LoadDataFromFile.ReadUserFile();
+        public List<UserDto> GetAll()
         {
             return _users;
         }
-        public User GetById(string id)
+        public UserDto GetById(string id)
         {
             return _users.SingleOrDefault(m => m.Id == id);
         }
-        public void Create(User model)
+        public void Create(UserDto model)
         {
             model.Id = GetNextId();
             model.Registered = DateTime.Now;
@@ -43,7 +43,7 @@ namespace TheBTeam.BLL.Services
             _users.Remove(user);
         }
 
-        public void Update(User model)
+        public void Update(UserDto model)
         {
             var user = GetById(model.Id);
 

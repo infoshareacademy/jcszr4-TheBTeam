@@ -8,12 +8,12 @@ namespace TheBTeam.BLL.Services
 {
     public class LoadDataFromFile
     {
-        public static List<User> ReadUserFile()
+        public static List<UserDto> ReadUserFile()
         {
             string fileName = @"SourceFiles\users.json";
 
             string jsonString = File.ReadAllText(fileName);
-            List<User> userData = JsonConvert.DeserializeObject<List<User>>(jsonString);
+            List<UserDto> userData = JsonConvert.DeserializeObject<List<UserDto>>(jsonString);
             return userData;
         }
     }

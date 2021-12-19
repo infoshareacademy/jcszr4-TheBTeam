@@ -43,7 +43,7 @@ namespace TheBTeam.Web.Controllers
         // POST: UserController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(User model)
+        public ActionResult Create(UserDto model)
         {
             try
             {
@@ -80,16 +80,16 @@ namespace TheBTeam.Web.Controllers
         // POST: UserController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddTransaction(Transaction modelTransaction, string id)
+        public ActionResult AddTransaction(TransactionDto modelTransactionDto, string id)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
-                    return View(modelTransaction);
+                    return View(modelTransactionDto);
                 }
                 var user = _userService.GetById(id);
-                _transactionService.AddTransaction(modelTransaction, user);
+                _transactionService.AddTransaction(modelTransactionDto, user);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -110,7 +110,7 @@ namespace TheBTeam.Web.Controllers
         // POST: UserController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(string id, User model)
+        public ActionResult Edit(string id, UserDto model)
         {
             try
             {
@@ -138,7 +138,7 @@ namespace TheBTeam.Web.Controllers
         // POST: UserController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(string id, User model)
+        public ActionResult Delete(string id, UserDto model)
         {
             try
             {

@@ -27,12 +27,16 @@ namespace TheBTeam.Web
         {
             services.AddControllersWithViews();
             var connectionString = Configuration.GetConnectionString("MoviesDatabase");
-            services.AddDbContext<PlannerContext>(o => o.UseSqlServer(connectionString).UseLazyLoadingProxies());
+            services.AddDbContext<PlannerContext>(o => o.UseSqlServer(connectionString));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+            var context = serviceScope.ServiceProvider.GetService<PlannerContext>();
+            context?.Database.Migrate();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

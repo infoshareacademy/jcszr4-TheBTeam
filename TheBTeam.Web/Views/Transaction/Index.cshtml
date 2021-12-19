@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TheBTeam.BLL.Models.Transaction>
+﻿@model IEnumerable<TheBTeam.BLL.Models.TransactionDto>
 @using TheBTeam.BLL
 @{
     ViewData["Title"] = "List of transactions";
@@ -41,7 +41,7 @@
 
                 @*@Html.ActionLink("User.Email", "Index", new { sortOrder = ViewBag.NameSortParm })*@
 
-                <label asp-for="First().User.Email"></label>
+                <label asp-for="First().UserDto.Email"></label>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.OccurrenceTime)
@@ -69,7 +69,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.User.Email)
+                    @Html.DisplayFor(modelItem => item.UserDto.Email)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.OccurrenceTime)

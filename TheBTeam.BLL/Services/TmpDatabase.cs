@@ -6,17 +6,17 @@ namespace TheBTeam.BLL.Services
 {
     public class TmpDatabase //TODO: TmpDatabase
     {
-        public List<User> UsersList { get; set; }
-        public List<Transaction> TransactionsList { get; set; } = new();
+        public List<UserDto> UsersList { get; set; }
+        public List<TransactionDto> TransactionsList { get; set; } = new();
         public TmpDatabase()
         {
-            UsersList = new List<User>();
-            TransactionsList = new List<Transaction>();
+            UsersList = new List<UserDto>();
+            TransactionsList = new List<TransactionDto>();
             //UsersList = LoadDataFromFile.ReadUserFile();
         }
-        public void AddNewUser(User user)
+        public void AddNewUser(UserDto userDto)
         {
-            UsersList.Add(user);
+            UsersList.Add(userDto);
         }
 
 
