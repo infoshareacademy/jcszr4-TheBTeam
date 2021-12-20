@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TheBTeam.BLL;
+using TheBTeam.BLL.DAL.Entities;
+using TheBTeam.BLL.DAL.Repository;
 using TheBTeam.BLL.Services;
 using TheBTeam.BLL.Models;
 
@@ -13,16 +15,19 @@ namespace TheBTeam.Web.Controllers
 {
     public class TransactionController : Controller
     {
-        private TransactionService _transactionService;//TODO wez tutaj tranzakcje z usera
-        public TransactionController()
+        //private TransactionService _transactionRepo;//TODO wez tutaj tranzakcje z usera
+
+        private IRepository<Transaction> _transactionRepo;
+        public TransactionController(IRepository<Transaction> transactionRepo)
         {
-            _transactionService = new TransactionService();
+            _transactionRepo = transactionRepo;
+            //_transactionRepo = new TransactionService();
         }
         // GET: TransactionController
         public ActionResult Index(CategoryOfTransaction category, TypeOfTransaction type)
         {
             //TODO how to get here users!
-            var model = _transactionService.GetAll(category, type);
+            var model = _transactionRepo.GetAll(/*category, type*/);
             return View(model);
         }
         // GET: TransactionController/Details/5
@@ -42,7 +47,7 @@ namespace TheBTeam.Web.Controllers
             
             var id = TempData["id"] as string;
             //var model = _transactionService.SearchTransactionByUser(id);
-            var model = _transactionService.GetAll(category, type, id);
+            var model = _transactionRepo.GetAll(/*category, type, id*/);
             TempData["id"] = id;
             return View(model);
         }

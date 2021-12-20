@@ -29,7 +29,6 @@ namespace TheBTeam.Web
             services.AddControllersWithViews();
             var connectionString = Configuration.GetConnectionString("MoviesDatabase");
             services.AddDbContext<PlannerContext>(o => o.UseSqlServer(connectionString));
-
             
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         }
