@@ -29,15 +29,6 @@ namespace TheBTeam.BLL.Models
         [DataType(DataType.Currency)]
         public decimal BalanceAfterTransaction { get; set; }
         
-        /*public Transaction(User user, TypeOfTransaction type, CategoryOfTransaction category, Currency currency, decimal amount)
-        {         
-            User = user;
-            Type = type;
-            Category = category;
-            Currency = currency;
-            Amount = amount;
-            OccurrenceTime = DateAndTime.Now;
-        }*/
         public TransactionDto()
         {
             OccurrenceTime = DateTime.Now;

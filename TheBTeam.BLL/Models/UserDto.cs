@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
+using TheBTeam.BLL.DAL.Entities;
 
 namespace TheBTeam.BLL.Models
 {
@@ -18,8 +19,7 @@ namespace TheBTeam.BLL.Models
 
         [Required(ErrorMessage = "Please enter age!")]
         [Display(Name = "Age")]
-       /* [Range(13, 99, ErrorMessage = "Please provide value from range 13-99")]*/
-        public int Age { get; set; }
+       public int Age { get; set; }
 
         [Required(ErrorMessage = "Please enter first name")]
         [StringLength(25)]
@@ -37,6 +37,27 @@ namespace TheBTeam.BLL.Models
         public string Email { get;  set; }
         public string Phone { get; set; }
         public string Address { get; set; }
-        public DateTime Registered { get; set; }
+        public DateTime CreatedAt { get; set; }
+
+        public static UserDto FromDAL(User user)
+        {
+            var userDto = new UserDto
+            {
+                Id = user.Id,
+                IsActive = user.IsActive,
+                Balance = user.Balance,
+                Currency = user.Currency,
+                Age = user.Age,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Gender = user.Gender,
+                Company = user.Company,
+                Email = user.Email,
+                Phone = user.Phone,
+                Address = user.Address
+            };
+
+            return userDto;
+        }
     }
 }

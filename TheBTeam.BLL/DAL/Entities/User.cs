@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using TheBTeam.BLL.Models;
 
 namespace TheBTeam.BLL.DAL.Entities
 {
@@ -31,5 +32,27 @@ namespace TheBTeam.BLL.DAL.Entities
         public string Email { get;  set; }
         public string Phone { get; set; }
         public string Address { get; set; }
+
+        public static User FromDto(UserDto userDto)
+        {
+            var user = new User
+            {
+                Id = userDto.Id,
+                IsActive = userDto.IsActive,
+                Balance = userDto.Balance,
+                Currency = userDto.Currency,
+                Age = userDto.Age,
+                FirstName = userDto.FirstName,
+                LastName = userDto.LastName,
+                Gender = userDto.Gender,
+                Company = userDto.Company,
+                Email = userDto.Email,
+                Phone = userDto.Phone,
+                Address = userDto.Address,
+                CreatedAt = userDto.CreatedAt
+            };
+
+            return user;
+        }
     }
 }

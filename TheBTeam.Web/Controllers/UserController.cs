@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TheBTeam.BLL.DAL;
+using TheBTeam.BLL.DAL.Entities;
 using TheBTeam.BLL.Models;
 using TheBTeam.BLL.Services;
 
@@ -11,10 +13,12 @@ namespace TheBTeam.Web.Controllers
 {
     public class UserController : Controller
     {
+        private readonly PlannerContext _plannerContext;
         private UserService _userService;
         private TransactionService _transactionService;
-        public UserController()
+        public UserController(PlannerContext plannerContext)
         {
+            _plannerContext = plannerContext;
             _userService = new UserService();
             _transactionService = new TransactionService();
         }
@@ -22,8 +26,16 @@ namespace TheBTeam.Web.Controllers
         // GET: UserController
         public ActionResult Index()
         {
+            /*var users = _userService.GetAll();
+            foreach (var userDto in users)
+            {
+                _plannerContext.Add(BLL.DAL.Entities.User.FromDto(userDto));
+            }
 
-            var model = _userService.GetAll();
+            
+            _plannerContext.SaveChanges();*/
+            var modelDal = _plannerContext.Users.ToList();
+            var model= modelDal.Select(UserDto.FromDAL);
             return View(model);
         }
 

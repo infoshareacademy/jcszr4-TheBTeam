@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TheBTeam.BLL.DAL;
 
 namespace TheBTeam.BLL.Migrations
 {
     [DbContext(typeof(PlannerContext))]
-    partial class PlannerContextModelSnapshot : ModelSnapshot
+    [Migration("20211221223913_updateNaming")]
+    partial class updateNaming
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -2,9 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using TheBTeam.BLL;
+using TheBTeam.BLL.DAL;
 using TheBTeam.BLL.DAL.Entities;
 using TheBTeam.BLL.DAL.Repository;
 using TheBTeam.BLL.Services;
@@ -17,17 +20,22 @@ namespace TheBTeam.Web.Controllers
     {
         //private TransactionService _transactionRepo;//TODO wez tutaj tranzakcje z usera
 
-        private IRepository<Transaction> _transactionRepo;
-        public TransactionController(IRepository<Transaction> transactionRepo)
-        {
-            _transactionRepo = transactionRepo;
-            //_transactionRepo = new TransactionService();
-        }
+       private readonly PlannerContext _plannerContext;
+       private readonly IMapper _mapper;
+
+       public TransactionController(PlannerContext plannerContext, IMapper mapper)
+       {
+           _plannerContext = plannerContext;
+           _mapper = mapper;
+       }
         // GET: TransactionController
         public ActionResult Index(CategoryOfTransaction category, TypeOfTransaction type)
         {
             //TODO how to get here users!
-            var model = _transactionRepo.GetAll(/*category, type*/);
+            var model= _plannerContext.Transactions.ToList();
+           
+            
+                //var model = _transactionRepo.GetAll(/*category, type*/);
             return View(model);
         }
         // GET: TransactionController/Details/5
@@ -42,15 +50,15 @@ namespace TheBTeam.Web.Controllers
             return View();
         }
 
-        public ActionResult UserTransactions(CategoryOfTransaction category, TypeOfTransaction type)
-        {
+        //public ActionResult UserTransactions(CategoryOfTransaction category, TypeOfTransaction type)
+        //{
             
-            var id = TempData["id"] as string;
-            //var model = _transactionService.SearchTransactionByUser(id);
-            var model = _transactionRepo.GetAll(/*category, type, id*/);
-            TempData["id"] = id;
-            return View(model);
-        }
+        //    //var id = TempData["id"] as string;
+        //    ////var model = _transactionService.SearchTransactionByUser(id);
+        //    //var model = _transactionRepo.GetAll(/*category, type, id*/);
+        //    //TempData["id"] = id;
+        //    //return View(model);
+        //}
 
         // POST: TransactionController/Create
         [HttpPost]

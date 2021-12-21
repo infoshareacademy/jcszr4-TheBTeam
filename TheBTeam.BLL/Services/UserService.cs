@@ -23,7 +23,7 @@ namespace TheBTeam.BLL.Services
         public void Create(UserDto model)
         {
             model.Id = GetNextId();
-            model.Registered = DateTime.Now;
+            //model.Registered = DateTime.Now;
 
             _users.Add(model);
         }
