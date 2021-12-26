@@ -16,26 +16,17 @@ namespace TheBTeam.Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly PlannerContext _plannerContext;
-        private readonly UserService _userService;
 
 
-        public HomeController(ILogger<HomeController> logger, PlannerContext plannerContext, UserService userService)
+        public HomeController(ILogger<HomeController> logger, PlannerContext plannerContext)
         {
             _logger = logger;
             _plannerContext = plannerContext;
-            _userService = userService;
+            
         }
 
         public IActionResult Index()
         {
-
-            if (_plannerContext.Users == null)
-            {
-                var modelDto = _userService.GetAll();
-                _plannerContext.Add(modelDto);
-                _plannerContext.SaveChanges();
-            }
-
             return View();
         }
 

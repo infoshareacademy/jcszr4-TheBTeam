@@ -30,7 +30,7 @@
     "registered": "2015-07-09T03:13:49 -02:00"
   },
   {
-    "Id": "615b4be6da8ea4cd5d571e1c",
+    "Id":  "615b4be6da8ea4cd5d571e1c",
     "isActive": true,
     "balance": "2,207.47",
     "currency": "PLN",
@@ -45,7 +45,7 @@
     "registered": "2015-12-22T05:25:24 -01:00"
   },
   {
-    "Id": "615b4be6712822a05a64fb5f",
+    "Id":  "615b4be6712822a05a64fb5f",
     "isActive": false,
     "balance": "1,433.67",
     "currency": "PLN",

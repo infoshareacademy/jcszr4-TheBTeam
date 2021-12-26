@@ -8,7 +8,7 @@ namespace TheBTeam.BLL.Models
 {
     public class UserDto
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
         public bool IsActive { get; set; }
 
         [Required(ErrorMessage = "Please enter balance")]
