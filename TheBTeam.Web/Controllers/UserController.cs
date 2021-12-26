@@ -40,8 +40,10 @@ namespace TheBTeam.Web.Controllers
         }
 
         // GET: UserController/Details/5
-        public ActionResult Details(string id)
+        public ActionResult Details(int id)
         {
+            var modelDal = _plannerContext.Users.First(x => x.Id == id);
+
             var model = _userService.GetById(id);
             return View(model);
         }
@@ -55,7 +57,7 @@ namespace TheBTeam.Web.Controllers
         // POST: UserController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(UserDto model)
+        public ActionResult Create(User model)
         {
             try
             {
@@ -92,7 +94,7 @@ namespace TheBTeam.Web.Controllers
         // POST: UserController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddTransaction(TransactionDto modelTransactionDto, string id)
+        public ActionResult AddTransaction(TransactionDto modelTransactionDto, int id)
         {
             try
             {
@@ -101,7 +103,7 @@ namespace TheBTeam.Web.Controllers
                     return View(modelTransactionDto);
                 }
                 var user = _userService.GetById(id);
-                _transactionService.AddTransaction(modelTransactionDto, user);
+                //_transactionService.AddTransaction(modelTransactionDto, user);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -113,7 +115,7 @@ namespace TheBTeam.Web.Controllers
 
 
         // GET: UserController/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(int id)
         {
             var model = _userService.GetById(id);
             return View(model);
@@ -122,7 +124,7 @@ namespace TheBTeam.Web.Controllers
         // POST: UserController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(string id, UserDto model)
+        public ActionResult Edit(int id, User model)
         {
             try
             {
@@ -141,7 +143,7 @@ namespace TheBTeam.Web.Controllers
         }
 
         // GET: UserController/Delete/5
-        public ActionResult Delete(string id)
+        public ActionResult Delete(int id)
         {
             var model = _userService.GetById(id);
             return View(model);
@@ -154,7 +156,7 @@ namespace TheBTeam.Web.Controllers
         {
             try
             {
-                _userService.Delete(id);
+                //_userService.Delete(id);
                 return RedirectToAction(nameof(Index));
             }
             catch

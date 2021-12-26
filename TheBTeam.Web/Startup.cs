@@ -10,7 +10,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TheBTeam.BLL.DAL;
-using TheBTeam.BLL.DAL.Repository;
 using TheBTeam.BLL.Models;
 
 namespace TheBTeam.Web
@@ -65,6 +64,7 @@ namespace TheBTeam.Web
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

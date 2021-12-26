@@ -9,7 +9,6 @@ using AutoMapper;
 using TheBTeam.BLL;
 using TheBTeam.BLL.DAL;
 using TheBTeam.BLL.DAL.Entities;
-using TheBTeam.BLL.DAL.Repository;
 using TheBTeam.BLL.Services;
 using TheBTeam.BLL.Models;
 

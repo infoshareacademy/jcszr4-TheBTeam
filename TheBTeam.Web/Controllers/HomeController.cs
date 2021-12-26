@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TheBTeam.BLL.DAL;
 using TheBTeam.BLL.DAL.Entities;
+using TheBTeam.BLL.Services;
 using TheBTeam.Web.Models;
 
 namespace TheBTeam.Web.Controllers
@@ -15,17 +16,26 @@ namespace TheBTeam.Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly PlannerContext _plannerContext;
+        private readonly UserService _userService;
 
 
-        public HomeController(ILogger<HomeController> logger, PlannerContext plannerContext)
+        public HomeController(ILogger<HomeController> logger, PlannerContext plannerContext, UserService userService)
         {
             _logger = logger;
             _plannerContext = plannerContext;
+            _userService = userService;
         }
 
         public IActionResult Index()
         {
-            
+
+            if (_plannerContext.Users == null)
+            {
+                var modelDto = _userService.GetAll();
+                _plannerContext.Add(modelDto);
+                _plannerContext.SaveChanges();
+            }
+
             return View();
         }
 

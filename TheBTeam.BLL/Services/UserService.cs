@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using TheBTeam.BLL.DAL.Entities;
 using TheBTeam.BLL.Models;
 using TheBTeam.BLL.Services;
 
@@ -11,18 +12,18 @@ namespace TheBTeam.BLL.Services
 {
     public class UserService
     {
-        private static List<UserDto> _users = LoadDataFromFile.ReadUserFile();
-        public List<UserDto> GetAll()
+        private static List<User> _users = LoadDataFromFile.ReadUserFile();
+        public List<User> GetAll()
         {
             return _users;
         }
-        public UserDto GetById(string id)
+        public User GetById(int id)
         {
             return _users.SingleOrDefault(m => m.Id == id);
         }
-        public void Create(UserDto model)
+        public void Create(User model)
         {
-            model.Id = GetNextId();
+            //model.Id = GetNextId();
             //model.Registered = DateTime.Now;
 
             _users.Add(model);
@@ -37,13 +38,13 @@ namespace TheBTeam.BLL.Services
             return BitConverter.ToString(bytes).Replace("-", "").ToLower();
         }
 
-        public void Delete(string id)
+       /* public void Delete(string id)
         {
-            var user = GetById(id);
+            //var user = GetById(id);
             _users.Remove(user);
-        }
+        }*/
 
-        public void Update(UserDto model)
+        public void Update(User model)
         {
             var user = GetById(model.Id);
 

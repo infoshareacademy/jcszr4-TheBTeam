@@ -52,11 +52,11 @@ namespace TheBTeam.BLL.Services
         //    }
         //};
 
-        public List<TransactionDto> GetAll(CategoryOfTransaction category, TypeOfTransaction type, string id= null)
+        public List<TransactionDto> GetAll(CategoryOfTransaction category, TypeOfTransaction type, int id=0)
         {
             var transaction = new List<TransactionDto>();
 
-            if (id == null)
+            if (id == 0)
                 transaction = _transactions;
             else
                 transaction=_transactions.Where(t => t.UserDto.Id == id).ToList();
@@ -119,7 +119,7 @@ namespace TheBTeam.BLL.Services
             userDto.Balance -= transactionDto.Amount;
             transactionDto.BalanceAfterTransaction = userDto.Balance;
         }
-        public List<TransactionDto> SearchTransactionByUser(string id)
+        public List<TransactionDto> SearchTransactionByUser(int id)
         {
             return _transactions.Where(t => t.UserDto.Id == id).ToList();
         }

@@ -11,7 +11,7 @@ namespace TheBTeam.BLL.DAL.Entities
     public abstract class Entity
     {
         [Key/* DatabaseGenerated(DatabaseGeneratedOption.Identity)*/]
-        public string Id { get; set; }
+        public int Id { get; set; }
         public DateTime CreatedAt { get; set; }// = DateTime.Now;
     }
 }

@@ -23,4 +23,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DAL\Configurations\" />
+  </ItemGroup>
+
 </Project>

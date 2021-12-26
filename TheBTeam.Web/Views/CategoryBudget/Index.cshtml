@@ -1,0 +1,60 @@
+﻿@using TheBTeam.BLL
+@using TheBTeam.BLL.Models
+@model TheBTeam.Web.Controllers.BudgetDTOTemp
+
+@{
+    ViewData["Title"] = "Index";
+    var possibleIncomeCategories = Enum.GetValues<CategoryOfTransaction>().Where(x => (int)x > 1 && (int)x < 100);
+    var possibleOutcomeCategories = Enum.GetValues<CategoryOfTransaction>().Where(x => (int)x > 100);
+}
+
+<h1>Index</h1>
+
+<form method="post" action="UpdateBudget/@Model.UserId">
+    <table class="table">
+        <thead>
+        <tr>
+        <th>
+            <b>Category</b>
+        </th>
+        </thead>
+        <tbody>
+        @foreach (var item in possibleIncomeCategories)
+        {
+            var modelItem = Model.UserBudgets.FirstOrDefault(x => x.Category == item);
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item)
+                </td>
+                <td>
+                    <div class="form-group">
+                        <input type="number" name="@item.ToString()" class="form-control" value="@modelItem?.PlanedBudget" />
+                    </div>
+                </td>
+            </tr>
+        }
+
+        </tbody>
+
+        <tbody>
+        @foreach (var item in possibleOutcomeCategories)
+        {
+            var modelItem = Model.UserBudgets.FirstOrDefault(x => x.Category == item);
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item)
+                </td>
+                <td>
+                    <div class="form-group">
+                        <input type="number" name="@item.ToString()" class="form-control" value="@modelItem?.PlanedBudget" />
+                    </div>
+                </td>
+            </tr>
+        }
+
+        </tbody>
+    </table>
+    
+    <button type="submit">Save</button>
+</form>
+
