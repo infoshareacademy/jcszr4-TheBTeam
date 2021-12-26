@@ -17,5 +17,14 @@ namespace TheBTeam.BLL.Services
             List<UserDto> userData = JsonConvert.DeserializeObject<List<UserDto>>(jsonString);
             return userData;
         }
+        public static List<User> ReadDalUserFile()
+        {
+            string fileName = @"SourceFiles\users.json";
+
+            string jsonString = File.ReadAllText(fileName);
+            List<User> userData = JsonConvert.DeserializeObject<List<User>>(jsonString);
+            return userData;
+        }
     }
+    
 }

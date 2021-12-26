@@ -43,7 +43,7 @@ namespace TheBTeam.BLL.Models
         {
             var userDto = new UserDto
             {
-                Id = user.Id,
+                //Id = user.Id,
                 IsActive = user.IsActive,
                 Balance = user.Balance,
                 Currency = user.Currency,

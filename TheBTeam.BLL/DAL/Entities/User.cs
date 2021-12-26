@@ -37,7 +37,7 @@ namespace TheBTeam.BLL.DAL.Entities
         {
             var user = new User
             {
-                Id = userDto.Id,
+                //Id = userDto.Id,
                 IsActive = userDto.IsActive,
                 Balance = userDto.Balance,
                 Currency = userDto.Currency,
