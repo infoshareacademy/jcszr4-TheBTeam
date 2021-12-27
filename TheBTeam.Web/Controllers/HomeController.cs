@@ -27,6 +27,7 @@ namespace TheBTeam.Web.Controllers
 
         public IActionResult Index()
         {
+            LoadDataFromFile.LoadUsersToDatbase(_plannerContext);
             return View();
         }
 

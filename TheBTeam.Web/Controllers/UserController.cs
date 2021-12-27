@@ -26,26 +26,17 @@ namespace TheBTeam.Web.Controllers
         // GET: UserController
         public ActionResult Index()
         {
-            var users = LoadDataFromFile.ReadDalUserFile();
-            _plannerContext.AddRange(users);
-            /*foreach (var userDto in users)
-            {
-                _plannerContext.Add(BLL.DAL.Entities.User.FromDto(userDto));
-            }*/
-
-
-            _plannerContext.SaveChanges();
             var modelDal = _plannerContext.Users.ToList();
             var model= modelDal.Select(UserDto.FromDAL);
             return View(model);
         }
 
         // GET: UserController/Details/5
-        public ActionResult Details(string id)
+        public ActionResult Details(int id)
         {
-            //var modelDal = _plannerContext.Users.First(x => x.Id == id);
-
-            var model = _userService.GetById(id);
+            var modelDal = _plannerContext.Users.First(x => x.Id == id);
+            var model = UserDto.FromDAL(modelDal);
+            //var model = modelDal.Select(UserDto.FromDAL);
             return View(model);
         }
 
