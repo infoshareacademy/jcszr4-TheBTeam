@@ -14,6 +14,6 @@ namespace TheBTeam.BLL.DAL.Entities
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [JsonIgnore]
         public int Id { get; set; }
-        public DateTime CreatedAt { get; set; }// = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

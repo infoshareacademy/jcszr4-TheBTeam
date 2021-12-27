@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using TheBTeam.BLL.DAL;
 using TheBTeam.BLL.DAL.Entities;
 using TheBTeam.BLL.Models;
 using TheBTeam.BLL.Services;
@@ -12,41 +13,44 @@ namespace TheBTeam.BLL.Services
 {
     public class UserService
     {
+        private readonly PlannerContext _plannerContext;
         private static List<UserDto> _users = LoadDataFromFile.ReadUserFile();
-        public List<UserDto> GetAll()
+
+        public UserService(PlannerContext plannerContext)
         {
-            return _users;
+            _plannerContext = plannerContext;
         }
-        public UserDto GetById(string id)
+
+        public UserDto GetById(int id)
         {
             return _users.SingleOrDefault(m => m.Id == id);
         }
         public void Create(UserDto model)
         {
-            //model.Id = GetNextId();
-            //model.Registered = DateTime.Now;
-
-            _users.Add(model);
-        }
-        public string GetNextId()
-        {
-            if (!_users.Any())
-                return String.Empty;
-            var random = new Random();
-            var bytes = new byte[12];
-            random.NextBytes(bytes);
-            return BitConverter.ToString(bytes).Replace("-", "").ToLower();
+            var modelDal = User.FromDto(model);
+            _plannerContext.Users.Add(modelDal);
+            _plannerContext.SaveChanges();
         }
 
-       /* public void Delete(string id)
+        public UserDto GetByIdToDto(int id)
         {
-            //var user = GetById(id);
-            _users.Remove(user);
-        }*/
+            var modelDal = _plannerContext.Users.First(x => x.Id == id);
+            var model = UserDto.FromDAL(modelDal);
+            return model;
+        }
+
+
+        public void Delete(int id)
+        {
+            var user = _plannerContext.Users.SingleOrDefault(u => u.Id == id);
+
+            _plannerContext.Remove(user);
+            _plannerContext.SaveChanges();
+        }
 
         public void Update(UserDto model)
         {
-            var user = GetById(model.Id);
+            var user = _plannerContext.Users.SingleOrDefault(u => u.Id == model.Id);
 
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
@@ -54,6 +58,11 @@ namespace TheBTeam.BLL.Services
             user.Balance = model.Balance;
             user.Email = model.Email;
             user.IsActive = model.IsActive;
+            user.Company = model.Company;
+            user.Address = model.Address;
+            user.Phone = model.Phone;
+
+            _plannerContext.SaveChanges();
         }
     }
 }

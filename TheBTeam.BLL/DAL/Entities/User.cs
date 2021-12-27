@@ -49,7 +49,6 @@ namespace TheBTeam.BLL.DAL.Entities
                 Email = userDto.Email,
                 Phone = userDto.Phone,
                 Address = userDto.Address,
-                CreatedAt = userDto.CreatedAt
             };
 
             return user;
