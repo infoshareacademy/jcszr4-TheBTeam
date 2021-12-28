@@ -11,6 +11,7 @@ namespace TheBTeam.BLL.DAL.Entities
 
         [Required]
         public User User { get; set; }
+        public int UserId { get; set; }
         public CategoryOfTransaction Category { get; set; }
 
         [Required]
@@ -26,6 +27,8 @@ namespace TheBTeam.BLL.DAL.Entities
         {
             return new Transaction
             {
+                //Id = transactionDto.Id,
+                UserId = transactionDto.UserId,
                 //CreatedAt = transactionDto.CreatedAt,
                 Currency = transactionDto.Currency,
                 Type = transactionDto.Type,

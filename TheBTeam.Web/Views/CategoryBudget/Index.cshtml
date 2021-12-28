@@ -1,6 +1,6 @@
 ﻿@using TheBTeam.BLL
 @using TheBTeam.BLL.Models
-@model TheBTeam.Web.Controllers.BudgetDTOTemp
+@model TheBTeam.BLL.Models.UsersBudgetDto
 
 @{
     ViewData["Title"] = "Index";
@@ -8,16 +8,26 @@
     var possibleOutcomeCategories = Enum.GetValues<CategoryOfTransaction>().Where(x => (int)x > 100);
 }
 
-<h1>Index</h1>
+<h1>User's budget </h1>
 
 <form asp-controller="CategoryBudget" asp-action="UpdateBudget" asp-route-id="@Model.UserId" method="post">
     <table class="table">
         <thead>
-        <tr>
-        <th>
-            <b>Category</b>
-        </th>
+            <tr>
+                <th>
+                    <b>Category</b>
+                </th>
+                <th>
+                    <b>Target</b>
+                </th>
+                <th>
+                    <b>Current</b>
+                </th>
+                <th>
+                    <b>Difference</b>
+                </th>
         </thead>
+
         <tbody>
         @foreach (var item in possibleIncomeCategories)
         {
@@ -31,30 +41,47 @@
                         <input type="number" name="@item.ToString()" class="form-control" value="@modelItem?.PlanedBudget" />
                     </div>
                 </td>
+                <td>
+                    @{Model.CategorySums.TryGetValue(item, out decimal value);}
+                    @value
+                </td>
+                <td>
+                    @{
+                        //Model.CategorySums.TryGetValue(item, out decimal value);
+                        var difference = modelItem.PlanedBudget - value;
+                    }
+                    @difference
+                </td>
             </tr>
         }
-
         </tbody>
 
         <tbody>
-        @foreach (var item in possibleOutcomeCategories)
-        {
-            var modelItem = Model.UserBudgets.FirstOrDefault(x => x.Category == item);
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item)
-                </td>
-                <td>
-                    <div class="form-group">
-                        <input type="number" name="@item.ToString()" class="form-control" value="@modelItem?.PlanedBudget" />
-                    </div>
-                </td>
-            </tr>
-        }
-
+            @foreach (var item in possibleOutcomeCategories)
+            {
+                var modelItem = Model.UserBudgets.FirstOrDefault(x => x.Category == item);
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item)
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input type="number" name="@item.ToString()" class="form-control" value="@modelItem?.PlanedBudget" />
+                        </div>
+                    </td>
+                    <td>
+                        @{Model.CategorySums.TryGetValue(item, out decimal value);}
+                        @value
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
-    
-    <button type="submit">Save</button>
+
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" /> |
+        <a asp-controller="User" , asp-action="Index">Back to users List</a>
+    </div>
 </form>
+
 

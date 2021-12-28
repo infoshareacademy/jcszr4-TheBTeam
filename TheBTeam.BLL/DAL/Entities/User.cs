@@ -35,9 +35,13 @@ namespace TheBTeam.BLL.DAL.Entities
 
         public static User FromDto(UserDto userDto)
         {
+            if (userDto== null)
+            {
+                return null;
+            }
             var user = new User
             {
-                //Id = userDto.Id,
+                Id = userDto.Id,
                 IsActive = userDto.IsActive,
                 Balance = userDto.Balance,
                 Currency = userDto.Currency,

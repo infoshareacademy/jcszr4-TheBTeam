@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Castle.Core.Internal;
 using Microsoft.EntityFrameworkCore;
 using TheBTeam.BLL;
 using TheBTeam.BLL.DAL;
@@ -11,11 +12,6 @@ using TheBTeam.BLL.Models;
 
 namespace TheBTeam.Web.Controllers
 {
-    public class BudgetDTOTemp
-    {
-        public IEnumerable<CategoryBudgetDto> UserBudgets { get; set; }
-        public int UserId { get; set; }
-    }
     public class CategoryBudgetController : Controller
     {
         private readonly PlannerContext _planerContext;
@@ -30,8 +26,11 @@ namespace TheBTeam.Web.Controllers
         {
             var modelDal = _planerContext.CategoryBudgets.Where(x => x.UserId == id).ToList();
             var model = modelDal.Select(CategoryBudgetDto.FromDal);
-            
-            return View(new BudgetDTOTemp(){UserId = id, UserBudgets = model});
+            var tranactionsList = _planerContext.Transactions.Where(x => x.User.Id == id).ToList();
+            var sums = tranactionsList.GroupBy(x => x.Category)
+                .ToDictionary(x => x.Key, x => x.Select(y => y.Amount).Sum());
+
+            return View(new UsersBudgetDto() { UserId = id, UserBudgets = model, CategorySums = sums });
         }
 
         [HttpPost]
@@ -40,20 +39,26 @@ namespace TheBTeam.Web.Controllers
         {
             foreach (var category in collection)
             {
-                var existing = _planerContext.CategoryBudgets.AsNoTracking()
-                    .FirstOrDefault(x => x.UserId == id && x.Category.ToString() == category.Key); //todo INt
+                //TODO: obsłużyć brakujace
+                if (Enum.TryParse<CategoryOfTransaction>(category.Key, out var categoryEnum))
+                {
+                    var existing = _planerContext.CategoryBudgets
+                        .FirstOrDefault(x => x.UserId == id && x.Category == categoryEnum);
 
-                if (existing == null)
-                    existing = new CategoryBudget() {UserId = id, Category = Enum.Parse<CategoryOfTransaction>(category.Key) };
+                    if (existing == null)
+                        existing = new CategoryBudget() { UserId = id, Category = categoryEnum };
 
-                existing.PlanedBudget = decimal.Parse(category.Value);
-                _planerContext.Update(existing);
+                    var stringValue = category.Value.FirstOrDefault();
+                    existing.PlanedBudget = string.IsNullOrWhiteSpace(stringValue) ? 0M : decimal.Parse(stringValue);
+
+                    _planerContext.Update(existing);
+                }
             }
 
             _planerContext.SaveChanges();
 
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { id });
         }
 
     }

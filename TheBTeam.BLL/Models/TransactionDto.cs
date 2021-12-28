@@ -10,9 +10,12 @@ namespace TheBTeam.BLL.Models
         [Display(Name = "Occurrence Time")]
         public DateTime CreatedAt { get; set; }
         public Currency Currency { get; set; }
+        public int Id { get; set; }
 
         [Display(Name = "Type")]
         public TypeOfTransaction Type { get; set; }
+
+        public int UserId { get; set; }
         public UserDto UserDto { get; set; }
         /// <summary>
         /// 
@@ -34,6 +37,8 @@ namespace TheBTeam.BLL.Models
         {
             return new TransactionDto
             {
+                Id = transaction.Id,
+                UserId = transaction.UserId,
                 CreatedAt = transaction.CreatedAt,
                 Currency = transaction.Currency,
                 Type = transaction.Type,

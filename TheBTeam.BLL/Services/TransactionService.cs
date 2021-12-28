@@ -89,12 +89,12 @@ namespace TheBTeam.BLL.Services
 
         }
 
-        public void AddTransaction(TransactionDto model, UserDto userDto)
+        public void AddTransaction(TransactionDto model, UserDto userDto, int id)
         {
-            model.UserDto = userDto;
+            //model.UserDto = userDto;
+            model.UserId = id;
             var modelDal = Transaction.FromDto(model);
-            modelDal.User = User.FromDto(userDto);
-            ApplyTransaction(model, userDto);
+            ApplyTransaction(model, userDto);//TODO: make it works on DAL
             _plannerContext.Transactions.Add(modelDal);
             _plannerContext.SaveChanges();
         }

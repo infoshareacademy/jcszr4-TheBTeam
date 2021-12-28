@@ -91,10 +91,10 @@ namespace TheBTeam.Web.Controllers
                     return View(modelTransactionDto);
                 }
                 var user = _userService.GetByIdToDto(id);
-                _transactionService.AddTransaction(modelTransactionDto, user);
+                _transactionService.AddTransaction(modelTransactionDto, user, id);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch(Exception e)
             {
                 return View();
             }
