@@ -1,13 +1,14 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.VisualBasic;
+using TheBTeam.BLL.DAL.Entities;
 
 namespace TheBTeam.BLL.Models
 {
     public class TransactionDto
     {
         [Display(Name = "Occurrence Time")]
-        public DateTime OccurrenceTime { get; set; }
+        public DateTime CreatedAt { get; set; }
         public Currency Currency { get; set; }
 
         [Display(Name = "Type")]
@@ -28,10 +29,19 @@ namespace TheBTeam.BLL.Models
         [Display(Name = "Balance after transaction")]
         [DataType(DataType.Currency)]
         public decimal BalanceAfterTransaction { get; set; }
-        
-        public TransactionDto()
+
+        public static TransactionDto FromDal(Transaction transaction)
         {
-            OccurrenceTime = DateTime.Now;
+            return new TransactionDto
+            {
+                CreatedAt = transaction.CreatedAt,
+                Currency = transaction.Currency,
+                Type = transaction.Type,
+                UserDto = UserDto.FromDAL(transaction.User),
+                Category = transaction.Category,
+                Amount = transaction.Amount,
+                BalanceAfterTransaction = transaction.BalanceAfterTransaction
+            };
         }
     }
 }

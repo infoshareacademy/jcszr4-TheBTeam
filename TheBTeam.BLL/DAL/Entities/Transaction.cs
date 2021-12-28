@@ -22,6 +22,18 @@ namespace TheBTeam.BLL.DAL.Entities
         [DataType(DataType.Currency)]
         public decimal BalanceAfterTransaction { get; set; }
 
-        
+        public static Transaction FromDto(TransactionDto transactionDto)
+        {
+            return new Transaction
+            {
+                //CreatedAt = transactionDto.CreatedAt,
+                Currency = transactionDto.Currency,
+                Type = transactionDto.Type,
+                User = User.FromDto(transactionDto.UserDto),
+                Category = transactionDto.Category,
+                Amount = transactionDto.Amount,
+                BalanceAfterTransaction = transactionDto.BalanceAfterTransaction
+            };
+        }
     }
 }

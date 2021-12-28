@@ -14,7 +14,7 @@ namespace TheBTeam.Web.Controllers
     public class BudgetDTOTemp
     {
         public IEnumerable<CategoryBudgetDto> UserBudgets { get; set; }
-        public string UserId { get; set; }
+        public int UserId { get; set; }
     }
     public class CategoryBudgetController : Controller
     {
@@ -26,17 +26,17 @@ namespace TheBTeam.Web.Controllers
         }
         // GET: CategoryBudgetController
         //[HttpGet("Show/{id}")]
-        public ActionResult Index(string id)
+        public ActionResult Index(int id)
         {
             var modelDal = _planerContext.CategoryBudgets.Where(x => x.UserId == id).ToList();
             var model = modelDal.Select(CategoryBudgetDto.FromDal);
             
-            return View(new BudgetDTOTemp(){UserId = "abc", UserBudgets = model});
+            return View(new BudgetDTOTemp(){UserId = id, UserBudgets = model});
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
-        public ActionResult UpdateBudget(string id, IFormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateBudget(int id, IFormCollection collection)
         {
             foreach (var category in collection)
             {

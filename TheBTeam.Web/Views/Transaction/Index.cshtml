@@ -44,7 +44,7 @@
                 <label asp-for="First().UserDto.Email"></label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OccurrenceTime)
+                @Html.DisplayNameFor(model => model.CreatedAt)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Currency)
@@ -72,7 +72,7 @@
                     @Html.DisplayFor(modelItem => item.UserDto.Email)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.OccurrenceTime)
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Currency)

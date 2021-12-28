@@ -4,14 +4,23 @@ using System.Collections.Generic;
 using System.IO;
 using TheBTeam.BLL;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using TheBTeam.BLL.DAL;
+using TheBTeam.BLL.DAL.Entities;
 
 namespace TheBTeam.BLL.Services
 {
     public class TransactionService
     {
-        private int incomeCategoryLimit = 100;
+        private readonly PlannerContext _plannerContext;
+        private const int IncomeCategoryLimit = 100;
 
         private static readonly List<TransactionDto> _transactions = new List<TransactionDto>();
+
+        public TransactionService(PlannerContext plannerContext)
+        {
+            _plannerContext = plannerContext;
+        }
         //private list<transaction> transaction = new list<transaction>
         //{
         //    new transaction
@@ -52,41 +61,42 @@ namespace TheBTeam.BLL.Services
         //    }
         //};
 
-        public List<TransactionDto> GetAll(CategoryOfTransaction category, TypeOfTransaction type, int id=0)
+        public static List<TransactionDto> GetAll(CategoryOfTransaction category, TypeOfTransaction type, PlannerContext plannerContext, int id = 0)
         {
-            var transaction = new List<TransactionDto>();
+            var transactions = new List<TransactionDto>();
 
             if (id == 0)
-                transaction = _transactions;
+                transactions = FromDal(plannerContext);
             else
-                transaction=_transactions.Where(t => t.UserDto.Id == id).ToList();
-            
+                transactions = FromDal(plannerContext).Where(t => t.UserDto.Id == id).ToList();
+
             if (type == TypeOfTransaction.All)
-                return transaction;
+                return transactions;
 
             if (type == TypeOfTransaction.Income && category == CategoryOfTransaction.AllIncome)
-                return transaction.Where(t => t.Type == TypeOfTransaction.Income).ToList();
+                return transactions.Where(t => t.Type == TypeOfTransaction.Income).ToList();
 
             if (type == TypeOfTransaction.Outcome && category == CategoryOfTransaction.allOutcome)
-                return transaction.Where(t => t.Type == TypeOfTransaction.Outcome).ToList();
+                return transactions.Where(t => t.Type == TypeOfTransaction.Outcome).ToList();
 
-            if (type == TypeOfTransaction.Income && (int)category < incomeCategoryLimit)
-                return transaction.Where(t => t.Category == category).ToList();
+            if (type == TypeOfTransaction.Income && (int)category < IncomeCategoryLimit)
+                return transactions.Where(t => t.Category == category).ToList();
 
-            if (type == TypeOfTransaction.Outcome && (int)category > incomeCategoryLimit)
-                return transaction.Where(t => t.Category == category).ToList();
+            if (type == TypeOfTransaction.Outcome && (int)category > IncomeCategoryLimit)
+                return transactions.Where(t => t.Category == category).ToList();
 
             throw new InvalidDataException();
 
         }
 
-        public List<TransactionDto> AddTransaction(TransactionDto modelT, UserDto userDto)
+        public void AddTransaction(TransactionDto model, UserDto userDto)
         {
-            modelT.OccurrenceTime = DateTime.Now;
-            modelT.UserDto = userDto;
-            ApplyTransaction(modelT, userDto);
-            _transactions.Add(modelT);
-            return _transactions;
+            model.UserDto = userDto;
+            var modelDal = Transaction.FromDto(model);
+            modelDal.User = User.FromDto(userDto);
+            ApplyTransaction(model, userDto);
+            _plannerContext.Transactions.Add(modelDal);
+            _plannerContext.SaveChanges();
         }
 
         public List<TransactionDto> GetTransactionFromUser()
@@ -127,6 +137,14 @@ namespace TheBTeam.BLL.Services
         {
             var transactionsByType = transactions.Where(t => t.Type == type).ToList();
             return transactionsByType;
+        }
+
+        public static List<TransactionDto> FromDal(PlannerContext plannerContext)
+        {
+            var modelDal = plannerContext.Transactions
+                .Include(x => x.User).ToList();
+            var model = modelDal.Select(TransactionDto.FromDal).ToList();
+            return model;
         }
     }
 }

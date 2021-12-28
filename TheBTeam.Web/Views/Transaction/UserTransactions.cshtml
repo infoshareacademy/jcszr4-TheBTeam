@@ -47,7 +47,7 @@
                 <label asp-for="First().Category"></label>
             </th>
             <th>
-                <label asp-for="First().OccurrenceTime"></label>
+                <label asp-for="First().CreatedAt"></label>
             </th>
             <th>
                 <label asp-for="First().Amount"></label>
@@ -73,7 +73,7 @@
                     @item.Category
                 </td>
                 <td>
-                    @item.OccurrenceTime
+                    @item.CreatedAt
                 </td>
                 <td>
                     @item.Amount.ToString("C")

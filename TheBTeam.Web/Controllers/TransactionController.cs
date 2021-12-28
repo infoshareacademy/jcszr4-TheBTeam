@@ -6,6 +6,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using TheBTeam.BLL;
 using TheBTeam.BLL.DAL;
 using TheBTeam.BLL.DAL.Entities;
@@ -19,22 +20,20 @@ namespace TheBTeam.Web.Controllers
     {
         //private TransactionService _transactionRepo;//TODO wez tutaj tranzakcje z usera
 
-       private readonly PlannerContext _plannerContext;
-       private readonly IMapper _mapper;
+        private readonly PlannerContext _plannerContext;
 
-       public TransactionController(PlannerContext plannerContext, IMapper mapper)
-       {
-           _plannerContext = plannerContext;
-           _mapper = mapper;
-       }
+        public TransactionController(PlannerContext plannerContext)
+        {
+            _plannerContext = plannerContext;
+        }
         // GET: TransactionController
         public ActionResult Index(CategoryOfTransaction category, TypeOfTransaction type)
         {
-            //TODO how to get here users!
-            var model= _plannerContext.Transactions.ToList();
-           
-            
-                //var model = _transactionRepo.GetAll(/*category, type*/);
+            var modelDal = _plannerContext.Transactions
+                .Include(x=> x.User).ToList();
+            var model = modelDal.Select(TransactionDto.FromDal);
+
+            //var model = _transactionRepo.GetAll(/*category, type*/);
             return View(model);
         }
         // GET: TransactionController/Details/5
@@ -49,15 +48,11 @@ namespace TheBTeam.Web.Controllers
             return View();
         }
 
-        //public ActionResult UserTransactions(CategoryOfTransaction category, TypeOfTransaction type)
-        //{
-            
-        //    //var id = TempData["id"] as string;
-        //    ////var model = _transactionService.SearchTransactionByUser(id);
-        //    //var model = _transactionRepo.GetAll(/*category, type, id*/);
-        //    //TempData["id"] = id;
-        //    //return View(model);
-        //}
+        public ActionResult UserTransactions(CategoryOfTransaction category, TypeOfTransaction type, int id)
+        {
+            var model = TransactionService.GetAll(category, type, _plannerContext, id);
+            return View(model);
+        }
 
         // POST: TransactionController/Create
         [HttpPost]

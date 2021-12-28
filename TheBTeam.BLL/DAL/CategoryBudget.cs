@@ -11,7 +11,7 @@ namespace TheBTeam.BLL.DAL
         public decimal PlanedBudget { get; set; }
 
         [ForeignKey("User")]
-        public string UserId { get; set; }
+        public int UserId { get; set; }
 
         public static CategoryBudget FromDto(CategoryBudgetDto categoryBudgetDto)
         {

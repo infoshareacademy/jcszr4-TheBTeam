@@ -12,7 +12,6 @@ namespace TheBTeam.BLL.Services
     public class LoadDataFromFile
     {
 
-        private readonly UserService _userService;
 
         public static List<UserDto> ReadUserFile()
         {

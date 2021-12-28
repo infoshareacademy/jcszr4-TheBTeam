@@ -14,7 +14,7 @@ namespace TheBTeam.BLL.Services
     public class UserService
     {
         private readonly PlannerContext _plannerContext;
-        private static List<UserDto> _users = LoadDataFromFile.ReadUserFile();
+        private static readonly List<UserDto> Users = LoadDataFromFile.ReadUserFile();
 
         public UserService(PlannerContext plannerContext)
         {
@@ -23,7 +23,7 @@ namespace TheBTeam.BLL.Services
 
         public UserDto GetById(int id)
         {
-            return _users.SingleOrDefault(m => m.Id == id);
+            return Users.SingleOrDefault(m => m.Id == id);
         }
         public void Create(UserDto model)
         {

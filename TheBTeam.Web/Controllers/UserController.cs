@@ -20,7 +20,7 @@ namespace TheBTeam.Web.Controllers
         {
             _plannerContext = plannerContext;
             _userService = new UserService(plannerContext);
-            _transactionService = new TransactionService();
+            _transactionService = new TransactionService(plannerContext);
         }
 
         // GET: UserController
@@ -67,12 +67,10 @@ namespace TheBTeam.Web.Controllers
             }
         }
 
+       // [HttpPost]
         public ActionResult UserTransactions(int id)
         {
-            
-            TempData["id"] = id;
-
-            return RedirectToAction("UserTransactions", "Transaction");
+           return RedirectToAction("UserTransactions", "Transaction", new {id});
         }
 
 
@@ -92,8 +90,8 @@ namespace TheBTeam.Web.Controllers
                 {
                     return View(modelTransactionDto);
                 }
-                var user = _userService.GetById(id);
-                //_transactionService.AddTransaction(modelTransactionDto, user);
+                var user = _userService.GetByIdToDto(id);
+                _transactionService.AddTransaction(modelTransactionDto, user);
                 return RedirectToAction(nameof(Index));
             }
             catch

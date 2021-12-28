@@ -8,7 +8,7 @@ namespace TheBTeam.BLL.Models
         public int Id { get; set; }
         public CategoryOfTransaction Category { get; set; }
         public decimal PlanedBudget { get; set; }
-        public string UserId { get; set; }
+        public int UserId { get; set; }
 
         public static CategoryBudgetDto FromDal(CategoryBudget categoryBudget)
         {

@@ -19,7 +19,7 @@ namespace TheBTeam.BLL.Models
 
         [Required(ErrorMessage = "Please enter age!")]
         [Display(Name = "Age")]
-       public int Age { get; set; }
+        public int Age { get; set; }
 
         [Required(ErrorMessage = "Please enter first name")]
         [StringLength(25)]
@@ -34,14 +34,14 @@ namespace TheBTeam.BLL.Models
         public Gender Gender { get; set; }
         public string Company { get; set; }
         [EmailAddress(ErrorMessage = "Email is not valid.")]
-        public string Email { get;  set; }
+        public string Email { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
         public DateTime CreatedAt { get; set; }
 
         public static UserDto FromDAL(User user)
         {
-            var userDto = new UserDto
+            return new UserDto
             {
                 Id = user.Id,
                 IsActive = user.IsActive,
@@ -57,8 +57,6 @@ namespace TheBTeam.BLL.Models
                 Address = user.Address,
                 CreatedAt = user.CreatedAt
             };
-
-            return userDto;
         }
     }
 }

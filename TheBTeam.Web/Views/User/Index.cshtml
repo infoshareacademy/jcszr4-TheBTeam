@@ -59,6 +59,7 @@
                         <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
                         <a asp-action="AddTransaction" asp-route-id="@item.Id">Add Transaction</a> |
                         <a asp-action="UserTransactions" asp-route-id="@item.Id">User's Transaction</a>
+                        <a asp-controller="CategoryBudget" asp-action="Index" asp-route-id="@item.Id">Budget</a>
                     </td>
                 </tr>
             }

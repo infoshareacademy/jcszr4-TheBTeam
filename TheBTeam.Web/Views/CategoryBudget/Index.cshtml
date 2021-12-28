@@ -10,7 +10,7 @@
 
 <h1>Index</h1>
 
-<form method="post" action="UpdateBudget/@Model.UserId">
+<form asp-controller="CategoryBudget" asp-action="UpdateBudget" asp-route-id="@Model.UserId" method="post">
     <table class="table">
         <thead>
         <tr>
