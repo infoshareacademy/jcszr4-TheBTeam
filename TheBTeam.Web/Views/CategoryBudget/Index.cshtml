@@ -29,35 +29,7 @@
         </thead>
 
         <tbody>
-        @foreach (var item in possibleIncomeCategories)
-        {
-            var modelItem = Model.UserBudgets.FirstOrDefault(x => x.Category == item);
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item)
-                </td>
-                <td>
-                    <div class="form-group">
-                        <input type="number" name="@item.ToString()" class="form-control" value="@modelItem?.PlanedBudget" />
-                    </div>
-                </td>
-                <td>
-                    @{Model.CategorySums.TryGetValue(item, out decimal value);}
-                    @value
-                </td>
-                <td>
-                    @{
-                        //Model.CategorySums.TryGetValue(item, out decimal value);
-                        var difference = modelItem.PlanedBudget - value;
-                    }
-                    @difference
-                </td>
-            </tr>
-        }
-        </tbody>
-
-        <tbody>
-            @foreach (var item in possibleOutcomeCategories)
+            @foreach (var item in possibleIncomeCategories)
             {
                 var modelItem = Model.UserBudgets.FirstOrDefault(x => x.Category == item);
                 <tr>
@@ -71,9 +43,50 @@
                     </td>
                     <td>
                         @{Model.CategorySums.TryGetValue(item, out decimal value);}
-                        @value
+                        @value.ToString("C")
+                    </td>
+                    <td>
+                        @{
+                            decimal difference;
+                            if (modelItem == null)
+                                difference = 0;
+                            else
+                                difference = modelItem.PlanedBudget - value;
+                        }
+                        @difference.ToString("C")
                     </td>
                 </tr>
+            }
+        </tbody>
+
+        <tbody>
+            @foreach (var item in possibleOutcomeCategories)
+            {
+                var modelItem = Model.UserBudgets.FirstOrDefault(x => x.Category == item);
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item)
+                </td>
+                <td>
+                    <div class="form-group">
+                        <input type="number" name="@item.ToString()" class="form-control" value="@modelItem?.PlanedBudget" />
+                    </div>
+                </td>
+                <td>
+                    @{Model.CategorySums.TryGetValue(item, out decimal value);}
+                    @value.ToString("C")
+                </td>
+                <td>
+                    @{
+                        decimal difference;
+                        if (modelItem == null)
+                            difference = 0;
+                        else
+                            difference = modelItem.PlanedBudget - value;
+                    }
+                    @difference.ToString("C")
+                </td>
+            </tr>
             }
         </tbody>
     </table>
