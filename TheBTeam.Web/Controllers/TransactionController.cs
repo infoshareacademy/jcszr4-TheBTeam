@@ -21,10 +21,14 @@ namespace TheBTeam.Web.Controllers
         //private TransactionService _transactionRepo;//TODO wez tutaj tranzakcje z usera
 
         private readonly PlannerContext _plannerContext;
+        private readonly TransactionService _transactionService;
+        private readonly UserService _userService;
 
         public TransactionController(PlannerContext plannerContext)
         {
             _plannerContext = plannerContext;
+            _userService = new UserService(plannerContext);
+            _transactionService = new TransactionService(plannerContext);
         }
         // GET: TransactionController
         public ActionResult Index(CategoryOfTransaction category, TypeOfTransaction type)
@@ -85,6 +89,31 @@ namespace TheBTeam.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
             catch
+            {
+                return View();
+            }
+        }
+
+        public ActionResult AddTransaction()
+        {
+            return View();
+        }
+        // POST: UserController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddTransaction(TransactionDto modelTransactionDto, int id)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return View(modelTransactionDto);
+                }
+                var user = _userService.GetByIdToDto(id);
+                _transactionService.AddTransaction(modelTransactionDto, user, id);
+                return RedirectToAction("UserTransactions", new {id});
+            }
+            catch (Exception e)
             {
                 return View();
             }

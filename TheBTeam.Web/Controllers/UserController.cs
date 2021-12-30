@@ -75,30 +75,7 @@ namespace TheBTeam.Web.Controllers
 
 
         // GET: UserController/AddTransaction
-        public ActionResult AddTransaction()
-        {
-            return View();
-        }
-        // POST: UserController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AddTransaction(TransactionDto modelTransactionDto, int id)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return View(modelTransactionDto);
-                }
-                var user = _userService.GetByIdToDto(id);
-                _transactionService.AddTransaction(modelTransactionDto, user, id);
-                return RedirectToAction(nameof(Index));
-            }
-            catch(Exception e)
-            {
-                return View();
-            }
-        }
+       
 
 
 
