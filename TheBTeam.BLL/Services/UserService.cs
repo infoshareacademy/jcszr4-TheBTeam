@@ -35,7 +35,7 @@ namespace TheBTeam.BLL.Services
 
         public UserDto GetByIdToDto(int id)
         {
-            var modelDal = _plannerContext.Users.AsNoTracking().First(x => x.Id == id);
+            var modelDal = _plannerContext.Users.First(x => x.Id == id);
             var model = UserDto.FromDAL(modelDal);
             return model;
         }

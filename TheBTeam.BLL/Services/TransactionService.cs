@@ -94,7 +94,7 @@ namespace TheBTeam.BLL.Services
             //model.UserDto = userDto;
             model.UserId = id;
             var modelDal = Transaction.FromDto(model);
-            ApplyTransaction(model, userDto);//TODO: make it works on DAL
+            ApplyTransaction(modelDal, User.FromDto(userDto));//TODO: make it works on DAL
             _plannerContext.Transactions.Add(modelDal);
             _plannerContext.SaveChanges();
         }
@@ -117,17 +117,21 @@ namespace TheBTeam.BLL.Services
             return result;
         }
 
-        public static void ApplyTransaction(TransactionDto transactionDto, UserDto userDto)
+        public void ApplyTransaction(Transaction transaction, User user1)
         {
-            if (transactionDto.Type == TypeOfTransaction.Income)
+            var user = _plannerContext.Users.First(u => u.Id == transaction.UserId);
+
+            if (transaction.Type == TypeOfTransaction.Income)
             {
-                userDto.Balance += transactionDto.Amount;
-                transactionDto.BalanceAfterTransaction = userDto.Balance;
+                user.Balance += transaction.Amount;
+                transaction.BalanceAfterTransaction = user.Balance;
                 return;
             }
-
-            userDto.Balance -= transactionDto.Amount;
-            transactionDto.BalanceAfterTransaction = userDto.Balance;
+            
+            user.Balance -= transaction.Amount;
+            transaction.BalanceAfterTransaction = user.Balance;
+            //_plannerContext.Update();
+            _plannerContext.SaveChanges();
         }
         public List<TransactionDto> SearchTransactionByUser(int id)
         {
