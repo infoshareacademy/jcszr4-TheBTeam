@@ -33,11 +33,7 @@ namespace TheBTeam.Web.Controllers
         // GET: TransactionController
         public ActionResult Index(CategoryOfTransaction category, TypeOfTransaction type)
         {
-            var modelDal = _plannerContext.Transactions
-                .Include(x=> x.User).ToList();
-            var model = modelDal.Select(TransactionDto.FromDal);
-
-            //var model = _transactionRepo.GetAll(/*category, type*/);
+            var model = TransactionService.GetAll(category, type, _plannerContext);
             return View(model);
         }
         // GET: TransactionController/Details/5
