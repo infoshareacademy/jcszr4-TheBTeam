@@ -94,8 +94,12 @@ namespace TheBTeam.Web.Controllers
             }
         }
 
-        public ActionResult AddTransaction()
+        public ActionResult AddTransaction(int id)
         {
+            var user = _userService.GetByIdToDto(id);
+            if (!user.IsActive)
+               return RedirectToAction("InActiveUser", new { id });
+
             return View();
         }
         // POST: UserController/Create
@@ -110,6 +114,7 @@ namespace TheBTeam.Web.Controllers
                     return View(modelTransactionDto);
                 }
                 var user = _userService.GetByIdToDto(id);
+
                 _transactionService.AddTransaction(modelTransactionDto, user, id);
                 return RedirectToAction("UserTransactions", new {id});
             }
@@ -138,6 +143,11 @@ namespace TheBTeam.Web.Controllers
             {
                 return View();
             }
+        }
+
+        public ActionResult InActiveUser(int id)
+        {
+            return View();
         }
     }
 }

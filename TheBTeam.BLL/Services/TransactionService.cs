@@ -91,10 +91,9 @@ namespace TheBTeam.BLL.Services
 
         public void AddTransaction(TransactionDto model, UserDto userDto, int id)
         {
-            //model.UserDto = userDto;
             model.UserId = id;
             var modelDal = Transaction.FromDto(model);
-            ApplyTransaction(modelDal, User.FromDto(userDto));//TODO: make it works on DAL
+            ApplyTransaction(modelDal);//TODO: make it works on DAL
             _plannerContext.Transactions.Add(modelDal);
             _plannerContext.SaveChanges();
         }
@@ -117,7 +116,7 @@ namespace TheBTeam.BLL.Services
             return result;
         }
 
-        public void ApplyTransaction(Transaction transaction, User user1)
+        public void ApplyTransaction(Transaction transaction)
         {
             var user = _plannerContext.Users.First(u => u.Id == transaction.UserId);
 
@@ -130,7 +129,6 @@ namespace TheBTeam.BLL.Services
             
             user.Balance -= transaction.Amount;
             transaction.BalanceAfterTransaction = user.Balance;
-            //_plannerContext.Update();
             _plannerContext.SaveChanges();
         }
         public List<TransactionDto> SearchTransactionByUser(int id)
