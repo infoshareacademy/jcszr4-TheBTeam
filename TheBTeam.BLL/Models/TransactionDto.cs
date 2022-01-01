@@ -15,7 +15,7 @@ namespace TheBTeam.BLL.Models
         [Display(Name = "Type")]
         public TypeOfTransaction Type { get; set; }
 
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         public UserDto UserDto { get; set; }
         /// <summary>
         /// 
@@ -33,6 +33,8 @@ namespace TheBTeam.BLL.Models
         [DataType(DataType.Currency)]
         public decimal BalanceAfterTransaction { get; set; }
 
+        public string Description { get; set; }//TODO: add limitation to 50 chars
+
         public static TransactionDto FromDal(Transaction transaction)
         {
             return new TransactionDto
@@ -45,7 +47,8 @@ namespace TheBTeam.BLL.Models
                 UserDto = UserDto.FromDAL(transaction.User),
                 Category = transaction.Category,
                 Amount = transaction.Amount,
-                BalanceAfterTransaction = transaction.BalanceAfterTransaction
+                BalanceAfterTransaction = transaction.BalanceAfterTransaction,
+               Description = transaction.Title
             };
         }
     }

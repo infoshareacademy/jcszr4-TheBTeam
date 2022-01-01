@@ -10,7 +10,7 @@ using TheBTeam.BLL.DAL;
 namespace TheBTeam.BLL.Migrations
 {
     [DbContext(typeof(PlannerContext))]
-    [Migration("20211226232150_Init")]
+    [Migration("20220101205230_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,8 +34,8 @@ namespace TheBTeam.BLL.Migrations
                     b.Property<decimal>("PlanedBudget")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -86,10 +86,14 @@ namespace TheBTeam.BLL.Migrations
                     b.Property<int>("Currency")
                         .HasColumnType("int");
 
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.Property<int?>("UserId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -155,7 +159,9 @@ namespace TheBTeam.BLL.Migrations
                 {
                     b.HasOne("TheBTeam.BLL.DAL.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });

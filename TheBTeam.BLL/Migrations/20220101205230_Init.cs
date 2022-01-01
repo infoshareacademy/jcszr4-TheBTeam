@@ -15,7 +15,7 @@ namespace TheBTeam.BLL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Category = table.Column<int>(type: "int", nullable: false),
                     PlanedBudget = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -69,10 +69,11 @@ namespace TheBTeam.BLL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Currency = table.Column<int>(type: "int", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     Category = table.Column<int>(type: "int", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     BalanceAfterTransaction = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -83,7 +84,7 @@ namespace TheBTeam.BLL.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

@@ -11,7 +11,7 @@ namespace TheBTeam.BLL.DAL.Entities
 
         [Required]
         public User User { get; set; }
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         public CategoryOfTransaction Category { get; set; }
 
         [Required]
@@ -22,6 +22,7 @@ namespace TheBTeam.BLL.DAL.Entities
 
         [DataType(DataType.Currency)]
         public decimal BalanceAfterTransaction { get; set; }
+        public string Title { get; set; }
 
         public static Transaction FromDto(TransactionDto transactionDto)
         {
@@ -35,7 +36,8 @@ namespace TheBTeam.BLL.DAL.Entities
                 User = User.FromDto(transactionDto.UserDto),
                 Category = transactionDto.Category,
                 Amount = transactionDto.Amount,
-                BalanceAfterTransaction = transactionDto.BalanceAfterTransaction
+                BalanceAfterTransaction = transactionDto.BalanceAfterTransaction,
+                Title = transactionDto.Description
             };
         }
     }

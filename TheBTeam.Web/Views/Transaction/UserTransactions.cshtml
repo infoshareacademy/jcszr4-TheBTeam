@@ -59,6 +59,9 @@
             <th>
                 <label asp-for="First().BalanceAfterTransaction"></label>
             </th>
+            <th>
+                <label asp-for="First().Description"></label>
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -84,6 +87,9 @@
                 </td>
                 <td>
                     @item.BalanceAfterTransaction.ToString("C")
+                </td>
+                <td>
+                    @item.Description
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
