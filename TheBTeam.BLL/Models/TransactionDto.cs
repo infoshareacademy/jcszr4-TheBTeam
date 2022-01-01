@@ -41,7 +41,7 @@ namespace TheBTeam.BLL.Models
             {
                 Id = transaction.Id,
                 UserId = transaction.UserId,
-                CreatedAt = transaction.CreatedAt,
+                CreatedAt = transaction.CreatedAt.ToLocalTime(),
                 Currency = transaction.Currency,
                 Type = transaction.Type,
                 UserDto = UserDto.FromDAL(transaction.User),

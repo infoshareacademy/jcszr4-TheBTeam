@@ -7,7 +7,7 @@
 @{
     var incomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) > 0 && int.Parse(l.Value) < 100).ToList();
     var outcomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) >= 100).ToList();
-    var allList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l=> int.Parse(l.Value)==0);
+    var allList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) == 0);
 
 }
 
@@ -28,9 +28,16 @@
             <option selected="selected" value="">Please select category</option>
         </select>
 
+        <label class="control-label"> Date form: </label>
+        <input style="width: 20%" type="date" id="dateFrom" name="dateFrom" class="form-control" />
+
+        <label class="control-label"> Date to: </label>
+        <input style="width: 20%" type="date" id="dateTo" name="dateTo"  class="form-control" />
+
         <label class="control-label"> Description</label>
         <input style="width: 50%" name="description" id="descrition" type="text" class="form-control" />
-        
+
+
 
     </div>
     <div class="form-group">

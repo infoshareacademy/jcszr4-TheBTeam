@@ -61,7 +61,7 @@ namespace TheBTeam.BLL.Services
         //    }
         //};
 
-        public static List<TransactionDto> GetAll(CategoryOfTransaction category, TypeOfTransaction type, PlannerContext plannerContext, int id = 0)
+        public static List<TransactionDto> Get(CategoryOfTransaction category, TypeOfTransaction type, PlannerContext plannerContext, int id = 0)
         {
             var transactions = new List<TransactionDto>();
 
@@ -87,6 +87,16 @@ namespace TheBTeam.BLL.Services
 
             throw new InvalidDataException();
 
+        }
+
+        public List<TransactionDto> GetByDates(List<TransactionDto> transactions, DateTime from, DateTime to)
+        {
+            if(to== new DateTime(0001, 01, 01))
+                to=DateTime.Now;
+
+            transactions = transactions.Where(t => t.CreatedAt >= from.AddDays(1).AddMinutes(-1) && t.CreatedAt <= to.AddDays(1).AddMinutes(-1)).ToList();
+
+            return transactions;
         }
 
         public void AddTransaction(TransactionDto model, UserDto userDto, int id)

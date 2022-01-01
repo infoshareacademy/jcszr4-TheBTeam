@@ -31,9 +31,11 @@ namespace TheBTeam.Web.Controllers
             _transactionService = new TransactionService(plannerContext);
         }
         // GET: TransactionController
-        public ActionResult Index(CategoryOfTransaction category, TypeOfTransaction type, string description)
+        public ActionResult Index(CategoryOfTransaction category, TypeOfTransaction type, string description, DateTime dateFrom, DateTime dateTo)
         {
-            var model = TransactionService.GetAll(category, type, _plannerContext);
+            var model = TransactionService.Get(category, type, _plannerContext);
+
+            model = _transactionService.GetByDates(model, dateFrom, dateTo);
 
             if(description is not null)
                 model = model.Where(t => t.Description.ToLower().Contains(description.ToLower())).ToList();
@@ -52,9 +54,15 @@ namespace TheBTeam.Web.Controllers
             return View();
         }
 
-        public ActionResult UserTransactions(CategoryOfTransaction category, TypeOfTransaction type, int id)
+        public ActionResult UserTransactions(CategoryOfTransaction category, TypeOfTransaction type, int id, string description, DateTime dateFrom, DateTime dateTo)
         {
-            var model = TransactionService.GetAll(category, type, _plannerContext, id);
+            var model = TransactionService.Get(category, type, _plannerContext, id);
+
+            model = _transactionService.GetByDates(model, dateFrom, dateTo);
+
+            if (description is not null)
+                model = model.Where(t => t.Description.ToLower().Contains(description.ToLower())).ToList();
+
             return View(model);
         }
 
