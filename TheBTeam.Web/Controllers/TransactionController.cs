@@ -31,9 +31,13 @@ namespace TheBTeam.Web.Controllers
             _transactionService = new TransactionService(plannerContext);
         }
         // GET: TransactionController
-        public ActionResult Index(CategoryOfTransaction category, TypeOfTransaction type)
+        public ActionResult Index(CategoryOfTransaction category, TypeOfTransaction type, string description)
         {
             var model = TransactionService.GetAll(category, type, _plannerContext);
+
+            if(description is not null)
+                model = model.Where(t => t.Description.ToLower().Contains(description.ToLower())).ToList();
+
             return View(model);
         }
         // GET: TransactionController/Details/5
