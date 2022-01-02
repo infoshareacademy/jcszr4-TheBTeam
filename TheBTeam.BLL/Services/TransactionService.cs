@@ -21,46 +21,7 @@ namespace TheBTeam.BLL.Services
         {
             _plannerContext = plannerContext;
         }
-        //private list<transaction> transaction = new list<transaction>
-        //{
-        //    new transaction
-        //    {
-        //        user = new user("mm@wp.pl"),
-        //        type = typeoftransaction.income,
-        //        category = categoryoftransaction.salary,
-        //        currency = currency.pln,
-        //        amount = 1220m,
-        //        balanceaftertransaction = getbalanceaftertransaction(typeoftransaction.income,1220m)
-        //    },
-        //    new transaction
-        //    {
-        //        user = new user("mariobros@wp.pl"),
-        //        type = typeoftransaction.income,
-        //        category = categoryoftransaction.salary,
-        //        currency = currency.pln,
-        //        amount = 1520m,
-        //        balanceaftertransaction = getbalanceaftertransaction(typeoftransaction.income,1520m)
-        //    },
-        //    new transaction
-        //    {
-        //        user = new user("grzesio@wp.pl"),
-        //        type = typeoftransaction.outcome,
-        //        category = categoryoftransaction.credit,
-        //        currency = currency.pln,
-        //        amount = 2520m,
-        //        balanceaftertransaction = getbalanceaftertransaction(typeoftransaction.outcome,2520m)
-        //    },
-        //    new transaction
-        //    {
-        //        user = new user("edekwielki@wp.pl"),
-        //        type = typeoftransaction.outcome,
-        //        category = categoryoftransaction.car,
-        //        currency = currency.pln,
-        //        amount = 1250m,
-        //        balanceaftertransaction = getbalanceaftertransaction(typeoftransaction.outcome,1250m)
-        //    }
-        //};
-
+        
         public static List<TransactionDto> Get(CategoryOfTransaction category, TypeOfTransaction type, PlannerContext plannerContext, int id = 0)
         {
             var transactions = new List<TransactionDto>();
@@ -108,24 +69,6 @@ namespace TheBTeam.BLL.Services
             _plannerContext.SaveChanges();
         }
 
-        public List<TransactionDto> GetTransactionFromUser()
-        {
-            return _transactions;
-        }
-
-
-        public static decimal GetBalanceAfterTransaction(TypeOfTransaction typeOfTransaction, decimal amount)
-        {
-            decimal result = 0;
-            if (typeOfTransaction == TypeOfTransaction.Income)
-            {
-                result += amount;
-                return result;
-            }
-            result -= amount;
-            return result;
-        }
-
         public void ApplyTransaction(Transaction transaction)
         {
             var user = _plannerContext.Users.First(u => u.Id == transaction.UserId);
@@ -141,14 +84,12 @@ namespace TheBTeam.BLL.Services
             transaction.BalanceAfterTransaction = user.Balance;
             _plannerContext.SaveChanges();
         }
-        public List<TransactionDto> SearchTransactionByUser(int id)
+
+        public TransactionDto GetByIdToDto(int id)
         {
-            return _transactions.Where(t => t.UserDto.Id == id).ToList();
-        }
-        public static List<TransactionDto> SearchTransactionByType(TypeOfTransaction type, List<TransactionDto> transactions)
-        {
-            var transactionsByType = transactions.Where(t => t.Type == type).ToList();
-            return transactionsByType;
+            var modelDal = _plannerContext.Transactions.First(x => x.Id == id);
+            var model = TransactionDto.FromDal(modelDal);
+            return model;
         }
 
         public static List<TransactionDto> FromDal(PlannerContext plannerContext)

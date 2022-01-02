@@ -43,7 +43,7 @@ namespace TheBTeam.BLL.Services
 
         public void Delete(int id)
         {
-            var user = _plannerContext.Users.SingleOrDefault(u => u.Id == id);
+            var user = _plannerContext.Users.Single(u => u.Id == id);
 
             _plannerContext.Remove(user);
             _plannerContext.SaveChanges();

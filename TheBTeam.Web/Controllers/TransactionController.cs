@@ -84,7 +84,8 @@ namespace TheBTeam.Web.Controllers
         // GET: TransactionController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var model = _transactionService.GetByIdToDto(id);
+            return View(model);
         }
 
         // POST: TransactionController/Edit/5
