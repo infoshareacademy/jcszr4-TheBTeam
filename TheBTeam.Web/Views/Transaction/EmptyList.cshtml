@@ -1,0 +1,93 @@
+﻿@model IEnumerable<TheBTeam.BLL.Models.TransactionDto>
+    @using TheBTeam.BLL
+    @{
+    ViewData["Title"] = "List of transactions";
+    }
+
+    @{
+    var incomeList = Html.GetEnumSelectList<CategoryOfTransaction>
+        ().Where(l => int.Parse(l.Value) > 0 && int.Parse(l.Value) < 100).ToList();
+        var outcomeList = Html.GetEnumSelectList<CategoryOfTransaction>
+            ().Where(l => int.Parse(l.Value) >= 100).ToList();
+            var allList = Html.GetEnumSelectList<CategoryOfTransaction>
+                ().Where(l => int.Parse(l.Value) == 0);
+
+                }
+
+                <h1>List of transactions</h1>
+
+                <p>
+                    <a asp-action="Create">Create New</a>
+                </p>
+
+                <form asp-action="Index">
+                    <div class="row">
+                        <div class="col">
+                            <label class="
+                                   form-label">Type:</label>
+                            <select name="type" id="transactionTypeSelect" asp-items="Html.GetEnumSelectList<TypeOfTransaction>()" class="form-control">
+                                <option selected="selected" value="wqeqw">Please select Type</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label class="col-form-label">Category:</label>
+                            <select name="category" id="categorySelect" asp-items="new List<SelectListItem>()" class="form-control">
+                                <option selected="selected" value="">Please select category</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label class="col-form-label">Date form:</label>
+                            <input type="date" id="dateFrom" name="dateFrom" class="form-control" />
+                        </div>
+
+                        <div class="col">
+                            <label class="col-form-label">Date to:</label>
+                            <input type="date" id="dateTo" name="dateTo" class="form-control" />
+                        </div>
+                    </div>
+
+                    <label class="control-label">Description</label>
+                    <input name="description" id="descrition" type="text" class="form-control" />
+
+                    <div class="form-group">
+                        <input type="submit" value="Search transaction" class="btn btn-primary" />
+                    </div>
+                </form>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <label asp-for="First().UserDto.Email"></label>
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CreatedAt)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Currency)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Type)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Category)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Amount)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.BalanceAfterTransaction)
+                            </th>
+                            <th>
+                                <label asp-for="First().Description"></label>
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+
+                <div class="text-center">
+                    <h1 class="display-4">Ther is no transactions! go tu user list to create one.</h1>
+                    <a asp-controller="User" , asp-action="Index">Go to users List</a>
+                </div>

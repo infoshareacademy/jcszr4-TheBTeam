@@ -13,7 +13,7 @@
 
 <h1>Edit</h1>
 
-<h4>TransactionDto</h4>
+<h4>Transaction</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -29,21 +29,21 @@
             </div>
             <div class="form-group">
                 <label asp-for="Type" class="control-label"></label>
-                <select asp-for="Type" id="transactionTypeSelect" asp-items="typeList" class="form-control">
-                    <option selected="selected" value="">Please select</option>
+                <select asp-for="Type" id="transactionTypeSelect" asp-items="typeList" class="form-control" readonly>
+                    <option selected="selected" >Please select</option>
                 </select>
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Category" class="control-label"></label>
                 <select asp-for="Category" id="categorySelect" asp-items="new List<SelectListItem>()" class="form-control">
-                    <option selected="selected" value="">Please select</option>
+                    <option selected="selected">Please select</option>
                 </select>
                 <span asp-validation-for="Category" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Amount" class="control-label"></label>
-                <input asp-for="Amount" class="form-control" value="" />
+                <input asp-for="Amount" class="form-control" />
                 <span asp-validation-for="Amount" class="text-danger"></span>
             </div>
             <div class="form-group">

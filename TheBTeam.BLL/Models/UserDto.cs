@@ -41,6 +41,9 @@ namespace TheBTeam.BLL.Models
 
         public static UserDto FromDAL(User user)
         {
+            if (user == null)
+                return null;
+
             return new UserDto
             {
                 Id = user.Id,

@@ -35,13 +35,22 @@ namespace TheBTeam.Web.Controllers
         {
             var model = TransactionService.Get(category, type, _plannerContext);
 
+            if (!model.Any())
+                return RedirectToAction("EmptyList");
+
             model = _transactionService.GetByDates(model, dateFrom, dateTo);
 
-            if(description is not null)
+            if (description is not null)
                 model = model.Where(t => t.Description.ToLower().Contains(description.ToLower())).ToList();
 
             return View(model);
         }
+
+        public ActionResult EmptyList()
+        {
+            return View();
+        }
+
         // GET: TransactionController/Details/5
         public ActionResult Details(int id)
         {
@@ -91,7 +100,7 @@ namespace TheBTeam.Web.Controllers
         // POST: TransactionController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, TransactionDto transactionDto)
         {
             try
             {
@@ -107,7 +116,7 @@ namespace TheBTeam.Web.Controllers
         {
             var user = _userService.GetByIdToDto(id);
             if (!user.IsActive)
-               return RedirectToAction("InActiveUser", new { id });
+                return RedirectToAction("InActiveUser", new { id });
 
             return View();
         }
@@ -125,7 +134,7 @@ namespace TheBTeam.Web.Controllers
                 var user = _userService.GetByIdToDto(id);
 
                 _transactionService.AddTransaction(modelTransactionDto, user, id);
-                return RedirectToAction("UserTransactions", new {id});
+                return RedirectToAction("UserTransactions", new { id });
             }
             catch (Exception e)
             {
