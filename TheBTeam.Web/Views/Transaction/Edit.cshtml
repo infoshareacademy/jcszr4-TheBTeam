@@ -7,8 +7,12 @@
 @{
     var incomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) > 1 && int.Parse(l.Value) < 100).ToList();
     var outcomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) > 100).ToList();
-    //var allList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) == 0);
     var typeList = Html.GetEnumSelectList<TypeOfTransaction>().Where(l => int.Parse(l.Value) > 0).ToList();
+    var categoryList = new List<SelectListItem>();
+    if (Model.Type == TypeOfTransaction.Outcome)
+        categoryList = outcomeList;
+    else
+        categoryList = incomeList;
 }
 
 <h1>Edit</h1>
@@ -29,14 +33,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Type" class="control-label"></label>
-                <select asp-for="Type" id="transactionTypeSelect" asp-items="typeList" class="form-control" readonly>
-                    <option selected="selected" >Please select</option>
-                </select>
+                <input asp-for="Type" id="transactionTypeSelect" class="form-control" readonly>
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Category" class="control-label"></label>
-                <select asp-for="Category" id="categorySelect" asp-items="new List<SelectListItem>()" class="form-control">
+                <select asp-for="Category" id="categorySelect" asp-items="categoryList" class="form-control">
                     <option selected="selected">Please select</option>
                 </select>
                 <span asp-validation-for="Category" class="text-danger"></span>
@@ -53,6 +55,8 @@
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
+            
+                <input asp-action="Delete" type="submit" value="Delete" class="btn btn-danger" />
             </div>
         </form>
     </div>
@@ -62,32 +66,5 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-<script>
-    $(document).ready(function () {
-        var outcomeOptions = @Html.Raw(Json.Serialize(outcomeList));
-        var incomeOptions = @Html.Raw(Json.Serialize(incomeList));
-        var categorySelect = $('#categorySelect');
-        $('#transactionTypeSelect').change(function () {
-            categorySelect.empty();
-            var selected = $(this).val();
-           if (selected === '1') {
-                addOptionsToSelect(incomeOptions);
 
-            }
-            if (selected === '2') {
-                addOptionsToSelect(outcomeOptions);
-            }
-        });
-
-        function addOptionsToSelect(options) {
-            options.forEach(function (i, item) {
-                categorySelect.append($('<option>',
-                    {
-                        value: i.value,
-                        text: i.text
-                    }));
-            });
-        }
-    });
-</script>
 

@@ -14,9 +14,6 @@ namespace TheBTeam.BLL.Services
     {
         private readonly PlannerContext _plannerContext;
         private const int IncomeCategoryLimit = 100;
-
-        private static readonly List<TransactionDto> _transactions = new List<TransactionDto>();
-
         public TransactionService(PlannerContext plannerContext)
         {
             _plannerContext = plannerContext;
@@ -49,7 +46,6 @@ namespace TheBTeam.BLL.Services
             throw new InvalidDataException();
 
         }
-
         public List<TransactionDto> GetByDates(List<TransactionDto> transactions, DateTime from, DateTime to)
         {
             if(to== new DateTime(0001, 01, 01))
@@ -59,7 +55,6 @@ namespace TheBTeam.BLL.Services
 
             return transactions;
         }
-
         public void AddTransaction(TransactionDto model, UserDto userDto, int id)
         {
             model.UserId = id;
@@ -68,7 +63,6 @@ namespace TheBTeam.BLL.Services
             _plannerContext.Transactions.Add(modelDal);
             _plannerContext.SaveChanges();
         }
-
         public void ApplyTransaction(Transaction transaction)
         {
             var user = _plannerContext.Users.First(u => u.Id == transaction.UserId);
@@ -84,14 +78,12 @@ namespace TheBTeam.BLL.Services
             transaction.BalanceAfterTransaction = user.Balance;
             _plannerContext.SaveChanges();
         }
-
         public TransactionDto GetByIdToDto(int id)
         {
             var modelDal = _plannerContext.Transactions.First(x => x.Id == id);
             var model = TransactionDto.FromDal(modelDal);
             return model;
         }
-
         public static List<TransactionDto> FromDal(PlannerContext plannerContext)
         {
             var modelDal = plannerContext.Transactions
