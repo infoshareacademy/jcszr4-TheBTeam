@@ -28,7 +28,7 @@ namespace TheBTeam.BLL.DAL.Entities
         {
             return new Transaction
             {
-                Id = transactionDto.Id,
+                //Id = transactionDto.Id,
                 UserId = transactionDto.UserId,
                 //CreatedAt = transactionDto.CreatedAt,
                 Currency = transactionDto.Currency,

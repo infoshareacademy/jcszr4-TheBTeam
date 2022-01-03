@@ -65,6 +65,7 @@ namespace TheBTeam.Web.Controllers
 
         public ActionResult UserTransactions(CategoryOfTransaction category, TypeOfTransaction type, int id, string description, DateTime dateFrom, DateTime dateTo)
         {
+            ViewBag.Id = id;
             var model = TransactionService.Get(category, type, _plannerContext, id);
 
             model = _transactionService.GetByDates(model, dateFrom, dateTo);

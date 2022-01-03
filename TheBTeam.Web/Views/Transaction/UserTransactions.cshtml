@@ -10,13 +10,14 @@
     var incomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) > 0 && int.Parse(l.Value) < 100).ToList();
     var outcomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) >= 100).ToList();
     var allList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) == 0);
+    int id = ViewBag.Id;
 
 }
 
 <h1>User's Transactions</h1>
 
 <p>
-    <a asp-action="Create">Create New</a> | 
+    <a asp-action="AddTransaction" asp-route-id="@id">Add New</a> | 
     <a asp-controller="User" , asp-action="Index">Back to users List</a>
 </p>
 

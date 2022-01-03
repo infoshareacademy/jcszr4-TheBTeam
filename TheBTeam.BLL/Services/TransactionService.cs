@@ -61,7 +61,7 @@ namespace TheBTeam.BLL.Services
         {
             model.UserId = id;
             var modelDal = Transaction.FromDto(model);
-            ApplyTransaction(modelDal);//TODO: make it works on DAL
+            ApplyTransaction(modelDal);
             _plannerContext.Transactions.Add(modelDal);
             _plannerContext.SaveChanges();
         }
