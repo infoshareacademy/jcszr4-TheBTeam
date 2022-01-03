@@ -68,18 +68,20 @@ namespace TheBTeam.Web.Controllers
             ViewBag.Id = id;
 
             var user = _plannerContext.Users.First(x => x.Id == id);
-            var usersName = $"{user.FirstName} {user.LastName}";
-            ViewBag.UserName = usersName;
+            var fullName = $"{user.FirstName} {user.LastName}";
+            //ViewBag.UserName = usersName;
 
-            var model = TransactionService.Get(category, type, _plannerContext, id);
+            var transactions = TransactionService.Get(category, type, _plannerContext, id);
             
 
-            model = _transactionService.GetByDates(model, dateFrom, dateTo);
+            transactions = _transactionService.GetByDates(transactions, dateFrom, dateTo);
 
             if (description is not null)
-                model = model.Where(t => t.Description.ToLower().Contains(description.ToLower())).ToList();
+                transactions = transactions.Where(t => t.Description.ToLower().Contains(description.ToLower())).ToList();
 
-            return View(model);
+            
+
+            return View(new UserTransactionsDto(){FullName = fullName,Transactions = transactions, UserId = id});
         }
 
         // POST: TransactionController/Create

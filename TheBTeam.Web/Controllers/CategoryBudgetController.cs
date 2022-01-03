@@ -26,8 +26,8 @@ namespace TheBTeam.Web.Controllers
         {
             var modelDal = _planerContext.CategoryBudgets.Where(x => x.UserId == id).ToList();
             var model = modelDal.Select(CategoryBudgetDto.FromDal);
-            var tranactionsList = _planerContext.Transactions.Where(x => x.User.Id == id).ToList();
-            var sums = tranactionsList.GroupBy(x => x.Category)
+            var transactions = _planerContext.Transactions.Where(x => x.User.Id == id).ToList();
+            var sums = transactions.GroupBy(x => x.Category)
                 .ToDictionary(x => x.Key, x => x.Select(y => y.Amount).Sum());
 
             return View(new UsersBudgetDto() { UserId = id, UserBudgets = model, CategorySums = sums });

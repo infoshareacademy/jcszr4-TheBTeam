@@ -1,6 +1,6 @@
 ﻿@using System.Linq
 @using TheBTeam.BLL
-@model IEnumerable<TheBTeam.BLL.Models.TransactionDto>
+@model TheBTeam.BLL.Models.UserTransactionsDto
 
 @{
     ViewData["Title"] = "User's Transactions";
@@ -10,14 +10,12 @@
     var incomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) > 0 && int.Parse(l.Value) < 100).ToList();
     var outcomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) >= 100).ToList();
     var allList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) == 0);
-    int id = ViewBag.Id;
-    string userName = ViewBag.UserName;
 }
 
-<h1>@userName's transactions list</h1>
+<h1>@Model.FullName's transactions list</h1>
 
 <p>
-    <a asp-action="AddTransaction" asp-route-id="@id">Add New</a> | 
+    <a asp-action="AddTransaction" asp-route-id="@Model.UserId">Add New</a> |
     <a asp-controller="User" , asp-action="Index">Back to users List</a>
 </p>
 
@@ -54,38 +52,38 @@
     <div class="form-group">
         <input type="submit" value="Search transaction" class="btn btn-primary" />
     </div>
-    </form>
+</form>
 
 <table class="table">
     <thead>
         <tr>
 
             <th>
-                <label asp-for="First().Type"></label>
+                <label asp-for="@Model.Transactions.First().Type"></label>
             </th>
             <th>
-                <label asp-for="First().Category"></label>
+                <label asp-for="@Model.Transactions.First().Category"></label>
             </th>
             <th>
-                <label asp-for="First().CreatedAt"></label>
+                <label asp-for="@Model.Transactions.First().CreatedAt"></label>
             </th>
             <th>
-                <label asp-for="First().Amount"></label>
+                <label asp-for="@Model.Transactions.First().Amount"></label>
             </th>
             <th>
-                <label asp-for="First().Currency"></label>
+                <label asp-for="@Model.Transactions.First().Currency"></label>
             </th>
             <th>
-                <label asp-for="First().BalanceAfterTransaction"></label>
+                <label asp-for="@Model.Transactions.First().BalanceAfterTransaction"></label>
             </th>
             <th>
-                <label asp-for="First().Description"></label>
+                <label asp-for="@Model.Transactions.First().Description"></label>
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Transactions)
         {
             <tr>
 
@@ -151,4 +149,4 @@
              });
          }
      });
- </script>
+</script>
