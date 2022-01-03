@@ -22,7 +22,7 @@ namespace TheBTeam.BLL.DAL.Entities
 
         [DataType(DataType.Currency)]
         public decimal BalanceAfterTransaction { get; set; }
-        public string Title { get; set; }
+        public string Description { get; set; }
 
         public static Transaction FromDto(TransactionDto transactionDto)
         {
@@ -37,7 +37,7 @@ namespace TheBTeam.BLL.DAL.Entities
                 Category = transactionDto.Category,
                 Amount = transactionDto.Amount,
                 BalanceAfterTransaction = transactionDto.BalanceAfterTransaction,
-                Title = transactionDto.Description
+                Description = transactionDto.Description
             };
         }
     }

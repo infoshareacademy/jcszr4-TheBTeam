@@ -48,7 +48,7 @@ namespace TheBTeam.BLL.Models
                 Category = transaction.Category,
                 Amount = transaction.Amount,
                 BalanceAfterTransaction = transaction.BalanceAfterTransaction,
-               Description = transaction.Title
+               Description = transaction.Description
             };
         }
     }

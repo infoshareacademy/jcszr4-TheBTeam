@@ -104,7 +104,12 @@ namespace TheBTeam.Web.Controllers
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (!ModelState.IsValid)
+                {
+                    return View(transactionDto);
+                }
+                _transactionService.Edit(transactionDto);
+                return RedirectToAction("Index");
             }
             catch
             {

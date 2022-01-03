@@ -13,12 +13,14 @@ namespace TheBTeam.BLL.Services
     public class TransactionService
     {
         private readonly PlannerContext _plannerContext;
+        private readonly UserService _userService;
         private const int IncomeCategoryLimit = 100;
         public TransactionService(PlannerContext plannerContext)
         {
             _plannerContext = plannerContext;
+            _userService = new UserService(plannerContext);
         }
-        
+
         public static List<TransactionDto> Get(CategoryOfTransaction category, TypeOfTransaction type, PlannerContext plannerContext, int id = 0)
         {
             var transactions = new List<TransactionDto>();
@@ -48,8 +50,8 @@ namespace TheBTeam.BLL.Services
         }
         public List<TransactionDto> GetByDates(List<TransactionDto> transactions, DateTime from, DateTime to)
         {
-            if(to== new DateTime(0001, 01, 01))
-                to=DateTime.Now;
+            if (to == new DateTime(0001, 01, 01))
+                to = DateTime.Now;
 
             transactions = transactions.Where(t => t.CreatedAt >= from.AddDays(1).AddMinutes(-1) && t.CreatedAt <= to.AddDays(1).AddMinutes(-1)).ToList();
 
@@ -73,7 +75,7 @@ namespace TheBTeam.BLL.Services
                 transaction.BalanceAfterTransaction = user.Balance;
                 return;
             }
-            
+
             user.Balance -= transaction.Amount;
             transaction.BalanceAfterTransaction = user.Balance;
             _plannerContext.SaveChanges();
@@ -90,6 +92,32 @@ namespace TheBTeam.BLL.Services
                 .Include(x => x.User).ToList();
             var model = modelDal.Select(TransactionDto.FromDal).ToList();
             return model;
+        }
+
+        public void Edit(TransactionDto transactionDto)
+        {
+            var transaction = _plannerContext.Transactions.Single(t => t.Id == transactionDto.Id);
+
+            var oldAmount = transaction.Amount;
+
+            transaction.Amount = transactionDto.Amount;
+            transaction.Category = transactionDto.Category;
+            transaction.Description = transactionDto.Description;
+            transaction.Currency = transactionDto.Currency;
+
+            decimal difference = 0.0m;
+            if (transaction.Type == TypeOfTransaction.Income)
+            {
+                transaction.BalanceAfterTransaction += transaction.Amount - oldAmount;
+                difference = transaction.Amount - oldAmount;
+            }
+            else
+            {
+                transaction.BalanceAfterTransaction -= transaction.Amount - oldAmount;
+                difference -= transaction.Amount - oldAmount;
+            }
+
+            _userService.EditBalance((int)transaction.UserId, difference);
         }
     }
 }

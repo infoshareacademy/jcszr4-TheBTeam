@@ -22,10 +22,6 @@ namespace TheBTeam.BLL.Services
             _plannerContext = plannerContext;
         }
 
-        public UserDto GetById(int id)
-        {
-            return Users.SingleOrDefault(m => m.Id == id);
-        }
         public void Create(UserDto model)
         {
             var modelDal = User.FromDto(model);
@@ -39,8 +35,6 @@ namespace TheBTeam.BLL.Services
             var model = UserDto.FromDAL(modelDal);
             return model;
         }
-
-
         public void Delete(int id)
         {
             var user = _plannerContext.Users.Single(u => u.Id == id);
@@ -48,10 +42,18 @@ namespace TheBTeam.BLL.Services
             _plannerContext.Remove(user);
             _plannerContext.SaveChanges();
         }
+        
+        public void EditBalance(int id, decimal difference)
+        {
+            var user = _plannerContext.Users.Single(u => u.Id == id);
+            user.Balance += difference;
+            _plannerContext.Update(user);
+            _plannerContext.SaveChanges();
 
+        }
         public void Update(UserDto model)
         {
-            var user = _plannerContext.Users.SingleOrDefault(u => u.Id == model.Id);
+            var user = _plannerContext.Users.Single(u => u.Id == model.Id);
 
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
