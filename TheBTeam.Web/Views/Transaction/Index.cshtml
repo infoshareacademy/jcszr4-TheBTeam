@@ -86,7 +86,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UserDto.Email)
+                    <a asp-action="UserTransactions" asp-route-id="@item.UserId">@item.UserDto.Email</a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CreatedAt)
