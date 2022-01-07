@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -159,7 +160,9 @@ namespace TheBTeam.Web.Controllers
         // GET: TransactionController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var model = _transactionService.GetByIdToDto(id);
+            model.UserDto = _userService.GetByIdToDto((int)model.UserId);
+            return View(model);
         }
 
         // POST: TransactionController/Delete/5
