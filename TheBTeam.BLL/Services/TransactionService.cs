@@ -93,7 +93,6 @@ namespace TheBTeam.BLL.Services
             var model = modelDal.Select(TransactionDto.FromDal).ToList();
             return model;
         }
-
         public void Edit(TransactionDto transactionDto)
         {
             var transaction = _plannerContext.Transactions.Single(t => t.Id == transactionDto.Id);
@@ -118,6 +117,19 @@ namespace TheBTeam.BLL.Services
             }
 
             _userService.EditBalance((int)transaction.UserId, difference);
+        }
+
+        public void Delete(int id)
+        {
+            var transaction = _plannerContext.Transactions.Single(t => t.Id == id);
+
+            if(transaction.Type==TypeOfTransaction.Income)
+                _userService.EditBalance((int)transaction.UserId, -transaction.Amount);
+            else
+                _userService.EditBalance((int)transaction.UserId, transaction.Amount);
+
+            _plannerContext.Remove(transaction);
+            _plannerContext.SaveChanges();
         }
     }
 }

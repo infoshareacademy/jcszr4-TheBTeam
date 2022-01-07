@@ -43,10 +43,10 @@ namespace TheBTeam.BLL.Services
             _plannerContext.SaveChanges();
         }
         
-        public void EditBalance(int id, decimal difference)
+        public void EditBalance(int id, decimal amount)
         {
             var user = _plannerContext.Users.Single(u => u.Id == id);
-            user.Balance += difference;
+            user.Balance += amount;
             _plannerContext.Update(user);
             _plannerContext.SaveChanges();
 

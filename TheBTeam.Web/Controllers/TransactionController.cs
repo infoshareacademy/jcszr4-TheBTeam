@@ -168,11 +168,16 @@ namespace TheBTeam.Web.Controllers
         // POST: TransactionController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, TransactionDto transactionDto)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (!ModelState.IsValid)
+                {
+                    return View(transactionDto);
+                }
+                _transactionService.Delete(transactionDto.Id);
+                return RedirectToAction("Index");
             }
             catch
             {
