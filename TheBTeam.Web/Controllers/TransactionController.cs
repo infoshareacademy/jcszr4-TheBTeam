@@ -55,7 +55,9 @@ namespace TheBTeam.Web.Controllers
         // GET: TransactionController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var model = _transactionService.GetByIdToDto(id);
+            model.UserDto = _userService.GetByIdToDto((int)model.UserId);
+            return View(model);
         }
 
         // GET: TransactionController/Create
