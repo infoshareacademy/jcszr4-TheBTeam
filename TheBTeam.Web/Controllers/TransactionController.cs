@@ -164,7 +164,7 @@ namespace TheBTeam.Web.Controllers
         // POST: TransactionController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, TransactionDto transactionDto)
+        public ActionResult Delete(TransactionDto transactionDto)
         {
             try
             {

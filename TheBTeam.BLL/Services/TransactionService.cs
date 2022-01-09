@@ -83,6 +83,7 @@ namespace TheBTeam.BLL.Services
         public TransactionDto GetByIdToDto(int id)
         {
             var modelDal = _plannerContext.Transactions.First(x => x.Id == id);
+            modelDal.User = _plannerContext.Users.First(x => x.Id == modelDal.UserId);
             var model = TransactionDto.FromDal(modelDal);
             return model;
         }
