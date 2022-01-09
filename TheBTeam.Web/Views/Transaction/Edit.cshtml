@@ -56,7 +56,7 @@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             
-                <input asp-action="Delete" type="submit" value="Delete" class="btn btn-danger" />
+                <input asp-action="Delete" type="submit" value="Delete" class="btn btn-danger" asp-route-id="@Model.Id"/>
             </div>
         </form>
     </div>
