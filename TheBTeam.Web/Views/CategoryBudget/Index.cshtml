@@ -1,5 +1,4 @@
-﻿
-+@using TheBTeam.BLL
+﻿+@using TheBTeam.BLL
 @using TheBTeam.BLL.Models
 @model TheBTeam.BLL.Models.UsersBudgetDto
 
@@ -27,6 +26,10 @@
                 <th>
                     <b>Difference</b>
                 </th>
+                <th>
+                    spent/left [%]
+                </th>
+
         </thead>
 
         <tbody>
@@ -43,8 +46,8 @@
                         </div>
                     </td>
                     <td>
-                        @{Model.CategorySums.TryGetValue(item, out decimal value);}
-                        @value.ToString("C")
+                        @{Model.CategorySums.TryGetValue(item, out decimal spent);}
+                        @spent.ToString("C")
                     </td>
                     <td>
                         @{
@@ -52,9 +55,12 @@
                             if (modelItem == null)
                                 difference = 0;
                             else
-                                difference = modelItem.PlanedBudget - value;
+                                difference = modelItem.PlanedBudget - spent;
                         }
                         @difference.ToString("C")
+                    </td>
+                    <td>
+                       X
                     </td>
                 </tr>
             }
@@ -64,30 +70,55 @@
             @foreach (var item in possibleOutcomeCategories)
             {
                 var modelItem = Model.UserBudgets.FirstOrDefault(x => x.Category == item);
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item)
-                </td>
-                <td>
-                    <div class="form-group">
-                        <input type="number" name="@item.ToString()" class="form-control" value="@modelItem?.PlanedBudget" />
-                    </div>
-                </td>
-                <td>
-                    @{Model.CategorySums.TryGetValue(item, out decimal value);}
-                    @value.ToString("C")
-                </td>
-                <td>
-                    @{
-                        decimal difference;
-                        if (modelItem == null)
-                            difference = 0;
-                        else
-                            difference = modelItem.PlanedBudget - value;
-                    }
-                    @difference.ToString("C")
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item)
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input type="number" name="@item.ToString()" class="form-control" value="@modelItem?.PlanedBudget" />
+                        </div>
+                    </td>
+                    <td>
+                        @{Model.CategorySums.TryGetValue(item, out decimal spent);}
+                        @spent.ToString("C")
+                    </td>
+                    <td>
+                        @{
+                            decimal difference;
+                            if (modelItem == null)
+                                difference = 0;
+                            else
+                                difference = modelItem.PlanedBudget - spent;
+                        }
+                        @difference.ToString("C")
+                    </td>
+                    <td>
+                        @{
+                            decimal pSpent=0;
+                            decimal pLeft=0;
+                            var budget = modelItem.PlanedBudget;
+                            string output;
+
+                            if (budget==0)
+                            {
+                                budget = 1;
+                            }
+                            else
+                            {
+                                pSpent = (spent / budget)*100;
+                                pSpent = Math.Round(pSpent);
+                                pLeft = 100 - pSpent;
+                            }
+
+                            if (pLeft < 0)
+                                output = $"You spent {pSpent - 100}% more!";
+                            else
+                                output = $"{pSpent}% / {pLeft}%";
+                        }
+                        @output
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
