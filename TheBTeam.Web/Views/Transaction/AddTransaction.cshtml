@@ -7,7 +7,6 @@
 @{
     var incomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) > 1 && int.Parse(l.Value) < 100).ToList();
     var outcomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) > 100).ToList();
-    //var allList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) == 0);
     var typeList = Html.GetEnumSelectList<TypeOfTransaction>().Where(l => int.Parse(l.Value) > 0).ToList();
     
 
@@ -15,7 +14,7 @@
 
 <h1>Add Transaction</h1>
 
-<h4>Transaction</h4>
+<h4>For @ViewBag.FullName</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
