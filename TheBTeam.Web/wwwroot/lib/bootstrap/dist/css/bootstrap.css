@@ -1995,6 +1995,7 @@ textarea.form-control {
 }
 
 .form-group {
+  margin-top: 14px; /*hardcoded a bit, idk why root element works for the bottom but not for the top*/
   margin-bottom: 1rem;
 }
 
