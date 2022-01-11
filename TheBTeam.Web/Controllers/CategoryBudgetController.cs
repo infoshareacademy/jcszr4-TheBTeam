@@ -22,7 +22,7 @@ namespace TheBTeam.Web.Controllers
         }
         // GET: CategoryBudgetController
         //[HttpGet("Show/{id}")]
-        public ActionResult Index(int id)
+        public ActionResult Index(int id, DateTime date)
         {
             var modelDal = _planerContext.CategoryBudgets.Where(x => x.UserId == id).ToList();
             var model = modelDal.Select(CategoryBudgetDto.FromDal);

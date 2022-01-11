@@ -1,4 +1,5 @@
-﻿using TheBTeam.BLL.DAL;
+﻿using System;
+using TheBTeam.BLL.DAL;
 using TheBTeam.BLL.DAL.Entities;
 
 namespace TheBTeam.BLL.Models
@@ -9,6 +10,8 @@ namespace TheBTeam.BLL.Models
         public CategoryOfTransaction Category { get; set; }
         public decimal PlanedBudget { get; set; }
         public int UserId { get; set; }
+        
+       // public DateTime Date { get; set; }
 
         public static CategoryBudgetDto FromDal(CategoryBudget categoryBudget)
         {

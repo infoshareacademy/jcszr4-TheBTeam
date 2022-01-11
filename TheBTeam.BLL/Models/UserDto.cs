@@ -38,7 +38,7 @@ namespace TheBTeam.BLL.Models
         public string Phone { get; set; }
         public string Address { get; set; }
         public DateTime CreatedAt { get; set; }
-
+        
         public static UserDto FromDAL(User user)
         {
             if (user == null)
