@@ -33,7 +33,12 @@ namespace TheBTeam.BLL.Models
         [DataType(DataType.Currency)]
         public decimal BalanceAfterTransaction { get; set; }
 
-        public string Description { get; set; }//TODO: add limitation to 50 chars
+        [Display(Name = "When Made")]
+        [DataType(DataType.Date)]
+        public DateTime WhenMade { get; set; }
+
+        [MaxLength(50)]
+        public string Description { get; set; }
 
         public static TransactionDto FromDal(Transaction transaction)
         {
@@ -48,6 +53,7 @@ namespace TheBTeam.BLL.Models
                 Category = transaction.Category,
                 Amount = transaction.Amount,
                 BalanceAfterTransaction = transaction.BalanceAfterTransaction,
+                WhenMade = transaction.WhenMade,
                Description = transaction.Description
             };
         }

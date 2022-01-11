@@ -12,7 +12,6 @@ namespace TheBTeam.BLL.DAL
 
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<Test> Tests { get; set; }
         public DbSet<CategoryBudget> CategoryBudgets { get; set; }
     }
 }

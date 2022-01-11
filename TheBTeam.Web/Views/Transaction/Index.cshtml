@@ -56,7 +56,7 @@
                 <label asp-for="First().UserDto.Email"></label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
+                @Html.DisplayNameFor(model => model.WhenMade)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Currency)
@@ -89,7 +89,7 @@
                     <a asp-action="UserTransactions" asp-route-id="@item.UserId">@item.UserDto.Email</a>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                    @Html.DisplayFor(modelItem => item.WhenMade)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Currency)
