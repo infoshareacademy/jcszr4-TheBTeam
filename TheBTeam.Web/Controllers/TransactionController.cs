@@ -44,7 +44,7 @@ namespace TheBTeam.Web.Controllers
             if (description is not null)
                 model = model.Where(t => t.Description.ToLower().Contains(description.ToLower())).ToList();
 
-            return View(model.OrderBy(x=>x.WhenMade).ToList());
+            return View(model.OrderByDescending(x=>x.WhenMade).ToList());
         }
 
         public ActionResult EmptyList()
@@ -78,7 +78,7 @@ namespace TheBTeam.Web.Controllers
             if (description is not null)
                 transactions = transactions.Where(t => t.Description.ToLower().Contains(description.ToLower())).ToList();
 
-            return View(new UserTransactionsDto(){FullName = fullName,Transactions = transactions.OrderBy(x=>x.WhenMade).ToList(), UserId = id});
+            return View(new UserTransactionsDto(){FullName = fullName,Transactions = transactions.OrderByDescending(x=>x.WhenMade).ToList(), UserId = id});
         }
 
         // POST: TransactionController/Create

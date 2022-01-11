@@ -25,21 +25,37 @@ namespace TheBTeam.Web.Controllers
         public ActionResult UserBudget(int id, DateTime date)
         {
             var modelDal = _planerContext.CategoryBudgets.Where(x => x.UserId == id).ToList().OrderByDescending(x=>x.Date).ToList();
+            var userFullName =
+                $"{_planerContext.Users.First(x => x.Id == id).FirstName} {_planerContext.Users.First(x => x.Id == id).LastName}";
 
-            if (modelDal.Count == 0)
+            if (!modelDal.Any())
                 return RedirectToAction("Create", new {id=id});
 
-            //if(date.Year==1)
-            //    date.Year=
+            if (date.Year == 1)
+                modelDal = modelDal.Where(x => x.Date == modelDal.First().Date).ToList();
+            else
+                modelDal = modelDal.Where(x => x.Date.Year == date.Year && x.Date.Month == date.Month).ToList();
+
+            if (!modelDal.Any())
+                return RedirectToAction("EmptyList", new{id=id, userFullName=userFullName, date= date});
 
             var model = modelDal.Select(CategoryBudgetDto.FromDal);
             var transactions = _planerContext.Transactions.Where(x => x.User.Id == id).ToList();
             var sums = transactions.GroupBy(x => x.Category)
                 .ToDictionary(x => x.Key, x => x.Select(y => y.Amount).Sum());
-            var userFullName =
-                $"{_planerContext.Users.First(x => x.Id == id).FirstName} {_planerContext.Users.First(x => x.Id == id).LastName}";
+            
+
+            ViewBag.Date = date;
 
             return View(new UsersBudgetDto() { UserId = id, UserBudgets = model, CategorySums = sums, UserFullName = userFullName});
+        }
+
+        public ActionResult EmptyList(int id, string userFullName, DateTime date)
+        {
+            ViewBag.Id = id;
+            ViewBag.UserFullName = userFullName;
+            ViewBag.Date = date;
+            return View();
         }
 
         public ActionResult Create(int id)
