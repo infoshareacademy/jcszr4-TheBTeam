@@ -7,17 +7,13 @@
 @{
     var incomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) > 1 && int.Parse(l.Value) < 100).ToList();
     var outcomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) > 100).ToList();
-    var typeList = Html.GetEnumSelectList<TypeOfTransaction>().Where(l => int.Parse(l.Value) > 0).ToList();
     var categoryList = new List<SelectListItem>();
-    if (Model.Type == TypeOfTransaction.Outcome)
-        categoryList = outcomeList;
-    else
-        categoryList = incomeList;
+    categoryList = Model.Type == TypeOfTransaction.Outcome ? outcomeList : incomeList;
 }
 
 <h1>Edit</h1>
 
-<h4>@Model.UserDto.Email's transaction</h4>
+<h4>@Model.UserDto.FirstName @Model.UserDto.LastName's transaction</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">

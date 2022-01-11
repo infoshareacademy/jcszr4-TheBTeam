@@ -1,14 +1,51 @@
 ﻿+@using TheBTeam.BLL
+@using TheBTeam.BLL.DAL
 @using TheBTeam.BLL.Models
+@using System.Security.Cryptography.X509Certificates
 @model TheBTeam.BLL.Models.UsersBudgetDto
+
 
 @{
     ViewData["Title"] = "Index";
     var possibleIncomeCategories = Enum.GetValues<CategoryOfTransaction>().Where(x => (int)x > 1 && (int)x < 100);
     var possibleOutcomeCategories = Enum.GetValues<CategoryOfTransaction>().Where(x => (int)x > 100);
+    var totalIncome = Model.CategorySums.Where(x => (int)x.Key < 100).Select(x => x.Value).Sum();
+    var totalOutcome = Model.CategorySums.Where(x => (int)x.Key > 100).Select(x => x.Value).Sum();
 }
 
-<h1>User's budget </h1>
+<h1>@Model.UserFullName's budget </h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>
+                <b>Total Income</b>
+            </th>
+            <th>
+                <b>Total Outcome</b>
+            </th>
+            <th>
+                Difference
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @totalIncome.ToString("C")
+            </td>
+            <td>
+                @totalOutcome.ToString("C")
+            </td>
+            <td>
+                @{ var dif = totalIncome - totalOutcome;}
+                @dif.ToString("C")
+        </td>
+    </tr>
+</tbody>
+
+
+</table>
 
 <form asp-controller="CategoryBudget" asp-action="UpdateBudget" asp-route-id="@Model.UserId" method="post">
     <table class="table">
@@ -36,6 +73,8 @@
             @foreach (var item in possibleIncomeCategories)
             {
                 var modelItem = Model.UserBudgets.FirstOrDefault(x => x.Category == item);
+                if (modelItem == null)
+                    modelItem = new CategoryBudgetDto();
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item)
@@ -51,16 +90,12 @@
                     </td>
                     <td>
                         @{
-                            decimal difference;
-                            if (modelItem == null)
-                                difference = 0;
-                            else
-                                difference = modelItem.PlanedBudget - spent;
+                            var difference = modelItem.PlanedBudget - spent;
                         }
                         @difference.ToString("C")
                     </td>
                     <td>
-                       X
+                        X
                     </td>
                 </tr>
             }
@@ -69,7 +104,7 @@
         <tbody>
             @foreach (var item in possibleOutcomeCategories)
             {
-                var modelItem = Model.UserBudgets.FirstOrDefault(x => x.Category == item);
+                var modelItem = Model.UserBudgets.FirstOrDefault(x => x.Category == item) ?? new CategoryBudgetDto();
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item)
@@ -95,18 +130,18 @@
                     </td>
                     <td>
                         @{
-                            decimal pSpent=0;
-                            decimal pLeft=0;
+                            decimal pSpent = 0;
+                            decimal pLeft = 0;
                             var budget = modelItem.PlanedBudget;
                             string output;
 
-                            if (budget==0)
+                            if (budget == 0)
                             {
                                 budget = 1;
                             }
                             else
                             {
-                                pSpent = (spent / budget)*100;
+                                pSpent = (spent / budget) * 100;
                                 pSpent = Math.Round(pSpent);
                                 pLeft = 100 - pSpent;
                             }

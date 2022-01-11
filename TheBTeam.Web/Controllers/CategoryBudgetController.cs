@@ -29,8 +29,10 @@ namespace TheBTeam.Web.Controllers
             var transactions = _planerContext.Transactions.Where(x => x.User.Id == id).ToList();
             var sums = transactions.GroupBy(x => x.Category)
                 .ToDictionary(x => x.Key, x => x.Select(y => y.Amount).Sum());
+            var userFullName =
+                $"{_planerContext.Users.First(x => x.Id == id).FirstName} {_planerContext.Users.First(x => x.Id == id).LastName}";
 
-            return View(new UsersBudgetDto() { UserId = id, UserBudgets = model, CategorySums = sums });
+            return View(new UsersBudgetDto() { UserId = id, UserBudgets = model, CategorySums = sums, UserFullName = userFullName});
         }
 
         [HttpPost]

@@ -126,6 +126,9 @@ namespace TheBTeam.Web.Controllers
         public ActionResult AddTransaction(int id)
         {
             var user = _userService.GetByIdToDto(id);
+            var userFullName = $"{user.FirstName} {user.LastName}";
+            ViewBag.FullName = userFullName;
+
             if (!user.IsActive)
                 return RedirectToAction("InActiveUser", new { id });
 
