@@ -22,9 +22,16 @@ namespace TheBTeam.Web.Controllers
         }
         // GET: CategoryBudgetController
         //[HttpGet("Show/{id}")]
-        public ActionResult Index(int id, DateTime date)
+        public ActionResult UserBudget(int id, DateTime date)
         {
-            var modelDal = _planerContext.CategoryBudgets.Where(x => x.UserId == id).ToList();
+            var modelDal = _planerContext.CategoryBudgets.Where(x => x.UserId == id).ToList().OrderByDescending(x=>x.Date).ToList();
+
+            if (modelDal.Count == 0)
+                return RedirectToAction("Create", new {id=id});
+
+            //if(date.Year==1)
+            //    date.Year=
+
             var model = modelDal.Select(CategoryBudgetDto.FromDal);
             var transactions = _planerContext.Transactions.Where(x => x.User.Id == id).ToList();
             var sums = transactions.GroupBy(x => x.Category)
@@ -33,6 +40,27 @@ namespace TheBTeam.Web.Controllers
                 $"{_planerContext.Users.First(x => x.Id == id).FirstName} {_planerContext.Users.First(x => x.Id == id).LastName}";
 
             return View(new UsersBudgetDto() { UserId = id, UserBudgets = model, CategorySums = sums, UserFullName = userFullName});
+        }
+
+        public ActionResult Create(int id)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(int id, DateTime date)
+        {
+            foreach (var category in Enum.GetNames(typeof(CategoryOfTransaction)))
+            {
+                Enum.TryParse<CategoryOfTransaction>(category, out var categoryEnum);
+                var categoryBudget = new CategoryBudget() {Category = categoryEnum, UserId = id, Date = date};
+                _planerContext.Add(categoryBudget);
+            }
+
+            _planerContext.SaveChanges();
+
+            return RedirectToAction("UserBudget", new {id=id});
         }
 
         [HttpPost]
@@ -60,7 +88,7 @@ namespace TheBTeam.Web.Controllers
             _planerContext.SaveChanges();
 
 
-            return RedirectToAction(nameof(Index), new { id });
+            return RedirectToAction(nameof(UserBudget), new { id });
         }
 
     }

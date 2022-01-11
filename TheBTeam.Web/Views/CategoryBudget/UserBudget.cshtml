@@ -2,6 +2,7 @@
 @using TheBTeam.BLL.DAL
 @using TheBTeam.BLL.Models
 @using System.Security.Cryptography.X509Certificates
+@using System.Globalization
 @model TheBTeam.BLL.Models.UsersBudgetDto
 
 
@@ -11,11 +12,14 @@
     var possibleOutcomeCategories = Enum.GetValues<CategoryOfTransaction>().Where(x => (int)x > 100);
     var totalIncome = Model.CategorySums.Where(x => (int)x.Key < 100).Select(x => x.Value).Sum();
     var totalOutcome = Model.CategorySums.Where(x => (int)x.Key > 100).Select(x => x.Value).Sum();
+    var month = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Model.UserBudgets.First().Date.Month);
+    //var month = Model.UserBudgets.First().Date.Month.ToString("MMM", CultureInfo("en-US"));
 }
 
 <h1>@Model.UserFullName's budget </h1>
+<h2>For @month of @Model.UserBudgets.First().Date.Year</h2>
 
-<form asp-action="Index">
+<form asp-action="Create">
     <div class="col">
         <label class="col-form-label">Month and year: </label>
         <input type="month" id="date" name="date" class="form-control"/>
