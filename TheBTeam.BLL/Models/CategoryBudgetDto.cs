@@ -10,8 +10,7 @@ namespace TheBTeam.BLL.Models
         public CategoryOfTransaction Category { get; set; }
         public decimal PlanedBudget { get; set; }
         public int UserId { get; set; }
-        
-       // public DateTime Date { get; set; }
+        public DateTime Date { get; set; }
 
         public static CategoryBudgetDto FromDal(CategoryBudget categoryBudget)
         {
@@ -20,6 +19,7 @@ namespace TheBTeam.BLL.Models
                 Category = categoryBudget.Category,
                 Id = categoryBudget.Id,
                 PlanedBudget = categoryBudget.PlanedBudget,
+                Date = categoryBudget.Date,
                 UserId = categoryBudget.UserId
             };
             return categoryBudgetDto;

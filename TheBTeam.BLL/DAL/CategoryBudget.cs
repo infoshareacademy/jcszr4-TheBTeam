@@ -14,7 +14,7 @@ namespace TheBTeam.BLL.DAL
         [ForeignKey("User")]
         public int UserId { get; set; }
 
-        //public DateTime Date { get; set; }
+        public DateTime Date { get; set; }
 
         public static CategoryBudget FromDto(CategoryBudgetDto categoryBudgetDto)
         {
@@ -23,7 +23,8 @@ namespace TheBTeam.BLL.DAL
                 Category = categoryBudgetDto.Category,
                 Id = categoryBudgetDto.Id,
                 PlanedBudget = categoryBudgetDto.PlanedBudget,
-                UserId = categoryBudgetDto.UserId
+                UserId = categoryBudgetDto.UserId,
+                Date=categoryBudgetDto.Date
             };
             return categoryBudget;
         }
