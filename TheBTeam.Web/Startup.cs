@@ -50,7 +50,7 @@ namespace TheBTeam.Web
 
             CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
             CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
-            //context?.Database.Migrate();
+            context?.Database.Migrate();
 
             if (env.IsDevelopment())
             {

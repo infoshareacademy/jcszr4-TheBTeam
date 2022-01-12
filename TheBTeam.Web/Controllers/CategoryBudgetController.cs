@@ -39,8 +39,8 @@ namespace TheBTeam.Web.Controllers
             if (!modelDal.Any())
                 return RedirectToAction("EmptyList", new{id=id, userFullName=userFullName, date= date});
 
-            var model = modelDal.Select(CategoryBudgetDto.FromDal);
-            var transactions = _planerContext.Transactions.Where(x => x.User.Id == id).ToList();
+            var model = modelDal.Select(CategoryBudgetDto.FromDal).OrderByDescending(x=>x.Date);
+            var transactions = _planerContext.Transactions.Where(x => x.User.Id == id).Where(x=>x.WhenMade.Month==model.First().Date.Month && x.WhenMade.Year==model.First().Date.Year).ToList();
             var sums = transactions.GroupBy(x => x.Category)
                 .ToDictionary(x => x.Key, x => x.Select(y => y.Amount).Sum());
             
