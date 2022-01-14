@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TheBTeam.BLL.DAL;
 
 namespace TheBTeam.BLL.Migrations
 {
     [DbContext(typeof(PlannerContext))]
-    partial class PlannerContextModelSnapshot : ModelSnapshot
+    [Migration("20220111204420_DateFieldInCategoryBudget")]
+    partial class DateFieldInCategoryBudget
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,6 +43,28 @@ namespace TheBTeam.BLL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CategoryBudgets");
+                });
+
+            modelBuilder.Entity("TheBTeam.BLL.DAL.Entities.Test", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Age")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreationStamp")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tests");
                 });
 
             modelBuilder.Entity("TheBTeam.BLL.DAL.Entities.Transaction", b =>
@@ -74,9 +98,6 @@ namespace TheBTeam.BLL.Migrations
                     b.Property<int?>("UserId")
                         .IsRequired()
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("WhenMade")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

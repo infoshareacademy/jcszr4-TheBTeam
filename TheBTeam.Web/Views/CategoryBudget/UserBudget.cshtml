@@ -2,6 +2,8 @@
 @using TheBTeam.BLL.DAL
 @using TheBTeam.BLL.Models
 @using System.Security.Cryptography.X509Certificates
+@using System.Globalization
+
 @model TheBTeam.BLL.Models.UsersBudgetDto
 
 
@@ -11,40 +13,85 @@
     var possibleOutcomeCategories = Enum.GetValues<CategoryOfTransaction>().Where(x => (int)x > 100);
     var totalIncome = Model.CategorySums.Where(x => (int)x.Key < 100).Select(x => x.Value).Sum();
     var totalOutcome = Model.CategorySums.Where(x => (int)x.Key > 100).Select(x => x.Value).Sum();
+    var dateCommunication = $"For {CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Model.UserBudgets.First().Date.Month)} of {Model.UserBudgets.First().Date.Year}";
+    var planedIncome = Model.UserBudgets.Where(x => (int) x.Category > 1 && (int) x.Category < 100).Select(x => x.PlanedBudget).Sum();
+    var planedOutcome = Model.UserBudgets.Where(x => (int) x.Category > 100).Select(x => x.PlanedBudget).Sum();
 }
 
 <h1>@Model.UserFullName's budget </h1>
+<h2>@dateCommunication</h2>
 
-<table>
+<form asp-action="UserBudget">
+    <div class="col">
+        <label class="col-form-label">Month and year: </label>
+        <input type="month" id="date" name="date" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Select" class="btn btn-primary" />
+    </div>
+</form>
+
+<table width="50%">
     <thead>
-        <tr>
-            <th>
-                <b>Total Income</b>
-            </th>
-            <th>
-                <b>Total Outcome</b>
-            </th>
-            <th>
-                Difference
-            </th>
-        </tr>
+    <tr>
+        <th>
+            <b>Real Income</b>
+        </th>
+        <th>
+            <b>Real Outcome</b>
+        </th>
+        <th>
+            Money left
+        </th>
+    </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>
-                @totalIncome.ToString("C")
-            </td>
-            <td>
-                @totalOutcome.ToString("C")
-            </td>
-            <td>
-                @{ var dif = totalIncome - totalOutcome;}
-                @dif.ToString("C")
+    <tr>
+        <td>
+            @totalIncome.ToString("C")
+        </td>
+        <td>
+            @totalOutcome.ToString("C")
+        </td>
+        <td>
+            @{ var dif = totalIncome - totalOutcome;}
+            @dif.ToString("C")
         </td>
     </tr>
+    </tbody>
+</table>
+
+<table width="80%">
+<thead>
+<tr>
+    <th>
+        <b>Planed Income</b>
+    </th>
+    <th>
+        <b>Planed Outcome</b>
+    </th>
+    <th>
+        Budget left
+    </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td>
+        @planedIncome.ToString("C")
+    </td>
+    <td>
+        @planedOutcome.ToString("C")
+    </td>
+    <td>
+        @{ var pDif = planedIncome - planedOutcome;}
+        @pDif.ToString("C")
+    </td>
+    <td>
+        Budget left should be greater than 0
+    </td>
+</tr>
 </tbody>
-
-
 </table>
 
 <form asp-controller="CategoryBudget" asp-action="UpdateBudget" asp-route-id="@Model.UserId" method="post">
@@ -90,7 +137,7 @@
                     </td>
                     <td>
                         @{
-                            var difference = modelItem.PlanedBudget - spent;
+                            var difference = Math.Abs(modelItem.PlanedBudget - spent);
                         }
                         @difference.ToString("C")
                     </td>

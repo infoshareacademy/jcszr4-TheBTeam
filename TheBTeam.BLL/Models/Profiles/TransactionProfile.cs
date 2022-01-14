@@ -9,7 +9,6 @@ namespace TheBTeam.BLL.Models.Profiles
         {
             CreateMap<Transaction, TransactionDto>();
             CreateMap<User, UserDto>();
-            CreateMap<Test, TestDto>();
         } 
     }
 }
