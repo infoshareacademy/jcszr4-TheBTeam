@@ -3,6 +3,7 @@
 @using TheBTeam.BLL.Models
 @using System.Security.Cryptography.X509Certificates
 @using System.Globalization
+
 @model TheBTeam.BLL.Models.UsersBudgetDto
 
 
@@ -136,7 +137,7 @@
                     </td>
                     <td>
                         @{
-                            var difference = modelItem.PlanedBudget - spent;
+                            var difference = Math.Abs(modelItem.PlanedBudget - spent);
                         }
                         @difference.ToString("C")
                     </td>
