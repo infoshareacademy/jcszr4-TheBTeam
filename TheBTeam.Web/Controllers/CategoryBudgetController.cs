@@ -107,5 +107,10 @@ namespace TheBTeam.Web.Controllers
             return RedirectToAction(nameof(UserBudget), new { id });
         }
 
+        public ActionResult Index()
+        {
+            return null;
+        }
+
     }
 }
