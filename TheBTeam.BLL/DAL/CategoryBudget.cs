@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using TheBTeam.BLL.Models;
 
 namespace TheBTeam.BLL.DAL
@@ -13,6 +14,8 @@ namespace TheBTeam.BLL.DAL
         [ForeignKey("User")]
         public int UserId { get; set; }
 
+        public DateTime Date { get; set; }
+
         public static CategoryBudget FromDto(CategoryBudgetDto categoryBudgetDto)
         {
             var categoryBudget = new CategoryBudget()
@@ -20,7 +23,8 @@ namespace TheBTeam.BLL.DAL
                 Category = categoryBudgetDto.Category,
                 Id = categoryBudgetDto.Id,
                 PlanedBudget = categoryBudgetDto.PlanedBudget,
-                UserId = categoryBudgetDto.UserId
+                UserId = categoryBudgetDto.UserId,
+                Date=categoryBudgetDto.Date
             };
             return categoryBudget;
         }
