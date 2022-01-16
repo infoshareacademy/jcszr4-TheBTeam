@@ -16,6 +16,8 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/Chart-js/chart.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 
 </head>
@@ -35,6 +37,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Transaction" asp-action="Index">Transactions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="CategoryBudget" asp-action="Index">Budgets</a>
                         </li>
                     </ul>
                 </div>

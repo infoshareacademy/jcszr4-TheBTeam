@@ -21,6 +21,36 @@
 <h1>@Model.UserFullName's budget </h1>
 <h2>@dateCommunication</h2>
 
+<canvas id="myChart"></canvas>
+<script>
+    debugger;
+    var models = @Html.Raw(Json.Serialize(Model.UserBudgets));
+    var labels = [];
+    var dataValues = [];
+    for (var i = 0; i < models.length; i++) {
+        var obj = models[i];
+        labels.push(obj.category.toString());
+        dataValues.push(obj.planedBudget);
+    };
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'My First Dataset',
+                data: dataValues,
+                //backgroundColor: [
+                //    'rgb(255, 99, 132)',
+                //    'rgb(54, 162, 235)',
+                //    'rgb(255, 205, 86)'
+                //],
+                hoverOffset: 4
+            }]
+        }
+    });
+</script>
+
 <form asp-action="UserBudget">
     <div class="col">
         <label class="col-form-label">Month and year: </label>

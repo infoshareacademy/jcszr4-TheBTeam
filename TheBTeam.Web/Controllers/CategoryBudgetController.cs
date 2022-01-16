@@ -8,6 +8,7 @@ using Castle.Core.Internal;
 using Microsoft.EntityFrameworkCore;
 using TheBTeam.BLL;
 using TheBTeam.BLL.DAL;
+using TheBTeam.BLL.DAL.Entities;
 using TheBTeam.BLL.Models;
 
 namespace TheBTeam.Web.Controllers
@@ -109,7 +110,17 @@ namespace TheBTeam.Web.Controllers
 
         public ActionResult Index()
         {
-            return null;
+            var activeBudgets = _planerContext.CategoryBudgets.Where(x => x.PlanedBudget > 0).ToList().Select(CategoryBudgetDto.FromDal);
+            var activeUsersId = activeBudgets.Select(x=>x.UserId).Distinct().ToArray();
+
+            var activeUsers = (from id in activeUsersId select _planerContext.Users
+                .FirstOrDefault(x => x.Id == id) into user where user is not null select UserDto.FromDAL(user));
+
+            var model = activeUsersId
+                .Select(userId => new IndexBudget {User = activeUsers.First(x => x.Id == userId), CategoryBudget = activeBudgets
+                    .Where(x => x.UserId == userId)}).ToList();
+
+            return View(model);
         }
 
     }
