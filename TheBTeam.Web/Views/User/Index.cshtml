@@ -58,12 +58,20 @@
                         @item.Balance.ToString("C")
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                        <a asp-controller="Transaction" asp-action="AddTransaction" asp-route-id="@item.Id">Add Transaction</a> |
-                        <a asp-action="UserTransactions" asp-route-id="@item.Id">User's Transaction</a>
-                        <a asp-controller="CategoryBudget" asp-action="UserBudget" asp-route-id="@item.Id">Budget</a>
+                        <div class="dropdown">
+                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                More
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> <br />
+                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> <br />
+                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> <br />
+                                <a asp-controller="Transaction" asp-action="AddTransaction" asp-route-id="@item.Id">Add Transaction</a> <br />
+                                <a asp-action="UserTransactions" asp-route-id="@item.Id">User's Transaction</a><br />
+                                <a asp-controller="CategoryBudget" asp-action="UserBudget" asp-route-id="@item.Id">Budget</a><br />
+                            </div>
+                        </div>
                     </td>
                 </tr>
             }

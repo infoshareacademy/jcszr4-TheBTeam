@@ -81,7 +81,7 @@
                 <label asp-for="@Model.Transactions.First().Description"></label>
             </th>
             <th>
-                Actions
+                <label for="Actions">Actions</label>
             </th>
         </tr>
     </thead>
@@ -112,9 +112,18 @@
                     @item.Description
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    <div class="dropdown">
+                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            More
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> 
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        </div>
+                    </div>
+
                 </td>
             </tr>
         }
