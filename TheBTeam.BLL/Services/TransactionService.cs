@@ -33,10 +33,10 @@ namespace TheBTeam.BLL.Services
             if (type == TypeOfTransaction.All)
                 return transactions;
 
-            if (type == TypeOfTransaction.Income && category == CategoryOfTransaction.AllIncome)
+            if (type == TypeOfTransaction.Income && category == CategoryOfTransaction.Income)
                 return transactions.Where(t => t.Type == TypeOfTransaction.Income).ToList();
 
-            if (type == TypeOfTransaction.Outcome && category == CategoryOfTransaction.allOutcome)
+            if (type == TypeOfTransaction.Outcome && category == CategoryOfTransaction.Outcome)
                 return transactions.Where(t => t.Type == TypeOfTransaction.Outcome).ToList();
 
             if (type == TypeOfTransaction.Income && (int)category < IncomeCategoryLimit)

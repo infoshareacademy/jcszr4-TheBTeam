@@ -44,9 +44,17 @@ namespace TheBTeam.Web.Controllers
             var transactions = _planerContext.Transactions.Where(x => x.User.Id == id).Where(x=>x.WhenMade.Month==model.First().Date.Month && x.WhenMade.Year==model.First().Date.Year).ToList();
             var sums = transactions.GroupBy(x => x.Category)
                 .ToDictionary(x => x.Key, x => x.Select(y => y.Amount).Sum());
-            
+
+            var expenses = new List<Tuple<string, decimal>>();
+
+            foreach (var sum in sums)
+            {
+                if((int)sum.Key>100)
+                    expenses.Add(new Tuple<string, decimal>(sum.Key.ToString(),sum.Value));
+            }
 
             ViewBag.Date = date;
+            ViewBag.Ex = expenses;
 
             return View(new UsersBudgetDto() { UserId = id, UserBudgets = model, CategorySums = sums, UserFullName = userFullName});
         }
