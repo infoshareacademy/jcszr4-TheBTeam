@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TheBTeam.BLL.DAL;
 using TheBTeam.BLL.DAL.Entities;
@@ -13,14 +17,16 @@ namespace TheBTeam.Web.Controllers
 {
     public class UserController : Controller
     {
+        private readonly ILogger<UserController> _logger;
         private readonly PlannerContext _plannerContext;
         private UserService _userService;
         private TransactionService _transactionService;
-        public UserController(PlannerContext plannerContext)
+        public UserController(PlannerContext plannerContext, ILogger<UserController> logger)
         {
             _plannerContext = plannerContext;
             _userService = new UserService(plannerContext);
             _transactionService = new TransactionService(plannerContext);
+            _logger = logger;
         }
 
         // GET: UserController
@@ -34,8 +40,20 @@ namespace TheBTeam.Web.Controllers
         // GET: UserController/Details/5
         public ActionResult Details(int id)
         {
+            _logger.LogInformation("Getting item {Id}", id);
+            var findId = _plannerContext.Users.Find(id);
+            if (findId == null)
+            {
+                _logger.LogWarning("Get({Id}) NOT FOUND", id);
+                return RedirectToAction("EmptyList");
+            }
+
             var model = _userService.GetByIdToDto(id);
             return View(model);
+        }
+        public ActionResult EmptyList()
+        {
+            return View();
         }
 
         // GET: UserController/Create
