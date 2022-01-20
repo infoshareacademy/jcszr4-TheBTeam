@@ -23,16 +23,21 @@ a {
     color: lightseagreen;
 }
 
+.btn-secondary {
+    color: white;
+    background-color: lightseagreen;
+    border-color: lightseagreen;
+}
 .btn-primary {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    color: white;
+    background-color: lightseagreen;
+    border-color: lightseagreen;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    color: white;
+    background-color: lightseagreen;
+    border-color: lightseagreen;
 }
 
 /* Sticky footer styles

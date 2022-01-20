@@ -22,16 +22,18 @@
 <h2>@dateCommunication</h2>
 
 <form asp-action="UserBudget">
+    <div class="row">
     <div class="col">
         <label class="col-form-label">Month and year: </label>
         <input type="month" id="date" name="date" class="form-control" />
     </div>
-    <div class="form-group">
+    <div class="col">
         <input type="submit" value="Select" class="btn btn-primary" />
+    </div>
     </div>
 </form>
 
-<table width="50%">
+<table width="80%">
     <thead>
     <tr>
         <th>

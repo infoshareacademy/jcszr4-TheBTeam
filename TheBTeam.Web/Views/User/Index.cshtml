@@ -64,12 +64,12 @@
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> <br />
-                                <a asp-action="Details" asp-route-id="@item.Id">Details</a> <br />
-                                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> <br />
-                                <a asp-controller="Transaction" asp-action="AddTransaction" asp-route-id="@item.Id">Add Transaction</a> <br />
-                                <a asp-action="UserTransactions" asp-route-id="@item.Id">User's Transaction</a><br />
-                                <a asp-controller="CategoryBudget" asp-action="UserBudget" asp-route-id="@item.Id">Budget</a><br />
+                                <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id">Edit</a> <br />
+                                <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id">Details</a> <br />
+                                <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.Id">Delete</a> <br />
+                                <a class="dropdown-item" asp-controller="Transaction" asp-action="AddTransaction" asp-route-id="@item.Id">Add Transaction</a> <br />
+                                <a class="dropdown-item" asp-action="UserTransactions" asp-route-id="@item.Id">User's Transaction</a><br />
+                                <a class="dropdown-item" asp-controller="CategoryBudget" asp-action="UserBudget" asp-route-id="@item.Id">Budget</a><br />
                             </div>
                         </div>
                     </td>
