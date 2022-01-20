@@ -17,7 +17,7 @@
 <form asp-action="Index">
     <div class="row">
         <div class="col">
-            <label class="col-form-labelform-label">Type:</label>
+            <label class="col-form-label">Type:</label>
             <select name="type" id="transactionTypeSelect" asp-items="Html.GetEnumSelectList<TypeOfTransaction>()" class="form-control">
                 <option selected="selected" value="wqeqw">Please select Type</option>
             </select>
@@ -41,37 +41,37 @@
         </div>
     </div>
 
-    <label class="control-label">Description</label>
-    <input name="description" id="descrition" type="text" class="form-control" />
+    <label class="col-form-label">Description</label>
+    <input style="margin-bottom:18px;" name="description" id="descrition" type="text" class="form-control" />
 
     <div class="form-group">
         <input type="submit" value="Search transaction" class="btn btn-primary" />
     </div>
 </form>
 
-<table class="table">
+<table class="table table-sm">
     <thead>
         <tr>
             <th>
                 <label asp-for="First().UserDto.Email"></label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.WhenMade)
+                <label>@Html.DisplayNameFor(model => model.WhenMade)</label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Currency)
+                <label>@Html.DisplayNameFor(model => model.Currency)</label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Type)
+                <label>@Html.DisplayNameFor(model => model.Type)</label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Category)
+                <label>@Html.DisplayNameFor(model => model.Category)</label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Amount)
+                <label>@Html.DisplayNameFor(model => model.Amount)</label>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BalanceAfterTransaction)
+                <label>@Html.DisplayNameFor(model => model.BalanceAfterTransaction)</label>
             </th>
             <th>
                 <label asp-for="First().Description"></label>
