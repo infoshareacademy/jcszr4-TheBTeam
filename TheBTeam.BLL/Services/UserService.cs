@@ -38,8 +38,12 @@ namespace TheBTeam.BLL.Services
         public void Delete(int id)
         {
             var user = _plannerContext.Users.Single(u => u.Id == id);
+            var transactions = _plannerContext.Transactions.Where(x => x.UserId == id);
+            var budgets = _plannerContext.CategoryBudgets.Where(x => x.UserId == id);
 
             _plannerContext.Remove(user);
+            _plannerContext.Remove(transactions);
+            _plannerContext.Remove(budgets);
             _plannerContext.SaveChanges();
         }
         

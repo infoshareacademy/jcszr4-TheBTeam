@@ -126,7 +126,7 @@ namespace TheBTeam.Web.Controllers
 
             var model = activeUsersId
                 .Select(userId => new IndexBudget {User = activeUsers.First(x => x.Id == userId), CategoryBudget = activeBudgets
-                    .Where(x => x.UserId == userId)}).ToList();
+                    .Where(x => x.UserId == userId), Transactions = _planerContext.Transactions.Where(x=>x.UserId==userId).Select(TransactionDto.FromDal).ToList()}).ToList();
 
             return View(model);
         }
