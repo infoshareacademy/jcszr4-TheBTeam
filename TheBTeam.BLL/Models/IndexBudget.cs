@@ -7,5 +7,6 @@ namespace TheBTeam.BLL.Models
     {
         public UserDto User { get; set; }
         public IEnumerable<CategoryBudgetDto> CategoryBudget { get; set; }
+        public IEnumerable<TransactionDto> Transactions { get; set; }
     }
 }
