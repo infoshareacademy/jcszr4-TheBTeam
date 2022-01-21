@@ -79,7 +79,7 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
-    background: #f5f7f8
+    background: white;
 }
 
 .footer {

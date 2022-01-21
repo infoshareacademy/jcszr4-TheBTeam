@@ -33,68 +33,75 @@
     </div>
 </form>
 
-<table width="80%">
+<table style="margin-top:2rem;" width="60%">
+    <col style="width:30%">
+    <col style="width:30%">
+    <col style="width:30%">
     <thead>
-    <tr>
-        <th>
-            <b>Real Income</b>
-        </th>
-        <th>
-            <b>Real Outcome</b>
-        </th>
-        <th>
-            Money left
-        </th>
-    </tr>
+        <tr>
+            <th>
+                <b>Real Income</b>
+            </th>
+            <th>
+                <b>Real Outcome</b>
+            </th>
+            <th>
+                Money left
+            </th>
+        </tr>
     </thead>
     <tbody>
-    <tr>
-        <td>
-            @totalIncome.ToString("C")
-        </td>
-        <td>
-            @totalOutcome.ToString("C")
-        </td>
-        <td>
-            @{ var dif = totalIncome - totalOutcome;}
-            @dif.ToString("C")
-        </td>
-    </tr>
+        <tr>
+            <td>
+                @totalIncome.ToString("C")
+            </td>
+            <td>
+                @totalOutcome.ToString("C")
+            </td>
+            <td>
+                @{ var dif = totalIncome - totalOutcome;}
+                @dif.ToString("C")
+            </td>
+        </tr>
     </tbody>
 </table>
 
-<table width="80%">
-<thead>
-<tr>
-    <th>
-        <b>Planed Income</b>
-    </th>
-    <th>
-        <b>Planed Outcome</b>
-    </th>
-    <th>
-        Budget left
-    </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-    <td>
-        @planedIncome.ToString("C")
-    </td>
-    <td>
-        @planedOutcome.ToString("C")
-    </td>
-    <td>
-        @{ var pDif = planedIncome - planedOutcome;}
-        @pDif.ToString("C")
-    </td>
-</tr>
-</tbody>
-</table>
+<table style="margin-bottom:1rem;"width="60%">
+        <col style="width:30%">
+        <col style="width:30%">
+        <col style="width:30%">
+        <thead>
+            <tr>
+                <th>
+                    <b>Planed Income</b>
+                </th>
+                <th>
+                    <b>Planed Outcome</b>
+                </th>
+                <th>
+                    Budget left
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @planedIncome.ToString("C")
+                </td>
+                <td>
+                    @planedOutcome.ToString("C")
+                </td>
+                <td>
+                    @{ var pDif = planedIncome - planedOutcome;}
+                    @pDif.ToString("C")
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-<form asp-controller="CategoryBudget" asp-action="UpdateBudget" asp-route-id="@Model.UserId" method="post">
-    <table class="table">
+    @*<form asp-controller="CategoryBudget" asp-action="UpdateBudget" asp-route-id="@Model.UserId" method="post">*@
+<form class="container shadow p-3 mb-5 bg-white rounded" asp-controller="CategoryBudget" asp-action="UpdateBudget" asp-route-id="@Model.UserId" method="post">
+    <table class="table table-sm">
         <thead>
             <tr>
                 <th>
