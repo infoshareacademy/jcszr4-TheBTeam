@@ -1,4 +1,4 @@
-﻿+@using TheBTeam.BLL
+﻿@using TheBTeam.BLL
 @using TheBTeam.BLL.DAL
 @using TheBTeam.BLL.Models
 @using System.Security.Cryptography.X509Certificates
@@ -28,7 +28,7 @@
         <input type="month" id="date" name="date" class="form-control" />
     </div>
     <div class="col">
-        <input type="submit" value="Select" class="btn btn-primary" />
+        <input style="position: absolute; bottom: 0;" type="submit" value="Select" class="btn btn-primary" />
     </div>
     </div>
 </form>
@@ -88,9 +88,6 @@
     <td>
         @{ var pDif = planedIncome - planedOutcome;}
         @pDif.ToString("C")
-    </td>
-    <td>
-        Budget left should be greater than 0
     </td>
 </tr>
 </tbody>
