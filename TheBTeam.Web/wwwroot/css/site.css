@@ -37,7 +37,28 @@ a {
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     color: white;
     background-color: lightseagreen;
-    border-color: lightseagreen;
+    border-color: #2cd9d0;
+}
+.btn-nav {
+    color: black;
+    background-color: white;
+    border-color: black;
+}
+
+.btn-nav:hover {
+    color: white;
+    background-color: lightseagreen;
+    border-color: #2cd9d0;
+}
+.btn-primary:hover {
+    color: white;
+    background-color: lightseagreen;
+    border-color: #2cd9d0;
+}
+.btn-secondary:hover {
+    color: white;
+    background-color: lightseagreen;
+    border-color: #2cd9d0;
 }
 
 /* Sticky footer styles
