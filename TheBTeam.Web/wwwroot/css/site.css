@@ -10,12 +10,17 @@ th {
     box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
 }
 
-
+tr.spaceUnder > td {
+    padding-bottom: 1em;
+}
 
 a.navbar-brand {
     white-space: normal;
     text-align: center;
     word-break: break-all;
+}
+td {
+    vertical-align: middle;
 }
 
 /* Provide sufficient contrast against white background */
@@ -23,16 +28,42 @@ a {
     color: lightseagreen;
 }
 
+.btn-secondary {
+    color: white;
+    background-color: lightseagreen;
+    border-color: lightseagreen;
+}
 .btn-primary {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    color: white;
+    background-color: lightseagreen;
+    border-color: lightseagreen;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    color: white;
+    background-color: lightseagreen;
+    border-color: #2cd9d0;
+}
+.btn-nav {
+    color: black;
+    background-color: white;
+    border-color: white;
+}
+
+    .btn-nav:hover {
+        color: white;
+        background-color: #2cd9d0;
+        border-color: #2cd9d0;
+    }
+.btn-primary:hover {
+    color: white;
+    background-color: #2cd9d0;
+    border-color: #2cd9d0;
+}
+.btn-secondary:hover {
+    color: white;
+    background-color: #2cd9d0;
+    border-color: #2cd9d0;
 }
 
 /* Sticky footer styles
@@ -74,7 +105,7 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
-    background: #f5f7f8
+    background: white;
 }
 
 .footer {
@@ -87,4 +118,7 @@ body {
 
 table.table tbody:nth-child(2) {
     border-top: 2px solid silver;
+}
+.table td,.table th{
+    vertical-align: middle;
 }

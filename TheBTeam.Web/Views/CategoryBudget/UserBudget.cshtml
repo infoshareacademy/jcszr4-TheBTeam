@@ -1,4 +1,4 @@
-﻿+@using TheBTeam.BLL
+@using TheBTeam.BLL
 @using TheBTeam.BLL.DAL
 @using TheBTeam.BLL.Models
 @using System.Security.Cryptography.X509Certificates
@@ -22,6 +22,7 @@
 <h1>@Model.UserFullName's budget </h1>
 <h2>@dateCommunication</h2>
 
+
 @if (totalOutcome > 0)
 {
     <div class="container " style="position: relative; width: 50%">
@@ -30,82 +31,92 @@
     </div>
 }
 
-<form asp-action="UserBudget">
-    <div class="col">
-        <label class="col-form-label">Month and year: </label>
-        <input type="month" id="date" name="date" class="form-control" />
+<div class="d-flex flex-column container shadow-sm p-3 mb-5 bg-white rounded">
+    <div>
+        <form asp-action="UserBudget">
+            <div class="row">
+                <div class="col">
+            <label class="col-form-label">Month and year: </label>
+            <input type="month" id="date" name="date" class="form-control" />
+        </div>
+                <div class="col">
+                    <input style="position: absolute; bottom: 0;" type="submit" value="Select" class="btn btn-secondary" />
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <input type="submit" value="Select" class="btn btn-primary" />
-    </div>
-</form>
 
-<table width="50%">
-    <thead>
-        <tr>
-            <th>
-                <b>Real Income</b>
-            </th>
-            <th>
-                <b>Real Outcome</b>
-            </th>
-            <th>
-                Money left
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                @totalIncome.ToString("C")
-            </td>
-            <td>
-                @totalOutcome.ToString("C")
-            </td>
-            <td>
-                @{ var dif = totalIncome - totalOutcome;}
-                @dif.ToString("C")
-            </td>
-        </tr>
-    </tbody>
-</table>
-
-<table width="80%">
-    <thead>
-        <tr>
-            <th>
-                <b>Planed Income</b>
-            </th>
-            <th>
-                <b>Planed Outcome</b>
-            </th>
-            <th>
-                Budget left
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                @planedIncome.ToString("C")
-            </td>
-            <td>
-                @planedOutcome.ToString("C")
-            </td>
-            <td>
-                @{ var pDif = planedIncome - planedOutcome;}
-                @pDif.ToString("C")
-            </td>
-            <td>
-                Budget left should be greater than 0
-            </td>
-        </tr>
-    </tbody>
-</table>
-
-<form asp-controller="CategoryBudget" asp-action="UpdateBudget" asp-route-id="@Model.UserId" method="post">
-    <table class="table">
+    <table style="margin-top:2rem;" width="60%">
+        <col style="width:30%">
+        <col style="width:30%">
+        <col style="width:30%">
         <thead>
+            <tr>
+                <th>
+                    <b>Real Income</b>
+                </th>
+                <th>
+                    <b>Real Outcome</b>
+                </th>
+                <th>
+                    Money left
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @totalIncome.ToString("C")
+                </td>
+                <td>
+                    @totalOutcome.ToString("C")
+                </td>
+                <td>
+                    @{ var dif = totalIncome - totalOutcome;}
+                    @dif.ToString("C")
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table style="margin-bottom:1rem;" width="60%">
+        <col style="width:30%">
+        <col style="width:30%">
+        <col style="width:30%">
+        <thead>
+            <tr>
+                <th>
+                    <b>Planed Income</b>
+                </th>
+                <th>
+                    <b>Planed Outcome</b>
+                </th>
+                <th>
+                    Budget left
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @planedIncome.ToString("C")
+                </td>
+                <td>
+                    @planedOutcome.ToString("C")
+                </td>
+                <td>
+                    @{ var pDif = planedIncome - planedOutcome;}
+                    @pDif.ToString("C")
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+@*<form asp-controller="CategoryBudget" asp-action="UpdateBudget" asp-route-id="@Model.UserId" method="post">*@
+<form class="d-flex justify-content-center shadow p-3 mb-5 bg-white rounded" asp-controller="CategoryBudget" asp-action="UpdateBudget" asp-route-id="@Model.UserId" method="post">
+    <table class="table table-sm table-hover " >
+        <thead class="thead-dark" style="padding-bottom:20px;">
             <tr>
                 <th>
                     <b>Category</b>
@@ -121,6 +132,14 @@
                 </th>
                 <th>
                     spent/left [%]
+                </th>
+
+        </thead>
+        <thead>
+            <tr class="spaceUnder">
+                <th>
+                    <b>Income</b>
+
                 </th>
 
         </thead>
@@ -156,7 +175,25 @@
                 </tr>
             }
         </tbody>
+        <thead>
+            <tr class="spaceUnder">
+                <th>
+                    <b>Outcome</b>
+                </th>
+                <th>
+                    <b></b>
+                </th>
+                <th>
+                    <b></b>
+                </th>
+                <th>
+                    <b></b>
+                </th>
+                <th>
 
+                </th>
+
+        </thead>
         <tbody>
             @foreach (var item in possibleOutcomeCategories)
             {
@@ -211,12 +248,13 @@
             }
         </tbody>
     </table>
-
-    <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-primary" /> |
-        <a asp-controller="User" , asp-action="Index">Back to users List</a>
-    </div>
 </form>
+
+
+<div class="form-group">
+    <input type="submit" value="Save" class="btn btn-primary" /> |
+    <a asp-controller="User" , asp-action="Index">Back to users List</a>
+</div>
 
 <script>
     var models = @Html.Raw(Json.Serialize(ViewBag.Ex));

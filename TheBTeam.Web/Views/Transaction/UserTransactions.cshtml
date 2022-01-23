@@ -48,89 +48,90 @@
     </div>
 
     <label class="control-label">Description</label>
-    <input name="description" id="descrition" type="text" class="form-control" />
+    <input style="margin-bottom:18px;" name="description" id="descrition" type="text" class="form-control" />
 
     <div class="form-group">
-        <input type="submit" value="Search transaction" class="btn btn-primary" />
+        <input type="submit" value="Search transaction" class="btn btn-secondary" />
     </div>
 </form>
-
-<table class="table">
-    <thead>
-        <tr>
-
-            <th>
-                <label asp-for="@Model.Transactions.First().Type"></label>
-            </th>
-            <th>
-                <label asp-for="@Model.Transactions.First().Category"></label>
-            </th>
-            <th>
-                <label asp-for="@Model.Transactions.First().WhenMade"></label>
-            </th>
-            <th>
-                <label asp-for="@Model.Transactions.First().Amount"></label>
-            </th>
-            <th>
-                <label asp-for="@Model.Transactions.First().Currency"></label>
-            </th>
-            <th>
-                <label asp-for="@Model.Transactions.First().BalanceAfterTransaction"></label>
-            </th>
-            <th>
-                <label asp-for="@Model.Transactions.First().Description"></label>
-            </th>
-            <th>
-                <label for="Actions">Actions</label>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Transactions)
-        {
+<div class="container container shadow p-3 mb-5 bg-white rounded">
+    <table class="table">
+        <thead>
             <tr>
 
-                <td>
-                    @item.Type
-                </td>
-                <td>
-                    @item.Category
-                </td>
-                <td>
-                    @item.WhenMade.ToString("d")
-                </td>
-                <td>
-                    @item.Amount.ToString("C")
-                </td>
-                <td>
-                    @item.Currency
-                </td>
-                <td>
-                    @item.BalanceAfterTransaction.ToString("C")
-                </td>
-                <td>
-                    @item.Description
-                </td>
-                <td>
-                    <div class="dropdown">
-                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            More
-                        </a>
-
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> 
-                            <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                        </div>
-                    </div>
-
-                </td>
+                <th>
+                    <label asp-for="@Model.Transactions.First().Type"></label>
+                </th>
+                <th>
+                    <label asp-for="@Model.Transactions.First().Category"></label>
+                </th>
+                <th>
+                    <label asp-for="@Model.Transactions.First().WhenMade"></label>
+                </th>
+                <th>
+                    <label asp-for="@Model.Transactions.First().Amount"></label>
+                </th>
+                <th>
+                    <label asp-for="@Model.Transactions.First().Currency"></label>
+                </th>
+                <th>
+                    <label asp-for="@Model.Transactions.First().BalanceAfterTransaction"></label>
+                </th>
+                <th>
+                    <label asp-for="@Model.Transactions.First().Description"></label>
+                </th>
+                <th>
+                    <label for="Actions">Actions</label>
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Transactions)
+            {
+                <tr>
 
-<script>
+                    <td>
+                        @item.Type
+                    </td>
+                    <td>
+                        @item.Category
+                    </td>
+                    <td>
+                        @item.WhenMade.ToString("d")
+                    </td>
+                    <td>
+                        @item.Amount.ToString("C")
+                    </td>
+                    <td>
+                        @item.Currency
+                    </td>
+                    <td>
+                        @item.BalanceAfterTransaction.ToString("C")
+                    </td>
+                    <td>
+                        @item.Description
+                    </td>
+                    <td>
+                        <div class="dropdown">
+                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                More
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                            </div>
+                        </div>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    </div>
+
+    <script>
      $(document).ready(function () {
          var outcomeOptions = @Html.Raw(Json.Serialize(outcomeList));
          var incomeOptions = @Html.Raw(Json.Serialize(incomeList));
@@ -161,4 +162,4 @@
              });
          }
      });
-</script>
+    </script>
