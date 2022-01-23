@@ -8,44 +8,44 @@ namespace TheBTeam.BLL
         All = 0,
 
         [Display(Name = "All Incomes")]
-        AllIncome,
+        Income,
         [Display(Name = "Salary")]
-        incomeSalary,
+        Salary,
         [Display(Name = "Prize")]
-        incomePrize,
+        Prize,
         [Display(Name = "Extra money")]
-        incomeExtraMoney,
+        ExtraMoney,
 
         [Display(Name = "All Outcomes")]
-        allOutcome=100,
+        Outcome=100,
         [Display(Name = "Home")]
         outcomeHome,
         [Display(Name = "Car")]
-        outcomeCar,
+        Car,
         [Display(Name = "School")]
-        outcomeSchool,
+        School,
         [Display(Name = "Kids")]
-        outcomeKids,
+        Kids,
         [Display(Name = "Commute")]
-        outcomeCommute,
+        Commute,
         [Display(Name = "Food")]
-        outcomeFood,
+        Food,
         [Display(Name = "Eating out")]
-        outcomeEatingOut,
+        EatingOut,
         [Display(Name = "Entertainment")]
-        outcomeEntertainment,
+        Entertainment,
         [Display(Name = "Medicine")]
-        outcomeMedicine,
+        Medicine,
         [Display(Name = "Clothing")]
-        outcomeClothing,
+        Clothing,
         [Display(Name = "Special")]
-        outcomeSpecial,
+        Special,
         [Display(Name = "Other")]
-        outcomeOther,
+        Other,
         [Display(Name = "Credit")]
-        outcomeCredit,
+        Credit,
         [Display(Name = "Living charges")]
-        outcomeLivingCharges
+        LivingCharges
         //TODO make to Categories for Income i Outcome separately
     }
 }
