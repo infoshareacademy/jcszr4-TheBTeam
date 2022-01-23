@@ -26,7 +26,7 @@
                 <label>Total outcome</label>
             </th>
             <th>
-                <label>Budget left [%]</label>
+                <label>Budget</label>
             </th>
         </tr>
     </thead>
@@ -56,7 +56,7 @@
                     var left=plannedOutcome-currentOutcome;
                     string leftText;
                     if (left > 0)
-                        leftText = left.ToString("c");
+                        leftText = $"{left.ToString("c")} left";
                     else
                         leftText = $"{Math.Abs(left):c} over budget ";
                 }
