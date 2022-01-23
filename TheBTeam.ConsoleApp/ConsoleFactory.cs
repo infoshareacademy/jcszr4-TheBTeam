@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using TheBTeam.BLL;
-using TheBTeam.BLL.Model;
+using TheBTeam.BLL.Models;
 using TheBTeam.BLL.Services;
 using TheBTeam.BLL.Validators;
 
@@ -103,7 +103,7 @@ namespace TheBTeam.ConsoleApp
             Console.Clear();
             Console.WriteLine($"                       {name}                        ");
             Console.WriteLine("=================================================================");
-            Console.WriteLine("Type following information, or type 'Exit' to abort creating new user");
+            Console.WriteLine("Type following information, or type 'Exit' to abort.");
         }
         private static string GetStringInput(string name, int minLength)
         {
@@ -425,120 +425,6 @@ namespace TheBTeam.ConsoleApp
                     return (CategoryOfTransaction)selection - 1;
 
                 Console.WriteLine("Wrong selection, try Again!");
-            }
-        }
-        public static void EditUser(User user)
-        {
-            var tempuser = new User(user.FirstName, user.LastName, user.Gender, user.Age, user.Email, user.Phone, user.Address, user.Company, user.Currency, user.Balance);
-            string options = "1)Edit surname\n2)Edit age\n3)Edit Company\n4)Edit gender\n5)Edit phone\n6)Edit balance\n7)Edit currency\n8)Finish";
-            bool exit = false;
-            while (exit == false)
-            {
-                Console.WriteLine(options, "\n");
-                string choice = Console.ReadLine();
-                if (choice == "1")
-                {
-                    tempuser.LastName = GetStringInput("Last Name", MinNameLength);
-                }
-                else if (choice == "2")
-                {
-                    tempuser.Age = GetIntInput("Age", MinAge, MaxAge);
-                }
-                else if (choice == "3")
-                {
-                    tempuser.Company = GetCompany();
-                }
-                else if (choice == "4")
-                {
-                    tempuser.Gender = GetGender();
-                }
-                else if (choice == "5")
-                {
-                    tempuser.Phone = GetPhoneNumber();
-                }
-                else if (choice == "6")
-                {
-                    tempuser.Balance = GetDecimalInput("Current balance");
-                }
-                else if (choice == "7")
-                {
-                    tempuser.Currency = GetCurrency();
-                }
-                else if (choice == "8")
-                {
-                    Console.WriteLine(" S to save, X to cancel\n");
-                    bool choiceSubmitted = false;
-                    while (choiceSubmitted == false)
-                    {
-                        string key = Console.ReadKey().Key.ToString();
-                        if (key.ToUpper() == "S")
-                        {
-                            user.LastName = tempuser.LastName;
-                            user.Age = tempuser.Age;
-                            user.Company = tempuser.Company;
-                            user.Gender = tempuser.Gender;
-                            user.Phone = tempuser.Phone;
-                            user.Currency = tempuser.Currency;
-                            user.Balance = tempuser.Balance;
-                            Console.WriteLine("\nSaved");
-                            choiceSubmitted = true;
-                            exit = true;
-                        }
-
-                        else if (key.ToUpper() == "X")
-                        {
-                            Console.WriteLine("\nCancelled");
-                            choiceSubmitted = true;
-                            exit = true;
-
-                        }
-                        else
-                        {
-                            Console.WriteLine("Select X to abort or S to save please\n");
-                        }
-                    }
-                }
-            }
-        }
-        public static void EditTransaction(Transaction transaction)
-        {
-            var tempTransaction = new Transaction(transaction.User, transaction.Type, transaction.Category, transaction.Currency, transaction.Amount);
-            string options = "1)Edit category\n2)Save or cancel changes";
-            bool exit = false;
-            while (exit == false)
-            {
-                Console.WriteLine(options, "\n");
-                string choice = Console.ReadLine();
-                if (choice == "1")
-                {
-                    tempTransaction.Category = GetCategoryOfTransaction();
-                }
-                else if (choice == "2")
-                {
-                    Console.WriteLine("S to save changes or X to cancel\n");
-                    bool choiceSubmitted = false;
-                    while (choiceSubmitted == false)
-                    {
-                        string key = Console.ReadKey().Key.ToString();
-                        if (key.ToUpper() == "S")
-                        {
-                            transaction.Category = tempTransaction.Category;
-                            choiceSubmitted = true;
-                            Console.WriteLine("\n Saved");
-                            exit = true;
-                        }
-                        else if (key.ToUpper() == "X")
-                        {
-                            choiceSubmitted = true;
-                            Console.WriteLine("\nCanceled");
-                            exit = true;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Select S to save changes or X to cancel\n");
-                        }
-                    }
-                }
             }
         }
     }

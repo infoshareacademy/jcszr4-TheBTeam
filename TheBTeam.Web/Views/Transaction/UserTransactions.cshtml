@@ -1,0 +1,165 @@
+﻿@using System.Linq
+@using TheBTeam.BLL
+@model TheBTeam.BLL.Models.UserTransactionsDto
+
+@{
+    ViewData["Title"] = "User's Transactions";
+}
+
+@{
+    var incomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) > 0 && int.Parse(l.Value) < 100).ToList();
+    var outcomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) >= 100).ToList();
+    var allList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) == 0);
+}
+
+<h1>@Model.FullName's transactions list</h1>
+
+<p>
+    <a asp-action="AddTransaction" asp-route-id="@Model.UserId">Add New</a> |
+    <a asp-controller="CategoryBudget" asp-action="UserBudget" asp-route-id="@Model.UserId">Budget</a> | 
+    <a asp-controller="User" , asp-action="Index">Back to users List</a>
+</p>
+
+<form asp-action="UserTransactions">
+    <div class="row">
+        <div class="col">
+            <label class="col-form-label">Type:</label>
+            <select name="type" id="transactionTypeSelect" asp-items="Html.GetEnumSelectList<TypeOfTransaction>()" class="form-control">
+                <option selected="selected" value="wqeqw">Please select Type</option>
+            </select>
+        </div>
+        <div class="col">
+            <label class="col-form-label">Category:</label>
+            <select name="category" id="categorySelect" asp-items="new List<SelectListItem>()" class="form-control">
+                <option selected="selected" value="">Please select category</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label class="col-form-label">Date form:</label>
+            <input type="date" id="dateFrom" name="dateFrom" class="form-control" />
+        </div>
+
+        <div class="col">
+            <label class="col-form-label">Date to:</label>
+            <input type="date" id="dateTo" name="dateTo" class="form-control" />
+        </div>
+    </div>
+
+    <label class="control-label">Description</label>
+    <input style="margin-bottom:18px;" name="description" id="descrition" type="text" class="form-control" />
+
+    <div class="form-group">
+        <input type="submit" value="Search transaction" class="btn btn-secondary" />
+    </div>
+</form>
+<div class="container container shadow p-3 mb-5 bg-white rounded">
+    <table class="table">
+        <thead>
+            <tr>
+
+                <th>
+                    <label asp-for="@Model.Transactions.First().Type"></label>
+                </th>
+                <th>
+                    <label asp-for="@Model.Transactions.First().Category"></label>
+                </th>
+                <th>
+                    <label asp-for="@Model.Transactions.First().WhenMade"></label>
+                </th>
+                <th>
+                    <label asp-for="@Model.Transactions.First().Amount"></label>
+                </th>
+                <th>
+                    <label asp-for="@Model.Transactions.First().Currency"></label>
+                </th>
+                <th>
+                    <label asp-for="@Model.Transactions.First().BalanceAfterTransaction"></label>
+                </th>
+                <th>
+                    <label asp-for="@Model.Transactions.First().Description"></label>
+                </th>
+                <th>
+                    <label for="Actions">Actions</label>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Transactions)
+            {
+                <tr>
+
+                    <td>
+                        @item.Type
+                    </td>
+                    <td>
+                        @item.Category
+                    </td>
+                    <td>
+                        @item.WhenMade.ToString("d")
+                    </td>
+                    <td>
+                        @item.Amount.ToString("C")
+                    </td>
+                    <td>
+                        @item.Currency
+                    </td>
+                    <td>
+                        @item.BalanceAfterTransaction.ToString("C")
+                    </td>
+                    <td>
+                        @item.Description
+                    </td>
+                    <td>
+                        <div class="dropdown">
+                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                More
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                            </div>
+                        </div>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    </div>
+
+    <script>
+     $(document).ready(function () {
+         var outcomeOptions = @Html.Raw(Json.Serialize(outcomeList));
+         var incomeOptions = @Html.Raw(Json.Serialize(incomeList));
+         var allList= @Html.Raw(Json.Serialize(allList));
+         var categorySelect = $('#categorySelect');
+         $('#transactionTypeSelect').change(function () {
+             categorySelect.empty();
+             var selected = $(this).val();
+             if (selected === '0') {
+                 addOptionsToSelect(allList);
+             }
+             if (selected === '1') {
+                 addOptionsToSelect(incomeOptions);
+
+             }
+             if (selected === '2') {
+                 addOptionsToSelect(outcomeOptions);
+             }
+         });
+
+         function addOptionsToSelect(options) {
+             options.forEach(function (i, item) {
+                 categorySelect.append($('<option>',
+                     {
+                         value: i.value,
+                         text: i.text
+                     }));
+             });
+         }
+     });
+    </script>

@@ -1,0 +1,68 @@
+﻿@model IEnumerable<TheBTeam.BLL.Models.IndexBudget>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Users with planned budget</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <label asp-for="First().User.FirstName"></label>
+            </th>
+            <th>
+                <label asp-for="First().User.LastName"></label>
+            </th>
+            <th>
+                <label asp-for="First().User.Email"></label>
+            </th>
+            <th>
+                <label>Planned outcome</label>
+            </th>
+            <th>
+                <label>Total outcome</label>
+            </th>
+            <th>
+                <label>Budget left [%]</label>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @item.User.FirstName
+            </td>
+            <td>
+                @item.User.LastName
+            </td>
+            <td>
+                <a asp-action="UserBudget" asp-route-id="@item.User.Id">@item.User.Email</a>
+            </td>
+            <td>
+                @{ var plannedOutcome = item.CategoryBudget.Where(x => (int)x.Category > 100).Select(x => x.PlanedBudget).Sum();}
+                @plannedOutcome.ToString("c")
+            </td>
+            <td>
+                @{ var currentOutcome = item.Transactions.Where(x => (int)x.Category > 100).Select(x => x.Amount).Sum();}
+                @currentOutcome.ToString("c")
+            </td>
+            <td>
+                @{
+                    var left=plannedOutcome-currentOutcome;
+                    string leftText;
+                    if (left > 0)
+                        leftText = left.ToString("c");
+                    else
+                        leftText = $"{Math.Abs(left):c} over budget ";
+                }
+                @leftText
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

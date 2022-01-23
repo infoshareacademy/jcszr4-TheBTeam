@@ -1,0 +1,124 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+
+
+th {
+    background: white;
+    position: sticky;
+    top: 0; /* Don't forget this, required for the stickiness */
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+}
+
+tr.spaceUnder > td {
+    padding-bottom: 1em;
+}
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+td {
+    vertical-align: middle;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+    color: lightseagreen;
+}
+
+.btn-secondary {
+    color: white;
+    background-color: lightseagreen;
+    border-color: lightseagreen;
+}
+.btn-primary {
+    color: white;
+    background-color: lightseagreen;
+    border-color: lightseagreen;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: white;
+    background-color: lightseagreen;
+    border-color: #2cd9d0;
+}
+.btn-nav {
+    color: black;
+    background-color: white;
+    border-color: white;
+}
+
+    .btn-nav:hover {
+        color: white;
+        background-color: #2cd9d0;
+        border-color: #2cd9d0;
+    }
+.btn-primary:hover {
+    color: white;
+    background-color: #2cd9d0;
+    border-color: #2cd9d0;
+}
+.btn-secondary:hover {
+    color: white;
+    background-color: #2cd9d0;
+    border-color: #2cd9d0;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    background: white;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
+}
+
+table.table tbody:nth-child(2) {
+    border-top: 2px solid silver;
+}
+.table td,.table th{
+    vertical-align: middle;
+}

@@ -1,0 +1,23 @@
+﻿@using System.Globalization
+
+@{
+    ViewData["Title"] = "EmptyList";
+}
+
+<h1>@ViewBag.UserFullName's budget </h1>
+<h2>There is no budget for @CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(ViewBag.Date.Month) of @ViewBag.Date.Year</h2>
+
+<h3><a asp-action="Create" asp-route-id="@ViewBag.Id" asp-route-date="@ViewBag.Date">Create</a> one or select another date</h3>
+
+
+<form asp-action="UserBudget"asp-route-id="@ViewBag.Id">
+    <div class="col">
+        <label class="col-form-label">Month and year: </label>
+        <input type="month" id="date" name="date" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Select" class="btn btn-secondary" >
+    </div>
+</form>
+

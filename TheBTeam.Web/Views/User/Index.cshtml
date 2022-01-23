@@ -1,0 +1,80 @@
+﻿@model IEnumerable<TheBTeam.BLL.Models.UserDto>
+
+@{
+    ViewData["Title"] = "users list";
+}
+
+<h1>Users list</h1>
+
+<p>
+    <a href="/User/Create">
+        <input type="submit" value="Create new" class="btn btn-secondary"/>
+    </a>
+</p>
+
+
+
+<div class="container container shadow p-3 mb-5 bg-white rounded">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>
+                    <label asp-for="First().FirstName"></label>
+                </th>
+                <th>
+                    <label asp-for="First().LastName"></label>
+                </th>
+                <th>
+                    <label asp-for="First().Gender"></label>
+                </th>
+                <th>
+                    <label asp-for="First().Email"></label>
+                </th>
+                <th>
+                    <label asp-for="First().Balance"></label>
+                </th>
+                <th>
+                   <label> Actions</label>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.FirstName
+                    </td>
+                    <td>
+                        @item.LastName
+                    </td>
+                    <td>
+                        @item.Gender
+                    </td>
+                    <td>
+                        @item.Email
+                    </td>
+                    <td>
+                        @item.Balance.ToString("C")
+                    </td>
+                    <td>
+                        <div class="dropdown">
+                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                More
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id">Edit</a> <br />
+                                <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id">Details</a> <br />
+                                <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.Id">Delete</a> <br />
+                                <a class="dropdown-item" asp-controller="Transaction" asp-action="AddTransaction" asp-route-id="@item.Id">Add Transaction</a> <br />
+                                <a class="dropdown-item" asp-action="UserTransactions" asp-route-id="@item.Id">User's Transaction</a><br />
+                                <a class="dropdown-item" asp-controller="CategoryBudget" asp-action="UserBudget" asp-route-id="@item.Id">Budget</a><br />
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+            </div>
+        </tbody>
+    </table>

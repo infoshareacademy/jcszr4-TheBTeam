@@ -1,24 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheBTeam.BLL.Model;
+﻿using System.Collections.Generic;
+using TheBTeam.BLL.Models;
 using TheBTeam.BLL.Services;
 
-namespace TheBTeam.BLL
+namespace TheBTeam.BLL.Services
 {
-    public class  DataBase
+    public class TmpDatabase //TODO: TmpDatabase
     {
-        public List<User> UsersList { get; }
-
-        public DataBase()
+        public List<UserDto> UsersList { get; set; }
+        public List<TransactionDto> TransactionsList { get; set; } = new();
+        public TmpDatabase()
         {
-            UsersList = LoadDataFromFile.ReadUserFile();
+            UsersList = new List<UserDto>();
+            TransactionsList = new List<TransactionDto>();
+            //UsersList = LoadDataFromFile.ReadUserFile();
         }
-        public void AddNewUser(User user)
+        public void AddNewUser(UserDto userDto)
         {
-            UsersList.Add(user);
+            UsersList.Add(userDto);
         }
 
 
