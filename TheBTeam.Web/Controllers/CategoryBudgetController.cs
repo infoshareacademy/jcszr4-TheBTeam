@@ -8,6 +8,7 @@ using Castle.Core.Internal;
 using Microsoft.EntityFrameworkCore;
 using TheBTeam.BLL;
 using TheBTeam.BLL.DAL;
+using TheBTeam.BLL.DAL.Entities;
 using TheBTeam.BLL.Models;
 
 namespace TheBTeam.Web.Controllers
@@ -43,9 +44,17 @@ namespace TheBTeam.Web.Controllers
             var transactions = _planerContext.Transactions.Where(x => x.User.Id == id).Where(x=>x.WhenMade.Month==model.First().Date.Month && x.WhenMade.Year==model.First().Date.Year).ToList();
             var sums = transactions.GroupBy(x => x.Category)
                 .ToDictionary(x => x.Key, x => x.Select(y => y.Amount).Sum());
-            
+
+            var expenses = new List<Tuple<string, decimal>>();
+
+            foreach (var sum in sums)
+            {
+                if((int)sum.Key>100)
+                    expenses.Add(new Tuple<string, decimal>(sum.Key.ToString(),sum.Value));
+            }
 
             ViewBag.Date = date;
+            ViewBag.Ex = expenses;
 
             return View(new UsersBudgetDto() { UserId = id, UserBudgets = model, CategorySums = sums, UserFullName = userFullName});
         }
@@ -105,6 +114,21 @@ namespace TheBTeam.Web.Controllers
 
 
             return RedirectToAction(nameof(UserBudget), new { id });
+        }
+
+        public ActionResult Index()
+        {
+            var activeBudgets = _planerContext.CategoryBudgets.Where(x => x.PlanedBudget > 0).ToList().Select(CategoryBudgetDto.FromDal);
+            var activeUsersId = activeBudgets.Select(x=>x.UserId).Distinct().ToArray();
+
+            var activeUsers = (from id in activeUsersId select _planerContext.Users
+                .FirstOrDefault(x => x.Id == id) into user where user is not null select UserDto.FromDAL(user));
+
+            var model = activeUsersId
+                .Select(userId => new IndexBudget {User = activeUsers.First(x => x.Id == userId), CategoryBudget = activeBudgets
+                    .Where(x => x.UserId == userId), Transactions = _planerContext.Transactions.Where(x=>x.UserId==userId).Select(TransactionDto.FromDal).ToList()}).ToList();
+
+            return View(model);
         }
 
     }
