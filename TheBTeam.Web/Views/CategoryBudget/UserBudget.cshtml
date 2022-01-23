@@ -36,9 +36,9 @@
         <form asp-action="UserBudget">
             <div class="row">
                 <div class="col">
-            <label class="col-form-label">Month and year: </label>
-            <input type="month" id="date" name="date" class="form-control" />
-        </div>
+                    <label class="col-form-label">Month and year: </label>
+                    <input type="month" id="date" name="date" class="form-control" />
+                </div>
                 <div class="col">
                     <input style="position: absolute; bottom: 0;" type="submit" value="Select" class="btn btn-secondary" />
                 </div>
@@ -114,9 +114,9 @@
 </div>
 
 @*<form asp-controller="CategoryBudget" asp-action="UpdateBudget" asp-route-id="@Model.UserId" method="post">*@
-<form class="d-flex justify-content-center shadow p-3 mb-5 bg-white rounded" asp-controller="CategoryBudget" asp-action="UpdateBudget" asp-route-id="@Model.UserId" method="post">
-    <table class="table table-sm table-hover " >
-        <thead class="thead-dark" style="padding-bottom:20px;">
+<form class=" justify-content-center shadow p-3 mb-5 bg-white rounded" asp-controller="CategoryBudget" asp-action="UpdateBudget" asp-route-id="@Model.UserId" method="post">
+    <table class="table table-sm table-hover ">
+        <thead class="thead-dark" style="padding-bottom: 20px;">
             <tr>
                 <th>
                     <b>Category</b>
@@ -135,7 +135,7 @@
                 </th>
 
         </thead>
-       
+
         <tbody>
             @foreach (var item in possibleIncomeCategories)
             {
@@ -167,7 +167,7 @@
                 </tr>
             }
         </tbody>
-        
+
         <tbody>
             @foreach (var item in possibleOutcomeCategories)
             {
@@ -222,13 +222,13 @@
             }
         </tbody>
     </table>
+
+    <div >
+        <input type="submit" value="Save" class="btn btn-primary" /> |
+        <a asp-controller="User" , asp-action="Index">Back to users List</a>
+    </div>
+
 </form>
-
-
-<div class="form-group">
-    <input type="submit" value="Save" class="btn btn-primary" /> |
-    <a asp-controller="User" , asp-action="Index">Back to users List</a>
-</div>
 
 <script>
     var models = @Html.Raw(Json.Serialize(ViewBag.Ex));
