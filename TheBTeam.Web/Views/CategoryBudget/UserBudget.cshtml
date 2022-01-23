@@ -14,59 +14,62 @@
     var totalIncome = Model.CategorySums.Where(x => (int)x.Key < 100).Select(x => x.Value).Sum();
     var totalOutcome = Model.CategorySums.Where(x => (int)x.Key > 100).Select(x => x.Value).Sum();
     var dateCommunication = $"For {CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Model.UserBudgets.First().Date.Month)} of {Model.UserBudgets.First().Date.Year}";
-    var planedIncome = Model.UserBudgets.Where(x => (int) x.Category > 1 && (int) x.Category < 100).Select(x => x.PlanedBudget).Sum();
-    var planedOutcome = Model.UserBudgets.Where(x => (int) x.Category > 100).Select(x => x.PlanedBudget).Sum();
+    var planedIncome = Model.UserBudgets.Where(x => (int)x.Category > 1 && (int)x.Category < 100).Select(x => x.PlanedBudget).Sum();
+    var planedOutcome = Model.UserBudgets.Where(x => (int)x.Category > 100).Select(x => x.PlanedBudget).Sum();
 }
 
 <h1>@Model.UserFullName's budget </h1>
 <h2>@dateCommunication</h2>
 
-<form asp-action="UserBudget">
-    <div class="row">
-    <div class="col">
-        <label class="col-form-label">Month and year: </label>
-        <input type="month" id="date" name="date" class="form-control" />
+<div class="d-flex flex-column container shadow-sm p-3 mb-5 bg-white rounded">
+    <div>
+        <form asp-action="UserBudget">
+            <div class="row">
+                <div class="col">
+                    <label class="col-form-label">Month and year: </label>
+                    <input type="month" id="date" name="date" class="form-control" />
+                </div>
+                <div class="col">
+                    <input style="position: absolute; bottom: 0;" type="submit" value="Select" class="btn btn-secondary" />
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="col">
-        <input style="position: absolute; bottom: 0;" type="submit" value="Select" class="btn btn-secondary" />
-    </div>
-    </div>
-</form>
 
-<table style="margin-top:2rem;" width="60%">
-    <col style="width:30%">
-    <col style="width:30%">
-    <col style="width:30%">
-    <thead>
-        <tr>
-            <th>
-                <b>Real Income</b>
-            </th>
-            <th>
-                <b>Real Outcome</b>
-            </th>
-            <th>
-                Money left
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-                @totalIncome.ToString("C")
-            </td>
-            <td>
-                @totalOutcome.ToString("C")
-            </td>
-            <td>
-                @{ var dif = totalIncome - totalOutcome;}
-                @dif.ToString("C")
-            </td>
-        </tr>
-    </tbody>
-</table>
+    <table style="margin-top:2rem;" width="60%">
+        <col style="width:30%">
+        <col style="width:30%">
+        <col style="width:30%">
+        <thead>
+            <tr>
+                <th>
+                    <b>Real Income</b>
+                </th>
+                <th>
+                    <b>Real Outcome</b>
+                </th>
+                <th>
+                    Money left
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @totalIncome.ToString("C")
+                </td>
+                <td>
+                    @totalOutcome.ToString("C")
+                </td>
+                <td>
+                    @{ var dif = totalIncome - totalOutcome;}
+                    @dif.ToString("C")
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-<table style="margin-bottom:1rem;"width="60%">
+    <table style="margin-bottom:1rem;" width="60%">
         <col style="width:30%">
         <col style="width:30%">
         <col style="width:30%">
@@ -98,11 +101,12 @@
             </tr>
         </tbody>
     </table>
+</div>
 
-    @*<form asp-controller="CategoryBudget" asp-action="UpdateBudget" asp-route-id="@Model.UserId" method="post">*@
-<form class="container shadow p-3 mb-5 bg-white rounded" asp-controller="CategoryBudget" asp-action="UpdateBudget" asp-route-id="@Model.UserId" method="post">
-    <table class="table table-sm">
-        <thead>
+@*<form asp-controller="CategoryBudget" asp-action="UpdateBudget" asp-route-id="@Model.UserId" method="post">*@
+<form class="d-flex justify-content-center shadow p-3 mb-5 bg-white rounded" asp-controller="CategoryBudget" asp-action="UpdateBudget" asp-route-id="@Model.UserId" method="post">
+    <table class="table table-sm table-hover " >
+        <thead class="thead-dark" style="padding-bottom:20px;">
             <tr>
                 <th>
                     <b>Category</b>
@@ -118,6 +122,14 @@
                 </th>
                 <th>
                     spent/left [%]
+                </th>
+
+        </thead>
+        <thead>
+            <tr class="spaceUnder">
+                <th>
+                    <b>Income</b>
+
                 </th>
 
         </thead>
@@ -153,7 +165,25 @@
                 </tr>
             }
         </tbody>
+        <thead>
+            <tr class="spaceUnder">
+                <th>
+                    <b>Outcome</b>
+                </th>
+                <th>
+                    <b></b>
+                </th>
+                <th>
+                    <b></b>
+                </th>
+                <th>
+                    <b></b>
+                </th>
+                <th>
 
+                </th>
+
+        </thead>
         <tbody>
             @foreach (var item in possibleOutcomeCategories)
             {
@@ -210,11 +240,10 @@
             }
         </tbody>
     </table>
-
-    <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-primary" /> |
-        <a asp-controller="User" , asp-action="Index">Back to users List</a>
-    </div>
 </form>
 
+<div class="form-group">
+    <input type="submit" value="Save" class="btn btn-primary" /> |
+    <a asp-controller="User" , asp-action="Index">Back to users List</a>
+</div>
 

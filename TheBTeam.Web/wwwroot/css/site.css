@@ -10,12 +10,17 @@ th {
     box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
 }
 
-
+tr.spaceUnder > td {
+    padding-bottom: 1em;
+}
 
 a.navbar-brand {
     white-space: normal;
     text-align: center;
     word-break: break-all;
+}
+td {
+    vertical-align: middle;
 }
 
 /* Provide sufficient contrast against white background */
@@ -42,22 +47,22 @@ a {
 .btn-nav {
     color: black;
     background-color: white;
-    border-color: black;
+    border-color: white;
 }
 
-.btn-nav:hover {
-    color: white;
-    background-color: lightseagreen;
-    border-color: #2cd9d0;
-}
+    .btn-nav:hover {
+        color: white;
+        background-color: #2cd9d0;
+        border-color: #2cd9d0;
+    }
 .btn-primary:hover {
     color: white;
-    background-color: lightseagreen;
+    background-color: #2cd9d0;
     border-color: #2cd9d0;
 }
 .btn-secondary:hover {
     color: white;
-    background-color: lightseagreen;
+    background-color: #2cd9d0;
     border-color: #2cd9d0;
 }
 
@@ -113,4 +118,7 @@ body {
 
 table.table tbody:nth-child(2) {
     border-top: 2px solid silver;
+}
+.table td,.table th{
+    vertical-align: middle;
 }
