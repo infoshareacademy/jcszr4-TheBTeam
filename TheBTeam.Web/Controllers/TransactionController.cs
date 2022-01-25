@@ -69,7 +69,7 @@ namespace TheBTeam.Web.Controllers
                     model = model.OrderByDescending(x => x.WhenMade).ToList();
                     break;
                 default:
-                    model.OrderByDescending(x => x.WhenMade).ToList();
+                    model=model.OrderBy(x=>x.UserDto.Email).ThenByDescending(x => x.WhenMade).ToList();
                     break;
             }
 
