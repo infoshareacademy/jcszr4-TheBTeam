@@ -9,7 +9,7 @@ namespace TheBTeam.BLL.Services
 {
     public class LoggerService
     {
-        private string _loggerFile = @"SourceFiles\logs.txt";
+        private string _loggerFile = @"SourceFiles\logs.log";
         private const double _lengthFileToDelete = 100000;
         public void DeleteLogFile()
         {
