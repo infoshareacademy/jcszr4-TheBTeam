@@ -32,22 +32,51 @@ namespace TheBTeam.Web.Controllers
             _transactionService = new TransactionService(plannerContext);
         }
         // GET: TransactionController
-        public ActionResult Index(CategoryOfTransaction category, TypeOfTransaction type, string description, DateTime dateFrom, DateTime dateTo)
+        public ActionResult Index(CategoryOfTransaction category, TypeOfTransaction type, string description, DateTime dateFrom, DateTime dateTo, string sortOrder)
         {
+            if (dateFrom.Year != 1)
+                ViewData["DateFrom"] = dateFrom.ToString("yyyy-MM-dd");
+
+            if (dateTo.Year != 1)
+                ViewData["DateTo"] = dateTo.ToString("yyyy-MM-dd");
+
+            ViewData["Category"] = category;
+            ViewData["Type"] = type;
+            ViewData["Description"] = description;
+
             var model = TransactionService.Get(category, type, _plannerContext);
 
-            if (!model.Any())
-                return RedirectToAction("EmptyList");
+            ViewData["EmailSortParam"] = String.IsNullOrEmpty(sortOrder) ? "email_desc" : "";
+            ViewData["DateSortParam"] = sortOrder == "Date" ? "date_desc" : "Date";
+
+            //if (!model.Any())
+            //    return RedirectToAction("EmptyList");
 
             model = _transactionService.GetByDates(model, dateFrom, dateTo);
 
             if (description is not null)
                 model = model.Where(t => t.Description.ToLower().Contains(description.ToLower())).ToList();
 
-            return View(model.OrderByDescending(x=>x.WhenMade).ToList());
+            switch (sortOrder)
+            {
+                case "email_desc":
+                    model = model.OrderByDescending(x => x.UserDto.Email).ThenByDescending(x => x.WhenMade).ToList();
+                    break;
+                case "Date":
+                    model = model.OrderBy(x => x.WhenMade).ThenByDescending(x => x.UserDto.Email).ToList();
+                    break;
+                case "date_desc":
+                    model = model.OrderByDescending(x => x.WhenMade).ToList();
+                    break;
+                default:
+                    model.OrderByDescending(x => x.WhenMade).ToList();
+                    break;
+            }
+
+            return View(model);
         }
 
-        public ActionResult EmptyList()
+        public ActionResult EmptyList(CategoryOfTransaction category, TypeOfTransaction type, string description, DateTime dateFrom, DateTime dateTo, string sortOrder)
         {
             return View();
         }
@@ -78,7 +107,7 @@ namespace TheBTeam.Web.Controllers
             if (description is not null)
                 transactions = transactions.Where(t => t.Description.ToLower().Contains(description.ToLower())).ToList();
 
-            return View(new UserTransactionsDto(){FullName = fullName,Transactions = transactions.OrderByDescending(x=>x.WhenMade).ToList(), UserId = id});
+            return View(new UserTransactionsDto() { FullName = fullName, Transactions = transactions.OrderByDescending(x => x.WhenMade).ToList(), UserId = id });
         }
 
         // POST: TransactionController/Create

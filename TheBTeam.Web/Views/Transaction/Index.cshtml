@@ -8,7 +8,14 @@
     var incomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) > 0 && int.Parse(l.Value) < 100).ToList();
     var outcomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) >= 100).ToList();
     var allList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) == 0);
+    var categoryList = new List<SelectListItem>();
 
+    if ((int)ViewData["Type"] == 0)
+        categoryList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) == 0).ToList();
+    else if ((int)ViewData["Type"] == 1)
+        categoryList = incomeList;
+    else
+        categoryList = outcomeList;
 }
 
 <h1>List of transactions</h1>
@@ -19,117 +26,118 @@
         <div class="col">
             <label class="col-form-label">Type:</label>
             <select name="type" id="transactionTypeSelect" asp-items="Html.GetEnumSelectList<TypeOfTransaction>()" class="form-control">
-                <option selected="selected" value="wqeqw">Please select Type</option>
+                <option selected="selected">@ViewData["Type"]</option>
             </select>
         </div>
         <div class="col">
             <label class="col-form-label">Category:</label>
-            <select name="category" id="categorySelect" asp-items="new List<SelectListItem>()" class="form-control">
-                <option selected="selected" value="">Please select category</option>
+            <select name="category" id="categorySelect" asp-items="@categoryList" class="form-control">
+                <option selected="selected">@ViewData["Category"]</option>
             </select>
         </div>
     </div>
     <div class="row">
         <div class="col">
             <label class="col-form-label">Date form:</label>
-            <input type="date" id="dateFrom" name="dateFrom" class="form-control" />
+            <input type="date" id="dateFrom" name="dateFrom" class="form-control" value="@ViewData["DateFrom"]" />
         </div>
 
         <div class="col">
             <label class="col-form-label">Date to:</label>
-            <input type="date" id="dateTo" name="dateTo" class="form-control" />
+            <input type="date" id="dateTo" name="dateTo" class="form-control" value="@ViewData["DateTo"]" />
         </div>
     </div>
 
     <label class="col-form-label">Description</label>
-    <input style="margin-bottom:18px;" name="description" id="descrition" type="text" class="form-control" />
+    <input style="margin-bottom:18px;" name="description" id="descrition" type="text" class="form-control" value="@ViewData["Description"]" />
 
     <div class="form-group">
         <input type="submit" value="Search transaction" class="btn btn-secondary" />
     </div>
+
+
+    <div class="container container shadow p-3 mb-5 bg-white rounded">
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["EmailSortParam"]">@Html.DisplayNameFor(model => model.UserDto.Email)</a>
+                    </th>
+                    <th>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParam"]">@Html.DisplayNameFor(model => model.WhenMade)</a>
+                    </th>
+                    <th>
+                        <label>@Html.DisplayNameFor(model => model.Currency)</label>
+                    </th>
+                    <th>
+                        <label>@Html.DisplayNameFor(model => model.Type)</label>
+                    </th>
+                    <th>
+                        <label>@Html.DisplayNameFor(model => model.Category)</label>
+                    </th>
+                    <th>
+                        <label>@Html.DisplayNameFor(model => model.Amount)</label>
+                    </th>
+                    <th>
+                        <label>@Html.DisplayNameFor(model => model.BalanceAfterTransaction)</label>
+                    </th>
+                    <th>
+                        <label asp-for="First().Description"></label>
+                    </th>
+                    <th>
+                        <label>Actions</label>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <a asp-action="UserTransactions" asp-route-id="@item.UserId">@item.UserDto.Email</a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.WhenMade)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Currency)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Type)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Category)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Amount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BalanceAfterTransaction)
+                        </td>
+                        <td>
+                            @item.Description
+                        </td>
+                        <td>
+                            <div class="dropdown">
+                                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    More
+                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id">Edit</a><br />
+                                    <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.Id">Delete</a><br />
+                                    <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id">Details</a><br />
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </form>
 
-<div class="container container shadow p-3 mb-5 bg-white rounded">
-    <table class="table table-sm">
-        <thead>
-            <tr>
-                <th>
-                    <label asp-for="First().UserDto.Email"></label>
-                </th>
-                <th>
-                    <label>@Html.DisplayNameFor(model => model.WhenMade)</label>
-                </th>
-                <th>
-                    <label>@Html.DisplayNameFor(model => model.Currency)</label>
-                </th>
-                <th>
-                    <label>@Html.DisplayNameFor(model => model.Type)</label>
-                </th>
-                <th>
-                    <label>@Html.DisplayNameFor(model => model.Category)</label>
-                </th>
-                <th>
-                    <label>@Html.DisplayNameFor(model => model.Amount)</label>
-                </th>
-                <th>
-                    <label>@Html.DisplayNameFor(model => model.BalanceAfterTransaction)</label>
-                </th>
-                <th>
-                    <label asp-for="First().Description"></label>
-                </th>
-                <th>
-                    <label>Actions</label>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        <a asp-action="UserTransactions" asp-route-id="@item.UserId">@item.UserDto.Email</a>
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.WhenMade)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Currency)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Type)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Category)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Amount)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.BalanceAfterTransaction)
-                    </td>
-                    <td>
-                        @item.Description
-                    </td>
-                    <td>
-                        <div class="dropdown">
-                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                More
-                            </a>
-
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id">Edit</a><br />
-                                <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.Id">Delete</a><br />
-                                <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id">Details</a><br />
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    </div>
-
-    <script>
+<script>
     $(document).ready(function () {
         var outcomeOptions = @Html.Raw(Json.Serialize(outcomeList));
         var incomeOptions = @Html.Raw(Json.Serialize(incomeList));
@@ -160,4 +168,4 @@
             });
         }
     });
-    </script>
+</script>
