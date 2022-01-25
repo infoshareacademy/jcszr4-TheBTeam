@@ -37,11 +37,11 @@ namespace TheBTeam.Web.Controllers
         // GET: UserController/Details/5
         public ActionResult Details(int id)
         {
-            _logger.LogInformation("Getting detail item {Id}", id);
+            _logger.LogInformation("Getting detail user item {Id}", id);
             var findId = _plannerContext.Users.Find(id);
             if (findId == null)
             {
-                _logger.LogWarning("Get({Id}) NOT FOUND", id);
+                _logger.LogWarning("Get({Id}) NOT FOUND USER ", id);
                 return RedirectToAction("EmptyList");
             }
             var model = _userService.GetByIdToDto(id);
@@ -125,6 +125,13 @@ namespace TheBTeam.Web.Controllers
         // GET: UserController/Delete/5
         public ActionResult Delete(int id)
         {
+            _logger.LogInformation("Getting delete user item {Id}", id);
+            var findId = _plannerContext.Users.Find(id);
+            if (findId == null)
+            {
+                _logger.LogWarning("Get({Id}) NOT FOUND USER ", id);
+                return RedirectToAction("EmptyList");
+            }
             var model = _userService.GetByIdToDto(id);
             return View(model);
         }
