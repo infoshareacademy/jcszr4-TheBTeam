@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -9,7 +11,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using TheBTeam.BLL.DAL;
 using TheBTeam.BLL.Models;
 
@@ -27,21 +28,48 @@ namespace TheBTeam.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews();         
+
             var connectionString = Configuration.GetConnectionString("Database");
             services.AddDbContext<PlannerContext>(o => o.UseSqlServer(connectionString));
-            
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(
+            Configuration.GetConnectionString("DefaultConnection")));
+
             //services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             var profilesAssembly = typeof(UserDto).Assembly;
             services.AddAutoMapper(profilesAssembly);
+
+            services.AddDatabaseDeveloperPageExceptionFilter();
+
+            services.AddDefaultIdentity<IdentityUser>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = true;
+                options.Lockout.MaxFailedAccessAttempts = 3;
+                options.Lockout.AllowedForNewUsers = true;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(2);
+            }
+            )
+            .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddRazorPages();
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/account/login";
+                options.LogoutPath = $"/account/logout";
+                options.AccessDeniedPath = $"/account/accessDenied";
+            });
+
         }
 
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext Applicationcontext)
         {
+            Applicationcontext?.Database.Migrate();
+
             using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
             var context = serviceScope.ServiceProvider.GetService<PlannerContext>();
 
@@ -55,6 +83,8 @@ namespace TheBTeam.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseMigrationsEndPoint();
+
             }
             else
             {
@@ -67,6 +97,7 @@ namespace TheBTeam.Web
 
             app.UseRouting();
 
+            app.UseAuthentication();//TODO to musi byc aby dashboard sie pojawil
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

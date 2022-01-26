@@ -6,51 +6,99 @@
     <title>@ViewData["Title"] - Financial Planner</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/lib/Chart-js/chart.js"></script>
     <script src="~/lib/palette/palette.js"></script>
-
-    @await RenderSectionAsync("Scripts", required: false)
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/css/main.css">
 </head>
+
 <body>
-    <header> 
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"> <img src="~/LogoTheBTeam.png" class="d-inline-block align-middle rounded" width="150" alt="Logo"> Financial Planner</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-center">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a style="margin-left:1.35rem; margin-right:1.35rem;" class="btn btn-nav" asp-area="" asp-controller="User" asp-action="Index">Users</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="btn btn-nav" asp-area="" asp-controller="Transaction" asp-action="Index">Transactions</a>
-                        </li>
-                        <li class="nav-item">
-                            <a style="margin-left:1.35rem;" class="btn btn-nav" asp-area="" asp-controller="CategoryBudget" asp-action="Index">Budgets</a>
-                        </li>
-                    </ul>
-                </div>
+    <main role="main">
+        <div class="row">
+            <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 250px;">
+                <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <img src="~/LogoTheBTeam.png" class="d-inline-block align-middle rounded" width="220" />                
+                </a>
+
+
+                  <br />
+                  <i class="bi bi-person me-2 fs-4">@ViewBag.Role</i>
+
+                <hr>
+                <ul class="nav nav-pills flex-column mb-auto">
+                    <li>
+                        <a class="nav-link text-dark border border-primary rounded" asp-area="" asp-controller="Home" asp-action="Index">
+                            <i class="bi bi-house "></i>
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link text-dark border border-success rounded" asp-area="" asp-controller="account" asp-action="Register">
+                            <i class="bi bi-person-circle me-2"></i>
+                            Register
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link text-dark border border-success rounded" asp-area="" asp-controller="account" asp-action="Login">
+                            <i class="bi bi-unlock me-2"></i>
+                            Login
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link text-dark border border-warning rounded" asp-area="" asp-controller="account" asp-action="LogOut">
+                            <i class="bi bi-lock me-2"></i>
+                            Logout
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="nav-link text-dark border border-warning rounded" asp-area="" asp-controller="User" asp-action="Index">
+                            <i class="bi bi-person me-2"></i>
+                            Users
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link text-dark border border-success rounded" asp-area="" asp-controller="Transaction" asp-action="Index">
+                            <i class="bi bi-bag me-2"></i>
+                            Transactions
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link text-dark border border-success rounded" asp-area="" asp-controller="CategoryBudget" asp-action="Index">
+                            <i class="bi bi-shop me-2"></i>
+                            Budgets
+                        </a>
+                    </li>
+                    <li>
+                        @if (@User.Identity.Name == "mm@wp.pl")
+                        {
+                        <br />
+                        <div>
+                            <a class="btn btn-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="bi bi-person-box me-2"></i>
+                                Admin
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" href="#">Add user</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="account" asp-action="Delete">Delete user</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </div>
+                        }
+                    </li>
+                    @*<partial name="_LoginPartial" />*@
+                </ul>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+            <div class="menu-divider"></div>
+
+            <div class="container overflow-auto">
+                @RenderBody()
+            </div>
+        </div>
+    </main>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
