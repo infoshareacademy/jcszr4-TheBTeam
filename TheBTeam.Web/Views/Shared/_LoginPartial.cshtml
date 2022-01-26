@@ -2,44 +2,32 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
-
-    @if (@User.Identity.Name == "mm@wp.pl")
-    {
-
-        <a class="btn btn-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="bi bi-person me-2"></i>
-            Admin
-        </a>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item" href="#">Add user</a>
-            <a class="dropdown-item" asp-area="" asp-controller="account" asp-action="Delete">Delete user</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-
-    }
-
-
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
             <a class="nav-link text-dark" title="Manage">Hello @User.Identity.Name!</a>
         </li>
-
-        <li class="nav-item">
-            <a class="nav-link btn btn-link text-dark" asp-controller="account" asp-action="Logout">Logout</a>
+        <li>
+            <a class="nav-link text-dark border border-warning rounded" asp-area="" asp-controller="account" asp-action="LogOut">
+                <i class="bi bi-person me-2"></i>
+                Logout
+            </a>
         </li>
-
     }
     else
     {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="account" asp-action="Register">Register</a>
+        <li>
+            <a class="nav-link text-dark border border-success rounded" asp-area="" asp-controller="account" asp-action="Register">
+                <i class="bi bi-person-circle me-2"></i>
+                Register
+            </a>
         </li>
-
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-controller="account" asp-action="login">Login</a>
+        <li>
+            <a class="nav-link text-dark border border-success rounded" asp-area="" asp-controller="account" asp-action="Login">
+                <i class="bi bi-person me-2"></i>
+                Login
+            </a>
         </li>
-
     }
 </ul>

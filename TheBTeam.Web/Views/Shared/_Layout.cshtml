@@ -22,35 +22,14 @@
                 <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                     <img src="~/LogoTheBTeam.png" class="d-inline-block align-middle rounded" width="220" />                
                 </a>
-
-
-                  <br />
-                  <i class="bi bi-person me-2 fs-4">@ViewBag.Role</i>
-
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
+                    <partial name="_LoginPartial" />
+                    <br />
                     <li>
                         <a class="nav-link text-dark border border-primary rounded" asp-area="" asp-controller="Home" asp-action="Index">
                             <i class="bi bi-house "></i>
                             Home
-                        </a>
-                    </li>
-                    <li>
-                        <a class="nav-link text-dark border border-success rounded" asp-area="" asp-controller="account" asp-action="Register">
-                            <i class="bi bi-person-circle me-2"></i>
-                            Register
-                        </a>
-                    </li>
-                    <li>
-                        <a class="nav-link text-dark border border-success rounded" asp-area="" asp-controller="account" asp-action="Login">
-                            <i class="bi bi-unlock me-2"></i>
-                            Login
-                        </a>
-                    </li>
-                    <li>
-                        <a class="nav-link text-dark border border-warning rounded" asp-area="" asp-controller="account" asp-action="LogOut">
-                            <i class="bi bi-lock me-2"></i>
-                            Logout
                         </a>
                     </li>
 
@@ -75,21 +54,20 @@
                     <li>
                         @if (@User.Identity.Name == "mm@wp.pl")
                         {
-                        <br />
-                        <div>
-                            <a class="btn btn-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="bi bi-person-box me-2"></i>
-                                Admin
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="#">Add user</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="account" asp-action="Delete">Delete user</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
+                            <br />
+                            <div>
+                                <a class="btn btn-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="bi bi-person-box me-2"></i>
+                                    Admin
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="#">Add user</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="account" asp-action="Delete">Delete user</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
                             </div>
-                        </div>
                         }
                     </li>
-                    @*<partial name="_LoginPartial" />*@
                 </ul>
             </div>
             <div class="menu-divider"></div>
