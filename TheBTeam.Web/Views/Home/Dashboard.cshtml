@@ -19,3 +19,18 @@
     <p>Jesli to widzisz - to znaczy ze jestes poprawnie zalogowany.</p>
 </div>
 
+@*@if (User.Identity.IsAuthenticated && @ViewBag.Test.Contains("Admin"))//onlu test
+{
+    <p>User: @User.Identity.Name;</p>
+
+    <table class="table table-sm">
+        @foreach (var claim in User.Claims)
+        {
+            <tr>
+                <td>@claim.Type</td>
+                <td>@claim.Value</td>
+            </tr>
+        }
+    </table>
+}*@
+

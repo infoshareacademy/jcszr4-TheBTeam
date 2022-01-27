@@ -110,7 +110,7 @@ namespace TheBTeam.Web.Controllers
                 if (result.Succeeded)
                 {
 
-                    _logger.LogInformation($"Uzytkownik {model.Email} zalogowal sie o godz {DateTime.Now}");
+                    _logger.LogInformation($"User {model.Email} log at {DateTime.Now}");
 
                     var info = "Role!";
                     if (model.Email == "mm@wp.pl")//nadanie admina po emailu
@@ -125,21 +125,20 @@ namespace TheBTeam.Web.Controllers
                     }
 
                     var userRoles = await _userManager.GetClaimsAsync(user);
-                    var userRole = userRoles.Select(u => u.Value).Last();//ostatni zalogowany
+                    var userRole = userRoles.Select(u => u.Value).Last();//last logged
 
                     ViewBag.Role = model.Email;
                     return RedirectToAction("Dashboard", "Home", new { test = info });
                 }
                 else if (result.IsLockedOut)
                 {
-                    _logger.LogError($"Uzytkownik {model.Email} zablokowal swoje konto!");
-                    _logger.LogError("Uzytkownik {email} zablokowal swoje konto!", model.Email);//do seq dane z parametryzowane
+                    _logger.LogError("User {email} account locked!!", model.Email);
                     return View("AccountLocked");
                 }
                 else
                 {
                     ModelState.AddModelError("message", "Invalid login attempt");
-                    _logger.LogWarning($"nie prawidlowa proba logowania dla uzytkowanika {model.Email}");
+                    _logger.LogWarning($"invalid login attempt for user {model.Email}");
                     return View(model);
                 }
             }
@@ -156,7 +155,7 @@ namespace TheBTeam.Web.Controllers
         }
         public async Task<IActionResult> Logout()
         {
-            _logger.LogInformation($"Uzytkownik wylogowal sie o godz {DateTime.Now}");
+            _logger.LogInformation($"User logout at {DateTime.Now}");
             await _signInManager.SignOutAsync();
             return RedirectToAction("login", "account");
         }
