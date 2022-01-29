@@ -20,32 +20,25 @@ namespace TheBTeam.Web.Controllers
         private readonly PlannerContext _plannerContext;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _applicationDbContext;
 
-        public HomeController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, ILogger<HomeController> logger, PlannerContext plannerContext, ApplicationDbContext context)
+        public HomeController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, ILogger<HomeController> logger, PlannerContext plannerContext, ApplicationDbContext applicationDbContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _plannerContext = plannerContext;
-            _context = context;
+            _applicationDbContext = applicationDbContext;
         }
 
         public IActionResult Index()
         {
-            var userClaims = _context.UserClaims.Count();
+            var userClaims = _applicationDbContext.UserClaims.Count();
             if (userClaims > 0)
             {
-                var lastLoggedClaim = _context.UserClaims.Find(userClaims);
-                var lastLoggedRole = lastLoggedClaim.ClaimValue;
-                var id = lastLoggedClaim.UserId;
-
-                var usersRegistered = _context.Users;
-                var lastLoggedUser = usersRegistered.Where(u => u.Id == id).FirstOrDefault();
-
-                ViewBag.Role = $"{lastLoggedUser.UserName} { lastLoggedRole}";
+                var loadRoleClaims = new LoadRoleClaims();
+                ViewBag.Role = loadRoleClaims.GetLastRoleClaim(_applicationDbContext);
             }
-
             LoadDataFromFile.LoadUsersToDatbase(_plannerContext);
             return View();
         }

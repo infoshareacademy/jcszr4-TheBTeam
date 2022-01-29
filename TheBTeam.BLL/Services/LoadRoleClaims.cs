@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using TheBTeam.BLL.DAL;
 using TheBTeam.BLL.Enums;
 using TheBTeam.BLL.Models;
 
@@ -29,5 +30,19 @@ namespace TheBTeam.BLL.Services
             return info;
         }
 
+        public string GetLastRoleClaim(ApplicationDbContext applicationDbContext)
+        {
+            var userClaims = applicationDbContext.UserClaims.Count();
+            if (userClaims > 0)
+            {
+                var lastLoggedClaim = applicationDbContext.UserClaims.Find(userClaims);
+                var lastLoggedRole = lastLoggedClaim.ClaimValue;
+                var id = lastLoggedClaim.UserId;
+                var usersRegistered = applicationDbContext.Users;
+                var lastLoggedUser = usersRegistered.Where(u => u.Id == id).FirstOrDefault();
+                return $"{lastLoggedUser.UserName} { lastLoggedRole}";
+            }
+            return UserRole.User.ToString();
+        }
     }
 }
