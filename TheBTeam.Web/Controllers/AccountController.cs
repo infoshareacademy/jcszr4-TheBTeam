@@ -101,7 +101,7 @@ namespace TheBTeam.Web.Controllers
             if (ModelState.IsValid)
             {
                 var loadRoleClaims = new LoadRoleClaims();
-                var info  = await loadRoleClaims.SetRoleClaim(model,_userManager,_signInManager);
+                var info  = await loadRoleClaims.SetRoleClaimFromJson(model,_userManager,_signInManager);
 
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user != null && !user.EmailConfirmed)
