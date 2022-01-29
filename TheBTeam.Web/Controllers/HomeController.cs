@@ -54,9 +54,9 @@ namespace TheBTeam.Web.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
         [Authorize]
-        public IActionResult Dashboard(string test)//TODO to musi byc aby dashboard sie pojawil
+        public IActionResult Dashboard(string role)//TODO to musi byc aby dashboard sie pojawil
         {
-            ViewBag.Test = test;
+            ViewBag.Role = role;
             return View();
         }
     }

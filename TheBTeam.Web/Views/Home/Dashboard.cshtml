@@ -6,7 +6,7 @@
             ViewData["Title"] = "Home Page";
     }*@
 
-<h1> Witam, masz role : @ViewBag.Test</h1>
+<h1> Witam, masz role : @ViewBag.Role</h1>
 
 <div class="text-center">
     <h1 class="display-4">Dashboard</h1>
@@ -19,7 +19,7 @@
     <p>Jesli to widzisz - to znaczy ze jestes poprawnie zalogowany.</p>
 </div>
 
-@*@if (User.Identity.IsAuthenticated && @ViewBag.Test.Contains("Admin"))//onlu test
+@*@if (User.Identity.IsAuthenticated && @ViewBag.Role.Contains("Admin"))//onlu test
 {
     <p>User: @User.Identity.Name;</p>
 

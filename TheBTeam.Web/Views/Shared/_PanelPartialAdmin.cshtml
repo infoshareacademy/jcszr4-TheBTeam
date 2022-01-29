@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using TheBTeam.BLL.Enums;
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<ul class="navbar-nav">
+    <li>
+        @if (ViewBag.Role == UserRole.Admin.ToString())
+        {
+            <div class="container">
+                <a class="btn btn-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="bi bi-person-box me-2"></i>
+                    Admin
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="#">Add adminisrator</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </div>
+        }
+    </li>
+</ul>
+

@@ -52,22 +52,10 @@
                         </a>
                     </li>
                     <li>
-                        @if (@User.Identity.Name == "mm@wp.pl")
-                        {
-                            <br />
-                            <div>
-                                <a class="btn btn-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="bi bi-person-box me-2"></i>
-                                    Admin
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                    <a class="dropdown-item" href="#">Add adminisrator</a>
-                                    @*<a class="dropdown-item" asp-area="" asp-controller="account" asp-action="Delete">Delete user</a>*@
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
-                            </div>
-                        }
+
                     </li>
+                    <br />
+                    <partial name="_PanelPartialAdmin" />
                 </ul>
             </div>
             <div class="menu-divider"></div>

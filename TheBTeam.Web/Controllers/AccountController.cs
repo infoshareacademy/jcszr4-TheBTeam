@@ -120,7 +120,7 @@ namespace TheBTeam.Web.Controllers
                     var userRole = userRoles.Select(u => u.Value).Last();//last logged
 
                     ViewBag.Role = model.Email;
-                    return RedirectToAction("Dashboard", "Home", new { test = info });
+                    return RedirectToAction("Dashboard", "Home", new { role = info });
                 }
                 else if (result.IsLockedOut)
                 {
