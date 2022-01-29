@@ -18,17 +18,32 @@ namespace TheBTeam.Web.Controllers
         private readonly PlannerContext _plannerContext;
         private UserService _userService;
         private TransactionService _transactionService;
-        public UserController(PlannerContext plannerContext, ILogger<UserController> logger)
+        private readonly ApplicationDbContext _applicationDbContext;
+        public UserController(PlannerContext plannerContext, ILogger<UserController> logger, ApplicationDbContext applicationDbContext)
         {
             _plannerContext = plannerContext;
             _userService = new UserService(plannerContext);
             _transactionService = new TransactionService(plannerContext);
             _logger = logger;
+            _applicationDbContext = applicationDbContext;
         }
 
         // GET: UserController
         public ActionResult Index()
         {
+            var userClaims = _applicationDbContext.UserClaims.Count();
+            if (userClaims > 0)
+            {
+                var lastLoggedClaim = _applicationDbContext.UserClaims.Find(userClaims);
+                var lastLoggedRole = lastLoggedClaim.ClaimValue;
+                var id = lastLoggedClaim.UserId;
+
+                var usersRegistered = _applicationDbContext.Users;
+                var lastLoggedUser = usersRegistered.Where(u => u.Id == id).FirstOrDefault();
+
+                ViewBag.Role = $"{lastLoggedUser.UserName} { lastLoggedRole}";
+            }
+
             var modelDal = _plannerContext.Users.ToList();
             var model= modelDal.Select(UserDto.FromDAL);
             return View(model);

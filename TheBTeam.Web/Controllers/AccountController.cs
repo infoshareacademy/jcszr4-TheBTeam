@@ -10,6 +10,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using TheBTeam.BLL.Enums;
 using TheBTeam.BLL.Models;
+using TheBTeam.BLL.Services;
 
 namespace TheBTeam.Web.Controllers
 {
@@ -99,6 +100,9 @@ namespace TheBTeam.Web.Controllers
 
             if (ModelState.IsValid)
             {
+                var loadRoleClaims = new LoadRoleClaims();
+                var info  = await loadRoleClaims.SetRoleClaim(model,_userManager,_signInManager);
+
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user != null && !user.EmailConfirmed)
                 {
@@ -111,18 +115,6 @@ namespace TheBTeam.Web.Controllers
                 {
 
                     _logger.LogInformation($"User {model.Email} log at {DateTime.Now}");
-
-                    var info = "Role!";
-                    if (model.Email == "mm@wp.pl")//nadanie admina po emailu
-                    {
-                        await _userManager.AddClaimAsync(user, new Claim("UserRole", "Admin"));
-                        info = UserRole.Admin.ToString();
-                    }
-                    else
-                    {
-                        await _userManager.AddClaimAsync(user, new Claim("UserRole", "User"));
-                        info = UserRole.User.ToString();
-                    }
 
                     var userRoles = await _userManager.GetClaimsAsync(user);
                     var userRole = userRoles.Select(u => u.Value).Last();//last logged

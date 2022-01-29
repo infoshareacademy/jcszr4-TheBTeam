@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<TheBTeam.BLL.Models.UserDto>
-
+@using TheBTeam.BLL.Enums;
 @{
     ViewData["Title"] = "users list";
 }
@@ -66,7 +66,12 @@
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                 <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id">Edit</a> <br />
                                 <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id">Details</a> <br />
-                                <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.Id">Delete</a> <br />
+                                @{
+                                    if (ViewBag.Role == UserRole.Admin.ToString())
+                                    {
+                                        <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.Id">Delete</a> <br />
+                                    }
+                                }
                                 <a class="dropdown-item" asp-controller="Transaction" asp-action="AddTransaction" asp-route-id="@item.Id">Add Transaction</a> <br />
                                 <a class="dropdown-item" asp-action="UserTransactions" asp-route-id="@item.Id">User's Transaction</a><br />
                                 <a class="dropdown-item" asp-controller="CategoryBudget" asp-action="UserBudget" asp-route-id="@item.Id">Budget</a><br />
