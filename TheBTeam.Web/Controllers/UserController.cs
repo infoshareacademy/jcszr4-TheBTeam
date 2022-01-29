@@ -34,14 +34,8 @@ namespace TheBTeam.Web.Controllers
             var userClaims = _applicationDbContext.UserClaims.Count();
             if (userClaims > 0)
             {
-                var lastLoggedClaim = _applicationDbContext.UserClaims.Find(userClaims);
-                var lastLoggedRole = lastLoggedClaim.ClaimValue;
-                var id = lastLoggedClaim.UserId;
-
-                var usersRegistered = _applicationDbContext.Users;
-                var lastLoggedUser = usersRegistered.Where(u => u.Id == id).FirstOrDefault();
-
-                ViewBag.Role = $"{lastLoggedUser.UserName} { lastLoggedRole}";
+                var loadRoleClaims = new LoadRoleClaims();
+                ViewBag.Role = loadRoleClaims.GetLastRoleClaim(_applicationDbContext);
             }
 
             var modelDal = _plannerContext.Users.ToList();

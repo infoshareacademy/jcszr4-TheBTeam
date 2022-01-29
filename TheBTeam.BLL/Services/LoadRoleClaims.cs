@@ -40,7 +40,7 @@ namespace TheBTeam.BLL.Services
                 var id = lastLoggedClaim.UserId;
                 var usersRegistered = applicationDbContext.Users;
                 var lastLoggedUser = usersRegistered.Where(u => u.Id == id).FirstOrDefault();
-                return $"{lastLoggedUser.UserName} { lastLoggedRole}";
+                return $"{lastLoggedRole}";
             }
             return UserRole.User.ToString();
         }
