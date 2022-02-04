@@ -97,12 +97,8 @@ namespace TheBTeam.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(UserLoginDto model)
         {
-
             if (ModelState.IsValid)
             {
-                var loadRoleClaims = new LoadRoleClaims();
-                var info  = await loadRoleClaims.SetRoleClaimFromJson(model,_userManager,_signInManager);
-
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user != null && !user.EmailConfirmed)
                 {
@@ -113,6 +109,8 @@ namespace TheBTeam.Web.Controllers
 
                 if (result.Succeeded)
                 {
+                    var loadRoleClaims = new LoadRoleClaims();
+                    var info = await loadRoleClaims.SetRoleClaimFromJson(model, _userManager, _signInManager);
 
                     _logger.LogInformation($"User {model.Email} log at {DateTime.Now}");
 
