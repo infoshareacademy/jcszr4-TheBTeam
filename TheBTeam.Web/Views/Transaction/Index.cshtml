@@ -19,6 +19,8 @@
 
 }
 
+
+
 <h1>List of transactions</h1>
 
 
@@ -62,11 +64,11 @@
             <thead>
                 <tr>
                     <th>
-                        <a asp-action="Index" asp-route-sortOrder="@ViewData["EmailSortParam"]" asp-route-description="@ViewData["Description"]" asp-route-dateTo="@ViewData["DateTo"]" 
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["EmailSortParam"]" asp-route-description="@ViewData["Description"]" asp-route-dateTo="@ViewData["DateTo"]"
                            asp-route-dateFrom="@ViewData["DateFrom"]" asp-route-type="@ViewData["Type"]" asp-route-category="@ViewData["Category"]">@Html.DisplayNameFor(model => model.UserDto.Email)</a>
                     </th>
                     <th>
-                        <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParam"]" asp-route-description="@ViewData["Description"]" asp-route-dateTo="@ViewData["DateTo"]" 
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParam"]" asp-route-description="@ViewData["Description"]" asp-route-dateTo="@ViewData["DateTo"]"
                            asp-route-dateFrom="@ViewData["DateFrom"]" asp-route-type="@ViewData["Type"]" asp-route-category="@ViewData["Category"]">@Html.DisplayNameFor(model => model.WhenMade)</a>
                     </th>
                     <th>
