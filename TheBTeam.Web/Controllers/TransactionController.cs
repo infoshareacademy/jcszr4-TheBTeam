@@ -14,6 +14,7 @@ using TheBTeam.BLL.DAL;
 using TheBTeam.BLL.DAL.Entities;
 using TheBTeam.BLL.Services;
 using TheBTeam.BLL.Models;
+using static System.String;
 
 
 namespace TheBTeam.Web.Controllers
@@ -35,7 +36,7 @@ namespace TheBTeam.Web.Controllers
         // GET: TransactionController
         public ActionResult Index(CategoryOfTransaction category, TypeOfTransaction type, string description, DateTime dateFrom, DateTime dateTo, string sortOrder)
         {
-            ViewData["EmailSortParam"] = String.IsNullOrEmpty(sortOrder) ? "email_desc" : "";
+            ViewData["EmailSortParam"] = IsNullOrEmpty(sortOrder) ? "email_desc" : "";
             ViewData["DateSortParam"] = sortOrder == "Date" ? "date_desc" : "Date";
 
             var transactions = TransactionService.Get(category, type, _plannerContext);
@@ -43,7 +44,7 @@ namespace TheBTeam.Web.Controllers
             transactions = _transactionService.FilterByDescription(transactions, description);
             transactions = _transactionService.FilterByDates(transactions, dateFrom, dateTo);
             
-            transactions = _transactionService.SortTransactions(transactions, sortOrder).ToList();  
+            transactions = _transactionService.SortAllTransactions(transactions, sortOrder).ToList();  
 
             if (dateFrom.Year == 1)
                 dateFrom = transactions.OrderBy(x=>x.WhenMade).First().WhenMade;
@@ -51,7 +52,7 @@ namespace TheBTeam.Web.Controllers
             if (dateTo.Year == 1)
                 dateTo = DateTime.Today;
 
-            return View(new IndexTransactionDto(){Category = category, Transactions = transactions, Type = type, Description = description, DateFrom = dateFrom.ToString("yyyy-MM-dd"), DateTo = dateTo.ToString("yyyy-MM-dd") });
+            return View(new TransactionSearchDto(){Category = category, Transactions = transactions, Type = type, Description = description, DateFrom = dateFrom.ToString("yyyy-MM-dd"), DateTo = dateTo.ToString("yyyy-MM-dd") });
         }
 
         public ActionResult EmptyList(CategoryOfTransaction category, TypeOfTransaction type, string description, DateTime dateFrom, DateTime dateTo, string sortOrder)
@@ -73,19 +74,20 @@ namespace TheBTeam.Web.Controllers
             return View();
         }
 
-        public ActionResult UserTransactions(CategoryOfTransaction category, TypeOfTransaction type, int id, string description, DateTime dateFrom, DateTime dateTo)
+        public ActionResult UserTransactions(CategoryOfTransaction category, TypeOfTransaction type, int id, string description, DateTime dateFrom, DateTime dateTo, string sortOrder)
         {
-            var user = _plannerContext.Users.First(x => x.Id == id);
-            var fullName = $"{user.FirstName} {user.LastName}";
+            ViewData["DateSortParam"] = sortOrder == "Date" ? "date_desc" : "Date";
+
+            var user = _plannerContext.Users.Single(x => x.Id == id);
 
             var transactions = TransactionService.Get(category, type, _plannerContext, id);
 
+            transactions = _transactionService.FilterByDescription(transactions, description);
             transactions = _transactionService.FilterByDates(transactions, dateFrom, dateTo);
 
-            if (description is not null)
-                transactions = transactions.Where(t => t.Description.ToLower().Contains(description.ToLower())).ToList();
+            transactions = _transactionService.SortAllTransactions(transactions, sortOrder).ToList()
 
-            return View(new UserTransactionsDto() { FullName = fullName, Transactions = transactions.OrderByDescending(x => x.WhenMade).ToList(), UserId = id });
+            return View(new TransactionSearchDto() { FullName = $"{user.FirstName} {user.LastName}", Transactions = transactions, UserId = id });
         }
 
         // POST: TransactionController/Create

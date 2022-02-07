@@ -126,7 +126,7 @@ namespace TheBTeam.BLL.Services
 
             _userService.EditBalance((int)transaction.UserId, difference);
         }
-        public IEnumerable<TransactionDto> SortTransactions(IEnumerable<TransactionDto> transactions, string sortOrder)
+        public IEnumerable<TransactionDto> SortAllTransactions(IEnumerable<TransactionDto> transactions, string sortOrder)
         {
 
             switch (sortOrder)
