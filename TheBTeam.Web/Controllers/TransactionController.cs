@@ -8,6 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using TheBTeam.BLL;
 using TheBTeam.BLL.DAL;
 using TheBTeam.BLL.DAL.Entities;
@@ -34,46 +35,23 @@ namespace TheBTeam.Web.Controllers
         // GET: TransactionController
         public ActionResult Index(CategoryOfTransaction category, TypeOfTransaction type, string description, DateTime dateFrom, DateTime dateTo, string sortOrder)
         {
-            if (dateFrom.Year != 1)
-                ViewData["DateFrom"] = dateFrom.ToString("yyyy-MM-dd");
-
-            if (dateTo.Year != 1)
-                ViewData["DateTo"] = dateTo.ToString("yyyy-MM-dd");
-
-            ViewData["Category"] = category;
-            ViewData["Type"] = type;
-            ViewData["Description"] = description;
-
-            var model = TransactionService.Get(category, type, _plannerContext);
-
             ViewData["EmailSortParam"] = String.IsNullOrEmpty(sortOrder) ? "email_desc" : "";
             ViewData["DateSortParam"] = sortOrder == "Date" ? "date_desc" : "Date";
 
-            //if (!model.Any())
-            //    return RedirectToAction("EmptyList");
+            var transactions = TransactionService.Get(category, type, _plannerContext);
 
-            model = _transactionService.GetByDates(model, dateFrom, dateTo);
+            transactions = _transactionService.FilterByDescription(transactions, description);
+            transactions = _transactionService.FilterByDates(transactions, dateFrom, dateTo);
+            
+            transactions = _transactionService.SortTransactions(transactions, sortOrder).ToList();  
 
-            if (description is not null)
-                model = model.Where(t => t.Description.ToLower().Contains(description.ToLower())).ToList();
+            if (dateFrom.Year == 1)
+                dateFrom = transactions.OrderBy(x=>x.WhenMade).First().WhenMade;
 
-            switch (sortOrder)
-            {
-                case "email_desc":
-                    model = model.OrderByDescending(x => x.UserDto.Email).ThenByDescending(x => x.WhenMade).ToList();
-                    break;
-                case "Date":
-                    model = model.OrderBy(x => x.WhenMade).ThenByDescending(x => x.UserDto.Email).ToList();
-                    break;
-                case "date_desc":
-                    model = model.OrderByDescending(x => x.WhenMade).ToList();
-                    break;
-                default:
-                    model=model.OrderBy(x=>x.UserDto.Email).ThenByDescending(x => x.WhenMade).ToList();
-                    break;
-            }
+            if (dateTo.Year == 1)
+                dateTo = DateTime.Today;
 
-            return View(model);
+            return View(new IndexTransactionDto(){Category = category, Transactions = transactions, Type = type, Description = description, DateFrom = dateFrom.ToString("yyyy-MM-dd"), DateTo = dateTo.ToString("yyyy-MM-dd") });
         }
 
         public ActionResult EmptyList(CategoryOfTransaction category, TypeOfTransaction type, string description, DateTime dateFrom, DateTime dateTo, string sortOrder)
@@ -102,7 +80,7 @@ namespace TheBTeam.Web.Controllers
 
             var transactions = TransactionService.Get(category, type, _plannerContext, id);
 
-            transactions = _transactionService.GetByDates(transactions, dateFrom, dateTo);
+            transactions = _transactionService.FilterByDates(transactions, dateFrom, dateTo);
 
             if (description is not null)
                 transactions = transactions.Where(t => t.Description.ToLower().Contains(description.ToLower())).ToList();

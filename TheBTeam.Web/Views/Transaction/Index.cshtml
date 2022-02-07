@@ -1,10 +1,10 @@
-﻿@model IEnumerable<TheBTeam.BLL.Models.TransactionDto>
+﻿@model TheBTeam.BLL.Models.IndexTransactionDto
 @using TheBTeam.BLL
 @{
     ViewData["Title"] = "List of transactions";
 }
 
-@{
+@*@{
     var incomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) > 0 && int.Parse(l.Value) < 100).ToList();
     var outcomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) >= 100).ToList();
     var allList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) == 0);
@@ -17,7 +17,7 @@
     else
         categoryList = outcomeList;
 
-}
+}*@
 
 
 
@@ -25,7 +25,7 @@
 
 
 <form asp-action="Index">
-    <div class="row">
+    @*<div class="row">
         <div class="col">
             <label class="col-form-label">Type:</label>
             <select name="type" id="transactionTypeSelect" asp-items="Html.GetEnumSelectList<TypeOfTransaction>()" class="form-control">
@@ -56,38 +56,39 @@
 
     <div class="form-group">
         <input type="submit" value="Search transaction" class="btn btn-secondary" />
-    </div>
-
-
+    </div>*@
+    @{
+        await Html.RenderPartialAsync("_TransactionSearchForm");
+    }
     <div class="container container shadow p-3 mb-5 bg-white rounded">
         <table class="table table-sm">
             <thead>
                 <tr>
                     <th>
                         <a asp-action="Index" asp-route-sortOrder="@ViewData["EmailSortParam"]" asp-route-description="@ViewData["Description"]" asp-route-dateTo="@ViewData["DateTo"]"
-                           asp-route-dateFrom="@ViewData["DateFrom"]" asp-route-type="@ViewData["Type"]" asp-route-category="@ViewData["Category"]">@Html.DisplayNameFor(model => model.UserDto.Email)</a>
+                           asp-route-dateFrom="@ViewData["DateFrom"]" asp-route-type="@ViewData["Type"]" asp-route-category="@ViewData["Category"]">@Html.DisplayNameFor(model => model.Transactions.First().UserDto.Email)</a>
                     </th>
                     <th>
                         <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParam"]" asp-route-description="@ViewData["Description"]" asp-route-dateTo="@ViewData["DateTo"]"
-                           asp-route-dateFrom="@ViewData["DateFrom"]" asp-route-type="@ViewData["Type"]" asp-route-category="@ViewData["Category"]">@Html.DisplayNameFor(model => model.WhenMade)</a>
+                           asp-route-dateFrom="@ViewData["DateFrom"]" asp-route-type="@ViewData["Type"]" asp-route-category="@ViewData["Category"]">@Html.DisplayNameFor(model => model.Transactions.First().WhenMade)</a>
                     </th>
                     <th>
-                        <label>@Html.DisplayNameFor(model => model.Currency)</label>
+                        <label>@Html.DisplayNameFor(model => model.Transactions.First().Currency)</label>
                     </th>
                     <th>
-                        <label>@Html.DisplayNameFor(model => model.Type)</label>
+                        <label>@Html.DisplayNameFor(model => model.Transactions.First().Type)</label>
                     </th>
                     <th>
-                        <label>@Html.DisplayNameFor(model => model.Category)</label>
+                        <label>@Html.DisplayNameFor(model => model.Transactions.First().Category)</label>
                     </th>
                     <th>
-                        <label>@Html.DisplayNameFor(model => model.Amount)</label>
+                        <label>@Html.DisplayNameFor(model => model.Transactions.First().Amount)</label>
                     </th>
                     <th>
-                        <label>@Html.DisplayNameFor(model => model.BalanceAfterTransaction)</label>
+                        <label>@Html.DisplayNameFor(model => model.Transactions.First().BalanceAfterTransaction)</label>
                     </th>
                     <th>
-                        <label asp-for="First().Description"></label>
+                        <label asp-for="@Model.Transactions.First().Description"></label>
                     </th>
                     <th>
                         <label>Actions</label>
@@ -95,7 +96,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                @foreach (var item in Model.Transactions)
                 {
                     <tr>
                         <td>
@@ -142,7 +143,7 @@
     </div>
 </form>
 
-<script>
+@*<script>
     $(document).ready(function () {
         var outcomeOptions = @Html.Raw(Json.Serialize(outcomeList));
         var incomeOptions = @Html.Raw(Json.Serialize(incomeList));
@@ -173,4 +174,4 @@
             });
         }
     });
-</script>
+</script>*@

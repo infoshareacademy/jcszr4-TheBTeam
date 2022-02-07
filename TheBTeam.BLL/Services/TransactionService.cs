@@ -20,7 +20,6 @@ namespace TheBTeam.BLL.Services
             _plannerContext = plannerContext;
             _userService = new UserService(plannerContext);
         }
-
         public static List<TransactionDto> Get(CategoryOfTransaction category, TypeOfTransaction type, PlannerContext plannerContext, int id = 0)
         {
             var transactions = new List<TransactionDto>();
@@ -48,12 +47,19 @@ namespace TheBTeam.BLL.Services
             throw new InvalidDataException();
 
         }
-        public List<TransactionDto> GetByDates(List<TransactionDto> transactions, DateTime from, DateTime to)
+        public List<TransactionDto> FilterByDates(List<TransactionDto> transactions, DateTime dateFrom, DateTime dateTo)
         {
-            if (to == new DateTime(0001, 01, 01))
-                to = DateTime.Now;
+            if (dateTo == new DateTime(0001, 01, 01))
+                dateTo = DateTime.Now;
 
-            transactions = transactions.Where(t => t.WhenMade >= from.AddDays(1).AddMinutes(-1) && t.WhenMade <= to.AddDays(1).AddMinutes(-1)).ToList();
+            transactions = transactions.Where(t => t.WhenMade >= dateFrom.AddDays(1).AddMinutes(-1) && t.WhenMade <= dateTo.AddDays(1).AddMinutes(-1)).ToList();
+
+            return transactions;
+        }
+        public List<TransactionDto> FilterByDescription(List<TransactionDto> transactions, string description)
+        {
+            if (description is not null)
+                return transactions.Where(t => t.Description.ToLower().Contains(description.ToLower())).ToList();
 
             return transactions;
         }
@@ -120,7 +126,21 @@ namespace TheBTeam.BLL.Services
 
             _userService.EditBalance((int)transaction.UserId, difference);
         }
+        public IEnumerable<TransactionDto> SortTransactions(IEnumerable<TransactionDto> transactions, string sortOrder)
+        {
 
+            switch (sortOrder)
+            {
+                case "email_desc":
+                   return transactions = transactions.OrderByDescending(x => x.UserDto.Email).ThenByDescending(x => x.WhenMade).ToList();
+                case "Date":
+                   return transactions = transactions.OrderBy(x => x.WhenMade).ThenByDescending(x => x.UserDto.Email).ToList();
+                case "date_desc":
+                   return transactions = transactions.OrderByDescending(x => x.WhenMade).ToList();
+                default:
+                    return  transactions.OrderBy(x => x.UserDto.Email).ThenByDescending(x => x.WhenMade).ToList();
+            }
+        }
         public void Delete(int id)
         {
             var transaction = _plannerContext.Transactions.Single(t => t.Id == id);
