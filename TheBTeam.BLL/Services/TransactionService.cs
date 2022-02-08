@@ -52,7 +52,7 @@ namespace TheBTeam.BLL.Services
             if (dateTo == new DateTime(0001, 01, 01))
                 dateTo = DateTime.Now;
 
-            transactions = transactions.Where(t => t.WhenMade >= dateFrom.AddDays(1).AddMinutes(-1) && t.WhenMade <= dateTo.AddDays(1).AddMinutes(-1)).ToList();
+            transactions = transactions.Where(t => t.Date >= dateFrom.AddDays(1).AddMinutes(-1) && t.Date <= dateTo.AddDays(1).AddMinutes(-1)).ToList();
 
             return transactions;
         }
@@ -110,7 +110,7 @@ namespace TheBTeam.BLL.Services
             transaction.Category = transactionDto.Category;
             transaction.Description = transactionDto.Description;
             transaction.Currency = transactionDto.Currency;
-            transaction.WhenMade = transactionDto.WhenMade;
+            transaction.Date = transactionDto.Date;
 
             decimal difference = 0.0m;
             if (transaction.Type == TypeOfTransaction.Income)
@@ -131,13 +131,13 @@ namespace TheBTeam.BLL.Services
             switch (sortOrder)
             {
                 case "email_desc":
-                   return transactions = transactions.OrderByDescending(x => x.UserDto.Email).ThenByDescending(x => x.WhenMade).ThenBy(x=>x.Type).ThenBy(x=>x.Category).ToList();
+                   return transactions = transactions.OrderByDescending(x => x.UserDto.Email).ThenByDescending(x => x.Date).ThenBy(x=>x.Type).ThenBy(x=>x.Category).ToList();
                 case "Date":
-                   return transactions = transactions.OrderBy(x => x.WhenMade).ThenByDescending(x => x.UserDto.Email).ThenBy(x => x.Type).ThenBy(x => x.Category).ToList();
+                   return transactions = transactions.OrderBy(x => x.Date).ThenByDescending(x => x.UserDto.Email).ThenBy(x => x.Type).ThenBy(x => x.Category).ToList();
                 case "date_desc":
-                   return transactions = transactions.OrderByDescending(x => x.WhenMade).ThenBy(x => x.Type).ThenBy(x => x.Category).ToList();
+                   return transactions = transactions.OrderByDescending(x => x.Date).ThenBy(x => x.Type).ThenBy(x => x.Category).ToList();
                 default:
-                    return  transactions.OrderBy(x => x.UserDto.Email).ThenByDescending(x => x.WhenMade).ThenBy(x => x.Type).ThenBy(x => x.Category).ToList();
+                    return  transactions.OrderBy(x => x.UserDto.Email).ThenByDescending(x => x.Date).ThenBy(x => x.Type).ThenBy(x => x.Category).ToList();
             }
         }
 
@@ -146,15 +146,15 @@ namespace TheBTeam.BLL.Services
             switch (sortOrder)
             {
                 case "date":
-                    return transactions = transactions.OrderBy(x => x.WhenMade).ThenBy(x => x.Type).ThenBy(x => x.Category).ThenByDescending(x => x.Amount).ToList();
+                    return transactions = transactions.OrderBy(x => x.Date).ThenBy(x => x.Type).ThenBy(x => x.Category).ThenByDescending(x => x.Amount).ToList();
                 case "amount_desc":
-                    return transactions.OrderByDescending(x => x.Amount).ThenBy(x => x.WhenMade).ThenBy(x => x.Type)
+                    return transactions.OrderByDescending(x => x.Amount).ThenBy(x => x.Date).ThenBy(x => x.Type)
                         .ThenBy(x => x.Category).ToList();
                 case "amount":
-                    return transactions.OrderBy(x => x.Amount).ThenBy(x => x.WhenMade).ThenBy(x => x.Type)
+                    return transactions.OrderBy(x => x.Amount).ThenBy(x => x.Date).ThenBy(x => x.Type)
                         .ThenBy(x => x.Category).ToList();
                 default:
-                    return transactions = transactions.OrderByDescending(x => x.WhenMade).ThenBy(x => x.Type).ThenBy(x => x.Category).ThenByDescending(x => x.Amount).ToList();
+                    return transactions = transactions.OrderByDescending(x => x.Date).ThenBy(x => x.Type).ThenBy(x => x.Category).ThenByDescending(x => x.Amount).ToList();
             }
 
             return transactions;

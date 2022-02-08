@@ -32,7 +32,7 @@
                 </th>
                 <th>
                     <a asp-action="UserTransactions" asp-route-sortOrder="@ViewData["DateSortParam"]" asp-route-description="@Model.Description" asp-route-dateTo="@Model.DateTo"
-                       asp-route-dateFrom="@Model.DateFrom" asp-route-type="@Model.Type" asp-route-category="@Model.Category">@Html.DisplayNameFor(model => model.Transactions.First().WhenMade)</a>
+                       asp-route-dateFrom="@Model.DateFrom" asp-route-type="@Model.Type" asp-route-category="@Model.Category">@Html.DisplayNameFor(model => model.Transactions.First().Date)</a>
                 </th>
                 <th>
                     <a asp-action="UserTransactions" asp-route-sortOrder="@ViewData["AmountSortParam"]" asp-route-description="@Model.Description" asp-route-dateTo="@Model.DateTo"
@@ -64,7 +64,7 @@
                         @item.Category
                     </td>
                     <td>
-                        @item.WhenMade.ToString("d")
+                        @item.Date.ToString("d")
                     </td>
                     <td>
                         @item.Amount.ToString("C")
