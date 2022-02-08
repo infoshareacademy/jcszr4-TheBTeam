@@ -6,15 +6,7 @@
     var incomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) > 0 && int.Parse(l.Value) < 100).ToList();
     var outcomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) >= 100).ToList();
     var allList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) == 0);
-    var categoryList = new List<SelectListItem>();
-
-    if (Model.Type == 0)
-        categoryList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) == 0).ToList();
-    else if ((int)Model.Type == 1)
-        categoryList = incomeList;
-    else
-        categoryList = outcomeList;
-
+    var categoryList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) == 0).ToList();
 }
 
 
@@ -27,19 +19,19 @@
     </div>
     <div class="col">
         <label class="col-form-label">Category:</label>
-        <select name="category" asp-for="Category" id="categorySelect"  asp-items="@categoryList" class="form-control">
+        <select name="category" asp-for="Category" id="categorySelect" asp-items="@categoryList" class="form-control">
         </select>
     </div>
 </div>
 <div class="row">
     <div class="col">
         <label class="col-form-label">Date form:</label>
-        <input type="date" id="dateFrom" name="dateFrom" class="form-control" value="@Model.DateFrom" />
+        <input type="date" id="dateFrom" name="dateFrom" class="form-control"  asp-for="DateFrom" />
     </div>
 
     <div class="col">
         <label class="col-form-label">Date to:</label>
-        <input type="date" id="dateTo" name="dateTo" class="form-control"  value="@Model.DateTo"/>
+        <input type="date" id="dateTo" name="dateTo" class="form-control"  asp-for="DateTo" />
     </div>
 </div>
 

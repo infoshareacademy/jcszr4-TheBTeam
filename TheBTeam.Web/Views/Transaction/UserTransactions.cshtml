@@ -21,38 +21,9 @@
 </p>
 
 <form asp-action="UserTransactions">
-    <div class="row">
-        <div class="col">
-            <label class="col-form-label">Type:</label>
-            <select name="type" id="transactionTypeSelect" asp-items="Html.GetEnumSelectList<TypeOfTransaction>()" class="form-control">
-                <option selected="selected" value="wqeqw">Please select Type</option>
-            </select>
-        </div>
-        <div class="col">
-            <label class="col-form-label">Category:</label>
-            <select name="category" id="categorySelect" asp-items="new List<SelectListItem>()" class="form-control">
-                <option selected="selected" value="">Please select category</option>
-            </select>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <label class="col-form-label">Date form:</label>
-            <input type="date" id="dateFrom" name="dateFrom" class="form-control" />
-        </div>
-
-        <div class="col">
-            <label class="col-form-label">Date to:</label>
-            <input type="date" id="dateTo" name="dateTo" class="form-control" />
-        </div>
-    </div>
-
-    <label class="control-label">Description</label>
-    <input style="margin-bottom:18px;" name="description" id="descrition" type="text" class="form-control" />
-
-    <div class="form-group">
-        <input type="submit" value="Search transaction" class="btn btn-secondary" />
-    </div>
+    @{
+        await Html.RenderPartialAsync("_TransactionSearchForm");
+    }
 </form>
 <div class="container container shadow p-3 mb-5 bg-white rounded">
     <table class="table">

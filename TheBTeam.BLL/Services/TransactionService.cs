@@ -128,7 +128,6 @@ namespace TheBTeam.BLL.Services
         }
         public IEnumerable<TransactionDto> SortAllTransactions(IEnumerable<TransactionDto> transactions, string sortOrder)
         {
-
             switch (sortOrder)
             {
                 case "email_desc":
@@ -140,6 +139,19 @@ namespace TheBTeam.BLL.Services
                 default:
                     return  transactions.OrderBy(x => x.UserDto.Email).ThenByDescending(x => x.WhenMade).ToList();
             }
+        }
+
+        public IEnumerable<TransactionDto> SortUserTransaction(IEnumerable<TransactionDto> transactions, string sortOrder)
+        {
+            switch (sortOrder)
+            {
+                case "Date":
+                    return transactions = transactions.OrderBy(x => x.WhenMade).ToList();
+                case "date_desc":
+                    return transactions = transactions.OrderByDescending(x => x.WhenMade).ToList();
+            }
+
+            return transactions;
         }
         public void Delete(int id)
         {

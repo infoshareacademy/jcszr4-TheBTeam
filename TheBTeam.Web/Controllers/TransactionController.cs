@@ -41,18 +41,18 @@ namespace TheBTeam.Web.Controllers
 
             var transactions = TransactionService.Get(category, type, _plannerContext);
 
-            transactions = _transactionService.FilterByDescription(transactions, description);
-            transactions = _transactionService.FilterByDates(transactions, dateFrom, dateTo);
-            
-            transactions = _transactionService.SortAllTransactions(transactions, sortOrder).ToList();  
-
             if (dateFrom.Year == 1)
-                dateFrom = transactions.OrderBy(x=>x.WhenMade).First().WhenMade;
+                dateFrom = transactions.OrderBy(x => x.WhenMade).First().WhenMade;
 
             if (dateTo.Year == 1)
                 dateTo = DateTime.Today;
 
-            return View(new TransactionSearchDto(){Category = category, Transactions = transactions, Type = type, Description = description, DateFrom = dateFrom.ToString("yyyy-MM-dd"), DateTo = dateTo.ToString("yyyy-MM-dd") });
+            transactions = _transactionService.FilterByDescription(transactions, description);
+            transactions = _transactionService.FilterByDates(transactions, dateFrom, dateTo);
+            
+            transactions = _transactionService.SortAllTransactions(transactions, sortOrder).ToList();  
+            
+            return View(new TransactionSearchDto(){Category = category, Transactions = transactions, Type = type, Description = description, DateFrom = dateFrom, DateTo = dateTo });
         }
 
         public ActionResult EmptyList(CategoryOfTransaction category, TypeOfTransaction type, string description, DateTime dateFrom, DateTime dateTo, string sortOrder)
@@ -85,9 +85,9 @@ namespace TheBTeam.Web.Controllers
             transactions = _transactionService.FilterByDescription(transactions, description);
             transactions = _transactionService.FilterByDates(transactions, dateFrom, dateTo);
 
-            transactions = _transactionService.SortAllTransactions(transactions, sortOrder).ToList()
+            transactions = _transactionService.SortUserTransaction(transactions, sortOrder).ToList();
 
-            return View(new TransactionSearchDto() { FullName = $"{user.FirstName} {user.LastName}", Transactions = transactions, UserId = id });
+            return View(new TransactionSearchDto() { FullName = $"{user.FirstName} {user.LastName}", Transactions = transactions, UserId = id, Description = description, DateFrom = dateFrom, DateTo = dateTo});
         }
 
         // POST: TransactionController/Create

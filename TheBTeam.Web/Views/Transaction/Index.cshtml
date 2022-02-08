@@ -4,59 +4,11 @@
     ViewData["Title"] = "List of transactions";
 }
 
-@*@{
-    var incomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) > 0 && int.Parse(l.Value) < 100).ToList();
-    var outcomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) >= 100).ToList();
-    var allList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) == 0);
-    var categoryList = new List<SelectListItem>();
-
-    if ((int)ViewData["Type"] == 0)
-        categoryList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) == 0).ToList();
-    else if ((int)ViewData["Type"] == 1)
-        categoryList = incomeList;
-    else
-        categoryList = outcomeList;
-
-}*@
-
-
-
 <h1>List of transactions</h1>
 
 
 <form asp-action="Index">
-    @*<div class="row">
-        <div class="col">
-            <label class="col-form-label">Type:</label>
-            <select name="type" id="transactionTypeSelect" asp-items="Html.GetEnumSelectList<TypeOfTransaction>()" class="form-control">
-                <option selected="selected">@ViewData["Type"]</option>
-            </select>
-        </div>
-        <div class="col">
-            <label class="col-form-label">Category:</label>
-            <select name="category" id="categorySelect" asp-items="@categoryList" class="form-control">
-                <option selected="selected">@ViewData["Category"]</option>
-            </select>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <label class="col-form-label">Date form:</label>
-            <input type="date" id="dateFrom" name="dateFrom" class="form-control" value="@ViewData["DateFrom"]" />
-        </div>
-
-        <div class="col">
-            <label class="col-form-label">Date to:</label>
-            <input type="date" id="dateTo" name="dateTo" class="form-control" value="@ViewData["DateTo"]" />
-        </div>
-    </div>
-
-    <label class="col-form-label">Description</label>
-    <input style="margin-bottom:18px;" name="description" id="descrition" type="text" class="form-control" value="@ViewData["Description"]" />
-
-    <div class="form-group">
-        <input type="submit" value="Search transaction" class="btn btn-secondary" />
-    </div>*@
+    
     @{
         await Html.RenderPartialAsync("_TransactionSearchForm");
     }
@@ -65,8 +17,8 @@
             <thead>
                 <tr>
                     <th>
-                        <a asp-action="Index" asp-route-sortOrder="@ViewData["EmailSortParam"]" asp-route-description="@ViewData["Description"]" asp-route-dateTo="@ViewData["DateTo"]"
-                           asp-route-dateFrom="@ViewData["DateFrom"]" asp-route-type="@ViewData["Type"]" asp-route-category="@ViewData["Category"]">@Html.DisplayNameFor(model => model.Transactions.First().UserDto.Email)</a>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["EmailSortParam"]" asp-route-description="@Model.Description" asp-route-dateTo="@Model.DateTo"
+                           asp-route-dateFrom="@Model.DateFrom" asp-route-type="@Model.Type" asp-route-category="@Model.Category">@Html.DisplayNameFor(model => model.Transactions.First().UserDto.Email)</a>
                     </th>
                     <th>
                         <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParam"]" asp-route-description="@ViewData["Description"]" asp-route-dateTo="@ViewData["DateTo"]"
@@ -142,36 +94,3 @@
         </table>
     </div>
 </form>
-
-@*<script>
-    $(document).ready(function () {
-        var outcomeOptions = @Html.Raw(Json.Serialize(outcomeList));
-        var incomeOptions = @Html.Raw(Json.Serialize(incomeList));
-        var allList= @Html.Raw(Json.Serialize(allList));
-        var categorySelect = $('#categorySelect');
-        $('#transactionTypeSelect').change(function () {
-            categorySelect.empty();
-            var selected = $(this).val();
-            if (selected === '0') {
-                addOptionsToSelect(allList);
-            }
-            if (selected === '1') {
-                addOptionsToSelect(incomeOptions);
-
-            }
-            if (selected === '2') {
-                addOptionsToSelect(outcomeOptions);
-            }
-        });
-
-        function addOptionsToSelect(options) {
-            options.forEach(function (i, item) {
-                categorySelect.append($('<option>',
-                    {
-                        value: i.value,
-                        text: i.text
-                    }));
-            });
-        }
-    });
-</script>*@
