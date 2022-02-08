@@ -6,7 +6,14 @@
     var incomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) > 0 && int.Parse(l.Value) < 100).ToList();
     var outcomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) >= 100).ToList();
     var allList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) == 0);
-    var categoryList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) == 0).ToList();
+    var categoryList = new List<SelectListItem>();
+
+    if (Model.Type == 0)
+        categoryList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) == 0).ToList();
+    else if ((int)Model.Type == 1)
+        categoryList = incomeList;
+    else
+        categoryList = outcomeList;
 }
 
 

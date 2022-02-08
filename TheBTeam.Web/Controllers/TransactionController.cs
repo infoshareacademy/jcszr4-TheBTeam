@@ -41,12 +41,6 @@ namespace TheBTeam.Web.Controllers
 
             var transactions = TransactionService.Get(category, type, _plannerContext);
 
-            if (dateFrom.Year == 1)
-                dateFrom = transactions.OrderBy(x => x.WhenMade).First().WhenMade;
-
-            if (dateTo.Year == 1)
-                dateTo = DateTime.Today;
-
             transactions = _transactionService.FilterByDescription(transactions, description);
             transactions = _transactionService.FilterByDates(transactions, dateFrom, dateTo);
             
@@ -76,7 +70,8 @@ namespace TheBTeam.Web.Controllers
 
         public ActionResult UserTransactions(CategoryOfTransaction category, TypeOfTransaction type, int id, string description, DateTime dateFrom, DateTime dateTo, string sortOrder)
         {
-            ViewData["DateSortParam"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["DateSortParam"] = IsNullOrEmpty(sortOrder) ? "date" : "";
+            ViewData["AmountSortParam"] = sortOrder == "amount" ? "amount_desc" : "amount";
 
             var user = _plannerContext.Users.Single(x => x.Id == id);
 

@@ -6,12 +6,6 @@
     ViewData["Title"] = "User's Transactions";
 }
 
-@{
-    var incomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) > 0 && int.Parse(l.Value) < 100).ToList();
-    var outcomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) >= 100).ToList();
-    var allList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) == 0);
-}
-
 <h1>@Model.FullName's transactions list</h1>
 
 <p>
@@ -37,11 +31,13 @@
                     <label asp-for="@Model.Transactions.First().Category"></label>
                 </th>
                 <th>
-                    <label asp-for="@Model.Transactions.First().WhenMade"></label>
+                    <a asp-action="UserTransactions" asp-route-sortOrder="@ViewData["DateSortParam"]" asp-route-description="@Model.Description" asp-route-dateTo="@Model.DateTo"
+                       asp-route-dateFrom="@Model.DateFrom" asp-route-type="@Model.Type" asp-route-category="@Model.Category">@Html.DisplayNameFor(model => model.Transactions.First().WhenMade)</a>
                 </th>
                 <th>
-                    <label asp-for="@Model.Transactions.First().Amount"></label>
-                </th>
+                    <a asp-action="UserTransactions" asp-route-sortOrder="@ViewData["AmountSortParam"]" asp-route-description="@Model.Description" asp-route-dateTo="@Model.DateTo"
+                       asp-route-dateFrom="@Model.DateFrom" asp-route-type="@Model.Type" asp-route-category="@Model.Category">@Html.DisplayNameFor(model => model.Transactions.First().Amount)</a>
+                   </th>
                 <th>
                     <label asp-for="@Model.Transactions.First().Currency"></label>
                 </th>
@@ -101,36 +97,3 @@
         </tbody>
     </table>
     </div>
-
-    <script>
-     $(document).ready(function () {
-         var outcomeOptions = @Html.Raw(Json.Serialize(outcomeList));
-         var incomeOptions = @Html.Raw(Json.Serialize(incomeList));
-         var allList= @Html.Raw(Json.Serialize(allList));
-         var categorySelect = $('#categorySelect');
-         $('#transactionTypeSelect').change(function () {
-             categorySelect.empty();
-             var selected = $(this).val();
-             if (selected === '0') {
-                 addOptionsToSelect(allList);
-             }
-             if (selected === '1') {
-                 addOptionsToSelect(incomeOptions);
-
-             }
-             if (selected === '2') {
-                 addOptionsToSelect(outcomeOptions);
-             }
-         });
-
-         function addOptionsToSelect(options) {
-             options.forEach(function (i, item) {
-                 categorySelect.append($('<option>',
-                     {
-                         value: i.value,
-                         text: i.text
-                     }));
-             });
-         }
-     });
-    </script>

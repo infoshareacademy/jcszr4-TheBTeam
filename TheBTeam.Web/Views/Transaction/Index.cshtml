@@ -21,8 +21,8 @@
                            asp-route-dateFrom="@Model.DateFrom" asp-route-type="@Model.Type" asp-route-category="@Model.Category">@Html.DisplayNameFor(model => model.Transactions.First().UserDto.Email)</a>
                     </th>
                     <th>
-                        <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParam"]" asp-route-description="@ViewData["Description"]" asp-route-dateTo="@ViewData["DateTo"]"
-                           asp-route-dateFrom="@ViewData["DateFrom"]" asp-route-type="@ViewData["Type"]" asp-route-category="@ViewData["Category"]">@Html.DisplayNameFor(model => model.Transactions.First().WhenMade)</a>
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParam"]" asp-route-description="@Model.Description" asp-route-dateTo="@Model.DateTo"
+                           asp-route-dateFrom="@Model.DateFrom" asp-route-type="@Model.Type" asp-route-category="@Model.Category">@Html.DisplayNameFor(model => model.Transactions.First().WhenMade)</a>
                     </th>
                     <th>
                         <label>@Html.DisplayNameFor(model => model.Transactions.First().Currency)</label>

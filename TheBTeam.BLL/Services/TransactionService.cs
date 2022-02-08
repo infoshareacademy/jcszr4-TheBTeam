@@ -131,13 +131,13 @@ namespace TheBTeam.BLL.Services
             switch (sortOrder)
             {
                 case "email_desc":
-                   return transactions = transactions.OrderByDescending(x => x.UserDto.Email).ThenByDescending(x => x.WhenMade).ToList();
+                   return transactions = transactions.OrderByDescending(x => x.UserDto.Email).ThenByDescending(x => x.WhenMade).ThenBy(x=>x.Type).ThenBy(x=>x.Category).ToList();
                 case "Date":
-                   return transactions = transactions.OrderBy(x => x.WhenMade).ThenByDescending(x => x.UserDto.Email).ToList();
+                   return transactions = transactions.OrderBy(x => x.WhenMade).ThenByDescending(x => x.UserDto.Email).ThenBy(x => x.Type).ThenBy(x => x.Category).ToList();
                 case "date_desc":
-                   return transactions = transactions.OrderByDescending(x => x.WhenMade).ToList();
+                   return transactions = transactions.OrderByDescending(x => x.WhenMade).ThenBy(x => x.Type).ThenBy(x => x.Category).ToList();
                 default:
-                    return  transactions.OrderBy(x => x.UserDto.Email).ThenByDescending(x => x.WhenMade).ToList();
+                    return  transactions.OrderBy(x => x.UserDto.Email).ThenByDescending(x => x.WhenMade).ThenBy(x => x.Type).ThenBy(x => x.Category).ToList();
             }
         }
 
@@ -145,10 +145,16 @@ namespace TheBTeam.BLL.Services
         {
             switch (sortOrder)
             {
-                case "Date":
-                    return transactions = transactions.OrderBy(x => x.WhenMade).ToList();
-                case "date_desc":
-                    return transactions = transactions.OrderByDescending(x => x.WhenMade).ToList();
+                case "date":
+                    return transactions = transactions.OrderBy(x => x.WhenMade).ThenBy(x => x.Type).ThenBy(x => x.Category).ThenByDescending(x => x.Amount).ToList();
+                case "amount_desc":
+                    return transactions.OrderByDescending(x => x.Amount).ThenBy(x => x.WhenMade).ThenBy(x => x.Type)
+                        .ThenBy(x => x.Category).ToList();
+                case "amount":
+                    return transactions.OrderBy(x => x.Amount).ThenBy(x => x.WhenMade).ThenBy(x => x.Type)
+                        .ThenBy(x => x.Category).ToList();
+                default:
+                    return transactions = transactions.OrderByDescending(x => x.WhenMade).ThenBy(x => x.Type).ThenBy(x => x.Category).ThenByDescending(x => x.Amount).ToList();
             }
 
             return transactions;
