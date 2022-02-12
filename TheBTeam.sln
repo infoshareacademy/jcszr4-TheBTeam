@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheBTeam.ConsoleApp", "TheB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheBTeam.BLL", "TheBTeam.BLL\TheBTeam.BLL.csproj", "{87E0C929-1E9E-423B-AEA1-93573CBED998}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheBTeam.Web", "TheBTeam.Web\TheBTeam.Web.csproj", "{D2BFC705-2B2A-4D74-B154-9B8C7FE27FB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheBTeam.Web", "TheBTeam.Web\TheBTeam.Web.csproj", "{D2BFC705-2B2A-4D74-B154-9B8C7FE27FB2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

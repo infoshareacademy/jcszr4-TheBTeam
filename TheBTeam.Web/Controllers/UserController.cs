@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace TheBTeam.Web.Controllers
         }
 
         // GET: UserController
+        [Authorize]//[Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             var modelDal = _plannerContext.Users.ToList();
@@ -38,6 +40,7 @@ namespace TheBTeam.Web.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: UserController/Create
         public ActionResult Create()
         {
@@ -108,6 +111,7 @@ namespace TheBTeam.Web.Controllers
         }
 
         // GET: UserController/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             var model = _userService.GetByIdToDto(id);

@@ -21,7 +21,10 @@ namespace TheBTeam.BLL.Services
         {
             _plannerContext = plannerContext;
         }
-
+        public async Task<ICollection<UserDto>> GetAllUsers()
+        {
+            return await _plannerContext.Users.Select(u => new UserDto { Email = u.Email, Name = $"{u.FirstName} {u.LastName}", RoleName = u.Role.Name }).ToListAsync();
+        }
         public void Create(UserDto model)
         {
             var modelDal = User.FromDto(model);

@@ -18,6 +18,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/lib/Chart-js/chart.js"></script>
     <script src="~/lib/palette/palette.js"></script>
+    <link rel="stylesheet" href="~/css/main.css">
 
     @await RenderSectionAsync("Scripts", required: false)
 
@@ -26,6 +27,10 @@
     <header> 
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
+
+
+                
+
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"> <img src="~/LogoTheBTeam.png" class="d-inline-block align-middle rounded" width="150" alt="Logo"> Financial Planner</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -42,6 +47,7 @@
                         <li class="nav-item">
                             <a style="margin-left:1.35rem;" class="btn btn-nav" asp-area="" asp-controller="CategoryBudget" asp-action="Index">Budgets</a>
                         </li>
+                        <partial name="_LoginPartial" />
                     </ul>
                 </div>
             </div>
@@ -54,3 +60,4 @@
     </div>
 </body>
 </html>
+

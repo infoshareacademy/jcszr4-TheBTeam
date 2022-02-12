@@ -32,6 +32,7 @@ namespace TheBTeam.BLL.DAL.Entities
         public string Email { get;  set; }
         public string Phone { get; set; }
         public string Address { get; set; }
+        public virtual Role Role { get; set; }
 
         public static User FromDto(UserDto userDto)
         {
