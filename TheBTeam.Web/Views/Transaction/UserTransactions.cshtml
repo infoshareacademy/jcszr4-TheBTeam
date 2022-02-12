@@ -1,15 +1,9 @@
 ﻿@using System.Linq
 @using TheBTeam.BLL
-@model TheBTeam.BLL.Models.UserTransactionsDto
+@model TheBTeam.BLL.Models.TransactionSearchDto
 
 @{
     ViewData["Title"] = "User's Transactions";
-}
-
-@{
-    var incomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) > 0 && int.Parse(l.Value) < 100).ToList();
-    var outcomeList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) >= 100).ToList();
-    var allList = Html.GetEnumSelectList<CategoryOfTransaction>().Where(l => int.Parse(l.Value) == 0);
 }
 
 <h1>@Model.FullName's transactions list</h1>
@@ -21,38 +15,9 @@
 </p>
 
 <form asp-action="UserTransactions">
-    <div class="row">
-        <div class="col">
-            <label class="col-form-label">Type:</label>
-            <select name="type" id="transactionTypeSelect" asp-items="Html.GetEnumSelectList<TypeOfTransaction>()" class="form-control">
-                <option selected="selected" value="wqeqw">Please select Type</option>
-            </select>
-        </div>
-        <div class="col">
-            <label class="col-form-label">Category:</label>
-            <select name="category" id="categorySelect" asp-items="new List<SelectListItem>()" class="form-control">
-                <option selected="selected" value="">Please select category</option>
-            </select>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <label class="col-form-label">Date form:</label>
-            <input type="date" id="dateFrom" name="dateFrom" class="form-control" />
-        </div>
-
-        <div class="col">
-            <label class="col-form-label">Date to:</label>
-            <input type="date" id="dateTo" name="dateTo" class="form-control" />
-        </div>
-    </div>
-
-    <label class="control-label">Description</label>
-    <input style="margin-bottom:18px;" name="description" id="descrition" type="text" class="form-control" />
-
-    <div class="form-group">
-        <input type="submit" value="Search transaction" class="btn btn-secondary" />
-    </div>
+    @{
+        await Html.RenderPartialAsync("_TransactionSearchForm");
+    }
 </form>
 <div class="container container shadow p-3 mb-5 bg-white rounded">
     <table class="table">
@@ -66,11 +31,13 @@
                     <label asp-for="@Model.Transactions.First().Category"></label>
                 </th>
                 <th>
-                    <label asp-for="@Model.Transactions.First().WhenMade"></label>
+                    <a asp-action="UserTransactions" asp-route-sortOrder="@ViewData["DateSortParam"]" asp-route-description="@Model.Description" asp-route-dateTo="@Model.DateTo"
+                       asp-route-dateFrom="@Model.DateFrom" asp-route-type="@Model.Type" asp-route-category="@Model.Category">@Html.DisplayNameFor(model => model.Transactions.First().Date)</a>
                 </th>
                 <th>
-                    <label asp-for="@Model.Transactions.First().Amount"></label>
-                </th>
+                    <a asp-action="UserTransactions" asp-route-sortOrder="@ViewData["AmountSortParam"]" asp-route-description="@Model.Description" asp-route-dateTo="@Model.DateTo"
+                       asp-route-dateFrom="@Model.DateFrom" asp-route-type="@Model.Type" asp-route-category="@Model.Category">@Html.DisplayNameFor(model => model.Transactions.First().Amount)</a>
+                   </th>
                 <th>
                     <label asp-for="@Model.Transactions.First().Currency"></label>
                 </th>
@@ -97,7 +64,7 @@
                         @item.Category
                     </td>
                     <td>
-                        @item.WhenMade.ToString("d")
+                        @item.Date.ToString("d")
                     </td>
                     <td>
                         @item.Amount.ToString("C")
@@ -130,36 +97,3 @@
         </tbody>
     </table>
     </div>
-
-    <script>
-     $(document).ready(function () {
-         var outcomeOptions = @Html.Raw(Json.Serialize(outcomeList));
-         var incomeOptions = @Html.Raw(Json.Serialize(incomeList));
-         var allList= @Html.Raw(Json.Serialize(allList));
-         var categorySelect = $('#categorySelect');
-         $('#transactionTypeSelect').change(function () {
-             categorySelect.empty();
-             var selected = $(this).val();
-             if (selected === '0') {
-                 addOptionsToSelect(allList);
-             }
-             if (selected === '1') {
-                 addOptionsToSelect(incomeOptions);
-
-             }
-             if (selected === '2') {
-                 addOptionsToSelect(outcomeOptions);
-             }
-         });
-
-         function addOptionsToSelect(options) {
-             options.forEach(function (i, item) {
-                 categorySelect.append($('<option>',
-                     {
-                         value: i.value,
-                         text: i.text
-                     }));
-             });
-         }
-     });
-    </script>

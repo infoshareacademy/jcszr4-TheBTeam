@@ -35,7 +35,7 @@ namespace TheBTeam.BLL.Models
 
         [Display(Name = "When Made")]
         [DataType(DataType.Date)]
-        public DateTime WhenMade { get; set; }
+        public DateTime Date { get; set; }
 
         [MaxLength(50)]
         public string Description { get; set; }
@@ -53,7 +53,7 @@ namespace TheBTeam.BLL.Models
                 Category = transaction.Category,
                 Amount = transaction.Amount,
                 BalanceAfterTransaction = transaction.BalanceAfterTransaction,
-                WhenMade = transaction.WhenMade,
+                Date = transaction.Date,
                Description = transaction.Description
             };
         }
