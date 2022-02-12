@@ -23,7 +23,7 @@ namespace TheBTeam.BLL.Services
             //var user = await _dbContext.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Email == userName);
             var user = await _plannerContext.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Email == userName);
 
-            if (user != null)
+            if (user != null & user.Role != null)
             {
                 return new LoginResult { UserName = userName, RoleName = user.Role.Name, Success = true };
             }
