@@ -20,6 +20,7 @@ namespace TheBTeam.BLL.Services
             _plannerContext = plannerContext;
             _userService = new UserService(plannerContext);
         }
+
         public static List<TransactionDto> Get(CategoryOfTransaction category, TypeOfTransaction type, PlannerContext plannerContext, int id = 0)
         {
             var transactions = new List<TransactionDto>();
@@ -32,10 +33,10 @@ namespace TheBTeam.BLL.Services
             if (type == TypeOfTransaction.All)
                 return transactions;
 
-            if (type == TypeOfTransaction.Income && category == CategoryOfTransaction.allIncome)
+            if (type == TypeOfTransaction.Income && category == CategoryOfTransaction.Income)
                 return transactions.Where(t => t.Type == TypeOfTransaction.Income).ToList();
 
-            if (type == TypeOfTransaction.Outcome && category == CategoryOfTransaction.allOutcome)
+            if (type == TypeOfTransaction.Outcome && category == CategoryOfTransaction.Outcome)
                 return transactions.Where(t => t.Type == TypeOfTransaction.Outcome).ToList();
 
             if (type == TypeOfTransaction.Income && (int)category < IncomeCategoryLimit)
@@ -47,19 +48,12 @@ namespace TheBTeam.BLL.Services
             throw new InvalidDataException();
 
         }
-        public List<TransactionDto> FilterByDates(List<TransactionDto> transactions, DateTime dateFrom, DateTime dateTo)
+        public List<TransactionDto> GetByDates(List<TransactionDto> transactions, DateTime from, DateTime to)
         {
-            if (dateTo == new DateTime(0001, 01, 01))
-                dateTo = DateTime.Now;
+            if (to == new DateTime(0001, 01, 01))
+                to = DateTime.Now;
 
-            transactions = transactions.Where(t => t.Date >= dateFrom.AddDays(1).AddMinutes(-1) && t.Date <= dateTo.AddDays(1).AddMinutes(-1)).ToList();
-
-            return transactions;
-        }
-        public List<TransactionDto> FilterByDescription(List<TransactionDto> transactions, string description)
-        {
-            if (description is not null)
-                return transactions.Where(t => t.Description.ToLower().Contains(description.ToLower())).ToList();
+            transactions = transactions.Where(t => t.WhenMade >= from.AddDays(1).AddMinutes(-1) && t.WhenMade <= to.AddDays(1).AddMinutes(-1)).ToList();
 
             return transactions;
         }
@@ -110,7 +104,7 @@ namespace TheBTeam.BLL.Services
             transaction.Category = transactionDto.Category;
             transaction.Description = transactionDto.Description;
             transaction.Currency = transactionDto.Currency;
-            transaction.Date = transactionDto.Date;
+            transaction.WhenMade = transactionDto.WhenMade;
 
             decimal difference = 0.0m;
             if (transaction.Type == TypeOfTransaction.Income)
@@ -126,39 +120,7 @@ namespace TheBTeam.BLL.Services
 
             _userService.EditBalance((int)transaction.UserId, difference);
         }
-        public IEnumerable<TransactionDto> SortAllTransactions(IEnumerable<TransactionDto> transactions, string sortOrder)
-        {
-            switch (sortOrder)
-            {
-                case "email_desc":
-                   return transactions = transactions.OrderByDescending(x => x.UserDto.Email).ThenByDescending(x => x.Date).ThenBy(x=>x.Type).ThenBy(x=>x.Category).ToList();
-                case "Date":
-                   return transactions = transactions.OrderBy(x => x.Date).ThenByDescending(x => x.UserDto.Email).ThenBy(x => x.Type).ThenBy(x => x.Category).ToList();
-                case "date_desc":
-                   return transactions = transactions.OrderByDescending(x => x.Date).ThenBy(x => x.Type).ThenBy(x => x.Category).ToList();
-                default:
-                    return  transactions.OrderBy(x => x.UserDto.Email).ThenByDescending(x => x.Date).ThenBy(x => x.Type).ThenBy(x => x.Category).ToList();
-            }
-        }
 
-        public IEnumerable<TransactionDto> SortUserTransaction(IEnumerable<TransactionDto> transactions, string sortOrder)
-        {
-            switch (sortOrder)
-            {
-                case "date":
-                    return transactions = transactions.OrderBy(x => x.Date).ThenBy(x => x.Type).ThenBy(x => x.Category).ThenByDescending(x => x.Amount).ToList();
-                case "amount_desc":
-                    return transactions.OrderByDescending(x => x.Amount).ThenBy(x => x.Date).ThenBy(x => x.Type)
-                        .ThenBy(x => x.Category).ToList();
-                case "amount":
-                    return transactions.OrderBy(x => x.Amount).ThenBy(x => x.Date).ThenBy(x => x.Type)
-                        .ThenBy(x => x.Category).ToList();
-                default:
-                    return transactions = transactions.OrderByDescending(x => x.Date).ThenBy(x => x.Type).ThenBy(x => x.Category).ThenByDescending(x => x.Amount).ToList();
-            }
-
-            return transactions;
-        }
         public void Delete(int id)
         {
             var transaction = _plannerContext.Transactions.Single(t => t.Id == id);

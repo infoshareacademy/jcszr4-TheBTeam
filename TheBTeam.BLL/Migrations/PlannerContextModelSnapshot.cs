@@ -65,9 +65,6 @@ namespace TheBTeam.BLL.Migrations
                     b.Property<int>("Currency")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -77,6 +74,9 @@ namespace TheBTeam.BLL.Migrations
                     b.Property<int?>("UserId")
                         .IsRequired()
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("WhenMade")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
