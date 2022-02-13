@@ -24,7 +24,7 @@ namespace TheBTeam.BLL.DAL.Entities
         public decimal BalanceAfterTransaction { get; set; }
         public string Description { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime WhenMade { get; set; }
 
         public static Transaction FromDto(TransactionDto transactionDto)
         {
@@ -39,7 +39,7 @@ namespace TheBTeam.BLL.DAL.Entities
                 Category = transactionDto.Category,
                 Amount = transactionDto.Amount,
                 BalanceAfterTransaction = transactionDto.BalanceAfterTransaction,
-                Date = transactionDto.Date,
+                WhenMade = transactionDto.WhenMade,
                 Description = transactionDto.Description
             };
         }
