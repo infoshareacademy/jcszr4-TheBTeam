@@ -19,7 +19,7 @@ namespace TheBTeam.BLL
         [Display(Name = "All Outcomes")]
         allOutcome=100,
         [Display(Name = "Home")]
-        outcomeHome,
+        Home,
         [Display(Name = "Car")]
         Car,
         [Display(Name = "School")]
