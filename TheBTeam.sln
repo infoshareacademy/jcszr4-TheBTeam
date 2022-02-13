@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheBTeam.ConsoleApp", "TheB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheBTeam.BLL", "TheBTeam.BLL\TheBTeam.BLL.csproj", "{87E0C929-1E9E-423B-AEA1-93573CBED998}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheBTeam.Web", "TheBTeam.Web\TheBTeam.Web.csproj", "{D2BFC705-2B2A-4D74-B154-9B8C7FE27FB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheBTeam.Web", "TheBTeam.Web\TheBTeam.Web.csproj", "{D2BFC705-2B2A-4D74-B154-9B8C7FE27FB2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheBTeam.Api", "TheBTeam.Api\TheBTeam.Api.csproj", "{0D05427E-1C56-40AF-AB77-1CD6EEB19DF7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{D2BFC705-2B2A-4D74-B154-9B8C7FE27FB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2BFC705-2B2A-4D74-B154-9B8C7FE27FB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2BFC705-2B2A-4D74-B154-9B8C7FE27FB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D05427E-1C56-40AF-AB77-1CD6EEB19DF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D05427E-1C56-40AF-AB77-1CD6EEB19DF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D05427E-1C56-40AF-AB77-1CD6EEB19DF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D05427E-1C56-40AF-AB77-1CD6EEB19DF7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
