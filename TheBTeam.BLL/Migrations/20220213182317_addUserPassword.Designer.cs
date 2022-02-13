@@ -10,8 +10,8 @@ using TheBTeam.BLL.DAL;
 namespace TheBTeam.BLL.Migrations
 {
     [DbContext(typeof(PlannerContext))]
-    [Migration("20220206192344_AddRolesTable")]
-    partial class AddRolesTable
+    [Migration("20220213182317_addUserPassword")]
+    partial class addUserPassword
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,9 +47,10 @@ namespace TheBTeam.BLL.Migrations
 
             modelBuilder.Entity("TheBTeam.BLL.DAL.Entities.Role", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -84,6 +85,9 @@ namespace TheBTeam.BLL.Migrations
                     b.Property<int>("Currency")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -93,9 +97,6 @@ namespace TheBTeam.BLL.Migrations
                     b.Property<int?>("UserId")
                         .IsRequired()
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("WhenMade")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -148,10 +149,18 @@ namespace TheBTeam.BLL.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("nvarchar(25)");
 
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("RoleId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
                 });
@@ -165,6 +174,20 @@ namespace TheBTeam.BLL.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TheBTeam.BLL.DAL.Entities.User", b =>
+                {
+                    b.HasOne("TheBTeam.BLL.DAL.Entities.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId");
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("TheBTeam.BLL.DAL.Entities.Role", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

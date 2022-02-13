@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace TheBTeam.BLL.DAL.Entities
 {
-    public class Role
+    public class Role : Entity
     {
-        [Key]
-        public Guid Id { get; set; }
         public string Name { get; set; }
         public virtual ICollection<User> Users { get; set; }
     }

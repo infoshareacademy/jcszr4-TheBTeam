@@ -40,6 +40,7 @@ namespace TheBTeam.BLL.Models
         public DateTime CreatedAt { get; set; }
         public string RoleName { get; set; }
         public string Name { get; set; }
+        public string PasswordHash { get; set; }
 
         public static UserDto FromDAL(User user)
         {
