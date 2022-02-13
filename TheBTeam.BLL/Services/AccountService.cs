@@ -28,7 +28,7 @@ namespace TheBTeam.BLL.Services
 
             var hashedPassword = this._passwordHasher.HashPassword(user, password);
 
-            if (user != null && user.PasswordHash == hashedPassword)
+            if (user != null && user.PasswordHash.Equals(user.PasswordHash, StringComparison.Ordinal))
             {
                 if (user.Role != null)
                 {
