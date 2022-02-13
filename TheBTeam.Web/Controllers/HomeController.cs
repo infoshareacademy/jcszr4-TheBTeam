@@ -27,9 +27,10 @@ namespace TheBTeam.Web.Controllers
             _userService = userService;
         }
 
-        [Authorize]
-        public async Task<IActionResult> Index()
+        [Authorize]//[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Index(string email)
         {
+            ViewBag.Email = email;
             LoadDataFromFile.LoadUsersToDatbase(_plannerContext);
             var usersList = await _userService.GetAllUsers();
             return View(usersList);
