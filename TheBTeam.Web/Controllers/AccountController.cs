@@ -29,7 +29,10 @@ namespace TheBTeam.Web.Controllers
             _logger = logger;
             _plannerContext = plannerContext;
         }
-        [HttpGet, AllowAnonymous]
+
+
+        [Authorize]//[Authorize(Roles = "Admin")]
+        [HttpGet]
         public IActionResult Register()
         {
             RegisterDto model = new RegisterDto();
