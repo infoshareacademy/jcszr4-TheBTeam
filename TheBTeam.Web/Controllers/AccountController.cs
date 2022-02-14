@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using TheBTeam.BLL;
 using TheBTeam.BLL.DAL;
 using TheBTeam.BLL.DAL.Entities;
 using TheBTeam.BLL.Models;
@@ -27,13 +29,11 @@ namespace TheBTeam.Web.Controllers
             _logger = logger;
             _plannerContext = plannerContext;
         }
-
-        [Authorize(Roles = "Admin")]
-        [HttpGet]//[HttpGet, AllowAnonymous]
+        [HttpGet, AllowAnonymous]
         public IActionResult Register()
         {
             RegisterDto model = new RegisterDto();
-            return View(model);
+            return View();
         }
 
         [HttpPost, AllowAnonymous]
@@ -44,53 +44,41 @@ namespace TheBTeam.Web.Controllers
                 //TODO: add scope
                 using var log = _logger.BeginScope("UserEmailCheckInRegistration");
                 _logger.LogDebug("Checking if user exists {userEmail}", request.Email);
-                //var userCheck = await _plannerContext.FindAsync(e=>e. request.Email);
-                
                 var userCheck = await _plannerContext.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
 
                 if (userCheck == null)
                 {
+                    var userRole = new Role()
+                    {
+                        Name = "User"
+                    };
+                    _plannerContext.Roles.Add(userRole);
+
                     var user = new User
                     {
-                        FirstName = "",
-                        LastName = "",
-                        Balance = 0,
-                        Currency = BLL.Currency.PLN,
-                        Age = 18,
-                        Gender = BLL.Gender.Genderless,
+                        FirstName = "User",
+                        LastName = "User",
+                        Age = 99,
+                        Gender = Gender.Male,
                         Email = request.Email,
-                        CreatedAt = DateTime.Now,
-                        //TODO nadanie roli i hasla
-                        //Role = ""
-                        //Password = request.Password,
-                        //ConfirmPassword = request.ConfirmPassword
+                        Role = userRole
                     };
-                    _logger.LogDebug("Creating new user");
 
-                    _plannerContext.Users.Add(user);
-                    await _plannerContext.SaveChangesAsync();
-                    //TODO validation here add
-                    _logger.LogDebug("User created successfully");
-                    return RedirectToAction("/");
-
-                    //TODO validate
-                    //var result = await _userManager.CreateAsync(user, request.Password);
-                    //if (result.Succeeded)
-                    //{
-                    //    _logger.LogDebug("User created successfully");
-                    //    return RedirectToAction("Login");
-                    //}
-                    //else
-                    //{
-                    //    if (result.Errors.Count() > 0)
-                    //    {
-                    //        foreach (var error in result.Errors)
-                    //        {
-                    //            ModelState.AddModelError("message", error.Description);
-                    //        }
-                    //    }
-                    //    return View(request);
-                    //}
+                    IPasswordHasher<User> hasher = new PasswordHasher<User>();
+                    var password = hasher.HashPassword(user, request.Email);
+                    user.PasswordHash = password;
+                    var result = _plannerContext.Add(user);
+                    if (result != null)
+                    {
+                        _logger.LogDebug("User created successfully");
+                        _plannerContext.SaveChanges();
+                        return RedirectToAction("Login");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("message", "Error with adding new user");
+                        return View(request);
+                    }
                 }
                 else
                 {
@@ -102,15 +90,12 @@ namespace TheBTeam.Web.Controllers
             return View(request);
 
         }
-
         [HttpGet]
         public IActionResult Login(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
-
-
         [HttpPost]
         public async Task<IActionResult> Login(string userName, string password, string returnUrl = null)
         {

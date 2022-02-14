@@ -25,7 +25,7 @@ namespace TheBTeam.Web.Controllers
         }
 
         // GET: UserController
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public ActionResult Index()
         {
             var modelDal = _plannerContext.Users.ToList();
