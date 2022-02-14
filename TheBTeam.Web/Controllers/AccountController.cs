@@ -31,7 +31,7 @@ namespace TheBTeam.Web.Controllers
         }
 
 
-        [Authorize]//[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Register()
         {
@@ -51,12 +51,6 @@ namespace TheBTeam.Web.Controllers
 
                 if (userCheck == null)
                 {
-                    var userRole = new Role()
-                    {
-                        Name = "User"
-                    };
-                    _plannerContext.Roles.Add(userRole);
-
                     var user = new User
                     {
                         FirstName = "User",
@@ -64,7 +58,7 @@ namespace TheBTeam.Web.Controllers
                         Age = 99,
                         Gender = Gender.Male,
                         Email = request.Email,
-                        Role = userRole
+                        Role = _plannerContext.Roles.Find(2)
                     };
 
                     IPasswordHasher<User> hasher = new PasswordHasher<User>();
