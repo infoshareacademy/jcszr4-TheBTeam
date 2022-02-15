@@ -29,13 +29,7 @@ namespace TheBTeam.Web.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            var userEmail = HttpContext.User.Identity.Name;
-            var userRole = HttpContext.User.IsInRole("Admin");
-            var modelDal = _plannerContext.Users.Where(u=>u.Email == userEmail).ToList();
-            if (userRole)
-            {
-                modelDal = _plannerContext.Users.ToList();
-            }
+            var modelDal = _userService.GetAllUsersAccordingRole(HttpContext);
             var model= modelDal.Select(UserDto.FromDAL);
             return View(model);
         }
