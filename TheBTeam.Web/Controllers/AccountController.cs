@@ -111,8 +111,8 @@ namespace TheBTeam.Web.Controllers
 
                 if (Url.IsLocalUrl(returnUrl))
                 {
-                    //return Redirect(returnUrl);
-                    return RedirectToAction("Index", "Home", new { email = userName });
+                    return Redirect(returnUrl);
+                    //return RedirectToAction("Index", "User", new { email = userName , role = authResult.RoleName });
                 }
                 else
                 {

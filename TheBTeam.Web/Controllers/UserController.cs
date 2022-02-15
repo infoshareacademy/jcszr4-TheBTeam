@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using TheBTeam.BLL.DAL;
 using TheBTeam.BLL.DAL.Entities;
@@ -28,7 +29,13 @@ namespace TheBTeam.Web.Controllers
         [Authorize]
         public ActionResult Index()
         {
-            var modelDal = _plannerContext.Users.ToList();
+            var userEmail = HttpContext.User.Identity.Name;
+            var userRole = HttpContext.User.IsInRole("Admin");
+            var modelDal = _plannerContext.Users.Where(u=>u.Email == userEmail).ToList();
+            if (userRole)
+            {
+                modelDal = _plannerContext.Users.ToList();
+            }
             var model= modelDal.Select(UserDto.FromDAL);
             return View(model);
         }
