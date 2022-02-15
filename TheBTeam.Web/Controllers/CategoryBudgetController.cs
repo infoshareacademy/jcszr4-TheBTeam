@@ -32,10 +32,8 @@ namespace TheBTeam.Web.Controllers
             if (!modelDal.Any())
                 return RedirectToAction("Create", new {id=id});
 
-            if (date.Year == 1)
-                modelDal = modelDal.Where(x => x.Date == modelDal.First().Date).ToList();
-            else
-                modelDal = modelDal.Where(x => x.Date.Year == date.Year && x.Date.Month == date.Month).ToList();
+            modelDal = date == default ? modelDal.Where(x => x.Date == modelDal.First().Date).ToList() 
+                : modelDal.Where(x => x.Date.Year == date.Year && x.Date.Month == date.Month).ToList();
 
             if (!modelDal.Any())
                 return RedirectToAction("EmptyList", new{id=id, userFullName=userFullName, date= date});
@@ -85,7 +83,7 @@ namespace TheBTeam.Web.Controllers
 
             _planerContext.SaveChanges();
 
-            return RedirectToAction("UserBudget", new {id=id});
+            return RedirectToAction("UserBudget", new {id});
         }
 
         [HttpPost]
@@ -98,10 +96,7 @@ namespace TheBTeam.Web.Controllers
                 if (Enum.TryParse<CategoryOfTransaction>(category.Key, out var categoryEnum))
                 {
                     var existing = _planerContext.CategoryBudgets
-                        .FirstOrDefault(x => x.UserId == id && x.Category == categoryEnum);
-
-                    if (existing == null)
-                        existing = new CategoryBudget() { UserId = id, Category = categoryEnum };
+                        .FirstOrDefault(x => x.UserId == id && x.Category == categoryEnum) ?? new CategoryBudget() { UserId = id, Category = categoryEnum };
 
                     var stringValue = category.Value.FirstOrDefault();
                     existing.PlanedBudget = string.IsNullOrWhiteSpace(stringValue) ? 0M : decimal.Parse(stringValue);
@@ -126,7 +121,7 @@ namespace TheBTeam.Web.Controllers
 
             var model = activeUsersId
                 .Select(userId => new IndexBudget {User = activeUsers.First(x => x.Id == userId), CategoryBudget = activeBudgets
-                    .Where(x => x.UserId == userId), Transactions = _planerContext.Transactions.Where(x=>x.UserId==userId).Select(TransactionDto.FromDal).ToList()}).ToList();
+                    .Where(x => x.UserId == userId), Transactions = _planerContext.Transactions.Where(x=>x.UserId==userId).AsEnumerable().Select(TransactionDto.FromDal).ToList()}).ToList();
 
             return View(model);
         }
