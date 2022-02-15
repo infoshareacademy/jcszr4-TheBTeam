@@ -27,12 +27,9 @@ namespace TheBTeam.Web.Controllers
             _userService = userService;
         }
 
-        //[Authorize]//[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Index(string email)
+        public async Task<IActionResult> Index()
         {
-            ViewBag.Email = email;
-            var usersList = await _userService.GetAllUsers();
-            return View(usersList);
+            return View();
         }
 
         public IActionResult Privacy()

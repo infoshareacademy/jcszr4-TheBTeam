@@ -57,10 +57,17 @@ namespace TheBTeam.BLL.Services
             var user = _plannerContext.Users.Single(u => u.Id == id);
             var transactions = _plannerContext.Transactions.Where(x => x.UserId == id);
             var budgets = _plannerContext.CategoryBudgets.Where(x => x.UserId == id);
-
             _plannerContext.Remove(user);
-            _plannerContext.Remove(transactions);
-            _plannerContext.Remove(budgets);
+            var transactionExist = transactions.Count(t => t.UserId == id);
+            if (transactionExist > 0)
+            {
+                _plannerContext.Remove(transactions);
+            }
+            var budgetsExist = budgets.Count(t => t.UserId == id);
+            if (budgetsExist > 0)
+            {
+                _plannerContext.Remove(budgets);
+            }
             _plannerContext.SaveChanges();
         }
         

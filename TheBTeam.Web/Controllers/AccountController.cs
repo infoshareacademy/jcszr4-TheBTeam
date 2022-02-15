@@ -22,14 +22,22 @@ namespace TheBTeam.Web.Controllers
         private readonly IAccountService _accountService;
         private readonly ILogger<AccountController> _logger;
         private readonly PlannerContext _plannerContext;
+        private readonly UserService _userService;
 
-        public AccountController(IAccountService accountService, ILogger<AccountController> logger, PlannerContext plannerContext)
+        public AccountController(IAccountService accountService, ILogger<AccountController> logger, PlannerContext plannerContext, UserService userService)
         {
             _accountService = accountService;
             _logger = logger;
             _plannerContext = plannerContext;
+            _userService = userService;
         }
 
+        public async Task<IActionResult> Index(string email)
+        {
+            ViewBag.Email = email;
+            var usersList = await _userService.GetAllUsers();
+            return View(usersList);
+        }
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
@@ -53,8 +61,9 @@ namespace TheBTeam.Web.Controllers
                 {
                     var user = new User
                     {
-                        FirstName = "User",
-                        LastName = "User",
+                        FirstName = request.FirstName,
+                        LastName = request.LastName,
+                        Balance = 0m,
                         Age = 99,
                         Gender = Gender.Male,
                         Email = request.Email,
@@ -111,8 +120,11 @@ namespace TheBTeam.Web.Controllers
 
                 if (Url.IsLocalUrl(returnUrl))
                 {
-                    return Redirect(returnUrl);
-                    //return RedirectToAction("Index", "User", new { email = userName , role = authResult.RoleName });
+                    if (authResult.RoleName == "Admin")
+                    {
+                        return RedirectToAction("Index", "Account", new { email = userName, role = authResult.RoleName });
+                    }
+                    return Redirect(returnUrl);                  
                 }
                 else
                 {

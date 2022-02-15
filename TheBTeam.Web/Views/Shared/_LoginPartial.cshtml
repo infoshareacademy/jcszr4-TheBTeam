@@ -1,14 +1,11 @@
-﻿<ul class="navbar-nav">
-    <li>
-            <a class="nav-link text-dark border border-success rounded" asp-area="" asp-controller="account" asp-action="Register">
-                <i class="bi bi-person me-2"></i>
-                Register
-            </a>
-        </li>
-    <li>
-        <a class="nav-link text-dark border border-warning rounded" asp-area="" asp-controller="account" asp-action="LogOut">
-            <i class="bi bi-person me-2"></i>
-            Logout
-        </a>
+﻿<ul class="navbar-nav flex-grow-1">
+    <li class="nav-item">
+        <a style="margin-left:1.35rem; margin-right:1.35rem;" class="btn btn-nav" asp-route-returnurl="@ViewData["ReturnUrl"]" asp-controller="account" asp-action="Login">Login</a>
+    </li>
+    <li class="nav-item">
+        <a class="btn btn-nav" asp-area="" asp-controller="account" asp-action="Register">Register</a>
+    </li>
+    <li class="nav-item">
+        <a style="margin-left:1.35rem;" class="btn btn-nav" asp-area="" asp-controller="account" asp-action="LogOut">Logout</a>
     </li>
 </ul>
