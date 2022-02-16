@@ -4,11 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Castle.Core.Internal;
 using Microsoft.EntityFrameworkCore;
 using TheBTeam.BLL;
 using TheBTeam.BLL.DAL;
-using TheBTeam.BLL.DAL.Entities;
 using TheBTeam.BLL.Models;
 
 namespace TheBTeam.Web.Controllers
@@ -23,9 +21,10 @@ namespace TheBTeam.Web.Controllers
         }
         // GET: CategoryBudgetController
         //[HttpGet("Show/{id}")]
-        public ActionResult UserBudget(int id, DateTime date)
+        public async Task<ActionResult> UserBudget(int id, DateTime date)
         {
-            var modelDal = _planerContext.CategoryBudgets.Where(x => x.UserId == id).ToList().OrderByDescending(x=>x.Date).ToList();
+            //TODO: .toQuerryString
+            var modelDal = await _planerContext.CategoryBudgets.Where(x => x.UserId == id).OrderByDescending(x=>x.Date).ToListAsync();
             var userFullName =
                 $"{_planerContext.Users.First(x => x.Id == id).FirstName} {_planerContext.Users.First(x => x.Id == id).LastName}";
 
@@ -55,6 +54,19 @@ namespace TheBTeam.Web.Controllers
             ViewBag.Ex = expenses;
 
             return View(new UsersBudgetDto() { UserId = id, UserBudgets = model, CategorySums = sums, UserFullName = userFullName});
+        }
+        public  ActionResult UsersTrending(int id, CategoryOfTransaction category, DateTime dateFrom, DateTime dateTo)
+        {
+            var now = DateTime.UtcNow;
+            var currentMonth = new DateTime(now.Year, now.Month, 1);
+            var pastMonth = currentMonth.AddMonths(-3);
+
+
+            dateFrom = dateFrom == default ? DateTime.Now.AddMonths(-3) : dateFrom;
+            dateTo = dateTo == default ? DateTime.Now : dateTo;
+
+        
+            return View();
         }
 
         public ActionResult EmptyList(int id, string userFullName, DateTime date)
