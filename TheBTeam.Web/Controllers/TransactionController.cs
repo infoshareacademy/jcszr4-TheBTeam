@@ -16,22 +16,24 @@ using TheBTeam.BLL.Services;
 using TheBTeam.BLL.Models;
 using static System.String;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
 namespace TheBTeam.Web.Controllers
 {
     public class TransactionController : Controller
     {
         //private TransactionService _transactionRepo;//TODO wez tutaj tranzakcje z usera
-
+        private readonly ILogger<TransactionController> _logger;
         private readonly PlannerContext _plannerContext;
         private readonly TransactionService _transactionService;
         private readonly UserService _userService;
 
-        public TransactionController(PlannerContext plannerContext)
+        public TransactionController(PlannerContext plannerContext, ILogger<TransactionController> logger)
         {
             _plannerContext = plannerContext;
             _userService = new UserService(plannerContext);
             _transactionService = new TransactionService(plannerContext);
+            _logger = logger;
         }
         // GET: TransactionController
         [Authorize]
@@ -58,6 +60,14 @@ namespace TheBTeam.Web.Controllers
         // GET: TransactionController/Details/5
         public ActionResult Details(int id)
         {
+            _logger.LogInformation("Getting detail transaction item {Id}", id);
+            var findId = _plannerContext.Transactions.Find(id);
+            if (findId == null)
+            {
+                _logger.LogWarning("Get({Id}) NOT FOUND TRANSACTION ", id);
+                return RedirectToAction("EmptyList");
+            }
+
             var model = _transactionService.GetByIdToDto(id);
             model.UserDto = _userService.GetByIdToDto((int)model.UserId);
             return View(model);
@@ -164,6 +174,13 @@ namespace TheBTeam.Web.Controllers
         // GET: TransactionController/Delete/5
         public ActionResult Delete(int id)
         {
+            _logger.LogInformation("Getting delete transaction item {Id}", id);
+            var findId = _plannerContext.Transactions.Find(id);
+            if (findId == null)
+            {
+                _logger.LogWarning("Get({Id}) NOT FOUND TRANSACTION ", id);
+                return RedirectToAction("EmptyList");
+            }
             var model = _transactionService.GetByIdToDto(id);
             model.UserDto = _userService.GetByIdToDto((int)model.UserId);
             return View(model);
