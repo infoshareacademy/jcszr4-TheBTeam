@@ -18,6 +18,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/lib/Chart-js/chart.js"></script>
     <script src="~/lib/palette/palette.js"></script>
+    <link rel="stylesheet" href="~/css/main.css">
 
     @await RenderSectionAsync("Scripts", required: false)
 
@@ -43,6 +44,7 @@
                             <a style="margin-left:1.35rem;" class="btn btn-nav" asp-area="" asp-controller="CategoryBudget" asp-action="Index">Budgets</a>
                         </li>
                     </ul>
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
@@ -54,3 +56,4 @@
     </div>
 </body>
 </html>
+

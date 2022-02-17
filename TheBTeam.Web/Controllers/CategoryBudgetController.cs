@@ -10,6 +10,7 @@ using TheBTeam.BLL;
 using TheBTeam.BLL.DAL;
 using TheBTeam.BLL.DAL.Entities;
 using TheBTeam.BLL.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TheBTeam.Web.Controllers
 {
@@ -115,7 +116,7 @@ namespace TheBTeam.Web.Controllers
 
             return RedirectToAction(nameof(UserBudget), new { id });
         }
-
+        [Authorize]
         public ActionResult Index()
         {
             var activeBudgets = _planerContext.CategoryBudgets.Where(x => x.PlanedBudget > 0).ToList().Select(CategoryBudgetDto.FromDal);

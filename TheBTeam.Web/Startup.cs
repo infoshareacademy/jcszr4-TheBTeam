@@ -12,11 +12,16 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TheBTeam.BLL.DAL;
 using TheBTeam.BLL.Models;
+using TheBTeam.BLL.Services;
+using Microsoft.Data.SqlClient;
+using Microsoft.AspNetCore.Identity;
+using TheBTeam.BLL.DAL.Entities;
 
 namespace TheBTeam.Web
 {
     public class Startup
     {
+        public const string CookieScheme = "CiasteczkaWMojejAplikacji";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -30,27 +35,39 @@ namespace TheBTeam.Web
             services.AddControllersWithViews();
             var connectionString = Configuration.GetConnectionString("Database");
             services.AddDbContext<PlannerContext>(o => o.UseSqlServer(connectionString));
-            
+
+            services.AddAuthentication(CookieScheme).
+                AddCookie(CookieScheme, options =>
+                {
+                    options.AccessDeniedPath = "/account/AccessDenied";
+                    options.LoginPath = "/account/login";
+                    options.LogoutPath = "/account/logout";
+                });
             //services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+            services.AddTransient<UserService>();
+            services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IPasswordHasher<User>, PasswordHasher<User>>();
+            services.AddAuthorization();
 
             var profilesAssembly = typeof(UserDto).Assembly;
             services.AddAutoMapper(profilesAssembly);
         }
-
-
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
             var context = serviceScope.ServiceProvider.GetService<PlannerContext>();
-
+            var hasher = serviceScope.ServiceProvider.GetService<IPasswordHasher<User>>();
             var cultureInfo = new CultureInfo("en-GB");
             cultureInfo.NumberFormat.CurrencySymbol = "PLN ";
 
             CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
             CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
             context?.Database.Migrate();
+
+            LoadDataFromFile.SeedDatabase(context, hasher);
 
             if (env.IsDevelopment())
             {
@@ -67,6 +84,7 @@ namespace TheBTeam.Web
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

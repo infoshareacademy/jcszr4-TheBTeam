@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
@@ -11,8 +12,6 @@ namespace TheBTeam.BLL.Services
 {
     public class LoadDataFromFile
     {
-
-
         public static List<UserDto> ReadUserFile()
         {
             string fileName = @"SourceFiles\users.json";
@@ -30,15 +29,40 @@ namespace TheBTeam.BLL.Services
             return userData;
         }
 
-        public static void LoadUsersToDatbase(PlannerContext plannerContext)
+        public static void SeedDatabase(PlannerContext plannerContext, IPasswordHasher<User> hasher)
         {
             if (!plannerContext.Users.Any())
             {
-                var users = LoadDataFromFile.ReadDalUserFile();
-                plannerContext.AddRange(users);
+                var adminRole = new Role()
+                {
+                    Name = "Admin"
+                };
+
+                var userRole = new Role()
+                {
+                    Name = "User"
+                };
+
+                plannerContext.Roles.Add(adminRole);
+                plannerContext.Roles.Add(userRole);
+
+                var admin = new User
+                {
+                    Address = "",
+                    FirstName = "Admin",
+                    LastName = "Admin",
+                    Age = 99,
+                    Gender = Gender.Male,
+                    Company = "",
+                    Email = "admin@admin.eu",
+                    Role = adminRole
+                };
+
+                var password = hasher.HashPassword(admin, "bTeamRoxs");
+                admin.PasswordHash = password;
+                plannerContext.Add(admin);
                 plannerContext.SaveChanges();
             }
         }
     }
-    
 }

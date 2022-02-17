@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using TheBTeam.BLL.DAL;
 using TheBTeam.BLL.DAL.Entities;
@@ -27,9 +29,10 @@ namespace TheBTeam.Web.Controllers
         }
 
         // GET: UserController
+        [Authorize]
         public ActionResult Index()
         {
-            var modelDal = _plannerContext.Users.ToList();
+            var modelDal = _userService.GetAllUsersAccordingRole(HttpContext);
             var model= modelDal.Select(UserDto.FromDAL);
             return View(model);
         }
@@ -48,11 +51,8 @@ namespace TheBTeam.Web.Controllers
             return View(model);
         }
 
-        public ActionResult EmptyList()
-        {
-            return View();
-        }
 
+        [Authorize(Roles = "Admin")]
         // GET: UserController/Create
         public ActionResult Create()
         {
@@ -123,6 +123,7 @@ namespace TheBTeam.Web.Controllers
         }
 
         // GET: UserController/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
             _logger.LogInformation("Getting delete user item {Id}", id);

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -16,22 +17,28 @@ namespace TheBTeam.Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly PlannerContext _plannerContext;
+        private readonly UserService _userService;
 
 
-        public HomeController(ILogger<HomeController> logger, PlannerContext plannerContext)
+        public HomeController(ILogger<HomeController> logger, PlannerContext plannerContext, UserService userService)
         {
             _logger = logger;
             _plannerContext = plannerContext;
-            
+            _userService = userService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            LoadDataFromFile.LoadUsersToDatbase(_plannerContext);
             return View();
         }
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult AdminOnly()
         {
             return View();
         }
