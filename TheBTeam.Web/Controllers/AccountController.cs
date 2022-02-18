@@ -70,8 +70,7 @@ namespace TheBTeam.Web.Controllers
                         Role = _plannerContext.Roles.Find(2)
                     };
 
-                    IPasswordHasher<User> hasher = new PasswordHasher<User>();
-                    var password = hasher.HashPassword(user, request.Email);
+                    var password = Base64EncodeDecode.Base64Encode(request.Password);
                     user.PasswordHash = password;
                     var result = _plannerContext.Add(user);
                     if (result != null)

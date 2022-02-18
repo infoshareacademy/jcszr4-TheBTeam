@@ -1,13 +1,16 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Helpers;
 using TheBTeam.BLL.DAL;
 using TheBTeam.BLL.DAL.Entities;
 using TheBTeam.BLL.Models;
+using PasswordVerificationResult = Microsoft.AspNet.Identity.PasswordVerificationResult;
 
 namespace TheBTeam.BLL.Services
 {
@@ -24,11 +27,10 @@ namespace TheBTeam.BLL.Services
 
         public async Task<LoginResult> ValidateUser(string userName, string password)
         {
-             var user = await _plannerContext.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Email == userName);
+            var user = await _plannerContext.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Email == userName);
+            var decodeBasePassword = Base64EncodeDecode.Base64Decode(user.PasswordHash);
 
-            var hashedPassword = this._passwordHasher.HashPassword(user, password);
-
-            if (user != null && user.PasswordHash.Equals(user.PasswordHash, StringComparison.Ordinal))
+            if (user != null && password == decodeBasePassword)
             {
                 if (user.Role != null)
                 {

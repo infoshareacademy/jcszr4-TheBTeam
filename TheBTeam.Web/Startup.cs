@@ -67,7 +67,7 @@ namespace TheBTeam.Web
             CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
             context?.Database.Migrate();
 
-            LoadDataFromFile.SeedDatabase(context, hasher);
+            LoadDataFromFile.SeedDatabase(context);
 
             if (env.IsDevelopment())
             {

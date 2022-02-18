@@ -29,7 +29,7 @@ namespace TheBTeam.BLL.Services
             return userData;
         }
 
-        public static void SeedDatabase(PlannerContext plannerContext, IPasswordHasher<User> hasher)
+        public static void SeedDatabase(PlannerContext plannerContext)
         {
             if (!plannerContext.Users.Any())
             {
@@ -58,11 +58,13 @@ namespace TheBTeam.BLL.Services
                     Role = adminRole
                 };
 
-                var password = hasher.HashPassword(admin, "bTeamRoxs");
-                admin.PasswordHash = password;
+                var encodePassword = Base64EncodeDecode.Base64Encode("bTeamRoxs");
+                admin.PasswordHash = encodePassword;
                 plannerContext.Add(admin);
                 plannerContext.SaveChanges();
             }
         }
+
+
     }
 }
