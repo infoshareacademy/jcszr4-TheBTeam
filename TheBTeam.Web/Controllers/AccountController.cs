@@ -32,6 +32,7 @@ namespace TheBTeam.Web.Controllers
             _userService = userService;
         }
 
+        [Authorize]
         public async Task<IActionResult> Index(string email)
         {
             ViewBag.Email = email;
