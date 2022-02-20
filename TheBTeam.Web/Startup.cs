@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TheBTeam.BLL.DAL;
 using TheBTeam.BLL.Models;
+using TheBTeam.BLL.Services;
 
 namespace TheBTeam.Web
 {
@@ -30,9 +31,7 @@ namespace TheBTeam.Web
             services.AddControllersWithViews();
             var connectionString = Configuration.GetConnectionString("Database");
             services.AddDbContext<PlannerContext>(o => o.UseSqlServer(connectionString));
-            
-            //services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-
+            services.AddTransient<BudgetService>();
             var profilesAssembly = typeof(UserDto).Assembly;
             services.AddAutoMapper(profilesAssembly);
         }

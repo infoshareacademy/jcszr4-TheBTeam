@@ -8,16 +8,19 @@ using Microsoft.EntityFrameworkCore;
 using TheBTeam.BLL;
 using TheBTeam.BLL.DAL;
 using TheBTeam.BLL.Models;
+using TheBTeam.BLL.Services;
 
 namespace TheBTeam.Web.Controllers
 {
     public class CategoryBudgetController : Controller
     {
         private readonly PlannerContext _planerContext;
+        private readonly BudgetService _budgetService;
 
-        public CategoryBudgetController(PlannerContext planerContext)
+        public CategoryBudgetController(PlannerContext planerContext, BudgetService budgetService)
         {
             _planerContext = planerContext;
+            _budgetService = budgetService;
         }
         // GET: CategoryBudgetController
         //[HttpGet("Show/{id}")]
@@ -57,17 +60,16 @@ namespace TheBTeam.Web.Controllers
         }
         public  ActionResult UsersTrending(int id, CategoryOfTransaction category, DateTime dateFrom, DateTime dateTo)
         {
-            var now = DateTime.UtcNow;
-            var currentMonth = new DateTime(now.Year, now.Month, 1);
-            var pastMonth = currentMonth.AddMonths(-3);
+            _budgetService.CheckDateToTrending(ref dateFrom, ref dateTo);
+            var transactions = _planerContext.Transactions.Where(x => x.UserId == id)
+                .Where(x => x.Date > dateFrom && x.Date < dateTo).Where(x=>x.Category==category).ToList();
+            
 
 
-            dateFrom = dateFrom == default ? DateTime.Now.AddMonths(-3) : dateFrom;
-            dateTo = dateTo == default ? DateTime.Now : dateTo;
-
-        
             return View();
         }
+
+       
 
         public ActionResult EmptyList(int id, string userFullName, DateTime date)
         {
