@@ -272,31 +272,3 @@
         });
 </script>
 
-<@*script>
-    var models = @Html.Raw(Json.Serialize(Model.UserBudgets));
-    debugger;
-    var labels = [];
-    var dataValues = [];
-    for (var i = 0; i < models.length; i++) {
-        var obj = models[i];
-        labels.push(obj.item1);
-        dataValues.push(obj.item2);
-    };
-    const ctx = document.getElementById('currentExpensesChart').getContext('2d');
-    const myChart = new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Current expenses',
-                data: dataValues,
-                fill: false,
-                backgroundColor: palette('tol-rainbow', dataValues.length).map(function(hex) {
-                    return '#' + hex;
-                }),
-                hoverOffset: 10
-            }]
-        },
-    });
-</script>*@
-

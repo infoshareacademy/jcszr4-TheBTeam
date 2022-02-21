@@ -32,6 +32,7 @@ namespace TheBTeam.Web
             var connectionString = Configuration.GetConnectionString("Database");
             services.AddDbContext<PlannerContext>(o => o.UseSqlServer(connectionString));
             services.AddTransient<BudgetService>();
+            services.AddTransient<TransactionService>();
             var profilesAssembly = typeof(UserDto).Assembly;
             services.AddAutoMapper(profilesAssembly);
         }

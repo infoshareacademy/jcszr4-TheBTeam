@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,11 +17,13 @@ namespace TheBTeam.Web.Controllers
     {
         private readonly PlannerContext _planerContext;
         private readonly BudgetService _budgetService;
+        private readonly TransactionService _transactionService;
 
-        public CategoryBudgetController(PlannerContext planerContext, BudgetService budgetService)
+        public CategoryBudgetController(PlannerContext planerContext, BudgetService budgetService, TransactionService transactionService)
         {
             _planerContext = planerContext;
             _budgetService = budgetService;
+            _transactionService = transactionService;
         }
         // GET: CategoryBudgetController
         //[HttpGet("Show/{id}")]
@@ -61,16 +64,11 @@ namespace TheBTeam.Web.Controllers
         public  ActionResult UsersTrending(int id, CategoryOfTransaction category, DateTime dateFrom, DateTime dateTo)
         {
             _budgetService.CheckDateToTrending(ref dateFrom, ref dateTo);
-            var transactions = _planerContext.Transactions.Where(x => x.UserId == id)
-                .Where(x => x.Date > dateFrom && x.Date < dateTo).Where(x=>x.Category==category).ToList();
-            
 
+            var groupedTransactions = _transactionService.GroupTransactionForTrending(id, category, dateFrom, dateTo);
 
-            return View();
+            return View(new UsersTrendingDto(){Transactions = groupedTransactions, Category = category, UserId = id});
         }
-
-       
-
         public ActionResult EmptyList(int id, string userFullName, DateTime date)
         {
             ViewBag.Id = id;
