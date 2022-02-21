@@ -48,6 +48,7 @@ namespace TheBTeam.Web
             services.AddTransient<UserService>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IPasswordHasher<User>, PasswordHasher<User>>();
+            services.AddHttpContextAccessor();
             services.AddAuthorization();
 
             var profilesAssembly = typeof(UserDto).Assembly;

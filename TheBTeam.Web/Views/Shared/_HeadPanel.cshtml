@@ -1,0 +1,19 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+
+<ul class="navbar-nav flex-grow-1">
+
+    @if (HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+    {
+
+        <li class="nav-item">
+            <a style="margin-left:1.35rem; margin-right:1.35rem;" class="btn btn-nav" asp-area="" asp-controller="User" asp-action="Index">Users</a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-nav" asp-area="" asp-controller="Transaction" asp-action="Index">Transactions</a>
+        </li>
+        <li class="nav-item">
+            <a style="margin-left:1.35rem;" class="btn btn-nav" asp-area="" asp-controller="CategoryBudget" asp-action="Index">Budgets</a>
+        </li>
+    }
+</ul>

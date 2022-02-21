@@ -118,17 +118,13 @@ namespace TheBTeam.Web.Controllers
 
                 await HttpContext.SignInAsync(new ClaimsPrincipal(new ClaimsIdentity(claims, "Cookies", "user", "role")));
 
-                if (Url.IsLocalUrl(returnUrl))
+                if (authResult.RoleName == "Admin")
                 {
-                    if (authResult.RoleName == "Admin")
-                    {
-                        return RedirectToAction("Index", "Account", new { email = userName, role = authResult.RoleName });
-                    }
-                    return Redirect(returnUrl);                  
+                    return RedirectToAction("Index", "Account", new { email = userName, role = authResult.RoleName });
                 }
                 else
                 {
-                    return Redirect("/");
+                    return RedirectToAction("Index", "Account", new { email = userName, role = authResult.RoleName });
                 }
             }
 
