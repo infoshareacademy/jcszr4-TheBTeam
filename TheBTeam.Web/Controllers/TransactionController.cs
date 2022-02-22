@@ -15,8 +15,8 @@ using TheBTeam.BLL.DAL.Entities;
 using TheBTeam.BLL.Services;
 using TheBTeam.BLL.Models;
 using static System.String;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
-
 
 namespace TheBTeam.Web.Controllers
 {
@@ -36,6 +36,7 @@ namespace TheBTeam.Web.Controllers
             _logger = logger;
         }
         // GET: TransactionController
+        [Authorize]
         public ActionResult Index(CategoryOfTransaction category, TypeOfTransaction type, string description, DateTime dateFrom, DateTime dateTo, string sortOrder)
         {
             ViewData["EmailSortParam"] = IsNullOrEmpty(sortOrder) ? "email_desc" : "";
@@ -168,7 +169,7 @@ namespace TheBTeam.Web.Controllers
                 return View();
             }
         }
-
+        [Authorize(Roles = "Admin")]
         // GET: TransactionController/Delete/5
         public ActionResult Delete(int id)
         {

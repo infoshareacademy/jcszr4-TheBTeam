@@ -22,7 +22,6 @@
         Model.DateFrom = Model.Transactions.Min(x=>x.Date);
     else if (Model.DateFrom == default)
         Model.DateFrom = DateTime.Now.AddDays(-7);
-
 }
 
 

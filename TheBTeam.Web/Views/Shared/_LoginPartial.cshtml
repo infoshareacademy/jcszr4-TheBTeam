@@ -1,0 +1,26 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "users list";
+}
+
+<ul class="navbar-nav flex-grow-1">
+    @if (!HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+    {
+        <li class="nav-item">
+            <a style="margin-left:1.35rem; margin-right:1.35rem;" class="btn btn-nav" asp-controller="account" asp-action="Login">Login</a>
+        </li>
+    }
+    else
+    {
+        @if (HttpContextAccessor.HttpContext.User.Identity.Name.Contains("admin"))
+        {
+            <li class="nav-item">
+                <a class="btn btn-nav" asp-area="" asp-controller="account" asp-action="Register">Register</a>
+            </li>
+        }
+        <li class="nav-item">
+            <a style="margin-left:1.35rem;" class="btn btn-nav" asp-area="" asp-controller="account" asp-action="LogOut">Logout</a>
+        </li>
+    }
+</ul>

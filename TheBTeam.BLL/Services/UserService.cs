@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using TheBTeam.BLL.DAL;
 using TheBTeam.BLL.DAL.Entities;
@@ -22,6 +23,22 @@ namespace TheBTeam.BLL.Services
             _plannerContext = plannerContext;
         }
 
+        public List<User> GetAllUsersAccordingRole(HttpContext httpContext)
+        {
+            var userEmail = httpContext.User.Identity.Name;
+            var userRole = httpContext.User.IsInRole("Admin");
+            var model = _plannerContext.Users.Where(u => u.Email == userEmail).ToList();
+            if (userRole)
+            {
+                return  _plannerContext.Users.ToList();
+            }
+            return model;
+        }
+
+        public async Task<ICollection<UserDto>> GetAllUsers()
+        {
+            return await _plannerContext.Users.Select(u => new UserDto { Email = u.Email, Name = $"{u.FirstName} {u.LastName}", RoleName = u.Role.Name }).ToListAsync();
+        }
         public void Create(UserDto model)
         {
             var modelDal = User.FromDto(model);
@@ -40,10 +57,17 @@ namespace TheBTeam.BLL.Services
             var user = _plannerContext.Users.Single(u => u.Id == id);
             var transactions = _plannerContext.Transactions.Where(x => x.UserId == id);
             var budgets = _plannerContext.CategoryBudgets.Where(x => x.UserId == id);
-
             _plannerContext.Remove(user);
-            _plannerContext.Remove(transactions);
-            _plannerContext.Remove(budgets);
+            var transactionExist = transactions.Count(t => t.UserId == id);
+            if (transactionExist > 0)
+            {
+                _plannerContext.Remove(transactions);
+            }
+            var budgetsExist = budgets.Count(t => t.UserId == id);
+            if (budgetsExist > 0)
+            {
+                _plannerContext.Remove(budgets);
+            }
             _plannerContext.SaveChanges();
         }
         
