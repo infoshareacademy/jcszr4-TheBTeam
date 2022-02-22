@@ -28,13 +28,17 @@ namespace TheBTeam.BLL.Services
         public async Task<LoginResult> ValidateUser(string userName, string password)
         {
             var user = await _plannerContext.Users.Include(u => u.Role).FirstOrDefaultAsync(u => u.Email == userName);
-            var decodeBasePassword = Base64EncodeDecode.Base64Decode(user.PasswordHash);
 
-            if (user != null && password == decodeBasePassword)
+            if (user != null)
             {
-                if (user.Role != null)
+                var decodeBasePassword = Base64EncodeDecode.Base64Decode(user.PasswordHash);
+
+                if (password == decodeBasePassword)
                 {
-                    return new LoginResult { UserName = userName, RoleName = user.Role.Name, Success = true };
+                    if (user.Role != null)
+                    {
+                        return new LoginResult { UserName = userName, RoleName = user.Role.Name, Success = true };
+                    }
                 }
             }
 
