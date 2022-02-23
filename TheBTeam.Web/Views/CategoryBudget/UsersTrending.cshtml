@@ -1,0 +1,58 @@
+﻿@using TheBTeam.BLL
+@using TheBTeam.BLL.DAL
+@using TheBTeam.BLL.Models
+@using System.Security.Cryptography.X509Certificates
+@using System.Globalization
+@using System.Text.Json;
+@using System.Text.Json.Serialization;
+@model TheBTeam.BLL.Models.UsersTrendingDto;
+
+<form asp-action="UsersTrending">
+    <div class="row">
+        <div class="col">
+            <label class="col-form-label">Date form:</label>
+            <input type="month" id="dateFrom" name="dateFrom" class="form-control" />
+        </div>
+
+        <div class="col">
+            <label class="col-form-label">Date to:</label>
+            <input type="month" id="dateTo" name="dateTo" class="form-control" asp-route-category=""/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Search transaction" class="btn btn-secondary" asp-route-category="@Model.Category" />
+    </div>
+</form>
+
+<div class="container " style="position: relative">
+    <h3 align="center">Spending trends for @Model.Category category</h3>
+    <canvas id="trendingLine"></canvas>
+</div>
+
+<script>
+    var models = @Html.Raw(Json.Serialize(Model.Transactions));
+    var labels = [];
+    var dataValues = [];
+    for (var i = 0; i < models.length; i++) {
+        var obj = models[i];
+        labels.push(obj.date);
+        dataValues.push(obj.sum);
+    };
+    const ctx = document.getElementById('trendingLine').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Total expenses',
+                data: dataValues,
+                fill: false,
+                backgroundColor: palette('tol-rainbow', dataValues.length).map(function(hex) {
+                    return '#' + hex;
+                }),
+                hoverOffset: 10
+            }]
+        },
+    });
+</script>

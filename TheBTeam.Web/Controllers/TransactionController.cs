@@ -43,7 +43,6 @@ namespace TheBTeam.Web.Controllers
             ViewData["DateSortParam"] = sortOrder == "Date" ? "date_desc" : "Date";
 
             var transactions = TransactionService.Get(category, type, _plannerContext);
-
             transactions = _transactionService.FilterByDescription(transactions, description);
             transactions = _transactionService.FilterByDates(transactions, dateFrom, dateTo);
             

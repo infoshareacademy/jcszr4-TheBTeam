@@ -130,9 +130,12 @@
                 <th>
                     <b>Difference</b>
                 </th>
-                <th>
-                    spent/left [%]
-                </th>
+            <th>
+                spent/left [%]
+            </th>
+            <th>
+                Actions
+            </th>
 
         </thead>
 
@@ -172,53 +175,65 @@
             @foreach (var item in possibleOutcomeCategories)
             {
                 var modelItem = Model.UserBudgets.FirstOrDefault(x => x.Category == item) ?? new CategoryBudgetDto();
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item)
-                    </td>
-                    <td>
-                        <div class="form-group">
-                            <input type="number" name="@item.ToString()" class="form-control" value="@modelItem?.PlanedBudget" />
-                        </div>
-                    </td>
-                    <td>
-                        @{Model.CategorySums.TryGetValue(item, out decimal spent);}
-                        @spent.ToString("C")
-                    </td>
-                    <td>
-                        @{
-                            decimal difference;
-                            if (modelItem == null)
-                                difference = 0;
-                            else
-                                difference = modelItem.PlanedBudget - spent;
-                        }
-                        @difference.ToString("C")
-                    </td>
-                    <td>
-                        @{
-                            decimal pSpent = 0;
-                            decimal pLeft = 0;
-                            var budget = modelItem.PlanedBudget;
-                            string output;
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item)
+                </td>
+                <td>
+                    <div class="form-group">
+                        <input type="number" name="@item.ToString()" class="form-control" value="@modelItem?.PlanedBudget" />
+                    </div>
+                </td>
+                <td>
+                    @{Model.CategorySums.TryGetValue(item, out decimal spent);}
+                    @spent.ToString("C")
+                </td>
+                <td>
+                    @{
+                        decimal difference;
+                        if (modelItem == null)
+                            difference = 0;
+                        else
+                            difference = modelItem.PlanedBudget - spent;
+                    }
+                    @difference.ToString("C")
+                </td>
+                <td>
+                    @{
+                        decimal pSpent = 0;
+                        decimal pLeft = 0;
+                        var budget = modelItem.PlanedBudget;
+                        string output;
 
-                            if (budget != 0)
-                            {
-                                pSpent = (spent / budget) * 100;
-                                pSpent = Math.Round(pSpent);
-                                pLeft = 100 - pSpent;
-                            }
-
-                            if (pLeft < 0)
-                                output = $"You spent {pSpent - 100}% more!";
-                            else if (budget == 0 && spent > 0)
-                                output = $"You spent {spent:c} without budget set";
-                            else
-                                output = $"{pSpent}% / {pLeft}%";
+                        if (budget != 0)
+                        {
+                            pSpent = (spent / budget) * 100;
+                            pSpent = Math.Round(pSpent);
+                            pLeft = 100 - pSpent;
                         }
-                        @output
-                    </td>
-                </tr>
+
+                        if (pLeft < 0)
+                            output = $"You spent {pSpent - 100}% more!";
+                        else if (budget == 0 && spent > 0)
+                            output = $"You spent {spent:c} without budget set";
+                        else
+                            output = $"{pSpent}% / {pLeft}%";
+                    }
+                    @output
+                </td>
+                <td>
+                    <div class="dropdown">
+                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            More
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" asp-action="UsersTrending" asp-route-id="@Model.UserId" asp-route-category="@item" >Trending</a>
+                            </div>
+                    </div>
+
+                </td>
+            </tr>
             }
         </tbody>
     </table>
@@ -256,32 +271,4 @@
         },
         });
 </script>
-
-<@*script>
-    var models = @Html.Raw(Json.Serialize(Model.UserBudgets));
-    debugger;
-    var labels = [];
-    var dataValues = [];
-    for (var i = 0; i < models.length; i++) {
-        var obj = models[i];
-        labels.push(obj.item1);
-        dataValues.push(obj.item2);
-    };
-    const ctx = document.getElementById('currentExpensesChart').getContext('2d');
-    const myChart = new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Current expenses',
-                data: dataValues,
-                fill: false,
-                backgroundColor: palette('tol-rainbow', dataValues.length).map(function(hex) {
-                    return '#' + hex;
-                }),
-                hoverOffset: 10
-            }]
-        },
-    });
-</script>*@
 
