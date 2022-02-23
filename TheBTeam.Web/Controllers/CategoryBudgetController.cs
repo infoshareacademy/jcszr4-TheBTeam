@@ -32,36 +32,26 @@ namespace TheBTeam.Web.Controllers
         public async Task<ActionResult> UserBudget(int id, DateTime date)
         {
             //TODO: .toQuerryString
-            var modelDal = await _planerContext.CategoryBudgets.Where(x => x.UserId == id).OrderByDescending(x=>x.Date).ToListAsync();
+            var transactionsDal = await _planerContext.CategoryBudgets.Where(x => x.UserId == id).OrderByDescending(x=>x.Date).ToListAsync();
+            if (!transactionsDal.Any())
+                return RedirectToAction("Create", new { id = id });
+
             var userFullName =
-                $"{_planerContext.Users.First(x => x.Id == id).FirstName} {_planerContext.Users.First(x => x.Id == id).LastName}";
-
-            if (!modelDal.Any())
-                return RedirectToAction("Create", new {id=id});
-
-            modelDal = date == default ? modelDal.Where(x => x.Date == modelDal.First().Date).ToList() 
-                : modelDal.Where(x => x.Date.Year == date.Year && x.Date.Month == date.Month).ToList();
-
-            if (!modelDal.Any())
+                $"{_planerContext.Users.Single(x => x.Id == id).FirstName} {_planerContext.Users.Single(x => x.Id == id).LastName}";
+            
+            transactionsDal = date == default ? transactionsDal.Where(x => x.Date == transactionsDal.First().Date).ToList() 
+                : transactionsDal.Where(x => x.Date.Year == date.Year && x.Date.Month == date.Month).ToList();
+            if (!transactionsDal.Any())
                 return RedirectToAction("EmptyList", new{id=id, userFullName=userFullName, date= date});
 
-            var model = modelDal.Select(CategoryBudgetDto.FromDal).OrderByDescending(x=>x.Date);
-            var transactions = _planerContext.Transactions.Where(x => x.User.Id == id).Where(x=>x.Date.Month==model.First().Date.Month && x.Date.Year==model.First().Date.Year).ToList();
+            var budgets = transactionsDal.Select(CategoryBudgetDto.FromDal).OrderByDescending(x=>x.Date);
+            var transactions = _planerContext.Transactions.Where(x => x.User.Id == id).Where(x=>x.Date.Month==budgets.First().Date.Month && x.Date.Year==budgets.First().Date.Year).ToList();
             var sums = transactions.GroupBy(x => x.Category)
                 .ToDictionary(x => x.Key, x => x.Select(y => y.Amount).Sum());
 
-            var expenses = new List<Tuple<string, decimal>>();
+            var expenses = (from sum in sums where (int) sum.Key > 100 select new Tuple<string, decimal>(sum.Key.ToString(), sum.Value)).ToList();
 
-            foreach (var sum in sums)
-            {
-                if((int)sum.Key>100)
-                    expenses.Add(new Tuple<string, decimal>(sum.Key.ToString(),sum.Value));
-            }
-
-            ViewBag.Date = date;
-            ViewBag.Ex = expenses;
-
-            return View(new UsersBudgetDto() { UserId = id, UserBudgets = model, CategorySums = sums, UserFullName = userFullName});
+            return View(new UsersBudgetDto() { UserId = id, UserBudgets = budgets, CategorySums = sums, UserFullName = userFullName, Date = date, Expenses = expenses});
         }
         public  ActionResult UsersTrending(int id, CategoryOfTransaction category, DateTime dateFrom, DateTime dateTo)
         {

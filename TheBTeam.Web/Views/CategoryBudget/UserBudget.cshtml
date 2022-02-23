@@ -246,7 +246,7 @@
 </form>
 
 <script>
-    var models = @Html.Raw(Json.Serialize(ViewBag.Ex));
+    var models = @Html.Raw(Json.Serialize(@Model.Expenses));
     var labels = [];
     var dataValues = [];
     for (var i = 0; i < models.length; i++) {
