@@ -8,7 +8,7 @@
     @if (!HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
     {
         <li class="nav-item">
-            <a style="margin-left:1.35rem; margin-right:1.35rem;" class="btn btn-nav" asp-controller="account" asp-action="Login">Login</a>
+            <a style="float: right" class="btn btn-nav" asp-controller="account" asp-action="Login">Login</a>
         </li>
     }
     else
