@@ -27,7 +27,8 @@ namespace TheBTeam.Web
                 .AddJsonFile("appsettings.json", false, true)
                 .Build();
 
-            var connectionString = "Server=localhost\\sqlexpress; Integrated Security=SSPI; Database=TheBTeam;";
+            var connectionString = configuration.GetConnectionString("Database");
+
             var columnOptions = new ColumnOptions
             {
                 AdditionalColumns = new Collection<SqlColumn>
