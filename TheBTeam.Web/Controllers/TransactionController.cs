@@ -113,6 +113,13 @@ namespace TheBTeam.Web.Controllers
         // GET: TransactionController/Edit/5
         public ActionResult Edit(int id)
         {
+            _logger.LogInformation("Getting Edit transaction item {Id}", id);
+            var findId = _plannerContext.Transactions.Find(id);
+            if (findId == null)
+            {
+                _logger.LogWarning("Get({Id}) NOT FOUND TRANSACTION ", id);
+                return RedirectToAction("EmptyList");
+            }
             var model = _transactionService.GetByIdToDto(id);
             return View(model);
         }

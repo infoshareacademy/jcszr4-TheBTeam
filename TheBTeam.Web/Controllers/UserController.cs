@@ -97,6 +97,13 @@ namespace TheBTeam.Web.Controllers
         // GET: UserController/Edit/5
         public ActionResult Edit(int id)
         {
+            _logger.LogInformation("Getting Edit user item {Id}", id);
+            var findId = _plannerContext.Users.Find(id);
+            if (findId == null)
+            {
+                _logger.LogWarning("Get({Id}) NOT FOUND USER ", id);
+                return RedirectToAction("EmptyList");
+            }
             var model = _userService.GetByIdToDto(id);
             return View(model);
         }
@@ -126,7 +133,7 @@ namespace TheBTeam.Web.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
-            _logger.LogInformation("Getting delete user item {Id}", id);
+            _logger.LogInformation("try to delete user item {Id}", id);
             var findId = _plannerContext.Users.Find(id);
             if (findId == null)
             {
@@ -151,6 +158,11 @@ namespace TheBTeam.Web.Controllers
             {
                 return View();
             }
+        }
+
+        public ActionResult EmptyList(int id)
+        {
+            return View();
         }
     }
 }
