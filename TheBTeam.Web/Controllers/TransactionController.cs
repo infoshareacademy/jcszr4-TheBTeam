@@ -78,21 +78,25 @@ namespace TheBTeam.Web.Controllers
             return View();
         }
 
-        public ActionResult UserTransactions(CategoryOfTransaction category, TypeOfTransaction type, int id, string description, DateTime dateFrom, DateTime dateTo, string sortOrder)
+        public ActionResult UserTransactions(CategoryOfTransaction category, TypeOfTransaction type, string description, DateTime dateFrom, DateTime dateTo, string sortOrder)
         {
             ViewData["DateSortParam"] = IsNullOrEmpty(sortOrder) ? "date" : "";
             ViewData["AmountSortParam"] = sortOrder == "amount" ? "amount_desc" : "amount";
 
-            var user = _plannerContext.Users.Single(x => x.Id == id);
+            var userEmail = this.HttpContext.User.Identity.Name;
+            var findIdUser = _plannerContext.Users.Where(u => u.Email == userEmail).Select(u => u.Id).FirstOrDefault();
 
-            var transactions = TransactionService.Get(category, type, _plannerContext, id);
+
+            var user = _plannerContext.Users.Single(x => x.Id == findIdUser);
+
+            var transactions = TransactionService.Get(category, type, _plannerContext, findIdUser);
 
             transactions = _transactionService.FilterByDescription(transactions, description);
             transactions = _transactionService.FilterByDates(transactions, dateFrom, dateTo);
 
             transactions = _transactionService.SortUserTransaction(transactions, sortOrder).ToList();
 
-            return View(new TransactionSearchDto() { FullName = $"{user.FirstName} {user.LastName}", Transactions = transactions, UserId = id, Description = description, DateFrom = dateFrom, DateTo = dateTo});
+            return View(new TransactionSearchDto() { FullName = $"{user.FirstName} {user.LastName}", Transactions = transactions, UserId = findIdUser, Description = description, DateFrom = dateFrom, DateTo = dateTo});
         }
 
         // POST: TransactionController/Create
