@@ -130,6 +130,14 @@ namespace TheBTeam.Web.Controllers
             var activeBudgets = _planerContext.CategoryBudgets.Where(x => x.PlanedBudget > 0).ToList().Select(CategoryBudgetDto.FromDal);
             var activeUsersId = activeBudgets.Select(x=>x.UserId).Distinct().ToArray();
 
+            var checkRole = this.HttpContext.User.Identity.Name.Contains("admin");
+            if (checkRole == false)
+            {
+                var userEmail = this.HttpContext.User.Identity.Name;
+                var findIdUser = _planerContext.Users.Where(u => u.Email == userEmail).Select(u => u.Id).FirstOrDefault();
+                activeUsersId = activeBudgets.Where(u => u.UserId == findIdUser).Select(x => x.UserId).Distinct().ToArray();
+            }
+
             var activeUsers = (from id in activeUsersId select _planerContext.Users
                 .FirstOrDefault(x => x.Id == id) into user where user is not null select UserDto.FromDAL(user));
 
