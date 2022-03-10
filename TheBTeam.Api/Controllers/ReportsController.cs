@@ -37,7 +37,7 @@ namespace TheBTeam.Api.Controllers
             return Ok("Wszystko ok z innego endpointa");
         }
 
-        [HttpPost]
+        [HttpPost("AddTransaction")]
         public async Task<IActionResult> AddTransaction(CategoryReport report)
         {
 
@@ -46,10 +46,6 @@ namespace TheBTeam.Api.Controllers
             return Ok();
         }
 
-        //[HttpDelete]
-        //public async Task<IActionResult> DeleteReport(string reportId)
-        //{
-        //    return Ok();
-        //}
+
     }
 }

@@ -2,7 +2,7 @@
 
 namespace TheBTeam.Api.Models
 {
-    public class CategoryReport
+    public class CategoryReport: Entity
     {
         public decimal Amount { get; set; }
         public int UserID { get; set; }
