@@ -40,9 +40,7 @@ namespace TheBTeam.Api.Controllers
         [HttpPost("AddTransaction")]
         public async Task<IActionResult> AddTransaction(CategoryReport report)
         {
-
-
-
+            
             return Ok();
         }
 
