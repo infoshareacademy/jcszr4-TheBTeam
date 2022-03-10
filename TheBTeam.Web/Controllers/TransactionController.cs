@@ -17,6 +17,7 @@ using TheBTeam.BLL.Models;
 using static System.String;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
+using TheBTeam.Web.Services;
 
 namespace TheBTeam.Web.Controllers
 {
@@ -24,16 +25,18 @@ namespace TheBTeam.Web.Controllers
     {
         //private TransactionService _transactionRepo;//TODO wez tutaj tranzakcje z usera
         private readonly ILogger<TransactionController> _logger;
+        private readonly CategoryLogService _categoryLogService;
         private readonly PlannerContext _plannerContext;
         private readonly TransactionService _transactionService;
         private readonly UserService _userService;
 
-        public TransactionController(PlannerContext plannerContext, ILogger<TransactionController> logger)
+        public TransactionController(PlannerContext plannerContext, ILogger<TransactionController> logger, CategoryLogService categoryLogService)
         {
             _plannerContext = plannerContext;
             _userService = new UserService(plannerContext);
             _transactionService = new TransactionService(plannerContext);
             _logger = logger;
+            _categoryLogService = categoryLogService;
         }
         // GET: TransactionController
         [Authorize]
@@ -162,6 +165,8 @@ namespace TheBTeam.Web.Controllers
                 var user = _userService.GetByIdToDto(id);
 
                 _transactionService.AddTransaction(modelTransactionDto, id);
+                _categoryLogService.ReportVisitedPageAsync(modelTransactionDto.Amount, modelTransactionDto.UserId.Value,
+                    modelTransactionDto.Category);
                 return RedirectToAction("UserTransactions", new { id });
             }
             catch (Exception e)
