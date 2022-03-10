@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TheBTeam.Api.Models;
 using TheBTeam.BLL.Models.Reports;
 
 namespace TheBTeam.Api.Controllers
@@ -34,6 +35,15 @@ namespace TheBTeam.Api.Controllers
         public async Task<IActionResult> AddLogReport(ReportDto reportLog)
         {
             return Ok("Wszystko ok z innego endpointa");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddTransaction(CategoryReport report)
+        {
+
+
+
+            return Ok();
         }
 
         //[HttpDelete]
