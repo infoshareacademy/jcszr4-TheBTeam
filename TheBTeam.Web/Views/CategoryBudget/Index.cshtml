@@ -28,6 +28,9 @@
             <th>
                 <label>Budget</label>
             </th>
+            <th>
+                <label>Select budget</label>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -41,7 +44,8 @@
                 @item.User.LastName
             </td>
             <td>
-                <a asp-action="UserBudget" asp-route-id="@item.User.Id">@item.User.Email</a>
+                @*<a asp-action="UserBudget" asp-route-id="@item.User.Id">@item.User.Email</a>*@
+                @item.User.Email
             </td>
             <td>
                 @{ var plannedOutcome = item.CategoryBudget.Where(x => (int)x.Category > 100).Select(x => x.PlanedBudget).Sum();}
@@ -62,6 +66,11 @@
                 }
                 @leftText
             </td>
+
+            <td>
+                <a asp-action="userbudget" asp-route-id="@item.User.Id">Select</a>
+            </td>
+
         </tr>
         }
     </tbody>
