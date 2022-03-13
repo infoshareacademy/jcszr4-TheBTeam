@@ -1,4 +1,5 @@
-﻿using TheBTeam.BLL;
+﻿using System;
+using TheBTeam.BLL;
 
 namespace TheBTeam.Web.Models
 {
@@ -7,5 +8,6 @@ namespace TheBTeam.Web.Models
         public decimal Amount { get; set; }
         public int UserID { get; set; }
         public CategoryOfTransaction Category { get; set; }
+        public DateTime Date { get; set; }
     }
 }

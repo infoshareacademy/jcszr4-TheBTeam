@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
@@ -10,13 +11,13 @@ namespace TheBTeam.Web.Services
     public class CategoryLogService
     {
        
-            private IConfiguration _configuration { get; }
+            private IConfiguration Configuration { get; }
 
             public CategoryLogService(IConfiguration configuration)
             {
-                _configuration=configuration;
+                Configuration=configuration;
             }
-            public async Task ReportVisitedPageAsync(decimal amount, int userId, CategoryOfTransaction category)
+            public async Task ReportOutcomeCategory(decimal amount, int userId, CategoryOfTransaction category, DateTime date)
             {
                 using var client = new HttpClient();
 
@@ -24,12 +25,13 @@ namespace TheBTeam.Web.Services
                 {
                     Amount = amount,
                     UserID = userId,
-                    Category = category
+                    Category = category,
+                    Date = date
                 };
 
                 var json = Newtonsoft.Json.JsonConvert.SerializeObject(report);
                 var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-                var apiUriBase = _configuration.GetValue<string>("ReportsApiUrl");
+                var apiUriBase = Configuration.GetValue<string>("ReportsApiUrl");
 
                 await client.PostAsync(apiUriBase + "Reports/AddTransaction", httpContent);
             }

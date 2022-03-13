@@ -1,4 +1,5 @@
-﻿using TheBTeam.Api.Enums;
+﻿using System;
+using TheBTeam.Api.Enums;
 
 namespace TheBTeam.Api.Models
 {
@@ -7,5 +8,6 @@ namespace TheBTeam.Api.Models
         public decimal Amount { get; set; }
         public int UserID { get; set; }
         public CategoryOfTransaction Category { get; set; }
+        public DateTime Date { get; set; }
     }
 }
