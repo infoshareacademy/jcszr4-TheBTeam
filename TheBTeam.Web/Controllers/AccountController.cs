@@ -76,19 +76,20 @@ namespace TheBTeam.Web.Controllers
                     var result = _plannerContext.Add(user);
                     if (result != null)
                     {
-                        _logger.LogDebug("User created successfully");
+                        _logger.LogInformation($"User {request.Email} created successfully");
                         _plannerContext.SaveChanges();
                         return RedirectToAction("Login");
                     }
                     else
                     {
+                        _logger.LogWarning($"Adding new user {request.Email} not successfully");
                         ModelState.AddModelError("message", "Error with adding new user");
                         return View(request);
                     }
                 }
                 else
                 {
-                    _logger.LogDebug("User with this email already exists");
+                    _logger.LogInformation($"User with this email {request.Email} already exists");
                     ModelState.AddModelError("message", "Email already exists.");
                     return View(request);
                 }
@@ -126,6 +127,10 @@ namespace TheBTeam.Web.Controllers
                 {
                     return RedirectToAction("Index", "Account", new { email = userName, role = authResult.RoleName });
                 }
+            }
+            else
+            {
+                _logger.LogWarning($"invalid login attempt for user {userName}");
             }
 
             return View("UserIsNotRegistered","Account");

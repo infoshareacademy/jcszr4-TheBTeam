@@ -47,7 +47,7 @@ namespace TheBTeam.Web.Controllers
             _logger.LogInformation("Getting detail user item {findIdUser}", findIdUser);
             if (checkId == null)
             {
-                _logger.LogWarning("Get({Id}) NOT FOUND USER ", id);
+                _logger.LogWarning("NOT USER FOUND ", id);
                 return RedirectToAction("EmptyList");
             }
             if (id != findIdUser && checkRole == false)
@@ -111,6 +111,7 @@ namespace TheBTeam.Web.Controllers
             if (findId == null)
             {
                 _logger.LogWarning("Get({Id}) NOT FOUND USER ", id);
+
                 return RedirectToAction("EmptyList");
             }
             var model = _userService.GetByIdToDto(id);
@@ -146,7 +147,7 @@ namespace TheBTeam.Web.Controllers
             var findId = _plannerContext.Users.Find(id);
             if (findId == null)
             {
-                _logger.LogWarning("Get({Id}) NOT FOUND USER ", id);
+                _logger.LogWarning("NOT USER FOUND ", id);
                 return RedirectToAction("EmptyList");
             }
             var model = _userService.GetByIdToDto(id);
@@ -170,6 +171,7 @@ namespace TheBTeam.Web.Controllers
         }
 
         public ActionResult EmptyList(int id)
+
         {
             return View();
         }
