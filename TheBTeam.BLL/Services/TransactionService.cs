@@ -141,7 +141,6 @@ namespace TheBTeam.BLL.Services
                     return  transactions.OrderBy(x => x.UserDto.Email).ThenByDescending(x => x.Date).ThenBy(x => x.Type).ThenBy(x => x.Category).ToList();
             }
         }
-
         public IEnumerable<TransactionDto> SortUserTransaction(IEnumerable<TransactionDto> transactions, string sortOrder)
         {
             switch (sortOrder)

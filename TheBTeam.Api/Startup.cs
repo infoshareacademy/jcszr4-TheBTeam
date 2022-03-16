@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using TheBTeam.Api.Data;
 
 namespace TheBTeam.Api
 {
@@ -28,6 +30,8 @@ namespace TheBTeam.Api
         {
 
             services.AddControllers();
+            var connectionString = Configuration.GetConnectionString("Database");
+            services.AddDbContext<ReportsContext>(o => o.UseSqlServer(connectionString));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TheBTeam.Api", Version = "v1" });
@@ -37,6 +41,10 @@ namespace TheBTeam.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
+            var context = serviceScope.ServiceProvider.GetService<ReportsContext>();
+            context?.Database.Migrate();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

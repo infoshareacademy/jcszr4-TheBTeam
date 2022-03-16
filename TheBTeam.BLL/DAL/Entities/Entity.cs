@@ -15,5 +15,14 @@ namespace TheBTeam.BLL.DAL.Entities
         [JsonIgnore]
         public int Id { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public async Task<int> DoAsync()
+
+        {
+
+            await Task.Delay(100);
+
+            return 5;
+
+        }
     }
 }

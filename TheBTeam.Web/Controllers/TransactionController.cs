@@ -1,22 +1,15 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
 using TheBTeam.BLL;
 using TheBTeam.BLL.DAL;
-using TheBTeam.BLL.DAL.Entities;
 using TheBTeam.BLL.Services;
 using TheBTeam.BLL.Models;
 using static System.String;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
+using TheBTeam.Web.Services;
 
 namespace TheBTeam.Web.Controllers
 {
@@ -24,16 +17,18 @@ namespace TheBTeam.Web.Controllers
     {
         //private TransactionService _transactionRepo;//TODO wez tutaj tranzakcje z usera
         private readonly ILogger<TransactionController> _logger;
+        private readonly CategoryLogService _categoryLogService;
         private readonly PlannerContext _plannerContext;
         private readonly TransactionService _transactionService;
         private readonly UserService _userService;
 
-        public TransactionController(PlannerContext plannerContext, ILogger<TransactionController> logger)
+        public TransactionController(PlannerContext plannerContext, ILogger<TransactionController> logger, CategoryLogService categoryLogService)
         {
             _plannerContext = plannerContext;
             _userService = new UserService(plannerContext);
             _transactionService = new TransactionService(plannerContext);
             _logger = logger;
+            _categoryLogService = categoryLogService;
         }
         // GET: TransactionController
         [Authorize]
@@ -50,12 +45,10 @@ namespace TheBTeam.Web.Controllers
             
             return View(new TransactionSearchDto(){Category = category, Transactions = transactions, Type = type, Description = description, DateFrom = dateFrom, DateTo = dateTo });
         }
-
         public ActionResult EmptyList(CategoryOfTransaction category, TypeOfTransaction type, string description, DateTime dateFrom, DateTime dateTo, string sortOrder)
         {
             return View();
         }
-
         // GET: TransactionController/Details/5
         public ActionResult Details(int id)
         {
@@ -71,14 +64,12 @@ namespace TheBTeam.Web.Controllers
             model.UserDto = _userService.GetByIdToDto((int)model.UserId);
             return View(model);
         }
-
         // GET: TransactionController/Create
         public ActionResult Create()
         {
             return View();
         }
-
-        public ActionResult UserTransactions(CategoryOfTransaction category, TypeOfTransaction type, string description, DateTime dateFrom, DateTime dateTo, string sortOrder)
+        public ActionResult UserTransactions(CategoryOfTransaction category, TypeOfTransaction type, int id, string description, DateTime dateFrom, DateTime dateTo, string sortOrder)
         {
             ViewData["DateSortParam"] = IsNullOrEmpty(sortOrder) ? "date" : "";
             ViewData["AmountSortParam"] = sortOrder == "amount" ? "amount_desc" : "amount";
@@ -98,7 +89,6 @@ namespace TheBTeam.Web.Controllers
 
             return View(new TransactionSearchDto() { FullName = $"{user.FirstName} {user.LastName}", Transactions = transactions, UserId = findIdUser, Description = description, DateFrom = dateFrom, DateTo = dateTo});
         }
-
         // POST: TransactionController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -113,7 +103,6 @@ namespace TheBTeam.Web.Controllers
                 return View();
             }
         }
-
         // GET: TransactionController/Edit/5
         public ActionResult Edit(int id)
         {
@@ -127,7 +116,6 @@ namespace TheBTeam.Web.Controllers
             var model = _transactionService.GetByIdToDto(id);
             return View(model);
         }
-
         // POST: TransactionController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -147,7 +135,6 @@ namespace TheBTeam.Web.Controllers
                 return View();
             }
         }
-
         public ActionResult AddTransaction(int id)
         {
             var user = _userService.GetByIdToDto(id);
@@ -173,6 +160,11 @@ namespace TheBTeam.Web.Controllers
                 var user = _userService.GetByIdToDto(id);
 
                 _transactionService.AddTransaction(modelTransactionDto, id);
+
+                if((int)modelTransactionDto.Category>100)
+                    _categoryLogService.ReportOutcomeCategory(modelTransactionDto.Amount, modelTransactionDto.UserId.Value,
+                        modelTransactionDto.Category, modelTransactionDto.Date);
+
                 return RedirectToAction("UserTransactions", new { id });
             }
             catch (Exception e)
@@ -185,17 +177,19 @@ namespace TheBTeam.Web.Controllers
         public ActionResult Delete(int id)
         {
             _logger.LogInformation("Getting delete transaction item {Id}", id);
+
             var findId = _plannerContext.Transactions.Find(id);
+
             if (findId == null)
             {
                 _logger.LogWarning("Get({Id}) NOT FOUND TRANSACTION ", id);
                 return RedirectToAction("EmptyList");
             }
+
             var model = _transactionService.GetByIdToDto(id);
             model.UserDto = _userService.GetByIdToDto((int)model.UserId);
             return View(model);
         }
-
         // POST: TransactionController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -215,7 +209,6 @@ namespace TheBTeam.Web.Controllers
                 return View();
             }
         }
-
         public ActionResult InActiveUser(int id)
         {
             return View();
