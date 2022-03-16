@@ -35,6 +35,23 @@ namespace TheBTeam.Web.Services
 
                 await client.PostAsync(apiUriBase + "Reports/AddTransaction", httpContent);
             }
-        
+            public async Task LogInOutcome(int userId, DateTime date)
+            {
+                using var client = new HttpClient();
+
+                var report = new UserLoginResult
+                {
+                    ActivityDate = date,
+                    UserID = userId
+                };
+
+                var json = Newtonsoft.Json.JsonConvert.SerializeObject(report);
+                var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+                var apiUriBase = Configuration.GetValue<string>("ReportsApiUrl");
+
+                await client.PostAsync(apiUriBase + "Reports/AddUserActivityReport", httpContent);
+            }
+
+
     }
 }
