@@ -74,16 +74,20 @@ namespace TheBTeam.Web.Controllers
             ViewData["DateSortParam"] = IsNullOrEmpty(sortOrder) ? "date" : "";
             ViewData["AmountSortParam"] = sortOrder == "amount" ? "amount_desc" : "amount";
 
-            var user = _plannerContext.Users.Single(x => x.Id == id);
+            var userEmail = this.HttpContext.User.Identity.Name;
+            var findIdUser = _plannerContext.Users.Where(u => u.Email == userEmail).Select(u => u.Id).FirstOrDefault();
 
-            var transactions = TransactionService.Get(category, type, _plannerContext, id);
+
+            var user = _plannerContext.Users.Single(x => x.Id == findIdUser);
+
+            var transactions = TransactionService.Get(category, type, _plannerContext, findIdUser);
 
             transactions = _transactionService.FilterByDescription(transactions, description);
             transactions = _transactionService.FilterByDates(transactions, dateFrom, dateTo);
 
             transactions = _transactionService.SortUserTransaction(transactions, sortOrder).ToList();
 
-            return View(new TransactionSearchDto() { FullName = $"{user.FirstName} {user.LastName}", Transactions = transactions, UserId = id, Description = description, DateFrom = dateFrom, DateTo = dateTo});
+            return View(new TransactionSearchDto() { FullName = $"{user.FirstName} {user.LastName}", Transactions = transactions, UserId = findIdUser, Description = description, DateFrom = dateFrom, DateTo = dateTo});
         }
         // POST: TransactionController/Create
         [HttpPost]
@@ -102,6 +106,13 @@ namespace TheBTeam.Web.Controllers
         // GET: TransactionController/Edit/5
         public ActionResult Edit(int id)
         {
+            _logger.LogInformation("Getting Edit transaction item {Id}", id);
+            var findId = _plannerContext.Transactions.Find(id);
+            if (findId == null)
+            {
+                _logger.LogWarning("Get({Id}) NOT FOUND TRANSACTION ", id);
+                return RedirectToAction("EmptyList");
+            }
             var model = _transactionService.GetByIdToDto(id);
             return View(model);
         }

@@ -40,7 +40,7 @@ namespace TheBTeam.Web.Controllers
             return View(usersList);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Register()
         {

@@ -40,13 +40,22 @@ namespace TheBTeam.Web.Controllers
         // GET: UserController/Details/5
         public ActionResult Details(int id)
         {
-            _logger.LogInformation("Getting detail user item {Id}", id);
-            var findId = _plannerContext.Users.Find(id);
-            if (findId == null)
+            var userEmail = this.HttpContext.User.Identity.Name;
+            var findIdUser = _plannerContext.Users.Where(u=>u.Email == userEmail).Select(u=>u.Id).FirstOrDefault();
+            var checkId = _plannerContext.Users.Find(id);
+            var checkRole = this.HttpContext.User.Identity.Name.Contains("admin");     
+            _logger.LogInformation("Getting detail user item {findIdUser}", findIdUser);
+            if (checkId == null)
             {
                 _logger.LogWarning("NOT USER FOUND ", id);
                 return RedirectToAction("EmptyList");
             }
+            if (id != findIdUser && checkRole == false)
+            {
+                _logger.LogWarning("Get({Id}) NOT FOUND USER ", id);
+                return RedirectToAction("EmptyList");
+            }
+
             var model = _userService.GetByIdToDto(id);
             return View(model);
         }
@@ -97,11 +106,12 @@ namespace TheBTeam.Web.Controllers
         // GET: UserController/Edit/5
         public ActionResult Edit(int id)
         {
-            _logger.LogInformation("Edit user item {Id}", id);
+            _logger.LogInformation("Getting Edit user item {Id}", id);
             var findId = _plannerContext.Users.Find(id);
             if (findId == null)
             {
-                _logger.LogWarning("NOT USER FOUND ", id);
+                _logger.LogWarning("Get({Id}) NOT FOUND USER ", id);
+
                 return RedirectToAction("EmptyList");
             }
             var model = _userService.GetByIdToDto(id);
@@ -133,7 +143,7 @@ namespace TheBTeam.Web.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Delete(int id)
         {
-            _logger.LogInformation("Getting delete user item {Id}", id);
+            _logger.LogInformation("try to delete user item {Id}", id);
             var findId = _plannerContext.Users.Find(id);
             if (findId == null)
             {
@@ -160,7 +170,8 @@ namespace TheBTeam.Web.Controllers
             }
         }
 
-        public ActionResult EmptyList()
+        public ActionResult EmptyList(int id)
+
         {
             return View();
         }

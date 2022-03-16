@@ -1,4 +1,6 @@
-﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+﻿@using TheBTeam.BLL.DAL
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@inject PlannerContext _plannerContext
 
 @{
     ViewData["Title"] = "users list";
@@ -8,17 +10,29 @@
     @if (!HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
     {
         <li class="nav-item">
-            <a style="float: right" class="btn btn-nav" asp-controller="account" asp-action="Login">Login</a>
+            <a class="btn btn-nav" asp-area="" asp-controller="account" asp-action="Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a style="margin-left:1.35rem; margin-right:1.35rem;" class="btn btn-nav" asp-controller="account" asp-action="Login">Login</a>
         </li>
     }
     else
     {
-        @if (HttpContextAccessor.HttpContext.User.Identity.Name.Contains("admin"))
-        {
-            <li class="nav-item">
-                <a class="btn btn-nav" asp-area="" asp-controller="account" asp-action="Register">Register</a>
-            </li>
-        }
+            var userEmail = this.HttpContextAccessor.HttpContext.User.Identity.Name;
+            var findIdUser = _plannerContext.Users.Where(u=>u.Email == userEmail).Select(u=>u.Id).FirstOrDefault();
+
+
+                        <div class="dropdown">
+                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Profile
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" asp-action="Details" asp-controller="User" asp-route-id="@findIdUser">Details</a> <br />
+                                <a class="dropdown-item" asp-action="Edit" asp-controller="User" asp-route-id="@findIdUser">Edit</a> <br />                          
+                            </div>
+                        </div>
+
         <li class="nav-item">
             <a style="margin-left:1.35rem;" class="btn btn-nav" asp-area="" asp-controller="account" asp-action="LogOut">Logout</a>
         </li>
