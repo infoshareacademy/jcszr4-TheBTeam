@@ -14,14 +14,13 @@
         if (ViewBag.Email.Contains("admin"))
         {
             <h3><a asp-controller="User" , asp-action="Index">going to users list</a></h3>
-            <h3>List of users : </h3>
-            @foreach (var user in Model)
-            {
-                <div>
-                    <span>@user.Email</span> - <span>@user.Name</span> - @user.RoleName
-                </div>
-            }
-
+            //<h3>List of users : </h3>
+            //@foreach (var user in Model)
+            //{
+            //    <div>
+            //        <span>@user.Email</span> - <span>@user.Name</span> - @user.RoleName
+            //    </div>
+            //}
         }
     }
 </div>
