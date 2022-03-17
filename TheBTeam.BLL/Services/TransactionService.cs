@@ -8,6 +8,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using TheBTeam.BLL.DAL;
 using TheBTeam.BLL.DAL.Entities;
+using Microsoft.AspNetCore.Http;
 
 namespace TheBTeam.BLL.Services
 {
@@ -48,6 +49,14 @@ namespace TheBTeam.BLL.Services
             throw new InvalidDataException();
 
         }
+
+        public User GetUserLogged(HttpContext httpContext)
+        {
+            var userEmail = httpContext.User.Identity.Name;
+            var model = _plannerContext.Users.Where(u => u.Email == userEmail).FirstOrDefault();
+            return model;
+        }
+
         public List<TransactionDto> FilterByDates(List<TransactionDto> transactions, DateTime dateFrom, DateTime dateTo)
         {
             if (dateTo == new DateTime(0001, 01, 01))
