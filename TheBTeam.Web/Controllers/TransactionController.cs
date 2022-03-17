@@ -31,7 +31,7 @@ namespace TheBTeam.Web.Controllers
             _categoryLogService = categoryLogService;
         }
         // GET: TransactionController
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public ActionResult Index(CategoryOfTransaction category, TypeOfTransaction type, string description, DateTime dateFrom, DateTime dateTo, string sortOrder)
         {
             ViewData["EmailSortParam"] = IsNullOrEmpty(sortOrder) ? "email_desc" : "";
@@ -128,7 +128,7 @@ namespace TheBTeam.Web.Controllers
                     return View(transactionDto);
                 }
                 _transactionService.Edit(transactionDto);
-                return RedirectToAction("Index");
+                return RedirectToAction("UserTransactions");
             }
             catch
             {
