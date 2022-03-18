@@ -1,0 +1,55 @@
+﻿@using TheBTeam.BLL
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1></h1>
+
+<div class="container" style="margin-top:3rem;">
+    <div class="row">
+        <div class="col-3">
+            <div class="card mt-2 mb-3 card-body shadow p-3 mb-5 bg-white rounded">
+                <div class="card-body">
+                    <h5 class="card-title">Manage Users</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-9">
+            <div class="card-columns mt-2 mb-3 card-body shadow p-3 mb-5 bg-white rounded">
+                <div class="card-body">
+                    <h5 class="card-title">Registered users</h5>
+                <div class="card-body">
+                    <h5 class="card-title">Users Active this week</h5>
+                </div>
+                </div>
+            </div>
+       </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            <div class="card mt-2 mb-3 card-body shadow p-3 mb-5 bg-white rounded">
+                <div class="card-body btn btn-nav">
+                    <a asp-area="" asp-controller="Transaction" asp-action="Index">Transactions</a>
+                </div>
+            </div>
+            <div class="card mt-2 mb-3 card-body shadow p-3 mb-5 bg-white rounded">
+                <div class="card-body">
+                    <a asp-area="" asp-controller="CategoryBudget" asp-action="Index">Budgets</a>
+            </div>
+            <div class="card mt-2 mb-3 card-body shadow p-3 mb-5 bg-white rounded">
+                <div class="card-body">
+                    <h5 class="card-title">Send raport</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-9">
+            <div class="card mt-2 mb-3 card-body shadow p-3 mb-5 bg-white rounded">
+                <h3>Space for some relase notes? ongoing issues?</h3>
+            </div>
+        </div>
+    </div>
+    <div class="shadow p-3 mb-5 bg-white rounded">
+        <p>version an copyright ?</p>
+    </div>
+</div>
