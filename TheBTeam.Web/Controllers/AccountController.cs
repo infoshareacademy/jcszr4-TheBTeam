@@ -14,6 +14,7 @@ using TheBTeam.BLL.DAL;
 using TheBTeam.BLL.DAL.Entities;
 using TheBTeam.BLL.Models;
 using TheBTeam.BLL.Services;
+using TheBTeam.Web.Services;
 
 namespace TheBTeam.Web.Controllers
 {
@@ -23,13 +24,15 @@ namespace TheBTeam.Web.Controllers
         private readonly ILogger<AccountController> _logger;
         private readonly PlannerContext _plannerContext;
         private readonly UserService _userService;
+        private readonly CategoryLogService _categoryLogService;
 
-        public AccountController(IAccountService accountService, ILogger<AccountController> logger, PlannerContext plannerContext, UserService userService)
+        public AccountController(IAccountService accountService, ILogger<AccountController> logger, PlannerContext plannerContext, UserService userService, CategoryLogService categoryLogService)
         {
             _accountService = accountService;
             _logger = logger;
             _plannerContext = plannerContext;
             _userService = userService;
+            _categoryLogService = categoryLogService;
         }
 
         [Authorize]
@@ -40,7 +43,7 @@ namespace TheBTeam.Web.Controllers
             return View(usersList);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Register()
         {
@@ -76,19 +79,20 @@ namespace TheBTeam.Web.Controllers
                     var result = _plannerContext.Add(user);
                     if (result != null)
                     {
-                        _logger.LogDebug("User created successfully");
+                        _logger.LogInformation($"User {request.Email} created successfully");
                         _plannerContext.SaveChanges();
                         return RedirectToAction("Login");
                     }
                     else
                     {
+                        _logger.LogWarning($"Adding new user {request.Email} not successfully");
                         ModelState.AddModelError("message", "Error with adding new user");
                         return View(request);
                     }
                 }
                 else
                 {
-                    _logger.LogDebug("User with this email already exists");
+                    _logger.LogInformation($"User with this email {request.Email} already exists");
                     ModelState.AddModelError("message", "Email already exists.");
                     return View(request);
                 }
@@ -117,19 +121,26 @@ namespace TheBTeam.Web.Controllers
                 };
 
                 await HttpContext.SignInAsync(new ClaimsPrincipal(new ClaimsIdentity(claims, "Cookies", "user", "role")));
+                
 
-                if (Url.IsLocalUrl(returnUrl))
+                if (authResult.RoleName == "Admin")
                 {
-                    if (authResult.RoleName == "Admin")
-                    {
-                        return RedirectToAction("Index", "Account", new { email = userName, role = authResult.RoleName });
-                    }
-                    return Redirect(returnUrl);                  
+                    var findUserId = _plannerContext.Users.Where(u => u.Email == authResult.UserName).Select(u => u.Id).FirstOrDefault();
+
+                    _categoryLogService.LogInOutcome(findUserId, DateTime.Now);
+                    return RedirectToAction("Index", "Account", new { email = userName, role = authResult.RoleName });
                 }
                 else
                 {
-                    return Redirect("/");
+                    var findUserId = _plannerContext.Users.Where(u => u.Email == authResult.UserName).Select(u => u.Id).FirstOrDefault();
+
+                    _categoryLogService.LogInOutcome(findUserId, DateTime.Now);
+                    return RedirectToAction("Index", "Account", new { email = userName, role = authResult.RoleName });
                 }
+            }
+            else
+            {
+                _logger.LogWarning($"invalid login attempt for user {userName}");
             }
 
             return View("UserIsNotRegistered","Account");

@@ -1,5 +1,6 @@
 ﻿using TheBTeam.BLL.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using TheBTeam.BLL;
@@ -140,7 +141,6 @@ namespace TheBTeam.BLL.Services
                     return  transactions.OrderBy(x => x.UserDto.Email).ThenByDescending(x => x.Date).ThenBy(x => x.Type).ThenBy(x => x.Category).ToList();
             }
         }
-
         public IEnumerable<TransactionDto> SortUserTransaction(IEnumerable<TransactionDto> transactions, string sortOrder)
         {
             switch (sortOrder)
@@ -156,9 +156,7 @@ namespace TheBTeam.BLL.Services
                 default:
                     return transactions = transactions.OrderByDescending(x => x.Date).ThenBy(x => x.Type).ThenBy(x => x.Category).ThenByDescending(x => x.Amount).ToList();
             }
-
-            return transactions;
-        }
+            }
         public void Delete(int id)
         {
             var transaction = _plannerContext.Transactions.Single(t => t.Id == id);
@@ -170,6 +168,19 @@ namespace TheBTeam.BLL.Services
 
             _plannerContext.Remove(transaction);
             _plannerContext.SaveChanges();
+        }
+        public IEnumerable GroupTransactionForTrending(int id, CategoryOfTransaction category, DateTime dateFrom, DateTime dateTo)
+        {
+            var transactions = _plannerContext.Transactions.Where(x => x.UserId == id)
+                .Where(x => x.Date > dateFrom && x.Date < dateTo).Where(x => x.Category == category).ToList();
+
+            var groupedTransactions = transactions.Select(x => new { x.Date.Year, x.Date.Month, x.Amount })
+                .GroupBy(y => new { y.Year, y.Month },
+                    (key, group) => new { year = key.Year, month = key.Month, sum = @group.Sum(x => x.Amount) })
+                .OrderBy(d => d.year).ThenBy(d => d.month)
+                .GroupBy(x=> new{x.year, x.month, x.sum}, (key, group) => new { date = $"{key.month}.{key.year}", sum=key.sum})
+                .ToList();
+            return groupedTransactions;
         }
     }
 }

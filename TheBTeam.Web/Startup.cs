@@ -16,6 +16,8 @@ using TheBTeam.BLL.Services;
 using Microsoft.Data.SqlClient;
 using Microsoft.AspNetCore.Identity;
 using TheBTeam.BLL.DAL.Entities;
+using TheBTeam.Web.Services;
+
 
 namespace TheBTeam.Web
 {
@@ -35,7 +37,8 @@ namespace TheBTeam.Web
             services.AddControllersWithViews();
             var connectionString = Configuration.GetConnectionString("Database");
             services.AddDbContext<PlannerContext>(o => o.UseSqlServer(connectionString));
-
+            services.AddTransient<BudgetService>();
+            services.AddTransient<TransactionService>();
             services.AddAuthentication(CookieScheme).
                 AddCookie(CookieScheme, options =>
                 {
@@ -48,7 +51,10 @@ namespace TheBTeam.Web
             services.AddTransient<UserService>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IPasswordHasher<User>, PasswordHasher<User>>();
+            services.AddTransient<CategoryLogService>();
+            services.AddHttpContextAccessor();
             services.AddAuthorization();
+
 
             var profilesAssembly = typeof(UserDto).Assembly;
             services.AddAutoMapper(profilesAssembly);

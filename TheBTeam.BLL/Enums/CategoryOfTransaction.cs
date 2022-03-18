@@ -46,6 +46,5 @@ namespace TheBTeam.BLL
         Credit,
         [Display(Name = "Living charges")]
         LivingCharges
-        //TODO make to Categories for Income i Outcome separately
     }
 }
