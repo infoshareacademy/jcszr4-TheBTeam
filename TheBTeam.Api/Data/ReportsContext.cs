@@ -11,5 +11,7 @@ namespace TheBTeam.Api.Data
         }
 
         public DbSet<CategoryReport> CategoryReport { get; set; }
+
+        public DbSet<UserLoginResult> UserLoginResult { get; set; }
     }
 }
