@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Castle.Core.Internal;
 using TheBTeam.Api.Data;
 using TheBTeam.Api.Models;
 using TheBTeam.BLL.Models.Reports;
@@ -51,7 +52,6 @@ namespace TheBTeam.Api.Controllers
             return Ok();
         }
 
-
         [HttpPost("log")]
         public async Task<IActionResult> AddLogReport(ReportDto reportLog)
         {
@@ -66,7 +66,64 @@ namespace TheBTeam.Api.Controllers
             await _reportsContext.SaveChangesAsync();
             return Ok();
         }
+        [HttpPost("AddUserActivityReport")]
+        public async Task<IActionResult> AddUserActivityReport(UserLoginResult report)
+        {
+            await _reportsContext.AddAsync(report);
+            //_reportsContext.Add(report);
+            await _reportsContext.SaveChangesAsync();
+            return Ok();
+        }
 
+        [HttpGet("GetAllSelectedUserActivityReport/{id}")]
+        public async Task<IActionResult> GetAllSelectedUserActivityReport(int id)
+        {
+            var userSelect = _reportsContext.UserLoginResult.Where(x => x.UserID == id);
 
+            if (userSelect.IsNullOrEmpty())
+            {
+                return BadRequest("User do not exist in activity Log");
+            }
+            // zsuomwane wartości Activity
+            var selectedActivity = userSelect.Select(x => x.ActivityDate).Count();
+            
+            var finalValue = new {ActivityCount = selectedActivity};
+     
+            return Ok(finalValue);
+        }
+        [HttpGet("GetSelectedUserLastActivityReport/{id}")]
+        public async Task<IActionResult> GetAllSelectedUserLastActivityReport(int id)
+        {
+            var userSelect = _reportsContext.UserLoginResult.Where(x => x.UserID == id);
+
+            if (userSelect.IsNullOrEmpty())
+            {
+                return BadRequest("User do not exist in activity Log");
+            }
+            // zsuomwane wartości Activity
+            var lastActivity = userSelect.Select(x => x.ActivityDate).OrderByDescending(x => x.Date).FirstOrDefault();
+
+            var finalValue = new { LastActivity = lastActivity};
+
+            return Ok(finalValue);
+        }
+
+        [HttpGet("GetSelectedUserDailyActivityReport/{id}/{date}")]
+        public async Task<IActionResult> GetSelectedUserDailyActivityReport(int id, DateTime date)
+        {
+            var userSelect = _reportsContext.UserLoginResult.Where(x => x.UserID == id);
+
+            if (userSelect.IsNullOrEmpty())
+            {
+                return BadRequest("User do not exist in activity Log");
+            }
+            var dateSelect = userSelect.Where(x => x.ActivityDate.Month == date.Month && x.ActivityDate.Year == date.Year && x.ActivityDate.Day == date.Day);
+
+            var dailyActivityCount = dateSelect.Select(x => x.ActivityDate).Count();
+
+            var finalValue = new { SelectedDate = date, DailyActivityCount = dailyActivityCount };
+
+            return Ok(finalValue);
+        }
     }
 }

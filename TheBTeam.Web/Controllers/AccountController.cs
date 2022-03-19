@@ -15,6 +15,7 @@ using TheBTeam.BLL.DAL;
 using TheBTeam.BLL.DAL.Entities;
 using TheBTeam.BLL.Models;
 using TheBTeam.BLL.Services;
+using TheBTeam.Web.Services;
 
 namespace TheBTeam.Web.Controllers
 {
@@ -24,13 +25,15 @@ namespace TheBTeam.Web.Controllers
         private readonly ILogger<AccountController> _logger;
         private readonly PlannerContext _plannerContext;
         private readonly UserService _userService;
+        private readonly CategoryLogService _categoryLogService;
 
-        public AccountController(IAccountService accountService, ILogger<AccountController> logger, PlannerContext plannerContext, UserService userService)
+        public AccountController(IAccountService accountService, ILogger<AccountController> logger, PlannerContext plannerContext, UserService userService, CategoryLogService categoryLogService)
         {
             _accountService = accountService;
             _logger = logger;
             _plannerContext = plannerContext;
             _userService = userService;
+            _categoryLogService = categoryLogService;
         }
 
         [Authorize]
@@ -119,15 +122,26 @@ namespace TheBTeam.Web.Controllers
                 };
 
                 await HttpContext.SignInAsync(new ClaimsPrincipal(new ClaimsIdentity(claims, "Cookies", "user", "role")));
+                
 
                 if (authResult.RoleName == "Admin")
                 {
                     _logger.LogInformation($"User {userName} login successfully");
+                    
+                    var findUserId = _plannerContext.Users.Where(u => u.Email == authResult.UserName).Select(u => u.Id).FirstOrDefault();
+
+                    _categoryLogService.LogInOutcome(findUserId, DateTime.Now);
+
                     return RedirectToAction("Index", "Account", new { email = userName, role = authResult.RoleName });
                 }
                 else
                 {
                     _logger.LogInformation($"User {userName} login successfully");
+
+                    var findUserId = _plannerContext.Users.Where(u => u.Email == authResult.UserName).Select(u => u.Id).FirstOrDefault();
+
+                    _categoryLogService.LogInOutcome(findUserId, DateTime.Now);
+
                     return RedirectToAction("Index", "Account", new { email = userName, role = authResult.RoleName });
                 }
                 
