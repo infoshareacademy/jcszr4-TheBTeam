@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -121,12 +122,15 @@ namespace TheBTeam.Web.Controllers
 
                 if (authResult.RoleName == "Admin")
                 {
+                    _logger.LogInformation($"User {userName} login successfully");
                     return RedirectToAction("Index", "Account", new { email = userName, role = authResult.RoleName });
                 }
                 else
                 {
+                    _logger.LogInformation($"User {userName} login successfully");
                     return RedirectToAction("Index", "Account", new { email = userName, role = authResult.RoleName });
                 }
+                
             }
             else
             {

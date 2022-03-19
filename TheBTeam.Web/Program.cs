@@ -44,7 +44,7 @@ namespace TheBTeam.Web
             {
                  AutoCreateSqlTable = true,
                  TableName = "LogEvents",
-            }, columnOptions: columnOptions).MinimumLevel.Warning().Enrich.FromLogContext()
+            }, columnOptions: columnOptions).MinimumLevel.Information().Enrich.FromLogContext()
             .CreateLogger();
 
             Log.Information("App starts ... ");
