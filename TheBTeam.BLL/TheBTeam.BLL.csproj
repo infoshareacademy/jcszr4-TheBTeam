@@ -29,7 +29,6 @@
 
   <ItemGroup>
     <Folder Include="DAL\Configurations\" />
-    <Folder Include="Models\Reports\" />
   </ItemGroup>
 
 </Project>
