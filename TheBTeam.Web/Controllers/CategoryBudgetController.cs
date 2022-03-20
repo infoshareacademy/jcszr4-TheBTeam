@@ -32,6 +32,10 @@ namespace TheBTeam.Web.Controllers
         public async Task<ActionResult> UserBudget(int id, DateTime date)
         {
             //TODO: .toQuerryString
+            var userLogin = _transactionService.GetUserLogged(HttpContext);
+            if (userLogin.Id != id)
+                return RedirectToAction("Index");
+
             var transactionsDal = await _planerContext.CategoryBudgets.Where(x => x.UserId == id).OrderByDescending(x=>x.Date).ToListAsync();
             if (!transactionsDal.Any())
                 return RedirectToAction("Create", new { id = id });
