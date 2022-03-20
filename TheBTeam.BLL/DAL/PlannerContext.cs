@@ -16,5 +16,6 @@ namespace TheBTeam.BLL.DAL
         public DbSet<CategoryBudget> CategoryBudgets { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<ReportCategoryDto> Report { get; set; }
+        public DbSet<AdminPanelDto> AdminPanelDtos { get; set; }
     }
 }
