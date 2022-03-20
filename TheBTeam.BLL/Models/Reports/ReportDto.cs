@@ -1,7 +1,14 @@
-﻿namespace TheBTeam.BLL.Models.Reports
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TheBTeam.BLL.Models.Reports
+
 {
     public class ReportDto
     {
-        public string UserId { get; set; }
+        public int UserId { get; set; }
     }
 }
