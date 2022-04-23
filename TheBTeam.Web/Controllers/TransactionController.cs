@@ -82,10 +82,10 @@ namespace TheBTeam.Web.Controllers
 
             var transactions = TransactionService.Get(category, type, _plannerContext, findIdUser);
 
-            transactions = _transactionService.FilterByDescription(transactions, description);
-            transactions = _transactionService.FilterByDates(transactions, dateFrom, dateTo);
+            transactions = _transactionService.GetByDates(transactions, dateFrom, dateTo);
 
-            transactions = _transactionService.SortUserTransaction(transactions, sortOrder).ToList();
+            if (description is not null)
+                transactions = transactions.Where(t => t.Description.ToLower().Contains(description.ToLower())).ToList();
 
             return View(new TransactionSearchDto() { FullName = $"{user.FirstName} {user.LastName}", Transactions = transactions, UserId = findIdUser, Description = description, DateFrom = dateFrom, DateTo = dateTo});
         }

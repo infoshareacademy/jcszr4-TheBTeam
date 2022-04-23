@@ -26,13 +26,13 @@
                             <label class="
                                    form-label">Type:</label>
                             <select name="type" id="transactionTypeSelect" asp-items="Html.GetEnumSelectList<TypeOfTransaction>()" class="form-control">
-                                <option selected="selected" value="wqeqw">@ViewData["Type"]</option>
+                                <option selected="selected" value="wqeqw">Please select Type</option>
                             </select>
                         </div>
                         <div class="col">
                             <label class="col-form-label">Category:</label>
                             <select name="category" id="categorySelect" asp-items="new List<SelectListItem>()" class="form-control">
-                                <option selected="selected" value="">@ViewData["Category"]</option>
+                                <option selected="selected" value="">Please select category</option>
                             </select>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                     </div>
 
                     <label class="control-label">Description</label>
-                    <input name="description" id="descrition" type="text" class="form-control" value="@ViewData["Description"]"/>
+                    <input name="description" id="descrition" type="text" class="form-control" />
 
                     <div class="form-group">
                         <input type="submit" value="Search transaction" class="btn btn-primary" />

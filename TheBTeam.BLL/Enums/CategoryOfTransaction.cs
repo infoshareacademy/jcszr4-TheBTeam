@@ -8,7 +8,7 @@ namespace TheBTeam.BLL
         All = 0,
 
         [Display(Name = "All Incomes")]
-        allIncome,
+        Income,
         [Display(Name = "Salary")]
         Salary,
         [Display(Name = "Prize")]
@@ -17,7 +17,7 @@ namespace TheBTeam.BLL
         ExtraMoney,
 
         [Display(Name = "All Outcomes")]
-        allOutcome=100,
+        Outcome=100,
         [Display(Name = "Home")]
         Home,
         [Display(Name = "Car")]
